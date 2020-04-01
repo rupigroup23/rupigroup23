@@ -70,9 +70,13 @@ ul.a {
     list-style-type: circle;
 }
 /*orientation bar סרגל התמצאות END*/
-
-/*select from index page*/
-.choose {
+/*קו לאורך*/
+.vl {
+    border-right: 1px solid rgba(0,0,0,.1);
+    padding-right: 35px;
+}
+    /*select from index page*/
+    .choose {
     color: #990099;
     border-color: WHITE;
     font-size: 17px;
@@ -1004,6 +1008,7 @@ div {
 }
  .custom-checkbox .custom-control-label::before {
      border-radius: 2px;
+     margin-top: 10px;
 }
  .category-checkbox .custom-control {
      margin: 0 0 6px !important;
@@ -1013,9 +1018,21 @@ div {
      font-weight: 600;
      margin: 0 0 5px;
 }
+/*הצק בוקס של המקצועות*/
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #990099;
+}
 
- .btn {
-     border-radius: 2px;
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+    margin-top: 10px;
+}
+/**/
+.btn {
+    border-radius: 2px;
 }
  .btn-light {
      background: #f8f8f8 none repeat scroll 0 0;

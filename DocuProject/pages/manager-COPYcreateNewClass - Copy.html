@@ -438,102 +438,209 @@ $(function () {
                                     בחירת כיתה:
                                     <br />
                                     <div class="row">
-                                        <div class="form-group">
-                                            <select id="classSelect" class="create-select">
-                                                <option value="">כיתה:</option>
-                                                <option>ז</option>
-                                                <option>ח</option>
-                                                <option>ט</option>
-                                            </select>
+                                        <div class="col-lg-12 col-sm-6 text2">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <select id="classSelect" class="create-select" style="width: 160px;">
+                                                        <option value="">כיתה:</option>
+                                                        <option>ז</option>
+                                                        <option>ח</option>
+                                                        <option>ט</option>
+                                                    </select>
+                                                    <input type="text" id="Year" class="create-date" placeholder="מספר" style="width: 25%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-6 text2">
+                                            <div class="form-group">
+                                                <input type="text" id="Year" class="create-date" placeholder="שנה עברית.." />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <input type="text" id="Year" class="create-date" placeholder="מספר כיתה" />
-                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-12 text2" style="border-right:1px solid rgba(0,0,0,.1)">
+
+                                <div class="vl"></div>
+
+                                <div class="col-lg-3 col-sm-12 text2">
                                     מילוי פרטי הכיתה:
-                                    <div class="row">
-                                        <input type="text" id="Year" class="create-date" placeholder="שנה עברית.." />
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <!-- למשוך את המורים מטבלת מורים -->
-                                            <select id="teacherName" class="create-select">
-                                                <option value="1"> שם המחנך</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <br />
-
                                     <div class="row">
-
-                                    </div>
-                                    <div class="row">
-
-                                    </div>
-                                </div>
-                                <hr class="mt-0">
-                                <div class="row">
-
-                                    <div class="col-lg-4 col-sm-12 create-text">
-                                        
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 create-text">
-                                        <div class="form-group">
-                                            <select id="classType" class="create-select">
-                                                <option>סוג כיתה</option>
-                                                <option style="color: #990099">רגילה </option>
-                                                <option style="color: #990099">מדעית</option>
-                                                <option style="color: #990099">ספורט </option>
-                                                <option style="color: #990099">מב"ר </option>
-                                                <option style="color: #990099">אומץ </option>
-                                            </select>
+                                        <div class="col-lg-12 col-sm-6 text2">
+                                            <div class="form-group">
+                                                <select id="teacherName" class="create-select">
+                                                    <option value="1"> שם המחנך</option>
+                                                </select>
+                                                <!-- למשוך את המורים מטבלת מורים -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-6 text2">
+                                            <div class="form-group">
+                                                <select id="classType" class="create-select">
+                                                    <option>סוג כיתה</option>
+                                                    <option style="color: #990099">רגילה </option>
+                                                    <option style="color: #990099">מדעית</option>
+                                                    <option style="color: #990099">ספורט </option>
+                                                    <option style="color: #990099">מב"ר </option>
+                                                    <option style="color: #990099">אומץ </option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <br /><hr class="mt-0">
-                                <div class="row">
-                                    <div class="col-lg-4 col-sm-12">
-                                        <span class="text2">
-                                            העלאת קובץ תלמידים:
-                                        </span>
-                                        <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+
+                                <div class="vl"></div>
+
+                                <div class="col-lg-3 col-sm-12 text2">
+                                    העלאת קובץ תלמידים:
+                                    <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+                                    <br />
+                                    <div class="col-lg-12 col-sm-4 text2">
+                                        <div class="form-group">
+                                            <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                        </div>
                                     </div>
-                                    <div class="col-lg-8 col-sm-12">
-                                        <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                        &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
-                                        &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
-                                    </div>
-                                </div>
-                                <br /><hr class="mt-0">
-                                <div class="row">
-                                    <div class="col-xl-3 col-sm-6 mb-3">
-                                        <input type="button" value="שיוך מקצועות" class="upload-btn" />
-                                    </div>
-                                </div>
-                                <hr class="mt-0">
-                                <div class="row">
-                                    <div class="col-xl-3 col-sm-6 mb-3">
-                                        <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
-                                            <buttom>
-                                                שמירה
-                                            </buttom>
-                                        </a>
+                                    <div class="col-lg-12 col-sm-4 text2">
+                                        <div class="form-group">
+                                            &nbsp;&nbsp; <input type="button" id="load" value="טען" class="upload-btn" />
+                                            &nbsp;<input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                </div>
+                            <hr class="mt-0">
+                            <div class="row text2">
+                                <div class="col-lg-2 col-sm-12 text2">
+                                    <h6 class="text2">שיוך מקצועות:</h6>
+                                    <div class="main-title text2" style="display: flex;     font-size: 18px;">
+                                        <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מקצוע...">
+                                        &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
+                                    </div>
+                                    <input type="button" id="" value="הוספת מקצוע חדש" class="upload-btn" />                                    
+                                </div>
+                                <div class="col-lg-8 col-sm-12">
+                                    <div class="row category-checkbox">
+                                        <!-- checkbox 1col -->
+                                        <div class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                חובה:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label create-text" for="customCheck1">מתמטיקה</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label create-text" for="customCheck2">תנ"ך</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                                <label class="custom-control-label create-text" for="customCheck3">היסטוריה</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                                <label class="custom-control-label create-text" for="customCheck4">ספרות </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                                <label class="custom-control-label create-text" for="customCheck5">לשון </label>
+                                            </div>
+                                        </div>
+                                        <!-- checkbox 2col -->
+                                        <div class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                שפות:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck1">
+                                                <label class="custom-control-label create-text" for="customCheck5">אנגלית </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck2">
+                                                <label class="custom-control-label create-text" for="customCheck5">ערבית </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck3">
+                                                <label class="custom-control-label create-text" for="customCheck5">צרפתית  </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck4">
+                                                <label class="custom-control-label create-text" for="customCheck5">ספרדתית </label>
+                                            </div>
 
+                                        </div>
+                                        <!-- checkbox 3col -->
+                                        <div class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                מדעים:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck1">
+                                                <label class="custom-control-label create-text" for="customCheck5">ביולוגיה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck2">
+                                                <label class="custom-control-label create-text" for="customCheck5">כימיה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck3">
+                                                <label class="custom-control-label create-text" for="customCheck5">פיזיקה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck4">
+                                                <label class="custom-control-label create-text" for="customCheck5">גיאוגרפיה</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck5">
+                                                <label class="custom-control-label create-text" for="customCheck5">טכנולוגיה </label>
+                                            </div>
+                                        </div>
+                                        <!-- checkbox 1col -->
+                                        <div class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                שונות:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label create-text" for="customCheck5">חינוך גופני </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label create-text" for="customCheck5">תרבות </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                                <label class="custom-control-label create-text" for="customCheck5">חברה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                                <label class="custom-control-label create-text" for="customCheck5">מורשת ישראל </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                                <label class="custom-control-label create-text" for="customCheck5">יצירה ואומנות </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
+                                        <buttom>
+                                            שמירה
+                                        </buttom>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        </div>
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
