@@ -345,8 +345,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}', '{1}' ,'{2}', '{3}','{4}',{5} , '{6}')", student.FName, student.LName, student.PhoneNum, student.Address, student.ClassName, student.ClassNum, student.Password); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student" + "(Fname,Lname,PhoneNum,Address_,Class,ClassNum,Password_) "; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}' ,'{2}','{3}','{4}','{5}' ,{6},'{7}','{8}',{9},'{10}')", student.FName, student.LName, student.PhoneNum, student.Email, student.City, student.Address, student.Id, student.Bday, student.ClassName , student.ClassNum, student.Password); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student" + "(FName,LName,PhoneNum,Email,City,Street, Id_,Bday,ClassName,ClassNum,Password_) "; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
