@@ -21,7 +21,7 @@ namespace DocuProject.Models
         string teacherName;
 
         string classType;
-
+ 
         public Class () { }
 
         public string Name { get => name; set => name = value; }
