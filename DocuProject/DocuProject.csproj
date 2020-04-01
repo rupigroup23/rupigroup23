@@ -187,10 +187,11 @@
     <Content Include="pages\channels.html" />
     <Content Include="pages\forgot-password - Copy.html" />
     <Content Include="pages\history-page.html" />
+    <Content Include="pages\manager-COPYcreateNewClass - Copy.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />
     <Content Include="pages\manager-createNewTask.html" />
-    <Content Include="pages\manager-MAN_createNewTeacher .html" />
+    <Content Include="pages\manager-MAN_createNewTeacher.html" />
     <Content Include="pages\manager-createNewTeacher.html" />
     <Content Include="pages\css\osahan.css" />
     <Content Include="pages\css\tablestyle.css" />
