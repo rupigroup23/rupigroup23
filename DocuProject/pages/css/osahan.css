@@ -71,6 +71,13 @@ ul.a {
 }
 /*orientation bar סרגל התמצאות END*/
 
+/*select from index page*/
+.choose {
+    color: #990099;
+    border-color: WHITE;
+    font-size: 17px;
+    font-family: OS Luizi Round_FFC;
+}
 /*Texts*/
 /*טקסט סגול לכותרות*/
 .text2 {
