@@ -268,7 +268,7 @@
                                             מטלה מספר &nbsp;
                                         </span>
                                         <div id="" style="border-bottom: 1px solid #990099">
-                                            1
+                                            8
                                             <!-- להוסיף מספר -->
                                         </div>
                                     </div>
@@ -387,28 +387,30 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-7 col-sm-12">
+                                        <div class="col-lg-4 col-sm-12">
                                             <section>
-                                                <input id="taskcontent-file" name="taskcontent" type="radio">
+                                                <input onclick="file()" id="taskcontent-file" name="taskcontent" type="radio">
                                                 <label for="taskcontent-file" class="create-text">קובץ</label>
                                                 &nbsp;
-                                                <input id="taskcontent-txtbox" name="taskcontent" type="radio">
+                                                <input onclick="txtbox()" id="taskcontent-txtbox" name="taskcontent" type="radio">
                                                 <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
-                                                <div class="taskcontent-file-disclosure">
-                                                    <div class="col-xl-5 col-sm-6 mb-3">
-                                                        <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                            <buttom>העלאת קובץ</buttom>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="taskcontent-txtbox-disclosure">
-                                                    <textarea id="taskcontent-txtbox"></textarea>
-                                                </div>
                                             </section>
                                         </div>
-                                        <!-- כפתורים -->
-
-                                        <div class="col-lg-5 col-sm-12">
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="row" id="showFile" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>העלאת קובץ</buttom>
+                                                    </a>
+                                                </div>
+                                            </div>      
+                                            <div class="row" id="showtxtbox" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <textarea id="taskcontent-txtbox"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
                                             <div class="col-xl-6 col-sm-6 mb-3">
                                                 <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-tasks.html">
                                                     <buttom>
@@ -418,7 +420,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -428,6 +430,28 @@
     </div>
 
     <!-- /#wrapper -->
+   <script>
+        function file() {
+            var x = document.getElementById("showFile");
+            var y = document.getElementById("showtxtbox");          
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+       }
+       function txtbox() {
+            var x = document.getElementById("showtxtbox");
+            var y = document.getElementById("showFile");          
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
