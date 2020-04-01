@@ -444,59 +444,53 @@ $(function () {
                     <div class="col-lg-12">
                         <div class="osahan-form">
                             <div class="row text2">
-                                <div class="col-lg-4 col-sm-6">
+                                <div class="col-lg-3 col-sm-6">
                                     בחירת כיתה:
                                 </div>
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="form-group">
-                                        <select id="classSelect" class="create-select">
-                                            <option value="">בחר כיתה</option>
-                                            <option>ז</option>
-                                            <option>ח</option>
-                                            <option>ט</option>
-                                        </select>
+                                <div class="col-lg-9 col-sm-6">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <select id="classSelect" class="create-select">
+                                                <option value="">כיתה:</option>
+                                                <option>ז</option>
+                                                <option>ח</option>
+                                                <option>ט</option>
+                                            </select>
+                                            <input type="text" id="Year" class="create-date" placeholder="מספר כיתה" />
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="form-group">
-                                        <div class="col-lg-4 col-sm-6 create-text">
-                                            מספר כיתה:
-                                            <input type="text" id="Year" class="create-date" />
+                            </div>
+                            <hr class="mt-0">
+                                <h6 class="text2">מילוי פרטי הכיתה:</h6>
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <input type="text" id="Year" class="create-date" placeholder="שנה עברית.." />
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <div class="form-group">
+                                            <!-- למשוך את המורים מטבלת מורים -->
+                                            <select id="teacherName" class="create-select">
+                                                <option value="1"> שם המחנך</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <div class="form-group">
+                                            <select id="classType" class="create-select">
+                                                <option>סוג כיתה</option>
+                                                <option style="color: #990099">רגילה </option>
+                                                <option style="color: #990099">מדעית</option>
+                                                <option style="color: #990099">ספורט </option>
+                                                <option style="color: #990099">מב"ר </option>
+                                                <option style="color: #990099">אומץ </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br /><hr class="mt-0">
-                            <div class="row">
-                                <h6 class="text2">מילוי פרטי הכיתה:</h6>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-lg-4 col-sm-12 create-text">
-                                    שנה עברית:
-                                    <input type="text" id="Year" class="create-date" />
-                                </div>
-                                <div class="col-lg-4 col-sm-12 create-text">
-                                    <div class="form-group">
-                                        <!-- למשוך את המורים מטבלת מורים -->
-                                        <select id="teacherName" class="create-select">
-                                            <option value="1"> שם המחנך</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-12 create-text">
-                                    <div class="form-group">
-                                        <select id="classType" class="create-select">
-                                            <option>סוג כיתה</option>
-                                            <option style="color: #990099">רגילה </option>
-                                            <option style="color: #990099">מדעית</option>
-                                            <option style="color: #990099">ספורט </option>
-                                            <option style="color: #990099">מב"ר </option>
-                                            <option style="color: #990099">אומץ </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+
+                            
                             <br /><hr class="mt-0">
                             <div class="row">
                                 <div class="col-lg-4 col-sm-12">
@@ -530,7 +524,7 @@ $(function () {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </div>
 
             </div>
