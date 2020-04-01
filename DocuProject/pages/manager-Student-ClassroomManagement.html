@@ -96,9 +96,9 @@
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a style="color: black" href="teacher-index.html">בית</a></li>
-            <li class="breadcrumb-item"><a style="color: black" href="teacher-professions.html">מקצועות</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="teacher-ClassroomManagement.html">ניהול כיתה</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-professions.html">מקצועות</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="manager-Student-ClassroomManagement.html">ניהול כיתה</a></li>
         </ol>
 
     </nav>
@@ -107,41 +107,57 @@
         <!-- Left menu -->
         <ul class="sidebar navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="teacher-index.html">
+                <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="teacher-index.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="manager-index.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>כיתות</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="teacher-index.html"> &#127891; כיתות</a>
+                    <a class="dropdown-item" href="manager-index.html"> &#127891; כיתות</a>
+                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדש</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
+            <li class="nav-item">
+                <a class="nav-link" href="manager-createNewTeacher.html">
+                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                    <span>✎ יצירת מורה חדש </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-createNewStudent.html">
+                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                    <span>✎ יצירת תלמיד חדש </span>
+                </a>
+            </li>
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="teacher-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="manager-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span> מקצועות</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="teacher-professions.html">&#127891; מקצועות</a>
-                    <a class="dropdown-item" href="teacher-ClassroomManagement.html">📝 ניהול כיתה</a>
+                    <a class="dropdown-item" href="manager-professions.html">&#127891; מקצועות</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול כיתה</a>
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="teacher-tasks.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="manager-tasks.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>מטלות</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="teacher-tasks.html">
+                    <a class="dropdown-item" href="manager-tasks.html">
                         &#127891; מטלות
                     </a>
-                    <a class="dropdown-item" href="teacher-createNewTask.html">✎ הקמת מטלה חדשה</a>
+                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
                     <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
@@ -238,7 +254,7 @@
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
-        <!--לעשות דאטא טייבל -->    
+        <!--לעשות דאטא טייבל -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
                 <div class="row">
@@ -246,14 +262,14 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12 text2">
                                 <div class="row">
-                                    <span >
+                                    <span style="border-bottom: 1px solid #990099">
                                         כיתה &nbsp;
                                     </span>
-                                    <div id="">
+                                    <div id="" style="border-bottom: 1px solid #990099">
                                         ז'2
                                         <!-- למשוך -->
                                     </div>
-                                </div>      
+                                </div>
                             </div>
                             <div class="col-lg-4 col-sm-12 text2">
                                 <div class="row">
@@ -295,12 +311,13 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <td colspan="12" >
+                            <td colspan="12">
                                 <div class="links">
-                                    <a href="#"style="font-size:13px">&laquo;</a> 
+                                    <a href="#" style="font-size:13px">&laquo;</a>
                                     <a class="active" href="#" style="font-size:13px">
-                                    1
-                                        </a> <a href="#" style="font-size:13px">2</a> <a href="#"style="font-size:13px">3</a> <a href="#"style="font-size:13px">4</a> <a href="#"style="font-size:13px">&raquo;</a></div>
+                                        1
+                                    </a> <a href="#" style="font-size:13px">2</a> <a href="#" style="font-size:13px">3</a> <a href="#" style="font-size:13px">4</a> <a href="#" style="font-size:13px">&raquo;</a>
+                                </div>
                             </td>
                         </tr>
                     </tfoot>
@@ -478,7 +495,7 @@
                 </table>
             </div>
         </div>
-        </div>
+    </div>
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

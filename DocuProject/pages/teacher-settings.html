@@ -236,35 +236,35 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" placeholder="ישראל" type="text">
+                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ישראל" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" placeholder="ישראלי" type="text">
+                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ישראלי" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT " value="" placeholder="israel@gmail.com" disabled="" type="email">
+                                <input class="form-control border-form-control textSquareTEXT " value="" placeholder="israel@gmail.com" disabled="" type="email">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">תעודת זהות: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" placeholder="123456789" type="text">
+                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="123456789" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="date">
+                                <input class="form-control border-form-control textSquareTEXT" value="" type="date">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">פלאפון<span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" placeholder="0541122334" type="tel">
+                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="0541122334" type="tel">
                                 <!--<input class="form-control border-form-control" value="" placeholder="123 456 7890" type="number">-->
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                             <label class="control-label create-text">עיר:<span class="required">*</span></label><br />
-                            <select id="city" class="custom-select create-select" style="background-color:#eceff0; font-size: 23px;">
+                            <select id="city" class="custom-select textSquareTEXT" style="font-size: 20px;">
                                 <option value="telaviv">בחר עיר</option>
                                 <option value="telaviv">תל אביב</option>
                                 <option value="hifa">חיפה</option>
@@ -272,51 +272,44 @@
                             </select>
                             <br />
                             <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" value="" placeholder="ז'בוטינסקי" type="text">
+                            <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ז'בוטינסקי" type="text">
                             <br />
                             <div class="row">
-                                <div class="col-lg-4 col-sm-6">
+                                <div class="col-lg-6 col-sm-6">
                                     <label class="control-label create-text">מס' בית:</label>
-                                    <input class="form-control border-form-control create-select textSquareTEXT" style="width: 50%;" value="" placeholder="6" type="text">
+                                    <input class="form-control border-form-control textSquareTEXT" style="width: 50%;" value="" placeholder="6" type="text">
                                 </div>
-                                <div class="col-lg-4 col-sm-6">
+                                <div class="col-lg-6 col-sm-6">
                                     <label class="control-label create-text">קומה:</label>
-                                    <input class="form-control border-form-control create-select textSquareTEXT" style="width: 50%;" value="" placeholder="1" type="text">
+                                    <input class="form-control border-form-control textSquareTEXT" style="width: 50%;" value="" placeholder="1" type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
-
                             <div class="col-lg-12 col-sm-6">
-                                <h6 class="create-text" for="city">מקצועות לימוד:</h6>
+                                <div class="row">
+                                    <span class="create-text" for="city">מקצועות לימוד:</span>
+                                    &nbsp;<button class="showTask-btn">מקצוע חדש</button>
+                                </div>
                                 <div class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <div class="create-text">
-                                        <h6 style="font-size: 23px">-מתמטיקה</h6>
-                                        <h6 style="font-size: 23px">-לשון</h6>
+                                        <h6 style="font-size: 20px">-מתמטיקה</h6>
+                                        <h6 style="font-size: 20px">-לשון</h6>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="col-lg-12 col-sm-6">
-                                <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
-                            </div>
+                            </div>                       
                         </div>
-
                     </div>
                     <hr class="mt-0">
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
-                        </div>
-                        <br />
-                        <div class="col-lg-3 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
+                            <button class="showTask-btn">צירוף תמונה</button>
                         </div>
                         <br />
                         <div class="col-lg-6 col-sm-6">
                             <!--<button class="create-btn" style="padding-right: 65px;">
-                            שינוי סיסמא
-                        </button>-->
+            שינוי סיסמא
+        </button>-->
                             <input id="pw" name="pw" type="radio">
                             <label for="pw" class="create-text">שינוי סיסמא</label>
                             <div class="pw-disclosure">
@@ -325,7 +318,7 @@
                                         <label class="control-label create-text">סיסמא:</label>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password">
+                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -333,7 +326,7 @@
                                         <label class="control-label create-text">סיסמא חדשה:</label>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password">
+                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -341,14 +334,11 @@
                                         <label class="control-label create-text">סיסמא חדשה בשנית:</label>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password">
+                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
                             <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-index.html">
                                 <buttom>

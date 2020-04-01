@@ -89,10 +89,14 @@
 
         };
         function GETerrorCB() { };
-   </script>
+
+    </script>
+
+
 </head>
 <body id="page-top">
     <!-- top bar -->
+    <p>BLA;LS</p>
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
         &nbsp;&nbsp;
         <br />
@@ -176,6 +180,8 @@
                 </div>
             </li>
         </ul>
+
+
     </nav>
 
     <!-- orientation bar -->
@@ -184,6 +190,7 @@
             <li class="breadcrumb-item active" aria-current="page"><a href="manager-index.html">בית</a></li>
         </ol>
     </nav>
+
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
@@ -226,7 +233,9 @@
                 <a class="nav-link" href="manager-index.html">
                     <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                     <!--&#127891;--> כיתות
+
+                    <!--<span>כיתות </span>-->
                 </a>
             </li>
             <li class="nav-item dropdown">
@@ -253,35 +262,7 @@
                     <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
-
-            <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s1.png"> הגדרות
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s2.png"> שינוי סיסמא  <span class="badge badge-warning">2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
-                        </a>
-                    </li>
-                </ul>
-            </li>
             <!-- כרגע לא משתמשים אבל לא מחקתי  -->
-            <li class="nav-item channel-sidebar-list">
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="upload-video.html">
                     <i class="fas fa-fw fa-cloud-upload-alt"></i>
@@ -292,6 +273,12 @@
                 <a class="nav-link" href="channels.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Channels</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="single-channel.html">
+                    <i class="fas fa-fw fa-user-alt"></i>
+                    <span>Single Channel</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -322,8 +309,48 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-
-
+            <li class="nav-item">
+                <a class="nav-link" href="history-page.html">
+                    <i class="fas fa-fw fa-history"></i>
+                    <span>History Page</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-list-alt"></i>
+                    <span>Categories</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="categories.html">Movie</a>
+                    <a class="dropdown-item" href="categories.html">Music</a>
+                    <a class="dropdown-item" href="categories.html">Television</a>
+                </div>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6>SUBSCRIPTIONS</h6>
+                <ul>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s1.png"> Your Life
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s2.png"> Unboxing  <span class="badge badge-warning">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!-- END Left menu -->
         <div id="content-wrapper">
@@ -400,10 +427,8 @@
                                         <img class="img-fluid" src="img/ז.png" alt="כיתה ז">
                                         <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
                                     </div>
-                                    <select id="class1" class="choose">
-                                        <!--<option value="">בחר כיתה</option>-->
-                                        <option >בחירת כיתה</option>
-
+                                    <select id="class1" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <option value="">בחר כיתה</option>
                                     </select>
                                     
                                     <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -423,8 +448,8 @@
                                         <img class="img-fluid" src="img/ח.png" alt="כיתה ח">
                                         <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
                                     </div>
-                                    <select id="class2" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
+                                    <select id="class2" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <option value="">בחר כיתה</option>
                                     </select>
 
                                     <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -444,8 +469,8 @@
                                         <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-secondary btn-sm">Subscribed <strong>1.4M</strong></button></div>-->
                                     </div>
 
-                                    <select id="class3" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
+                                    <select id="class3" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <option value="">בחר כיתה</option>
                                     </select>
                     <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -458,7 +483,317 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="top-category section-padding mb-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="main-title">
+                                        <div class="btn-group float-right right-action">
+                                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                                            </div>
+                                        </div>
+                                        <h6>תלמידים:</h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="owl-carousel owl-carousel-category">
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s1.png" alt="">
+                                                    <h6>Your Life</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s2.png" alt="">
+                                                    <h6>Unboxing Cool</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s3.png" alt="">
+                                                    <h6>Service Reviewing</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s4.png" alt="">
+                                                    <h6>Gaming <span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s5.png" alt="">
+                                                    <h6>Technology Tutorials</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s6.png" alt="">
+                                                    <h6>Singing</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s7.png" alt="">
+                                                    <h6>Cooking</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s8.png" alt="">
+                                                    <h6>Traveling</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s1.png" alt="">
+                                                    <h6>Education</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s2.png" alt="">
+                                                    <h6>Noodles, Sauces & Instant Food</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s3.png" alt="">
+                                                    <h6>Comedy <span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="img/s4.png" alt="">
+                                                    <h6>Lifestyle Advice</h6>
+                                                    <p>74,853 views</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-0">
+                        <div class="video-block section-padding">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="main-title">
+                                        <div class="btn-group float-right right-action">
+                                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                                            </div>
+                                        </div>
+                                        <h6>Featured Videos</h6>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v2.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v3.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-danger">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Unverified"><i class="fas fa-frown text-danger"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v4.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v5.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v6.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-danger">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Unverified"><i class="fas fa-frown text-danger"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v7.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="video-card">
+                                        <div class="video-card-image">
+                                            <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                            <a href="#"><img class="img-fluid" src="img/v8.png" alt=""></a>
+                                            <div class="time">3:50</div>
+                                        </div>
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                <a href="#">There are many variations of passages of Lorem</a>
+                                            </div>
+                                            <div class="video-page text-success">
+                                                Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                            </div>
+                                            <div class="video-view">
+                                                1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

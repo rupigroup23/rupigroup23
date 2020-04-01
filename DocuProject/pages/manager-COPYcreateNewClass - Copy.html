@@ -1,6 +1,4 @@
-﻿    <!-- links of Facebook, instedram and links -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -21,75 +19,158 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
+    <!-- noy links -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
+        
+    $(document).ready(function () {
 
-        $(document).ready(function () {
+     getTachears(); ////////////////////////
+    $('#saveClass').click(saveClassDB);
+    $('#upload').click(uploadStudents);
 
-         getNumOfClass();
+});
 
-         $("select").click(function() {
-          var open = $(this).data("isopen");
-          if(open) {
-              window.location.href = "manager-professions - Copy.html";
-          }
+        function getTachears() { //////////////////////////
 
-          $(this).data("isopen", !open);
-        });
-     
-        });
+        ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
 
-        function getNumOfClass()
-        {
-            console.log();
-            var url = "../api/Docu/getNumClass";
-            ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
-        }
+}
 
-        function GETsuccessCB(data) {
+        function GETsuccessT(data) {
 
-            console.log(data);
-            list = data;
+        console.log(data);
+    listT = data;
 
-            for (var i = 0; i < list.length; i++)
-            {
-                if (list[i].Name_ == "ז") {
-                var select = document.getElementById("class1");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                    select.add(option);
+    //insert options to select
+            for (var i = 0; i < listT.length; i++) {
+                var select = document.getElementById("teacherName");
+    var option = document.createElement("option");
+    option.text = listT[i].FName + " " + listT[i].LName;
+    select.add(option);
+}
+}
+        function GETerrorT(err) {console.log(err)}
+
+
+    /////////////////////
+
+    function saveClassDB() {
+        Year = $("#Year").val();
+        NumOfStudents = $("#NumOfs").val();
+
+  
+
+            if (Year == "" || NumOfStudents == "") {
+            swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
+            return false;
+}
+classObj =
+                {
+
+    "Name": $("#classSelect").val(),
+    "Number": $("#classNum").val(),
+    "Year": $("#Year").val(),
+    "NumOfStudents": $("#NumOfs").val(),
+    "TeacherName": $("#teacherName").val(),
+    "ClassType": $("#classType").val()
+}
+
+ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+
+}
+
+        function POSTsuccessCB() {
+
+        swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
+            // לאחר לחיצה מאפס לחצנים
+            $("#classSelect option:first").attr('selected', 'selected');
+    $("#classNum option:first").attr('selected', 'selected');
+    $("#Year").val("");
+    $("#NumOfs").val("");
+    $("#teacherName option:first").attr('selected', 'selected');
+    $("#classType option:first").attr('selected', 'selected');
+    /////////////
+}
+
+        function POSTerrorCB(err) {console.log(err)}; // ממירה קובץ אקסל לאובייקט+ דחיפה למערך
+
+ studentsArr = new Array();
+$(function () {
+
+    $("#load").bind("click", function () {
+
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+            if (regex.test($("#fileUpload").val().toLowerCase())) {
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var rows = e.target.result.split("\r\n");
+                        for (var i = 0; i < rows.length; i++) {
+                            var cells = rows[i].split(",");
+                            if (cells.length > 1) {
+                                var student = {};
+                                student.FName = cells[0];
+                                student.LName = cells[1];
+                                student.PhoneNum = cells[2];
+                                student.Email =  cells[3];
+                                student.City = cells[4];
+                                student.Id = cells[5];
+                                student.Bday = cells[6];
+                                student.Address =  cells[7];
+                                student.ClassName = $("#classSelect").val();
+                                student.ClassNum = $("#classNum").val();                 
+                                student.Password = Math.random().toString(36).substring(7);
+
+                                studentsArr.push(student);
+                                console.log(studentsArr[0]);
+                                console.log(studentsArr.length);
+
+                            }
+                        }
+             
+                    }
+                    reader.readAsText($("#fileUpload")[0].files[0]);
+                } else {
+                    swal("This browser does not support HTML5.", "", "warning")
+
                 }
+            }
+            else {
+                swal("Please upload a valid CSV file", "", "warning")
 
-                if (list[i].Name_ == "ח") {
-                var select = document.getElementById("class2");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                select.add(option);
-                }
-
-                if (list[i].Name_ == "ט") {
-                var select = document.getElementById("class3");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                select.add(option);
-                } 
-                
             }
 
-        };
-        function GETerrorCB() { };
-   </script>
+            //ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        });
+});
+        function uploadStudents() {
+        ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+
+}
+    function POSTsuccess(data) {console.log(data)}
+    function POSTerror(err) {console.log(err)}
+
+
+    </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -177,11 +258,11 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page"><a href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="manager-createNewClass.html">הקמת כיתה חדשה</a></li>
         </ol>
     </nav>
     <div id="wrapper">
@@ -322,12 +403,10 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-
-
         </ul>
         <!-- END Left menu -->
+        <!-- Page content -->
         <div id="content-wrapper">
-            <!-- Page content -->
             <div class="container-fluid pb-0">
                 <div class="top-mobile-search">
                     <div class="row">
@@ -343,165 +422,111 @@
                         </div>
                     </div>
                 </div>
-                <div class="video-block section-padding">
+                <!--<div class="video-block section-padding">
+                <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <h6 class="text2">קיצורים:</h6>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewClass.html">
-                                    <buttom>
-                                        הקמת כיתה חדשה
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTeacher.html">
-                                    <buttom>
-                                        יצירת מורה חדש
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-teacher-Management.html">
-                                    <buttom>
-                                        ניהול מורים
-                                    </buttom>
-                                </a>
-                            </div>
-                        </div>
-                        <hr class="mt-0">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="row text2">
-                                    בחר/י את הכיתה הרצויה:
+                        <h6>הקמת כיתה חדשה</h6>
+                    </div>
+                </div>
+            </div>-->
+                <!--<hr class="mt-0">-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="osahan-form">
+                            <div class="row text2">
+                                <div class="col-lg-3 col-sm-12 text2">
+                                    בחירת כיתה:
+                                    <br />
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <select id="classSelect" class="create-select">
+                                                <option value="">כיתה:</option>
+                                                <option>ז</option>
+                                                <option>ח</option>
+                                                <option>ט</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input type="text" id="Year" class="create-date" placeholder="מספר כיתה" />
+                                    </div>
                                 </div>
+                                <div class="col-lg-3 col-sm-12 text2" style="border-right:1px solid rgba(0,0,0,.1)">
+                                    מילוי פרטי הכיתה:
+                                    <div class="row">
+
+                                    </div>
+
+
                             </div>
-                            <div class="col-md-2">
-                                <div class="main-title">
-                                    <div class="btn-group float-right right-action">
-                                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>
-                                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                <hr class="mt-0">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <input type="text" id="Year" class="create-date" placeholder="שנה עברית.." />
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <div class="form-group">
+                                            <!-- למשוך את המורים מטבלת מורים -->
+                                            <select id="teacherName" class="create-select">
+                                                <option value="1"> שם המחנך</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12 create-text">
+                                        <div class="form-group">
+                                            <select id="classType" class="create-select">
+                                                <option>סוג כיתה</option>
+                                                <option style="color: #990099">רגילה </option>
+                                                <option style="color: #990099">מדעית</option>
+                                                <option style="color: #990099">ספורט </option>
+                                                <option style="color: #990099">מב"ר </option>
+                                                <option style="color: #990099">אומץ </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ז.png" alt="כיתה ז">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
+                                <br /><hr class="mt-0">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-12">
+                                        <span class="text2">
+                                            העלאת קובץ תלמידים:
+                                        </span>
+                                        <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
                                     </div>
-                                    <select id="class1" class="choose">
-                                        <!--<option value="">בחר כיתה</option>-->
-                                        <option >בחירת כיתה</option>
-
-                                    </select>
-                                    
-                                    <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
-                                    </div>-->
+                                    <div class="col-lg-8 col-sm-12">
+                                        <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                        &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
+                                        &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ח.png" alt="כיתה ח">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
+                                <br /><hr class="mt-0">
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-6 mb-3">
+                                        <input type="button" value="שיוך מקצועות" class="upload-btn" />
                                     </div>
-                                    <select id="class2" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
-                                    </div>-->
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ט.png" alt="כיתה ט">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-secondary btn-sm">Subscribed <strong>1.4M</strong></button></div>-->
+                                <hr class="mt-0">
+                                <div class="row">
+                                    <div class="col-xl-3 col-sm-6 mb-3">
+                                        <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
+                                            <buttom>
+                                                שמירה
+                                            </buttom>
+                                        </a>
                                     </div>
-
-                                    <select id="class3" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
-                    </div>-->
                                 </div>
                             </div>
                         </div>
-
-                    </div>
                 </div>
+
             </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <!--<footer class="sticky-footer">
-                <div class="container">
-                    <div class="row no-gutters">
-                        <div class="col-lg-6 col-sm-6">
-                            <p class="mt-1 mb-0">
-                        &copy; Copyright 2020 <strong class="text-dark">Vidoe</strong>. All Rights Reserved<br>
-                        <small class="mt-0 mb-0">
-                            Made with <i class="fas fa-heart text-danger"></i> by <a class="text-primary" target="_blank" href="https://askbootstrap.com/">Ask Bootstrap</a>
-                        </small>
-                    </p>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 text-right">
-                            <div class="app">
-                                <a href="https://www.facebook.com/MindCET/?tn-str=k*F">
-                                    <img alt="" src="img/facebook.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="" src="img/Instagram1.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="https://mindset.org.il/" src="img/link1.png">
-                                </a>
-                                <a href="#"><img alt="" src="img/google.png"></a>
-                        <a href="#"><img alt="" src="img/apple.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>-->
         </div>
-        <!-- /.content-wrapper -->
     </div>
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -520,7 +545,6 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
