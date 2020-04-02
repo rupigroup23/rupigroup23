@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
-
     <!-- page name -->
     <title>'דוקו'</title>
     <!-- Favicon Icon -->
@@ -20,8 +19,18 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -31,22 +40,11 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="manager-index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
 
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
-            </div>
         </form>
-        <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
                 <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
@@ -85,12 +83,11 @@
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" src="img/user.png">
-                    מנהל מערכת
+                    קרן גרוסמן
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
-                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
@@ -105,7 +102,8 @@
             <li class="breadcrumb-item"><a style="color: black" href="manager-professions.html">מקצועות</a></li>
             <li class="breadcrumb-item"><a style="color: red" href="">מתמטיקה</a></li>
             <li class="breadcrumb-item"><a style="color: black" href="manager-tasks.html">מטלות</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="manager-createNewTask.html">הקמת מטלה חדשה</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">מטלה מספר 7</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="manager-submission.html">הגשות</a></li>
         </ol>
     </nav>
     <div id="wrapper">
@@ -264,200 +262,267 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="video-block section-padding">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h6>הקמת מטלה חדשה</h6>
+                <div class="row text2">
+                    <div class="col-lg-11 col-sm-11 col-xs-3 ">
+                        <div class="row">
+                            <span style="border-bottom: 1px solid #990099">
+                                סטאטוס הגשה - מטלה מספר &nbsp;
+                            </span>
+                            <div id="" style="border-bottom:1px solid #990099">
+                                7
+                                <!-- להוסיף מספר -->
+                            </div>
                         </div>
                     </div>
-                </div>-->
+                    <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
+                        <i class="far fa-edit"></i>
+                        <i class="far fa-trash-alt"></i>
+                    </div>
+                </div>
+                <br />
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="osahan-form">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-12 col-xs-3 text2">
-                                    <div class="row text2">
-                                        <span style="border-bottom: 1px solid #990099">
-                                            מטלה מספר &nbsp;
-                                        </span>
-                                        <div id="" style="border-bottom: 1px solid #990099">
+                    <div class="col-lg-5 col-sm-12 text2">
+                        <div class="row">
+                            <span>
+                                נושא:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                פתרון משוואות ממעלה ראשונה בנעלם אחד
+                                <!-- למשוך נושא -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 text2">
+                        <div class="row">
+                            <span>
+                                סה"כ ימים להגשה:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                1 ימים<!-- למשוך חישוב ימים -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text2">
+                        <div class="row">
+                            <span>
+                                מספר צוותים:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                12<!-- למשוך מספר -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br /><hr class="mt-0">
+                <div class="row">
+                    <h6 class="text2">
+                        בחירת אפשרות הסינון:
+                    </h6>
+                </div>
+                <!-- statuses -->
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <input id="statuses_yes" class="text2" name="status" type="radio">
+                        <label for="statuses_yes" class="create-text">
+                            צוותים שהעלו את המטלה
+                        </label>
+                        <div class="statuses_yes-disclosure">
+                                <input type="radio" id="taskApproved" name="taskApproved" style="margin-right: 1.5em">
+                                <label class="statuses_yes create-text" for="taskApproved">
+                                    סרטונים שטרם אושרו לפרסום
+                                </label>
+                                <br>
+                                <input type="radio" id="grade" name="taskApproved" style="margin-right: 1.5em">
+                                <label class="statuses_yes create-text" for="grade">
+                                    סרטונים מאושרים
+                                </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <input id="statuses_No" name="status" type="radio">
+                        <label for="statuses_No" class="create-text">
+                            צוותים שלא העלו את המטלה
+                        </label>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <button onclick="submissions()" id="apply" class="create-btn" style="width: 40px;">
+                            סנן
+                        </button>
+                    </div>
+              
+                </div>
+                <br />
+                <div class="row" id="showSubmissions" style="display:none">
+                    <div class="row">
+                        <br /><hr class="mt-0">
+                        <div class="btn-group float-right right-action">
+                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="row">
+                        <!--סרטונים שטרם אושרו לפרסום-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            12
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
+                                        סרטון הועלה, מחכה לאישור
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <div class="channels-card-image">
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--סרטונים מאושרים-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
                                             8
                                             <!-- להוסיף מספר -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-sm-6 col-xs-3 text2">
-                                    <div class="row">
-                                        <span>
-                                            נושא המטלה:&nbsp;
-                                        </span>
-                                        <input type="text" class="textSquareTEXT" placeholder="שם הנושא" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-xs-3">
-                                    <div class="row">
-                                        <span class="text2">
-                                            מועד הגשה:&nbsp;
-                                        </span>
-                                        <input type="date" class="term" />
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="mt-0">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12">
-                                    <div class="row">
-
-                                        <!-- אלגוריתם -->
-                                        <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-7 col-sm-12">
-                                            <section>
-                                                <input type="radio" id="random" name="staffing" value="random">
-                                                <label class="checkboxTasks" for="random" checked="checked">
-                                                    רנדומלי
-                                                </label>
-                                                <br>
-                                                <input type="radio" id="gd" name="staffing" value="geographicalDiS">
-                                                <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
-                                                <br>
-                                                <input type="radio" id="sw" name="staffing" value="strongWeak">
-                                                <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
-                                                <br>
-                                                <input id="checkboxTasks" name="staffing" type="radio">
-                                                <label for="checkboxTasks" class="create-text">מין</label>
-                                                <div class="checkboxTasks-disclosure">
-                                                    <section>
-                                                        <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="boys">רוב בנים</label>
-                                                        <br>
-                                                        <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="girls">רוב בנות</label>
-                                                        <br>
-                                                        <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="one">מין אחד</label>
-                                                        <br>
-                                                    </section>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <!-- כפתורים -->
-                                        <div class="col-lg-5 col-sm-12">
-                                            <div class="row">
-                                                <div class="col-xl-6 col-sm-6 mb-3">
-                                                    <!-- לשים קישור -->
-                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom>
-                                                            הפעל אלגוריתם צוות
-                                                        </buttom>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6 col-sm-6 mb-3">
-                                                    <!-- לשים קישור -->
-                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom>
-                                                            ניהול צוותים
-                                                        </buttom>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">
+                                                מיה מלכה, מאי שלומזון ואיה יצחקי
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <br />
-                            <hr class="mt-0">
-                            <!-- תוכן ההודעה -->
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12 create-text">
-                                    <div class="row">
-                                        <div class="col-lg-7 col-sm-12">
-                                            <h3 class="text2">תוכן המטלה </h3>
-                                            <div create-text">אנא בחר/י אופציית העלאה:</div>
-                                        </div>
-                                        <div class="col-lg-5 col-sm-12">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
-                                                    </buttom>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
-                                                    </buttom>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
-                                                    </buttom>
-                                                </div>
-                                            </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14;">
+                                        <div class="statuses-text" style="color:#1aaf10; font-size: 22px;">
+                                            סרטון הועלה ואושר לפרסום
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-12">
-                                            <section>
-                                                <input onclick="file()" id="taskcontent-file" name="taskcontent" type="radio">
-                                                <label for="taskcontent-file" class="create-text">קובץ</label>
-                                                &nbsp;
-                                                <input onclick="txtbox()" id="taskcontent-txtbox" name="taskcontent" type="radio">
-                                                <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
-                                            </section>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="row" id="showFile" style="display:none">
-                                                <div class="col-xl-5 col-sm-6 mb-3">
-                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom>העלאת קובץ</buttom>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="row" id="showtxtbox" style="display:none">
-                                                <div class="col-xl-5 col-sm-6 mb-3">
-                                                    <textarea id="taskcontent-txtbox"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-12">
-                                            <div class="col-xl-6 col-sm-6 mb-3">
-                                                <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-tasks.html">
-                                                    <buttom>
-                                                        פרסום מטלה
-                                                    </buttom>
-                                                </a>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <div class="channels-card-image">
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!--צוותים שלא העלו את המטלה-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            4
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">עומרי יצחקי, רוי שלומזון ובן מלכה</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14;">
+                                        <div class="statuses-text" style="color:red; font-size: 22px;">
+                                            טרם הועלה סרטון
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <div class="channels-card-image">
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        function file() {
-            var x = document.getElementById("showFile");
-            var y = document.getElementById("showtxtbox");
+        function submissions() {
+            var x = document.getElementById("showSubmissions");
             if (x.style.display === "none") {
                 x.style.display = "block";
-                y.style.display = "none";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        function txtbox() {
-            var x = document.getElementById("showtxtbox");
-            var y = document.getElementById("showFile");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.style.display = "none";
             } else {
                 x.style.display = "none";
             }
@@ -495,5 +560,6 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+
 </body>
 </html>

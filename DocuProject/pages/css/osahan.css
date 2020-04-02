@@ -85,7 +85,7 @@ ul.a {
 /*Texts*/
 /*טקסט סגול לכותרות*/
 .text2 {
-    font-size: 25px;
+    font-size: 23px;
     font-family: OS Luizi Round_FFC;
     color: #990099;
 }
@@ -202,13 +202,14 @@ ul.a {
     font-family: OS Luizi Round_FFC;
 }
 /**/
-.create-btn, .create-select, .create-date {
+.create-btn, .create-select, .create-date, .create-txt {
     background-color: #E6D0DE;
     border: 1px solid #990099;
     border-radius: 5px;
-    height: 40px;
-    width: 190px;
-    font-size: 27px;
+    height: 35px;
+    width: 170px;
+    /*font-size: 23px;*/
+    font-size: 18px;
     font-family: OS Luizi Round_FFC;
     text-align-last: right;
     /*padding-right: 39px;*/
@@ -221,7 +222,7 @@ ul.a {
     background-color: #E6D0DE;
     border: 1px solid #990099;
     border-radius: 5px;
-    font-size: 22px;
+    font-size: 20px;
     font-family: OS Luizi Round_FFC;
     text-align-last: right;
     /*padding-right: 39px;*/
@@ -1029,6 +1030,11 @@ div {
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
     margin-top: 10px;
+    margin-bottom: 10px;
+}
+.custom-control-label::after {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 /**/
 .btn {

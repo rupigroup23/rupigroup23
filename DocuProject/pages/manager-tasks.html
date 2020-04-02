@@ -100,7 +100,9 @@
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">ח'2</a></li>
             <li class="breadcrumb-item"><a style="color: black" href="manager-professions.html">מקצועות</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">מתמטיקה</a></li>
             <li class="breadcrumb-item active" aria-current="page"><a href="manager-tasks.html">מטלות</a></li>
         </ol>
     </nav>
@@ -114,30 +116,40 @@
                     <span>בית</span>
                 </a>
             </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 class="nav-item">מנהל מערכת</h6>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="manager-index.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>כיתות</span>
+                    <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-index.html"> &#127891; כיתות</a>
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ניהול</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
+                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
-                <a class="nav-link" href="manager-createNewTeacher.html">
+                <a class="nav-link" href="manager-index.html">
                     <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
-                    <span>✎ יצירת מורה חדש </span>
+                    <i class="fas fa-fw fa-users"></i>
+                    <!--&#127891;--> כיתות
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="manager-createNewStudent.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
-                    <span>✎ יצירת תלמיד חדש </span>
-                </a>
-            </li>
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="manager-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
@@ -163,7 +175,34 @@
                 </div>
             </li>
 
+            <li class="nav-item channel-sidebar-list">
+                <h6>פרטיות</h6>
+                <ul>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s1.png"> הגדרות
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s2.png"> שינוי סיסמא  <span class="badge badge-warning">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <!-- כרגע לא משתמשים אבל לא מחקתי  -->
+            <li class="nav-item channel-sidebar-list">
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="upload-video.html">
                     <i class="fas fa-fw fa-cloud-upload-alt"></i>
@@ -174,12 +213,6 @@
                 <a class="nav-link" href="channels.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Channels</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="single-channel.html">
-                    <i class="fas fa-fw fa-user-alt"></i>
-                    <span>Single Channel</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -210,53 +243,12 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="history-page.html">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>History Page</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-list-alt"></i>
-                    <span>Categories</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="categories.html">Movie</a>
-                    <a class="dropdown-item" href="categories.html">Music</a>
-                    <a class="dropdown-item" href="categories.html">Television</a>
-                </div>
-            </li>
-            <li class="nav-item channel-sidebar-list">
-                <h6>SUBSCRIPTIONS</h6>
-                <ul>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s1.png"> Your Life
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s2.png"> Unboxing  <span class="badge badge-warning">2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
-                        </a>
-                    </li>
-                </ul>
-            </li>
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
+                <!-- search by mobile -->
                 <div class="top-mobile-search">
                     <div class="row">
                         <div class="col-md-12">
@@ -271,29 +263,83 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="video-block section-padding">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h6>מטלות</h6>
-                    </div>
-                </div>
-            </div>-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                    <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTask.html">
-                                        <buttom>
-                                            הקמת מטלה חדשה
-                                        </buttom>
-                                    </a>
+                            <div class="col-xl-9 col-sm-9 mb-3">
+                                <div class="text2">
+                                    מטלה אחרונה:
+                                </div>
+                                <div class="channels-card" style="height: 75%;">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                            מטלה מספר 6
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                            <i class="far fa-edit"></i>
+                                            <i class="far fa-trash-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-sm-6 mb-3">
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black;">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        פתרון משוואות ממעלה ראשונה בנעלם אחד
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        30/03/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6 mb-3">
+                                            <div style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-xl-3 col-sm-3 mb-3 " style="border-right:1px solid rgba(0,0,0,.1)">
+                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTask.html">
+                                    <buttom>
+                                        הקמת מטלה חדשה
+                                    </buttom>
+                                </a>
+
+                                <button onclick="tasks()" class="btn btn-outline-primary btn-block btn-lg text2">
+                                    מטלות ישנות
+                                </button>
+                                <i class="fas fa-exclamation-circle text2" title="הרשאות: יכולת עריכה"></i>
+                            </div>
+                        </div>
+                        <div class="row" id="showTasks" style="display:none">
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <div class="row text2">
-                                        מטלות שהועלו:
+                                    <div class="text2">
+                                        מטלות קודמות שהועלו:
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -303,20 +349,255 @@
                                                 סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>
-                                                <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר מטלה</a>
+                                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
                                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- מטלות -->
                                 <!-- tasks -->
                                 <div class="row">
                                     <div class="col-xl-4 col-sm-6 mb-3">
                                         <div class="channels-card" style="padding: 24px 25px;">
-                                            <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                                מטלה מספר 1
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 6
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                        <i class="far fa-edit"></i>
+                                                        <i class="far fa-trash-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        צורות חופפות
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        04/03/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-6 mb-3">
+                                        <div class="channels-card" style="padding: 24px 25px;">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 5
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                    <i class="far fa-edit"></i>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        כינוס איברים דומים
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        21/02/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-6 mb-3">
+                                        <div class="channels-card" style="padding: 24px 25px;">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 4
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                    <i class="far fa-edit"></i>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black;">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        שוויון בין ביטויים אלגבריים
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        11/02/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-6 mb-3">
+                                        <div class="channels-card" style="padding: 24px 25px;">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 3
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                    <i class="far fa-edit"></i>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        משולש פיתגורס
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        27/02/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-6 mb-3">
+                                        <div class="channels-card" style="padding: 24px 25px;">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 2
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                    <i class="far fa-edit"></i>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp;    נושא:
+                                                </div>
+                                                <div class="text2" style="color: black">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        דמיון משולשים
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="text2">
+                                                    &nbsp; תאריך:
+                                                </div>
+                                                <div class="text2">
+                                                    <h3 class="textSquareGRAY" style="width:120%">
+                                                        14/02/2020
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-right: inherit; display: block;">
+                                                <div class="channels-card-image">
+                                                    <a href="manager-submission.html">
+                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
+                                                    </a>&nbsp;
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
+                                                    </a>&nbsp;
+                                                    <a href="manager-watchingvideos.html">
+                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-sm-6 mb-3">
+                                        <div class="channels-card" style="padding: 24px 25px;">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-sm-12 col-xs-3 choose" style="text-align:right">
+                                                    מטלה מספר 1
+                                                </div>
+                                                <div class="col-lg-4 col-sm-12 col-xs-3 choose" style="text-align:left">
+                                                    <i class="far fa-edit"></i>
+                                                    <i class="far fa-trash-alt"></i>
+                                                </div>
                                             </div>
                                             <div class="row ">
                                                 <div class="text2">
@@ -340,93 +621,13 @@
                                             </div>
                                             <div class="row" style="padding-right: inherit; display: block;">
                                                 <div class="channels-card-image">
-                                                    <a href="#">
+                                                    <a href="manager-submission.html">
                                                         <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
                                                     </a>&nbsp;
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/הצגה.png" alt="הצגה">
+                                                    <a href="manager-PresentationAssignment.html">
+                                                        <img class="img-fluid" src="img/הצגה ועריכה.png" alt="הצגה ועריכה">
                                                     </a>&nbsp;
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-sm-6 mb-3">
-                                        <div class="channels-card" style="padding: 24px 25px;">
-                                            <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                                מטלה מספר 2
-                                            </div>
-                                            <div class="row ">
-                                                <div class="text2">
-                                                    &nbsp;    נושא:
-                                                </div>
-                                                <div class="text2" style="color: black">
-                                                    <h3 class="textSquareGRAY" style="width:120%">
-                                                        דמיון משולשים
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row ">
-                                                <div class="text2">
-                                                    &nbsp; תאריך:
-                                                </div>
-                                                <div class="text2">
-                                                    <h3 class="textSquareGRAY" style="width:120%">
-                                                        21/02/2020
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="padding-right: inherit; display: block;">
-                                                <div class="channels-card-image">
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
-                                                    </a>&nbsp;
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/הצגה.png" alt="הצגה">
-                                                    </a>&nbsp;
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-sm-6 mb-3">
-                                        <div class="channels-card" style="padding: 24px 25px;">
-                                            <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                                מטלה מספר 3
-                                            </div>
-                                            <div class="row ">
-                                                <div class="text2">
-                                                    &nbsp;    נושא:
-                                                </div>
-                                                <div class="text2" style="color: black">
-                                                    <h3 class="textSquareGRAY" style="width:120%">
-                                                        משולש פיתגורס
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row ">
-                                                <div class="text2">
-                                                    &nbsp; תאריך:
-                                                </div>
-                                                <div class="text2">
-                                                    <h3 class="textSquareGRAY" style="width:120%">
-                                                        04/03/2020
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="padding-right: inherit; display: block;">
-                                                <div class="channels-card-image">
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/הגשות.png" alt="הגשות">
-                                                    </a>&nbsp;
-                                                    <a href="#">
-                                                        <img class="img-fluid" src="img/הצגה.png" alt="הצגה">
-                                                    </a>&nbsp;
-                                                    <a href="#">
+                                                    <a href="manager-watchingvideos.html">
                                                         <img class="img-fluid" src="img/צפיה בסרטונים.png" alt="סרטונים">
                                                     </a>
                                                 </div>
@@ -435,12 +636,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center pagination-sm mb-0">
+                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">הבא</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- /#wrapper -->
+     <script>
+        function tasks() {
+            var x = document.getElementById("showTasks");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

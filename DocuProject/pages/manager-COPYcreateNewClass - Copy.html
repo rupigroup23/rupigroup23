@@ -285,7 +285,7 @@ $(function () {
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
-                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ הקמת תלמיד חדש</a>
+                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
                     <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                     <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
                 </div>
@@ -296,9 +296,8 @@ $(function () {
                     <span>ניהול</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול תלמידים</a>
-                    <a class="dropdown-item" href="#">📝 ניהול כיתה</a>
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                     <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
@@ -423,12 +422,12 @@ $(function () {
                     </div>
                 </div>
                 <!--<div class="video-block section-padding">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h6>הקמת כיתה חדשה</h6>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>הקמת כיתה חדשה</h6>
+                        </div>
                     </div>
-                </div>
-            </div>-->
+                </div>-->
                 <!--<hr class="mt-0">-->
                 <div class="row">
                     <div class="col-lg-12">
@@ -438,7 +437,7 @@ $(function () {
                                     בחירת כיתה:
                                     <br />
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-6 text2">
+                                        <div class="col-lg-12 col-sm-12 text2">
                                             <div class="form-group">
                                                 <div class="row">
                                                     <select id="classSelect" class="create-select" style="width: 160px;">
@@ -447,13 +446,13 @@ $(function () {
                                                         <option>ח</option>
                                                         <option>ט</option>
                                                     </select>
-                                                    <input type="text" id="Year" class="create-date" placeholder="מספר" style="width: 25%;" />
+                                                    <input type="text" id="Year" class="create-txt" placeholder="מספר" style="width: 25%;" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-sm-6 text2">
+                                        <div class="col-lg-12 col-sm-12 text2">
                                             <div class="form-group">
-                                                <input type="text" id="Year" class="create-date" placeholder="שנה עברית.." />
+                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית.." />
                                             </div>
                                         </div>
                                     </div>
@@ -511,12 +510,25 @@ $(function () {
                             <div class="row text2">
                                 <div class="col-lg-2 col-sm-12 text2">
                                     <h6 class="text2">שיוך מקצועות:</h6>
-                                    <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                                        <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מקצוע...">
-                                        &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
-                                    </div>
-                                    <input type="button" id="" value="הוספת מקצוע חדש" class="upload-btn" />                                    
-                                </div>
+                                        <div class="row">
+                                            <div class="main-title text2" style="display: flex;font-size: 18px;">
+                                                <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מקצוע...">
+                                                &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <button onclick="Newprof()" class="upload-btn">
+                                                הוספת מקצוע
+                                            </button>
+                                        </div>
+                                        <div class="row">
+                                                <div id="ShowNewprof" style="display:none">
+                                                    <input type="text" id="Year" class="create-txt" placeholder="שם המקצוע" />
+                                                    <input type="button" id="load" value="הוספה" class="upload-btn" />
+                                                </div>
+                                        </div>
+
+                                    </div>                                    
                                 <div class="col-lg-8 col-sm-12">
                                     <div class="row category-checkbox">
                                         <!-- checkbox 1col -->
@@ -552,19 +564,19 @@ $(function () {
                                             </span>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="zcustomCheck1">
-                                                <label class="custom-control-label create-text" for="customCheck5">אנגלית </label>
+                                                <label class="custom-control-label create-text" for="zcustomCheck1">אנגלית </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="zcustomCheck2">
-                                                <label class="custom-control-label create-text" for="customCheck5">ערבית </label>
+                                                <label class="custom-control-label create-text" for="zcustomCheck2">ערבית </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="zcustomCheck3">
-                                                <label class="custom-control-label create-text" for="customCheck5">צרפתית  </label>
+                                                <label class="custom-control-label create-text" for="zcustomCheck3">צרפתית  </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="zcustomCheck4">
-                                                <label class="custom-control-label create-text" for="customCheck5">ספרדתית </label>
+                                                <label class="custom-control-label create-text" for="zcustomCheck4">ספרדתית </label>
                                             </div>
 
                                         </div>
@@ -575,23 +587,23 @@ $(function () {
                                             </span>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="czcustomCheck1">
-                                                <label class="custom-control-label create-text" for="customCheck5">ביולוגיה </label>
+                                                <label class="custom-control-label create-text" for="czcustomCheck1">ביולוגיה </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="czcustomCheck2">
-                                                <label class="custom-control-label create-text" for="customCheck5">כימיה </label>
+                                                <label class="custom-control-label create-text" for="czcustomCheck2">כימיה </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="czcustomCheck3">
-                                                <label class="custom-control-label create-text" for="customCheck5">פיזיקה </label>
+                                                <label class="custom-control-label create-text" for="czcustomCheck3">פיזיקה </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="czcustomCheck4">
-                                                <label class="custom-control-label create-text" for="customCheck5">גיאוגרפיה</label>
+                                                <label class="custom-control-label create-text" for="czcustomCheck4">גיאוגרפיה</label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="czcustomCheck5">
-                                                <label class="custom-control-label create-text" for="customCheck5">טכנולוגיה </label>
+                                                <label class="custom-control-label create-text" for="czcustomCheck5">טכנולוגיה </label>
                                             </div>
                                         </div>
                                         <!-- checkbox 1col -->
@@ -600,24 +612,24 @@ $(function () {
                                                 שונות:
                                             </span>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label create-text" for="customCheck5">חינוך גופני </label>
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck1">
+                                                <label class="custom-control-label create-text" for="scustomCheck1">חינוך גופני </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                <label class="custom-control-label create-text" for="customCheck5">תרבות </label>
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck2">
+                                                <label class="custom-control-label create-text" for="scustomCheck2">תרבות </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                                <label class="custom-control-label create-text" for="customCheck5">חברה </label>
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck3">
+                                                <label class="custom-control-label create-text" for="scustomCheck3">חברה </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                                <label class="custom-control-label create-text" for="customCheck5">מורשת ישראל </label>
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck4">
+                                                <label class="custom-control-label create-text" for="scustomCheck4">מורשת ישראל </label>
                                             </div>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                                <label class="custom-control-label create-text" for="customCheck5">יצירה ואומנות </label>
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck5">
+                                                <label class="custom-control-label create-text" for="scustomCheck5">יצירה ואומנות </label>
                                             </div>
                                         </div>
                                     </div>
@@ -635,12 +647,22 @@ $(function () {
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <!-- /#wrapper -->
+    <script>
+        function Newprof() {
+            var x = document.getElementById("ShowNewprof");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
