@@ -55,6 +55,7 @@
             //insert options to select
             for (var i = 0; i < listT.length; i++) {
                 var select = document.getElementById("teacherName");
+<<<<<<< HEAD
                 var option = document.createElement("option");
                 option.text = listT[i].FName + " " + listT[i].LName;
                 select.add(option);
@@ -65,12 +66,29 @@
         function saveClassDB() {
             Year = $("#Year").val();
             NumOfStudents = $("#NumOfs").val();
+=======
+    var option = document.createElement("option");
+    option.text = listT[i].FName + " " + listT[i].LName;
+    select.add(option);
+}
+}
+        function GETerrorT(err) {console.log(err)}
+
+
+    /////////////////////
+
+    function saveClassDB() {
+        Year = $("#Year").val();
+        NumOfStudents = $("#NumOfs").val();
+
+>>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
             if (Year == "" || NumOfStudents == "") {
                 swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
                 return false;
             }
             classObj =
                 {
+<<<<<<< HEAD
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
                     "Number": $("#classNum").val(),
@@ -80,6 +98,20 @@
                 }
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
+=======
+
+    "Name": $("#classSelect").val(),
+    "Number": $("#classNum").val(),
+    "Year": $("#Year").val(),
+    "NumOfStudents": $("#NumOfs").val(),
+    "TeacherName": $("#teacherName").val(),
+    "ClassType": $("#classType").val()
+
+}
+    ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+
+}
+>>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
 
         function POSTsuccessCB() {
             swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
@@ -418,13 +450,13 @@
                                                         <option>ח</option>
                                                         <option>ט</option>
                                                     </select>
-                                                    <input type="text" id="Year" class="create-txt" placeholder="מספר" style="width: 25%;" />
+                                                    <input type="text" id="classNum" class="create-txt" placeholder="מספר" style="width: 25%;" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-sm-12 text2">
                                             <div class="form-group">
-                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית.." />
+                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />
                                             </div>
                                         </div>
                                     </div>

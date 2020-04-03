@@ -24,6 +24,32 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+    <!-- noy links -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+
+ 
+
+        $(document).ready(function () {
+            
+        local = localStorage.getItem('studentObj');
+        console.log('local: ', JSON.parse(local));
+
+        });
+
+
+
+    </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -40,10 +66,10 @@
                 <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
                 <!--<input type="text" class="form-control" placeholder="Search for...">-->
                 <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
+                                            <button class="btn btn-light" type="button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>-->
             </div>
         </form>
         <!-- Navbar -->
@@ -272,6 +298,9 @@
                 <div class="video-block section-padding">
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
+
+                            <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                <buttom id="students">
                             <a class="btn btn-outline-primary btn-block btn-lg" href="manager-Student-ClassroomManagement.html">
                                 <buttom>
                                     ניהול תלמידים
@@ -279,6 +308,12 @@
                             </a>
                         </div>
                         <div class="col-xl-3 col-sm-6 mb-3">
+ 
+                            <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                <buttom>
+                                    שיוך מקצוע חדש לכיתה
+                                </buttom>
+                            </a>
                             <button onclick="Newprof()" class="btn btn-outline-primary btn-block btn-lg text2">
                                 הוספת מקצוע חדש לכיתה
                             </button>
@@ -363,6 +398,8 @@
         </div>
     </div>
     <!-- /#wrapper -->
+<<<<<<< HEAD
+=======
     <script>
         function Newprof() {
             var x = document.getElementById("ShowNewprof");
@@ -374,6 +411,7 @@
         }
     </script>
 
+>>>>>>> 8bcf2878281ec426cbb851d6cca79bc40c7bbdf4
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

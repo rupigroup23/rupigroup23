@@ -60,7 +60,7 @@ namespace DocuProject.Controllers
 
         [HttpPost] /// דף מורה
         [Route("api/Docu/postTeach")]
-        public void Post([FromBody] Teacher TeacherObj) 
+        public void Post([FromBody] Teacher TeacherObj)
         {
             Teacher T = new Teacher();
             T.insertT(TeacherObj);
@@ -84,7 +84,7 @@ namespace DocuProject.Controllers
 
         [HttpPost] /// דף כיתה- אקסל תלמידים
         [Route("api/Docu/addStudents")]
-        public void Post([FromBody]List<Student> studentsArr) 
+        public void Post([FromBody]List<Student> studentsArr)
         {
             Student S = new Student();
             S.insertS(studentsArr);
@@ -115,10 +115,19 @@ namespace DocuProject.Controllers
 
         [HttpGet]
         [Route("api/Docu/getNumClass")]
-        public DataTable GetClass() // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
+        public DataTable GetClass()
         {
             Class C = new Class();
             return C.GetNumClass();
         }
+
+
+        [HttpPost] // ניהול תלמידים - קבלת טבלת תלמידים
+        [Route("api/Docu/GetStudents")]
+        public DataTable GetS([FromBody]Student studentObj) 
+        {          
+            return studentObj.GetStudents();
+        }
+
     }
 }

@@ -36,15 +36,54 @@
 
          getNumOfClass();
 
-         $("select").click(function() {
+         $("#class1").click(function() {
           var open = $(this).data("isopen");
-          if(open) {
-              window.location.href = "manager-professions - Copy.html";
+          if (open)
+             {
+              window.location.href = "manager-professions.html";
+              studentObj =
+                  {
+                  "ClassName": "ז",
+                  "ClassNum": $("#class1").val()
+              }
           }
+             $(this).data("isopen", !open);
+             console.log(studentObj);
+             localStorage.setItem('studentObj', JSON.stringify(studentObj));
+         });
+                     $("#class2").click(function() {
+          var open = $(this).data("isopen");
+          if (open)
+             {
+              window.location.href = "manager-professions.html";
+              studentObj =
+                  {
+                  "ClassName": "ח",
+                  "ClassNum": $("#class2").val()
+              }
+          }
+             $(this).data("isopen", !open);
+             console.log(studentObj);
+             localStorage.setItem('studentObj', JSON.stringify(studentObj));
+                     });
+                     $("#class3").click(function() {
+          var open = $(this).data("isopen");
+          if (open)
+             {
+              window.location.href = "manager-professions.html";
+              studentObj =
+                  {
+                  "ClassName": "ט",
+                  "ClassNum": $("#class3").val()
+              }
+          }
+             $(this).data("isopen", !open);
+             console.log(studentObj);
+             localStorage.setItem('studentObj', JSON.stringify(studentObj));
+         });
 
-          $(this).data("isopen", !open);
-        });
-     
+
+
         });
         function getNumOfClass()
         {
@@ -59,7 +98,7 @@
             list = data;
 
             for (var i = 0; i < list.length; i++)
-            {
+            {// מוסיף מספרי כיתה
                 if (list[i].Name_ == "ז") {
                 var select = document.getElementById("class1");
                 var option = document.createElement("option");

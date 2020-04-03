@@ -539,7 +539,25 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
+    public DBservices Get_Students(string className, int classNum) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM Student
+                               where ClassName = '{className}' and ClassNum='{classNum}'";
 
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
+<<<<<<< HEAD
     //public List<Class> Get_Nums() // מחזיר איבר מסוג DBSERVICES
     //{
     //    List<Class> arr = new List<Class>(); // ניצור רשימה מסוג לוקיישן
@@ -584,10 +602,13 @@ public class DBservices
         {
             con = connect("DBConnectionString");
         }
+=======
+>>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
         catch (Exception ex)
         {
             throw (ex);
         }
+<<<<<<< HEAD
 
         // נוסיף לולאה כי קיבל מערך והדטה יודע להכניס רשומה רשומה
         foreach (var row in classSUbObj)
@@ -629,6 +650,17 @@ public class DBservices
         return command;
     }
 
+=======
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+>>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
 }
 
 

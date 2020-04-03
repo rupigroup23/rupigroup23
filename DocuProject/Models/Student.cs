@@ -24,7 +24,7 @@ namespace DocuProject.Models
         string className;
         int classNum;
         string password;
-
+        string img;
         public string FName { get => fName; set => fName = value; }
         public string LName { get => lName; set => lName = value; }
         public string PhoneNum { get => phoneNum; set => phoneNum = value; }
@@ -36,12 +36,20 @@ namespace DocuProject.Models
         public string ClassName { get => className; set => className = value; }
         public int ClassNum { get => classNum; set => classNum = value; }
         public string Password { get => password; set => password = value; }
+        public string Img { get => img; set => img = value; }
 
         public int insertS(List<Student> stdentsArr) //// שלב 1 - נעביר את כל המערך לדטה בייס
         {
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertS(stdentsArr);
             return numAffected; //מחזיר את מספר השורות
+        }
+
+        internal DataTable GetStudents()// הפונקציה מחזערה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Students(ClassName,ClassNum);
+            return dbs.dt;//מעביר רק את הטבלה 
         }
     }
 }
