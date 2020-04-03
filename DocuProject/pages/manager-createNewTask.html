@@ -101,7 +101,9 @@
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">ח'2</a></li>
             <li class="breadcrumb-item"><a style="color: black" href="manager-professions.html">מקצועות</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">מתמטיקה</a></li>
             <li class="breadcrumb-item"><a style="color: black" href="manager-tasks.html">מטלות</a></li>
             <li class="breadcrumb-item active" aria-current="page"><a href="manager-createNewTask.html">הקמת מטלה חדשה</a></li>
         </ol>
@@ -116,30 +118,40 @@
                     <span>בית</span>
                 </a>
             </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 class="nav-item">מנהל מערכת</h6>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="manager-index.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>כיתות</span>
+                    <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-index.html"> &#127891; כיתות</a>
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ניהול</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
+                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
-                <a class="nav-link" href="manager-createNewTeacher.html">
+                <a class="nav-link" href="manager-index.html">
                     <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
-                    <span>✎ יצירת מורה חדש </span>
+                    <i class="fas fa-fw fa-users"></i>
+                    <!--&#127891;--> כיתות
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="manager-createNewStudent.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
-                    <span>✎ יצירת תלמיד חדש </span>
-                </a>
-            </li>
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="manager-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
@@ -161,11 +173,38 @@
                         &#127891; מטלות
                     </a>
                     <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
-                    <a class="dropdown-item" href="#">📝 ניהול כיתה</a>
+                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
 
+            <li class="nav-item channel-sidebar-list">
+                <h6>פרטיות</h6>
+                <ul>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s1.png"> הגדרות
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s2.png"> שינוי סיסמא  <span class="badge badge-warning">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <!-- כרגע לא משתמשים אבל לא מחקתי  -->
+            <li class="nav-item channel-sidebar-list">
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="upload-video.html">
                     <i class="fas fa-fw fa-cloud-upload-alt"></i>
@@ -176,12 +215,6 @@
                 <a class="nav-link" href="channels.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Channels</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="single-channel.html">
-                    <i class="fas fa-fw fa-user-alt"></i>
-                    <span>Single Channel</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -212,48 +245,6 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="history-page.html">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>History Page</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-list-alt"></i>
-                    <span>Categories</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="categories.html">Movie</a>
-                    <a class="dropdown-item" href="categories.html">Music</a>
-                    <a class="dropdown-item" href="categories.html">Television</a>
-                </div>
-            </li>
-            <li class="nav-item channel-sidebar-list">
-                <h6>SUBSCRIPTIONS</h6>
-                <ul>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s1.png"> Your Life
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s2.png"> Unboxing  <span class="badge badge-warning">2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
-                        </a>
-                    </li>
-                </ul>
-            </li>
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
@@ -273,6 +264,13 @@
                         </div>
                     </div>
                 </div>
+                <!--<div class="video-block section-padding">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>הקמת מטלה חדשה</h6>
+                        </div>
+                    </div>
+                </div>-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
@@ -283,138 +281,85 @@
                                             מטלה מספר &nbsp;
                                         </span>
                                         <div id="" style="border-bottom: 1px solid #990099">
-                                            1
+                                            8
                                             <!-- להוסיף מספר -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-3 text2">
-                                    נושא המטלה:
-                                    <input type="text" class="create-select textSquareTEXT" placeholder="שם הנושא" />
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-3 text2">
-                                    מועד הגשה:
-                                    <input type="date" class="form-group term" />
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-xs-3 text2">
+                                <div class="col-lg-5 col-sm-6 col-xs-3 text2">
                                     <div class="row">
-                                        <div class="col-lg-4 col-sm-6">
-                                            <buttom>
-                                                <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
-                                            </buttom>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6">
-                                            <buttom>
-                                                <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
-                                            </buttom>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6">
-                                            <buttom>
-                                                <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
-                                            </buttom>
-                                        </div>
+                                        <span>
+                                            נושא המטלה:&nbsp;
+                                        </span>
+                                        <input type="text" class="textSquareTEXT" placeholder="שם הנושא" />
                                     </div>
                                 </div>
-                                </div><hr class="mt-0">
-                                <div class="row">
-                                    <div class="col-lg-12 col-sm-12">
-                                        <div class="row">
-                                            <!-- אלגוריתם -->
-                                            <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-7 col-sm-7">
-                                                <section>
-                                                    <input type="radio" id="random" name="staffing" value="random">
-                                                    <label class="checkboxTasks" for="random" checked="checked">
-                                                        רנדומלי
-                                                    </label>
-                                                    <br>
-                                                    <input type="radio" id="gd" name="staffing" value="geographicalDiS">
-                                                    <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
-                                                    <br>
-                                                    <input type="radio" id="sw" name="staffing" value="strongWeak">
-                                                    <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
-                                                    <br>
-                                                    <input id="checkboxTasks" name="staffing" type="radio">
-                                                    <label for="checkboxTasks" class="create-text">מין</label>
-                                                    <div class="checkboxTasks-disclosure">
-                                                        <section>
-                                                            <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
-                                                            <label class="checkboxTasks" for="boys">רוב בנים</label>
-                                                            <br>
-                                                            <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
-                                                            <label class="checkboxTasks" for="girls">רוב בנות</label>
-                                                            <br>
-                                                            <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
-                                                            <label class="checkboxTasks" for="one">מין אחד</label>
-                                                            <br>
-                                                        </section>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                            <!-- כפתורים -->
-                                            <div class="col-lg-5 col-sm-5">
-                                                <div class="row">
-                                                    <div class="col-xl-6 col-sm-12 mb-3">
-                                                        <!-- לשים קישור -->
-                                                        <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                            <buttom>
-                                                                הפעל אלגוריתם צוות
-                                                            </buttom>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xl-6 col-sm-12 mb-3">
-                                                        <!-- לשים קישור -->
-                                                        <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                            <buttom>
-                                                                ניהול צוותים
-                                                            </buttom>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-4 col-sm-6 col-xs-3">
+                                    <div class="row">
+                                        <span class="text2">
+                                            מועד הגשה:&nbsp;
+                                        </span>
+                                        <input type="date" class="term" />
                                     </div>
                                 </div>
-                                <br /><hr class="mt-0">
-                                <!-- תוכן ההודעה -->
-                                <div class="row">
-                                    <div class="col-lg-12 col-sm-12 create-text">
-                                        <div class="row">
-                                            <div class="col-lg-7 col-sm-7">
-                                                <h3 class="text2">תוכן המטלה </h3>
-                                                <div create-text">אנא בחר/י אופציית העלאה:</div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-7 col-sm-12">
-                                                <section>
-                                                    <input id="taskcontent-file" name="taskcontent" type="radio">
-                                                    <label for="taskcontent-file" class="create-text">קובץ</label>
-                                                    &nbsp;
-                                                    <input id="taskcontent-txtbox" name="taskcontent" type="radio">
-                                                    <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
-                                                    <div class="taskcontent-file-disclosure">
-                                                        <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 40px;width: 220px" />
-                                                        <input type="button" id="load" value="טען" class="upload-btn" />
-                                                        <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
-                                                        <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-                                                    </div>
-                                                    <div class="taskcontent-txtbox-disclosure">
-                                                        <textarea id="taskcontent-txtbox"></textarea>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                            <!-- כפתורים -->
+                            </div>
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="row">
 
-                                            <div class="col-lg-5 col-sm-12">
+                                        <!-- אלגוריתם -->
+                                        <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-12">
+                                            <section>
+                                                <input type="radio" id="random" name="staffing" value="random">
+                                                <label class="checkboxTasks" for="random" checked="checked">
+                                                    רנדומלי
+                                                </label>
+                                                <br>
+                                                <input type="radio" id="gd" name="staffing" value="geographicalDiS">
+                                                <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
+                                                <br>
+                                                <input type="radio" id="sw" name="staffing" value="strongWeak">
+                                                <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
+                                                <br>
+                                                <input id="checkboxTasks" name="staffing" type="radio">
+                                                <label for="checkboxTasks" class="create-text">מין</label>
+                                                <div class="checkboxTasks-disclosure">
+                                                    <section>
+                                                        <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="boys">רוב בנים</label>
+                                                        <br>
+                                                        <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="girls">רוב בנות</label>
+                                                        <br>
+                                                        <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="one">מין אחד</label>
+                                                        <br>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <!-- כפתורים -->
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
-                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="manager-tasks.html">
+                                                    <!-- לשים קישור -->
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>
-                                                            פרסום מטלה
+                                                            הפעל אלגוריתם צוות
+                                                        </buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6 col-sm-6 mb-3">
+                                                    <!-- לשים קישור -->
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>
+                                                            ניהול צוותים
                                                         </buttom>
                                                     </a>
                                                 </div>
@@ -422,17 +367,97 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
+                            <br />
+                            <hr class="mt-0">
+                            <!-- תוכן ההודעה -->
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 create-text">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-12">
+                                            <h3 class="text2">תוכן המטלה </h3>
+                                            <div create-text">אנא בחר/י אופציית העלאה:</div>
+                                        </div>
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
+                                                    </buttom>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12">
+                                            <section>
+                                                <input onclick="file()" id="taskcontent-file" name="taskcontent" type="radio">
+                                                <label for="taskcontent-file" class="create-text">קובץ</label>
+                                                &nbsp;
+                                                <input onclick="txtbox()" id="taskcontent-txtbox" name="taskcontent" type="radio">
+                                                <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
+                                            </section>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="row" id="showFile" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>העלאת קובץ</buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row" id="showtxtbox" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <textarea id="taskcontent-txtbox"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="col-xl-6 col-sm-6 mb-3">
+                                                <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-tasks.html">
+                                                    <buttom>
+                                                        פרסום מטלה
+                                                    </buttom>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        function addFile() {
-            var x = document.getElementById("showaddFile");
+        function file() {
+            var x = document.getElementById("showFile");
+            var y = document.getElementById("showtxtbox");
             if (x.style.display === "none") {
                 x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        function txtbox() {
+            var x = document.getElementById("showtxtbox");
+            var y = document.getElementById("showFile");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
             } else {
                 x.style.display = "none";
             }
@@ -461,11 +486,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

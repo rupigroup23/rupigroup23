@@ -187,6 +187,10 @@
     <Content Include="pages\channels.html" />
     <Content Include="pages\forgot-password - Copy.html" />
     <Content Include="pages\history-page.html" />
+    <Content Include="pages\img\approved1.png" />
+    <Content Include="pages\img\WatchVideo.png" />
+    <Content Include="pages\img\הצגה ועריכה.png" />
+    <Content Include="pages\img\ציון.png" />
     <Content Include="pages\manager-COPYcreateNewClass - Copy.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />
@@ -253,12 +257,15 @@
     <Content Include="pages\teacher-feedbacks.html" />
     <Content Include="pages\teacher-index.html" />
     <Content Include="pages\teacher-login.html" />
+    <Content Include="pages\manager-PresentationAssignment.html" />
     <Content Include="pages\teacher-PresentationAssignment.html" />
     <Content Include="pages\teacher-professions.html" />
     <Content Include="pages\teacher-settings.html" />
+    <Content Include="pages\manager-submission.html" />
     <Content Include="pages\teacher-submission.html" />
     <Content Include="pages\teacher-tasks.html" />
     <Content Include="pages\teacher-Video_Assignment.html" />
+    <Content Include="pages\manager-watchingvideos.html" />
     <Content Include="pages\teacher-watchingvideos.html" />
     <Content Include="pages\teacher-watchingvideos2.html" />
     <Content Include="pages\upload-video - Copy.html" />

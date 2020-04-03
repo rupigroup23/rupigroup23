@@ -1,6 +1,4 @@
-﻿    <!-- links of Facebook, instedram and links -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -21,79 +19,18 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
 
-         getNumOfClass();
-
-         $("#class1").click(function() {
-          var open = $(this).data("isopen");
-          if (open)
-             {
-              window.location.href = "manager-professions.html";
-              studentObj =
-                  {
-                  "ClassName": "ז",
-                  "ClassNum": $("#class1").val()
-              }
-          }
-             $(this).data("isopen", !open);
-             console.log(studentObj);
-             localStorage.setItem('studentObj', JSON.stringify(studentObj));
-         });
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-        });
-        function getNumOfClass()
-        {
-            console.log();
-            var url = "../api/Docu/getNumClass";
-            ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
-        }
-
-        function GETsuccessCB(data) {
-
-            console.log(data);
-            list = data;
-
-            for (var i = 0; i < list.length; i++)
-            {
-                if (list[i].Name_ == "ז") {
-                var select = document.getElementById("class1");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                    select.add(option);
-                }
-
-                if (list[i].Name_ == "ח") {
-                var select = document.getElementById("class2");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                select.add(option);
-                }
-
-                if (list[i].Name_ == "ט") {
-                var select = document.getElementById("class3");
-                var option = document.createElement("option");
-                option.text = list[i].Number;
-                select.add(option);
-                } 
-                
-            }
-
-        };
-        function GETerrorCB() { };
-   </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -103,21 +40,11 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
-            </div>
         </form>
-        <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
                 <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
@@ -153,39 +80,30 @@
                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
                 </div>
             </li>
-            <!-- הודעות -->
-            <!--<li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge badge-success">7</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>-->
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" src="img/user.png">
-                    מנהל מערכת
+                    קרן גרוסמן
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
-                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page"><a href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">ח'2</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-professions.html">מקצועות</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">מתמטיקה</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="manager-tasks.html">מטלות</a></li>
+            <li class="breadcrumb-item"><a style="color: red" href="">מטלה מספר 7</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="manager-submission.html">הגשות</a></li>
         </ol>
     </nav>
     <div id="wrapper">
@@ -325,12 +243,10 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-
-
         </ul>
         <!-- END Left menu -->
+        <!-- Page content -->
         <div id="content-wrapper">
-            <!-- Page content -->
             <div class="container-fluid pb-0">
                 <div class="top-mobile-search">
                     <div class="row">
@@ -346,174 +262,277 @@
                         </div>
                     </div>
                 </div>
-                <div class="video-block section-padding">
-                    <div class="col-md-12">
+                <div class="row text2">
+                    <div class="col-lg-11 col-sm-11 col-xs-3 ">
                         <div class="row">
-                            <h6 class="text2">קיצורים:</h6>
-                            <i class="fas fa-exclamation-circle text2" title="הרשאות: עבור מנהל מערכת בלבד"></i>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewClass.html">
-                                    <buttom>
-                                        הקמת כיתה חדשה
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewStudent.html">
-                                    <buttom>
-                                        יצירת תלמיד חדש
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTeacher.html">
-                                    <buttom>
-                                        יצירת מורה חדש
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-teacher-Management.html">
-                                    <buttom>
-                                        ניהול מורים
-                                    </buttom>
-                                </a>
+                            <span style="border-bottom: 1px solid #990099">
+                                סטאטוס הגשה - מטלה מספר &nbsp;
+                            </span>
+                            <div id="" style="border-bottom:1px solid #990099">
+                                7
+                                <!-- להוסיף מספר -->
                             </div>
                         </div>
-                        <hr class="mt-0">
+                    </div>
+                    <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
+                        <i class="far fa-edit"></i>
+                        <i class="far fa-trash-alt"></i>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-5 col-sm-12 text2">
                         <div class="row">
-                            <div class="col-md-10">
-                                <div class="row text2">
-                                    בחר/י את הכיתה הרצויה:
-                                </div>
+                            <span>
+                                נושא:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                פתרון משוואות ממעלה ראשונה בנעלם אחד
+                                <!-- למשוך נושא -->
                             </div>
-                            <div class="col-md-2">
-                                <div class="main-title">
-                                    <div class="btn-group float-right right-action">
-                                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>
-                                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 text2">
+                        <div class="row">
+                            <span>
+                                סה"כ ימים להגשה:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                1 ימים<!-- למשוך חישוב ימים -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text2">
+                        <div class="row">
+                            <span>
+                                מספר צוותים:&nbsp;
+                            </span>
+                            <div class="create-text" id="" style="padding-top: 6px;">
+                                12<!-- למשוך מספר -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br /><hr class="mt-0">
+                <div class="row">
+                    <h6 class="text2">
+                        בחירת אפשרות הסינון:
+                    </h6>
+                </div>
+                <!-- statuses -->
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <input id="statuses_yes" class="text2" name="status" type="radio">
+                        <label for="statuses_yes" class="create-text">
+                            צוותים שהעלו את המטלה
+                        </label>
+                        <div class="statuses_yes-disclosure">
+                                <input type="radio" id="taskApproved" name="taskApproved" style="margin-right: 1.5em">
+                                <label class="statuses_yes create-text" for="taskApproved">
+                                    סרטונים שטרם אושרו לפרסום
+                                </label>
+                                <br>
+                                <input type="radio" id="grade" name="taskApproved" style="margin-right: 1.5em">
+                                <label class="statuses_yes create-text" for="grade">
+                                    סרטונים מאושרים
+                                </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <input id="statuses_No" name="status" type="radio">
+                        <label for="statuses_No" class="create-text">
+                            צוותים שלא העלו את המטלה
+                        </label>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <button onclick="submissions()" id="apply" class="create-btn" style="width: 40px;">
+                            סנן
+                        </button>
+                    </div>
+              
+                </div>
+                <br />
+                <div class="row" id="showSubmissions" style="display:none">
+                    <div class="row">
+                        <br /><hr class="mt-0">
+                        <div class="btn-group float-right right-action">
+                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="row">
+                        <!--סרטונים שטרם אושרו לפרסום-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            12
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ז.png" alt="כיתה ז">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
                                     </div>
-                                    <select id="class1" class="choose">
-                                        <!--<option value="">בחר כיתה</option>-->
-                                        <option >בחירת כיתה</option>
-
-                                    </select>
-                                    
-                                    <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
-                                    </div>-->
+                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
+                                        סרטון הועלה, מחכה לאישור
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
+                                <div class="row" style="padding-right: inherit; display: block;">
                                     <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ח.png" alt="כיתה ח">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
                                     </div>
-                                    <select id="class2" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
-                                    </div>-->
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ט.png" alt="כיתה ט">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-secondary btn-sm">Subscribed <strong>1.4M</strong></button></div>-->
-                                    </div>
-
-                                    <select id="class3" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
-                    </div>-->
                                 </div>
                             </div>
                         </div>
-
+                        <!--סרטונים מאושרים-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            8
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">
+                                                מיה מלכה, מאי שלומזון ואיה יצחקי
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14;">
+                                        <div class="statuses-text" style="color:#1aaf10; font-size: 22px;">
+                                            סרטון הועלה ואושר לפרסום
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <div class="channels-card-image">
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--צוותים שלא העלו את המטלה-->
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            4
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">עומרי יצחקי, רוי שלומזון ובן מלכה</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14;">
+                                        <div class="statuses-text" style="color:red; font-size: 22px;">
+                                            טרם הועלה סרטון
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <div class="channels-card-image">
+                                        <a href="#">
+                                            <!-- לעשות פופ אם של אתה בטוח... -->
+                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <a href="#">
+                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <br />
+                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <!--<footer class="sticky-footer">
-                <div class="container">
-                    <div class="row no-gutters">
-                        <div class="col-lg-6 col-sm-6">
-                            <p class="mt-1 mb-0">
-                        &copy; Copyright 2020 <strong class="text-dark">Vidoe</strong>. All Rights Reserved<br>
-                        <small class="mt-0 mb-0">
-                            Made with <i class="fas fa-heart text-danger"></i> by <a class="text-primary" target="_blank" href="https://askbootstrap.com/">Ask Bootstrap</a>
-                        </small>
-                    </p>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 text-right">
-                            <div class="app">
-                                <a href="https://www.facebook.com/MindCET/?tn-str=k*F">
-                                    <img alt="" src="img/facebook.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="" src="img/Instagram1.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="https://mindset.org.il/" src="img/link1.png">
-                                </a>
-                                <a href="#"><img alt="" src="img/google.png"></a>
-                        <a href="#"><img alt="" src="img/apple.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>-->
         </div>
-        <!-- /.content-wrapper -->
     </div>
+    <script>
+        function submissions() {
+            var x = document.getElementById("showSubmissions");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -532,7 +551,6 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -542,5 +560,6 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+
 </body>
 </html>
