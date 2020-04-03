@@ -24,6 +24,39 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+    <!-- noy links -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+
+ 
+
+        $(document).ready(function () {
+
+            $('#students').click(showStudentsData);
+                        local = localStorage.getItem('studentObj');
+        console.log('local: ', JSON.parse(local));
+        });
+
+
+        function showStudentsData() {
+
+            url = "../api/Docu/GetStudents";
+            ajaxCall("GET", url, JSON.stringify(local), GETsuccessS, GETerrorS)
+        }
+
+        function GETsuccessS(data) {console.log(data) }
+        function GETerrorS() {}
+    </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -40,10 +73,10 @@
                 <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
                 <!--<input type="text" class="form-control" placeholder="Search for...">-->
                 <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
+                                            <button class="btn btn-light" type="button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>-->
             </div>
         </form>
         <!-- Navbar -->
@@ -263,17 +296,17 @@
                     </div>
                 </div>
                 <!--<div class="video-block section-padding">
-            <div class="row">
-                <div class="col-md-12">
-                    <h6>מקצועות</h6>
-                </div>
-            </div>
-        </div>-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>מקצועות</h6>
+                        </div>
+                    </div>
+                </div>-->
                 <div class="video-block section-padding">
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
                             <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                <buttom>
+                                <buttom id="students">
                                     ניהול תלמידים
                                 </buttom>
                             </a>
@@ -281,7 +314,7 @@
                         <div class="col-xl-3 col-sm-6 mb-3">
                             <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                 <buttom>
-                                   שיוך מקצוע חדש לכיתה
+                                    שיוך מקצוע חדש לכיתה
                                 </buttom>
                             </a>
                         </div>
@@ -359,7 +392,6 @@
         </div>
     </div>
     <!-- /#wrapper -->
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

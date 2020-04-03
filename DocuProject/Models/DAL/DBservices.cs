@@ -539,40 +539,37 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
+    public DBservices Get_Students(string className, int classNum) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM Student
+                               where ClassName = '{className}' and ClassNum='{classNum}'";
 
-    //public List<Class> Get_Nums() // מחזיר איבר מסוג DBSERVICES
-    //{
-    //    List<Class> arr = new List<Class>(); // ניצור רשימה מסוג לוקיישן
-    //    SqlConnection con = null;
-    //    try
-    //    {
-    //        con = connect("DBConnectionString");
-    //        String selectSTR = "select distinct Number,Name_ from Class_ where Name_ <> ' '";       
-    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
 
-    //        // get a reader
-    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-    //        Class C = new Class();
-    //        while (dr.Read())
-    //        {   
-    //            C.Name = (string)dr["Name_"];
-    //            C.Number = (int)dr["Number"];
-    //            arr.Add(C);
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw (ex);
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();
-    //        }
-    //    }
-    //    return arr;
-    //}
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
 }
 
 

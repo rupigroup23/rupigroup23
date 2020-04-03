@@ -39,15 +39,23 @@
 
          getNumOfClass();
 
-         $("select").click(function() {
+         $("#class1").click(function() {
           var open = $(this).data("isopen");
-          if(open) {
-              window.location.href = "manager-professions - Copy.html";
+          if (open)
+             {
+              window.location.href = "manager-professions.html";
+              studentObj =
+                  {
+                  "ClassName": "ז",
+                  "ClassNum": $("#class1").val()
+              }
           }
+             $(this).data("isopen", !open);
+             console.log(studentObj);
+             localStorage.setItem('studentObj', JSON.stringify(studentObj));
+         });
 
-          $(this).data("isopen", !open);
-        });
-     
+
         });
 
         function getNumOfClass()
