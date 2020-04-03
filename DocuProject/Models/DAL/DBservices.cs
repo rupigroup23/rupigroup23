@@ -573,6 +573,62 @@ public class DBservices
     //    }
     //    return arr;
     //}
+
+    ////////////////////////////////שמירת מקצועות לכיתה///////////////////////////////////////////////
+    public int insertClassSub(List<ClassSubjects> classSUbObj)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        int numEffected = 0;
+        try
+        {
+            con = connect("DBConnectionString");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        // נוסיף לולאה כי קיבל מערך והדטה יודע להכניס רשומה רשומה
+        foreach (var row in classSUbObj)
+        {
+            String cStr = BuildInsertCommand1(row);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+
+            cmd = CreateCommand(cStr, con);
+
+            try
+            {
+                numEffected += cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return 0;
+                throw (ex);
+            }
+        }
+        if (con != null)
+        {
+            // close the db connection
+            con.Close();
+        }
+        return numEffected;
+    }
+    private String BuildInsertCommand1(ClassSubjects classSUbObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+        sb.AppendFormat("Values('{0}',{1},'{2}','{3}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
 }
 
 

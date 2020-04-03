@@ -48,6 +48,15 @@ namespace DocuProject.Controllers
             Class C = new Class();
             C.insert(classObj);
         }
+        //shir
+        [HttpPost] /// דף כיתה
+        [Route("api/Docu/postClassSub")]
+        public void Post([FromBody] List<ClassSubjects> classSUbObj)
+        {
+            ClassSubjects C = new ClassSubjects();
+            C.insertClassSub(classSUbObj);
+        }
+        //shirend
 
         [HttpPost] /// דף מורה
         [Route("api/Docu/postTeach")]
