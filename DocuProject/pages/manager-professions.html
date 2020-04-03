@@ -41,21 +41,14 @@
  
 
         $(document).ready(function () {
-
-            $('#students').click(showStudentsData);
-                        local = localStorage.getItem('studentObj');
+            
+        local = localStorage.getItem('studentObj');
         console.log('local: ', JSON.parse(local));
+
         });
 
 
-        function showStudentsData() {
 
-            url = "../api/Docu/GetStudents";
-            ajaxCall("GET", url, JSON.stringify(local), GETsuccessS, GETerrorS)
-        }
-
-        function GETsuccessS(data) {console.log(data) }
-        function GETerrorS() {}
     </script>
 </head>
 <body id="page-top">
@@ -305,25 +298,22 @@
                 <div class="video-block section-padding">
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
-<<<<<<< HEAD
+
                             <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                 <buttom id="students">
-=======
                             <a class="btn btn-outline-primary btn-block btn-lg" href="manager-Student-ClassroomManagement.html">
                                 <buttom>
->>>>>>> 8bcf2878281ec426cbb851d6cca79bc40c7bbdf4
                                     ניהול תלמידים
                                 </buttom>
                             </a>
                         </div>
                         <div class="col-xl-3 col-sm-6 mb-3">
-<<<<<<< HEAD
+ 
                             <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                 <buttom>
                                     שיוך מקצוע חדש לכיתה
                                 </buttom>
                             </a>
-=======
                             <button onclick="Newprof()" class="btn btn-outline-primary btn-block btn-lg text2">
                                 הוספת מקצוע חדש לכיתה
                             </button>
@@ -333,7 +323,6 @@
                                 <input type="text" id="Year" class="create-txt" placeholder="שם המקצוע" />
                                 <input type="button" id="load" value="הוספה" class="upload-btn" />
                             </div>
->>>>>>> 8bcf2878281ec426cbb851d6cca79bc40c7bbdf4
                         </div>
                     </div>
                     <hr class="mt-0">

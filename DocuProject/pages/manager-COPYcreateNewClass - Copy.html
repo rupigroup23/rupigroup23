@@ -77,8 +77,6 @@
         Year = $("#Year").val();
         NumOfStudents = $("#NumOfs").val();
 
-  
-
             if (Year == "" || NumOfStudents == "") {
             swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
             return false;
@@ -92,9 +90,9 @@ classObj =
     "NumOfStudents": $("#NumOfs").val(),
     "TeacherName": $("#teacherName").val(),
     "ClassType": $("#classType").val()
-}
 
-ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+}
+    ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
 
 }
 
@@ -446,13 +444,13 @@ $(function () {
                                                         <option>ח</option>
                                                         <option>ט</option>
                                                     </select>
-                                                    <input type="text" id="Year" class="create-txt" placeholder="מספר" style="width: 25%;" />
+                                                    <input type="text" id="classNum" class="create-txt" placeholder="מספר" style="width: 25%;" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-sm-12 text2">
                                             <div class="form-group">
-                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית.." />
+                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />
                                             </div>
                                         </div>
                                     </div>

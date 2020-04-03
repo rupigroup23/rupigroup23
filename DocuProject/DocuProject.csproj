@@ -187,6 +187,7 @@
     <Content Include="pages\channels.html" />
     <Content Include="pages\forgot-password - Copy.html" />
     <Content Include="pages\history-page.html" />
+    <Content Include="pages\HtmlPage1.html" />
     <Content Include="pages\img\approved1.png" />
     <Content Include="pages\img\WatchVideo.png" />
     <Content Include="pages\img\הצגה ועריכה.png" />
@@ -325,6 +326,7 @@
     <Content Include="pages\vendor\owl-carousel\owl.theme.css" />
     <Content Include="pages\video-page.html" />
     <Content Include="pages\video-page1.html" />
+    <Content Include="pages\טבלת ניהול תלמידים.html" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
