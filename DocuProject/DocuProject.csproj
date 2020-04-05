@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\ClassSubjects.cs" />
     <Compile Include="Models\Class.cs" />
     <Compile Include="Models\DAL\DBservices.cs" />
     <Compile Include="Models\Feedback.cs" />
