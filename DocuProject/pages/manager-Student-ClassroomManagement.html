@@ -75,16 +75,15 @@
                     data: students,
                     pageLength: 5,
                     columns: [
-                        //{
-                        //    //render: function (data, type, row, meta) {
-                        //    //    let dataS = "data-studentsId='" + row.Id + "'";
+                        {
+                            render: function (data, type, row, meta) {
+                                let dataS = "data-studentsId='" + row.Id + "'";
 
-                        //    //    editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> Edit </button>";
-                        //    //    viewBtn = "<button type='button' class = 'viewBtn btn btn-info' " + dataS + "> View </button>";
-                        //    //    deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> Delete </button>";
-                        //    //    return editBtn + viewBtn + deleteBtn;
-                        //    //}
-                        //},
+                                editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
+                                return editBtn +" "+ deleteBtn;
+                            }
+                        },
                         { data: "FName" },
                         { data: "LName" },
                         { data: "PhoneNum" },
@@ -362,7 +361,7 @@
                 <hr class="mt-0">
                 <form>
                     <!--<div id="StudentDiv">בלהלהל</div>-->
-                    <table id="StudentTable" class="display nowrap" style="width:100%">
+                    <table id="StudentTable" class="StudentsTable" style="width:100%">
                         <thead>
                             <tr>
                                 <th></th>
@@ -373,6 +372,7 @@
                                 <th>עיר</th>
                                 <th>רחוב</th>
                                 <th>ת"ז</th>
+                                <th>תאריך לידה</th>
                                 <th>כיתה</th>
                                 <th>מספר כיתה</th>
                                 <th>סיסמא ראשונית</th>
@@ -406,11 +406,13 @@
             </div>
         </div>
     </div>
+
+
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
     <!-- Owl Carousel -->
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->

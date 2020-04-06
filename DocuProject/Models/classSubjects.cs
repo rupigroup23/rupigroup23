@@ -14,14 +14,14 @@ namespace DocuProject.Models
         // מותאם למסך כיתה
 
         string name; //שם כיתה למשל ח
-        int number; //מספר כיתה למשל 2
+        string number; //מספר כיתה למשל 2
         string classType; //סוג כיתה למשל רגילה
         string profession; //מקצוע למשל מתמטיקה
  
         public ClassSubjects() { }
 
         public string Name { get => name; set => name = value; }
-        public int Number { get => number; set => number = value; }
+        public string Number { get => number; set => number = value; }
         public string ClassType { get => classType; set => classType = value; }
         public string Profession { get => profession; set => profession = value; }
 

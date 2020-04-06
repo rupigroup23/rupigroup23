@@ -55,5 +55,14 @@ namespace DocuProject.Models
             return numAffected; //מחזיר את מספר השורות
         }
 
+
+ 
+          public DataTable GetTechers()
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Techers();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
     }
 }

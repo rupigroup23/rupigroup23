@@ -78,6 +78,8 @@
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
                 }
+
+
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
 
@@ -170,6 +172,8 @@
         }
 
         ClassSubArr = [];
+
+
         function saveProfClassDB() {    
             addProfession();
             size = subjArr.length;
@@ -178,13 +182,15 @@
                     ClassSubObj = 
                         {
                             "Name": $("#classSelect").val(),
-                            "Number": $("#num").val(),
+                            "Number": $("#classNum").val(),
                             "ClassType": $("#classType").val(),
                             "Profession": subjArr[j],
                         }         
                     ClassSubArr.push(ClassSubObj);  
+                    console.log(ClassSubArr);
                 }
                 ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+
             }
             else {
                 alert("pleass insert the Profession")
@@ -473,7 +479,7 @@
                                                         <option>ח</option>
                                                         <option>ט</option>
                                                     </select>
-                                                    <input type="text" id="num" class="create-txt" placeholder="מספר" style="width: 25%;" />
+                                                    <input type="text" id="classNum" class="create-txt" placeholder="מספר" style="width: 25%;" />
                                                 </div>
                                             </div>
                                         </div>

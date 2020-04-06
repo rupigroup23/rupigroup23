@@ -597,13 +597,18 @@ public class DBservices
             foreach (var row in classSUbObj)
             {
                 cStr = BuildInsertCommand1(row);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+<<<<<<< HEAD
                                                       //בניית פקודת דחיפה - הכנסה לדאטהבייס
+=======
+                                                     //בניית פקודת דחיפה - הכנסה לדאטהבייס
+>>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
                 cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
                 numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
 
             }
             return numEffected;
 
+<<<<<<< HEAD
         }
         catch (Exception ex)
         {
@@ -621,6 +626,25 @@ public class DBservices
             }
         }
 
+=======
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+>>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
     }
 
 
@@ -642,7 +666,11 @@ public class DBservices
     }
 
 
+<<<<<<< HEAD
     public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+=======
+  public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+>>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
     {
         SqlConnection con = null;
         string str = "";
@@ -651,7 +679,11 @@ public class DBservices
             con = connect("DBConnectionString");
 
             str = " SELECT * FROM Teacher__";
+<<<<<<< HEAD
             da = new SqlDataAdapter(str, con);
+=======
+            da = new SqlDataAdapter(str, con); 
+>>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
