@@ -124,10 +124,21 @@ namespace DocuProject.Controllers
 
         [HttpPost] // ניהול תלמידים - קבלת טבלת תלמידים
         [Route("api/Docu/GetStudents")]
-        public DataTable GetS([FromBody]Student studentObj) 
-        {          
+        public DataTable GetS([FromBody]Student studentObj)
+        {
             return studentObj.GetStudents();
         }
+
+
+
+        [HttpGet]
+        [Route("api/Docu/getTeachers")]
+        public DataTable getTeachers()
+        {
+            Teacher T = new Teacher();
+            return T.GetTechers();
+        }
+
 
     }
 }

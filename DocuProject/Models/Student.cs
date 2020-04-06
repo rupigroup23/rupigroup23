@@ -48,7 +48,7 @@ namespace DocuProject.Models
         internal DataTable GetStudents()// הפונקציה מחזערה דאטה טייבל ולכן מסוג דאטה טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_Students(ClassName,ClassNum);
+            dbs = dbs.Get_Students(ClassName, ClassNum);
             return dbs.dt;//מעביר רק את הטבלה 
         }
     }
