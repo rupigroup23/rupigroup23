@@ -32,25 +32,31 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
 
+
+        $(document).ready(function () {
          getNumOfClass();
 
-         $("#class1").click(function() {
+            $("#class1").click(function ()
+            {    
           var open = $(this).data("isopen");
           if (open)
-             {
+          {
+            if ($("#class1").val() == "בחירת כיתה") 
+            return false;
+              
               window.location.href = "manager-professions.html";
-              studentObj =
-                  {
-                  "ClassName": "ז",
-                  "ClassNum": $("#class1").val()
+                  studentObj =
+                      {
+                          "ClassName": "ז",
+                          "ClassNum": $("#class1").val()
+                      }
               }
-          }
+          
              $(this).data("isopen", !open);
              console.log(studentObj);
              localStorage.setItem('studentObj', JSON.stringify(studentObj));
-         });
+            });
                      $("#class2").click(function() {
           var open = $(this).data("isopen");
           if (open)
@@ -81,8 +87,6 @@
              console.log(studentObj);
              localStorage.setItem('studentObj', JSON.stringify(studentObj));
          });
-
-
 
         });
         function getNumOfClass()
@@ -565,13 +569,13 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
     <!-- Owl Carousel -->
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="js/custom.js"></script>
+    <!--<script src="js/custom.js"></script>-->
 </body>
 </html>

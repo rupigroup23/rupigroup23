@@ -555,102 +555,13 @@ public class DBservices
             DataSet ds = new DataSet();
             da.Fill(ds);
             dt = ds.Tables[0];
+
         }
 
-<<<<<<< HEAD
-    //public List<Class> Get_Nums() // מחזיר איבר מסוג DBSERVICES
-    //{
-    //    List<Class> arr = new List<Class>(); // ניצור רשימה מסוג לוקיישן
-    //    SqlConnection con = null;
-    //    try
-    //    {
-    //        con = connect("DBConnectionString");
-    //        String selectSTR = "select distinct Number,Name_ from Class_ where Name_ <> ' '";       
-    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
-
-    //        // get a reader
-    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-    //        Class C = new Class();
-    //        while (dr.Read())
-    //        {   
-    //            C.Name = (string)dr["Name_"];
-    //            C.Number = (int)dr["Number"];
-    //            arr.Add(C);
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw (ex);
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();
-    //        }
-    //    }
-    //    return arr;
-    //}
-
-    ////////////////////////////////שמירת מקצועות לכיתה///////////////////////////////////////////////
-    public int insertClassSub(List<ClassSubjects> classSUbObj)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        int numEffected = 0;
-        try
-        {
-            con = connect("DBConnectionString");
-        }
-=======
->>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
         catch (Exception ex)
         {
             throw (ex);
         }
-<<<<<<< HEAD
-
-        // נוסיף לולאה כי קיבל מערך והדטה יודע להכניס רשומה רשומה
-        foreach (var row in classSUbObj)
-        {
-            String cStr = BuildInsertCommand1(row);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-
-            cmd = CreateCommand(cStr, con);
-
-            try
-            {
-                numEffected += cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                return 0;
-                throw (ex);
-            }
-        }
-        if (con != null)
-        {
-            // close the db connection
-            con.Close();
-        }
-        return numEffected;
-    }
-    private String BuildInsertCommand1(ClassSubjects classSUbObj) // שלב 1 - נעביר את כל המערך לדטה בייס
-                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
-    { ////עובר שורה שורה 
-
-        String command;
-
-        StringBuilder sb = new StringBuilder();
-        // use a string builder to create the dynamic string
-
-        sb.AppendFormat("Values('{0}',{1},'{2}','{3}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession)"; // לפי העמודות בSQL
-        command = prefix + sb.ToString();
-
-        return command;
-    }
-
-=======
         finally
         {
             if (con != null)
@@ -660,7 +571,107 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
->>>>>>> c0faff92f3c5c2411e4824f6aaa739439c3415c1
+
+
+
+    public int insertClassSub(List<ClassSubjects> classSUbObj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            String cStr = "";
+            int numEffected = 0;
+
+            // נוסיף לולאה כי קיבל מערך והדטה יודע להכניס רשומה רשומה
+            foreach (var row in classSUbObj)
+            {
+                cStr = BuildInsertCommand1(row);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                     //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+                numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+
+            }
+            return numEffected;
+
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+    private String BuildInsertCommand1(ClassSubjects classSUbObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+
+  public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string str = "";
+        try
+        {
+            con = connect("DBConnectionString");
+
+            str = " SELECT * FROM Teacher__";
+            da = new SqlDataAdapter(str, con); 
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
 }
 
 

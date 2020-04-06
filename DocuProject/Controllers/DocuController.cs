@@ -129,5 +129,16 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
+
+        
+      [HttpGet]
+        [Route("api/Docu/getTeachers")]
+        public DataTable getTeachers()
+        {
+            Teacher T = new Teacher();
+            return T.GetTechers();
+        }
+
+
     }
 }
