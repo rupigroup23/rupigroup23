@@ -186,7 +186,7 @@
     <Content Include="pages\blank.html" />
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
-    <Content Include="pages\forgot-password - Copy.html" />
+    <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
     <Content Include="pages\HtmlPage1.html" />
     <Content Include="pages\img\approved1.png" />
@@ -194,7 +194,8 @@
     <Content Include="pages\img\הצגה ועריכה.png" />
     <Content Include="pages\img\ציון.png" />
     <Content Include="pages\js\dateStyle.js" />
-    <Content Include="pages\manager-COPYcreateNewClass - Copy.html" />
+    <Content Include="pages\js\saveProfClass.js" />
+    <Content Include="pages\manager-createNewClass.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />
     <Content Include="pages\manager-createNewTask.html" />
@@ -244,7 +245,7 @@
     <Content Include="pages\js\הגשות.png" />
     <Content Include="pages\Do not delete.html" />
     <Content Include="pages\manager-login.html" />
-    <Content Include="pages\manager-createNewClass.html" />
+    <Content Include="pages\manager-createNewClass1.html" />
     <Content Include="pages\manager-forgot-password.html" />
     <Content Include="pages\manager-index.html" />
     <Content Include="pages\manager-professions.html" />
