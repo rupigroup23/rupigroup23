@@ -193,6 +193,7 @@
     <Content Include="pages\img\WatchVideo.png" />
     <Content Include="pages\img\הצגה ועריכה.png" />
     <Content Include="pages\img\ציון.png" />
+    <Content Include="pages\js\dateStyle.js" />
     <Content Include="pages\manager-COPYcreateNewClass - Copy.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />

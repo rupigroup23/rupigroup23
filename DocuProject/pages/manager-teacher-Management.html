@@ -59,9 +59,11 @@
                       {
                             render: function (data, type, row, meta) {
                                 let dataS = "data-studentsId='" + row.Id + "'";
+                                editBtn = "<img src='img/editPNG.png' class= 'editButtons' style='margin-right: 0%'  onclick= ''" + dataS + ">";
+                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons' style='margin-right: 0%'  onclick= ''" + dataS + ">";
 
-                                editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
-                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
+                                //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
+                                //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
                                 return editBtn +" "+ deleteBtn;
                             }
                         },
@@ -309,13 +311,26 @@
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מורה...">
-                            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
-                        </div>
+                    <!--<div class="col-md-4">
+        <div class="main-title text2" style="display: flex;     font-size: 18px;">
+            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מורה...">
+            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
+        </div>
+    </div>-->
+                    <div class="col-md-6 text2">
+                        <span style="border-bottom: 1px solid #990099">
+                            ניהול מורים
+                        </span>
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-5">
+                        <a class="btn btn-outline-primary btn-block btn-lg" href="manager-MAN_createNewTeacher.html" style="font-size: 18px;width: 225px;height: 35px;padding-top: 2px;">
+                            <buttom>
+                                יצירת מורה חדש
+                            </buttom>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
                         <div class="main-title text2" style="display: flex;     font-size: 18px;">
                             &nbsp;<i class="fas fa-file-excel"></i>
                             &nbsp;<i class="fas fa-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </i>
@@ -329,19 +344,9 @@
                         </div>
 
                     </div>
-
-                    <div class="col-md-4">
-                        <a class="btn btn-outline-primary btn-block btn-lg" href="manager-MAN_createNewTeacher.html" style="font-size: 18px;width: 225px;height: 35px;padding-top: 2px;">
-                            <buttom>
-                                יצירת מורה חדש
-                            </buttom>
-                        </a>
-                    </div>
-
                 </div>
                 <hr class="mt-0">
                 <div>
-
                     <form>
                         <!--<div id="StudentDiv">בלהלהל</div>-->
                         <table id="teachersTable" class="StudentsTable" style="width:100%">
