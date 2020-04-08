@@ -20,8 +20,11 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+    <!-- dates -->
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -273,13 +276,7 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="video-block section-padding">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h6>הוספת תלמיד חדש</h6>
-                    </div>
-                </div>
-            </div>-->
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
@@ -306,8 +303,8 @@
                                             <label class="create-text" for="idT">תעודת זהות:</label><br />
                                             <input type="text" class="create-select textSquareTEXT" id="idT" name="idTeacher">
                                             <br />
-                                            <label class="create-text" for="lname"> תאריך לידה:</label><br />
-                                            <input class="create-select textSquareTEXT" type="date" id="lname" name="lastname" placeholder="docu@docu.com" />
+                                            <label class="create-text" for="dateInput"> תאריך לידה:</label><br />
+                                            <input class="create-select textSquareTEXT" type="date" id="dateInput" />
                                             <br />
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
                                             <input class="create-select textSquareTEXT" type="tel" id="phone" name="phone" />
@@ -315,9 +312,9 @@
                                         <div class="col-lg-3 col-sm-6">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">עיר:</label><br />
-                                            <select id="city" class="create-select" style="background-color:#eceff0">
-                                                <option ">בחר עיר</option>
-                                                <option >תל אביב</option>
+                                            <select id="city" class="create-select">
+                                                <option>בחר עיר</option>
+                                                <option>תל אביב</option>
                                                 <option value="hifa">חיפה</option>
                                                 <option value="hadera">חדרה</option>
                                             </select>
@@ -327,19 +324,19 @@
                                             <input type="text" class="create-select textSquareTEXT" id="street" name="street">
                                             <br />
                                             <div class="row">
-                                       
+
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-sm-12">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">כיתה:</label><br />
-                                                <select id="class" class="create-select" style="background-color:#eceff0">
-                                                    <option value="">בחר כיתה</option>
-                                                    <option>ז</option>
-                                                    <option>ח</option>
-                                                    <option>ט</option>
-                                                </select>
-                                         
+                                            <select id="class" class="create-select">
+                                                <option value="">בחר כיתה</option>
+                                                <option>ז</option>
+                                                <option>ח</option>
+                                                <option>ט</option>
+                                            </select>
+
                                             <label for="email" class="create-text">מספר כיתה:</label><br />
                                             <input class="create-select textSquareTEXT" id="classNum" type="email" autocomplete="off">
 
@@ -353,18 +350,10 @@
                             <div class="row">
                                 <div class="col-lg-3 col-sm-6">
                                     <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
-                                </div>                               <br />
-
-                                <!--<div class="col-lg-3 col-sm-6">
-                                    <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
-                                </div>                               <br />
-
-                                <div class="col-lg-3 col-sm-6">
-                                    <button class="create-btn" style="padding-right: 15px;">  הפקת סיסמא ראשונית</button>
-                                </div>-->
+                                </div>
+                                <br />
                             </div>
                             <br />
-
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-xl-3 col-sm-6 mb-3">
@@ -375,19 +364,22 @@
                                     </a>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <!-- /#wrapper -->
+    <script>
+        let currDate =
+        new Date().toLocaleDateString('he-IL');
+        let inputDate = new Date();
+        let bday = new Date();
+
+        document.querySelector('#dateInput').valueAsDate= inputDate; 
+    </script>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

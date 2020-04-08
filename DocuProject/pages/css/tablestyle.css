@@ -16,12 +16,12 @@ table.StudentsTable {
     }
 
     table.StudentsTable tbody td {
-        font-size: 13px;
+        font-size: 12px;
         color: #000000;
     }
 
     table.StudentsTable tr:nth-child(even) {
-        background: #E6D0DE;
+        /*background: #E6D0DE;*/
     }
 
     table.StudentsTable thead {
@@ -33,7 +33,7 @@ table.StudentsTable {
     }
 
         table.StudentsTable thead th {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: bold;
             color: #FFFFFF;
             text-align: center;

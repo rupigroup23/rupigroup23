@@ -597,18 +597,11 @@ public class DBservices
             foreach (var row in classSUbObj)
             {
                 cStr = BuildInsertCommand1(row);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-<<<<<<< HEAD
-                                                      //בניית פקודת דחיפה - הכנסה לדאטהבייס
-=======
-                                                     //בניית פקודת דחיפה - הכנסה לדאטהבייס
->>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
                 cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
                 numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
 
             }
             return numEffected;
-
-<<<<<<< HEAD
         }
         catch (Exception ex)
         {
@@ -626,27 +619,8 @@ public class DBservices
             }
         }
 
-=======
-        }
-        catch (Exception ex)
-        {
-            return 0;
-            // write to log
-            throw (ex);
-        }
 
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
->>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
     }
-
 
 
     private String BuildInsertCommand1(ClassSubjects classSUbObj) // שלב 1 - נעביר את כל המערך לדטה בייס
@@ -665,6 +639,10 @@ public class DBservices
         return command;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
   public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
     {
         SqlConnection con = null;
@@ -672,10 +650,12 @@ public class DBservices
         try
         {
             con = connect("DBConnectionString");
-
             str = " SELECT * FROM Teacher__";
             da = new SqlDataAdapter(str, con);
+<<<<<<< HEAD
             da = new SqlDataAdapter(str, con); 
+=======
+>>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -696,6 +676,7 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+<<<<<<< HEAD
 
 
     public void DeleteStudent(int id) //כמו GET
@@ -741,3 +722,6 @@ public class DBservices
     }
 
 }
+=======
+}
+>>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a

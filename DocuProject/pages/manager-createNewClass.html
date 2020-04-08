@@ -35,26 +35,31 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
-        //block 1
         $(document).ready(function () {
             getTachears(); ////////////////////////
             $('#saveClass').click(saveClassDB);
             $('#upload').click(uploadStudents);
             $('#addProff').click(saveProfClassDB); 
+            $('#NewProfBTN').click(addProf);
         });
         function getTachears() { //////////////////////////
-            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-        }
+        ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+}
+
+            //ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+        //}
         function GETsuccessT(data) {
             console.log(data);
             listT = data;
             //insert options to select
             for (var i = 0; i < listT.length; i++) {
                 var select = document.getElementById("teacherName");
+
                 var option = document.createElement("option");
                 option.text = listT[i].FName + " " + listT[i].LName;
                 select.add(option);
@@ -62,26 +67,34 @@
         }
         function GETerrorT(err) { console.log(err) }
         /////////////////////
+
+
+
+    /////////////////////
+
         function saveClassDB() {
-            Year = $("#Year").val();
-            NumOfStudents = $("#NumOfs").val();
+
+        Year = $("#Year").val();
+        NumOfStudents = $("#NumOfs").val();
+
             if (Year == "" || NumOfStudents == "") {
                 swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
                 return false;
             }
             classObj =
                 {
+
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
                     "Number": $("#classNum").val(),
-                    "Year": $("#year").val(),
+                    "Year": $("#Year").val(),
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
                 }
-
-
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
+
+
 
         function POSTsuccessCB() {
             swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
@@ -95,10 +108,68 @@
             /////////////
         }
         function POSTerrorCB(err) { console.log(err) }; // ממירה קובץ אקסל לאובייקט+ דחיפה למערך
+
+
+        ///////////////שיר//////////
+        subjArr = []; 
+        function addProfession() {
+            var num = 5;
+            for (var i = 1; i < num; i++) {
+                var col1 = "customCheck";
+                if ($("#" + col1 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col1 + i + "").val());
+                } 
+                var col2 = "zcustomCheck";
+                if ($("#" + col2 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col2 + i + "").val());
+                }
+                var col3 = "czcustomCheck";
+                if ($("#" + col3 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col3 + i + "").val());
+                }
+                var col4 = "scustomCheck";
+                if ($("#" + col4 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col4 + i + "").val());
+                } 
+            }
+        }
+
+        ClassSubArr = [];
+
+        function saveProfClassDB() {    
+            addProfession();
+            size = subjArr.length;
+            if (size >= 1) {
+                for (j in subjArr) {
+                    ClassSubObj = 
+                        {
+                            "Name": $("#classSelect").val(),
+                            "Number": $("#classNum").val(),
+                            "ClassType": $("#classType").val(),
+                            "Profession": subjArr[j],
+                        }         
+                    ClassSubArr.push(ClassSubObj);  
+                    console.log(ClassSubArr);
+                }
+
+                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+
+            }
+            else {
+                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
+            }
+        }
+        function POST1success()
+        { 
+            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+        }
+        function POST1error(err) { console.log(err) };
+
+        ///////////שיר////////////
         studentsArr = new Array();
         $(function () {
             $("#load").bind("click", function () {
-                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+               var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
                 if (regex.test($("#fileUpload").val().toLowerCase())) {
                     if (typeof (FileReader) != "undefined") {
                         var reader = new FileReader();
@@ -143,67 +214,25 @@
             console.log(data)
             swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
         }
+
         function POSTerror(err) { console.log(err) }
-        //block 1 end
-
-        //block 2
-
-        subjArr = []; 
-        function addProfession() {
-            var num = 5;
-            for (var i = 1; i < num; i++) {
-                var col1 = "customCheck";
-                if ($("#" + col1 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col1 + i + "").val());
-                } 
-                var col2 = "zcustomCheck";
-                if ($("#" + col2 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col2 + i + "").val());
+        /////////////
+        function addProf()
+        {
+            proffObj =
+                {
+                    "Name": $("#NewProfession").val()
                 }
-                var col3 = "czcustomCheck";
-                if ($("#" + col3 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col3 + i + "").val());
-                }
-                var col4 = "scustomCheck";
-                if ($("#" + col4 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col4 + i + "").val());
-                } 
-            }
+
+            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
         }
 
-        ClassSubArr = [];
-
-
-        function saveProfClassDB() {    
-            addProfession();
-            size = subjArr.length;
-            if (size >= 1) {
-                for (j in subjArr) {
-                    ClassSubObj = 
-                        {
-                            "Name": $("#classSelect").val(),
-                            "Number": $("#classNum").val(),
-                            "ClassType": $("#classType").val(),
-                            "Profession": subjArr[j],
-                        }         
-                    ClassSubArr.push(ClassSubObj);  
-                    console.log(ClassSubArr);
-                }
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
-
-            }
-            else {
-                alert("pleass insert the Profession")
-            }
-        }
-         function POST1success() { 
-
-            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+        function POSTsuccess() {
+                        swal("מקצוע נוסף למערכת בהצלחה", "", "success")
 
         }
-        function POST1error(err) { console.log(err) };
-
-          </script>
+        function POSTerror() {}
+    </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -485,7 +514,7 @@
                                         </div>
                                         <div class="col-lg-12 col-sm-12 text2">
                                             <div class="form-group">
-                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית.." />
+                                                <input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />
                                             </div>
                                         </div>
                                     </div>
@@ -541,26 +570,8 @@
                             </div>
                             <hr class="mt-0">
                             <div class="row text2">
-                                <div class="col-lg-2 col-sm-2 text2">
+                                <div class="col-lg-2 col-sm-12 text2">
                                     <h6 class="text2">שיוך מקצועות:</h6>
-                                    <div class="row">
-                                        <div class="main-title text2" style="display: flex;font-size: 18px;">
-                                            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מקצוע...">
-                                            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <button onclick="Newprof()" class="upload-btn">
-                                            הוספת מקצוע
-                                        </button>
-                                    </div>
-                                    <div class="row">
-                                        <div id="ShowNewprof" style="display:none">
-                                            <input type="text" id="Year" class="create-txt" placeholder="שם המקצוע" />
-                                            <input type="button" id="load" value="הוספה" class="upload-btn" />
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="col-lg-8 col-sm-8">
                                     <div class="row category-checkbox">
@@ -573,116 +584,128 @@
                                                 <input type="checkbox" class="custom-control-input" id="customCheck1" value="מתמטיקה">
                                                 <label class="custom-control-label create-text" for="customCheck1">מתמטיקה</label>
                                             </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck2"value="תנך">
-                                                    <label class="custom-control-label create-text" for="customCheck2" >תנ"ך</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck3"value="היסטוריה">
-                                                    <label class="custom-control-label create-text" for="customCheck3" >היסטוריה</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck4" value="ספרות">
-                                                    <label class="custom-control-label create-text" for="customCheck4" >ספרות </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck5"value="לשון">
-                                                    <label class="custom-control-label create-text" for="customCheck5" >לשון </label>
-                                                </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2" value="תנך">
+                                                <label class="custom-control-label create-text" for="customCheck2">תנ"ך</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck3" value="היסטוריה">
+                                                <label class="custom-control-label create-text" for="customCheck3">היסטוריה</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck4" value="ספרות">
+                                                <label class="custom-control-label create-text" for="customCheck4">ספרות </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck5" value="לשון">
+                                                <label class="custom-control-label create-text" for="customCheck5">לשון </label>
+                                            </div>
                                         </div>
-                                            <!-- checkbox 2col -->
-                                            <div id="2col" class="col-lg-3 col-xs-4 col-4">
-                                                <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                    שפות:
-                                                </span>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="zcustomCheck1"value="אנגלית">
-                                                    <label class="custom-control-label create-text" for="zcustomCheck1">אנגלית </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="zcustomCheck2" value="ערבית">
-                                                    <label class="custom-control-label create-text" for="zcustomCheck2">ערבית </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="zcustomCheck3"value="צרפתית">
-                                                    <label class="custom-control-label create-text" for="zcustomCheck3">צרפתית  </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="zcustomCheck4"value="ספרדתית">
-                                                    <label class="custom-control-label create-text" for="zcustomCheck4">ספרדתית </label>
-                                                </div>
+                                        <!-- checkbox 2col -->
+                                        <div id="2col" class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                שפות:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck1" value="אנגלית">
+                                                <label class="custom-control-label create-text" for="zcustomCheck1">אנגלית </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck2" value="ערבית">
+                                                <label class="custom-control-label create-text" for="zcustomCheck2">ערבית </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck3" value="צרפתית">
+                                                <label class="custom-control-label create-text" for="zcustomCheck3">צרפתית  </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck4" value="ספרדתית">
+                                                <label class="custom-control-label create-text" for="zcustomCheck4">ספרדית </label>
+                                            </div>
 
+                                        </div>
+                                        <!-- checkbox 3col -->
+                                        <div id="3col" class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                מדעים:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck1" value="ביולוגיה">
+                                                <label class="custom-control-label create-text" for="czcustomCheck1">ביולוגיה </label>
                                             </div>
-                                            <!-- checkbox 3col -->
-                                            <div id="3col" class="col-lg-3 col-xs-4 col-4">
-                                                <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                    מדעים:
-                                                </span>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="czcustomCheck1"value="ביולוגיה">
-                                                    <label class="custom-control-label create-text" for="czcustomCheck1">ביולוגיה </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="czcustomCheck2"value="כימיה">
-                                                    <label class="custom-control-label create-text" for="czcustomCheck2">כימיה </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="czcustomCheck3"value="פיזיקה">
-                                                    <label class="custom-control-label create-text" for="czcustomCheck3">פיזיקה </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="czcustomCheck4"value="גיאוגרפיה">
-                                                    <label class="custom-control-label create-text" for="czcustomCheck4">גיאוגרפיה</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="czcustomCheck5"value="טכנולוגיה">
-                                                    <label class="custom-control-label create-text" for="czcustomCheck5">טכנולוגיה </label>
-                                                </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck2" value="כימיה">
+                                                <label class="custom-control-label create-text" for="czcustomCheck2">כימיה </label>
                                             </div>
-                                            <!-- checkbox 1col -->
-                                            <div id="4col" class="col-lg-3 col-xs-4 col-4">
-                                                <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                    שונות:
-                                                </span>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="scustomCheck1"value="חינוך גופני">
-                                                    <label class="custom-control-label create-text" for="scustomCheck1">חינוך גופני </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="scustomCheck2"value="תרבות">
-                                                    <label class="custom-control-label create-text" for="scustomCheck2">תרבות </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="scustomCheck3"value="חברה">
-                                                    <label class="custom-control-label create-text" for="scustomCheck3">חברה </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="scustomCheck4"value="מורשת ישראל">
-                                                    <label class="custom-control-label create-text" for="scustomCheck4">מורשת ישראל </label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="scustomCheck5"value="יצירה ואומנות">
-                                                    <label class="custom-control-label create-text" for="scustomCheck5">יצירה ואומנות </label>
-                                                </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck3" value="פיזיקה">
+                                                <label class="custom-control-label create-text" for="czcustomCheck3">פיזיקה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck4" value="גיאוגרפיה">
+                                                <label class="custom-control-label create-text" for="czcustomCheck4">גיאוגרפיה</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck5" value="טכנולוגיה">
+                                                <label class="custom-control-label create-text" for="czcustomCheck5">טכנולוגיה </label>
                                             </div>
                                         </div>
+                                        <!-- checkbox 1col -->
+                                        <div id="4col" class="col-lg-3 col-xs-4 col-4">
+                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
+                                                שונות:
+                                            </span>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck1" value="חינוך גופני">
+                                                <label class="custom-control-label create-text" for="scustomCheck1">חינוך גופני </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck2" value="תרבות">
+                                                <label class="custom-control-label create-text" for="scustomCheck2">תרבות </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck3" value="חברה">
+                                                <label class="custom-control-label create-text" for="scustomCheck3">חברה </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck4" value="מורשת ישראל">
+                                                <label class="custom-control-label create-text" for="scustomCheck4">מורשת ישראל </label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="scustomCheck5" value="יצירה ואומנות">
+                                                <label class="custom-control-label create-text" for="scustomCheck5">יצירה ואומנות </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
                                     <div class="row">
-                                        <button id="addProff" class="upload-btn" style="width: 167px;padding: 0px 36px;">
+                                        <button onclick="Newprof()" class="upload-btn" style="width: 170px; height: 35px;">
                                             הוספת מקצוע
                                         </button>
                                     </div>
                                     <div class="row">
-                                        <a id="saveClass " class="btn btn-outline-primary btn-block btn-lg" hi>
+                                        <div id="ShowNewprof" style="display:none">
+                                            <input type="text" id="NewProfession" class="create-txt" placeholder="שם המקצוע" />
+                                            <input type="button" id="NewProfBTN" value="הוספה" class="upload-btn" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <button id="addProff" class="upload-btn" style="width: 170px; height: 35px;">
+                                            שמירת מקצועות
+                                        </button>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
                                             <buttom>
                                                 שמירה
                                             </buttom>
                                         </a>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

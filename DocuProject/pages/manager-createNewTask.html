@@ -298,8 +298,9 @@
                                     <div class="row">
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
+
                                         </span>
-                                        <input type="date" class="term" />
+                                        <input class="term" type="date" id="dateInput" />
                                     </div>
                                 </div>
                             </div>
@@ -442,6 +443,12 @@
         </div>
     </div>
     <script>
+        let currDate =
+        new Date().toLocaleDateString('he-IL');
+        let inputDate = new Date();
+        let bday = new Date();
+
+        document.querySelector('#dateInput').valueAsDate= inputDate; 
         function file() {
             var x = document.getElementById("showFile");
             var y = document.getElementById("showtxtbox");
