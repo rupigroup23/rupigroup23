@@ -186,6 +186,7 @@
     <Content Include="pages\blank.html" />
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
+    <Content Include="pages\js\showItem.js" />
     <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
     <Content Include="pages\HtmlPage1.html" />

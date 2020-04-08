@@ -328,13 +328,13 @@
                                     </buttom>
                                 </a>
 
-                                <button onclick="tasks()" class="btn btn-outline-primary btn-block btn-lg text2">
+                                <button onclick="Items()" class="btn btn-outline-primary btn-block btn-lg text2">
                                     מטלות ישנות
                                 </button>
                                 <i class="fas fa-exclamation-circle text2" title="הרשאות: יכולת עריכה"></i>
                             </div>
                         </div>
-                        <div class="row" id="showTasks" style="display:none">
+                        <div class="row" id="showItems" style="display:none">
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-md-10">
@@ -653,16 +653,7 @@
         </div>
     </div>
     <!-- /#wrapper -->
-     <script>
-        function tasks() {
-            var x = document.getElementById("showTasks");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script>
+    <script src="js/showItem.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

@@ -138,6 +138,20 @@ namespace DocuProject.Controllers
             return T.GetTechers();
         }
 
+        //[HttpGet]  /// דף כיתה 
+        //[Route("api/Docu/GetClassSubj")]
+        //public List<ClassSubjects> GetCS([FromBody]ClassSubjects CSObj)
+        //{
+        //    return CSObj.ReadCS();
+        //}
+        // GET api/Docu/GetClassSubj/ז/2/
+        [HttpGet]
+        [Route("api/Docu/GetClassSubj/{name}/{num}")]
+        public List<ClassSubjects> GetCS(string name, string num)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS(name, num); // Read from Models/Counrty
+        }
 
     }
 }

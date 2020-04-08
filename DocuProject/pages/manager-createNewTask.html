@@ -403,22 +403,22 @@
                                     <div class="row">
                                         <div class="col-lg-4 col-sm-12">
                                             <section>
-                                                <input onclick="file()" id="taskcontent-file" name="taskcontent" type="radio">
+                                                <input onclick="mItems()" id="taskcontent-file" name="taskcontent" type="radio">
                                                 <label for="taskcontent-file" class="create-text">קובץ</label>
                                                 &nbsp;
-                                                <input onclick="txtbox()" id="taskcontent-txtbox" name="taskcontent" type="radio">
+                                                <input onclick="mItems()" id="taskcontent-txtbox" name="taskcontent" type="radio">
                                                 <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
                                             </section>
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
-                                            <div class="row" id="showFile" style="display:none">
+                                            <div class="row" id="show1" style="display:none">
                                                 <div class="col-xl-5 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>העלאת קובץ</buttom>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="row" id="showtxtbox" style="display:none">
+                                            <div class="row" id="show2" style="display:none">
                                                 <div class="col-xl-5 col-sm-6 mb-3">
                                                     <textarea id="taskcontent-txtbox"></textarea>
                                                 </div>
@@ -449,28 +449,9 @@
         let bday = new Date();
 
         document.querySelector('#dateInput').valueAsDate= inputDate; 
-        function file() {
-            var x = document.getElementById("showFile");
-            var y = document.getElementById("showtxtbox");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.style.display = "none";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        function txtbox() {
-            var x = document.getElementById("showtxtbox");
-            var y = document.getElementById("showFile");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-                y.style.display = "none";
-            } else {
-                x.style.display = "none";
-            }
-        }
     </script>
     <!-- /#wrapper -->
+    <script src="js/showItem.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
