@@ -665,12 +665,7 @@ public class DBservices
         return command;
     }
 
-
-<<<<<<< HEAD
-    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
-=======
   public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
->>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
     {
         SqlConnection con = null;
         string str = "";
@@ -679,11 +674,8 @@ public class DBservices
             con = connect("DBConnectionString");
 
             str = " SELECT * FROM Teacher__";
-<<<<<<< HEAD
             da = new SqlDataAdapter(str, con);
-=======
             da = new SqlDataAdapter(str, con); 
->>>>>>> 5a129b1774b8dbb8af5f3c750e833768af990a06
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -704,4 +696,48 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+
+
+    public void DeleteStudent(int id) //כמו GET
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            ///// נייצר שאילתה שמוחקת במידה ומדובר באותו איידי////////
+            String cStr = $@"delete from
+                              Student
+                              where id='{id}'";
+
+            cmd = CreateCommand(cStr, con);
+            numEffected += cmd.ExecuteNonQuery();
+
+            // return numEffected;
+        }
+        catch (Exception ex)
+        {
+            //Console.WriteLine(cStr);
+            //return 0;
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
 }
