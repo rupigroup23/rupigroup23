@@ -129,13 +129,8 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
-<<<<<<< HEAD
-        
-      [HttpGet] //טבלת מורים
-=======
-       
+
         [HttpGet]
->>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
         [Route("api/Docu/getTeachers")]
         public DataTable getTeachers()
         {
@@ -147,6 +142,14 @@ namespace DocuProject.Controllers
         {
             Student S = new Student();
             return S.deleteS(id);
+        }
+
+        [HttpPut]
+        [Route("api/Docu/updateStudent/{id}")] 
+        public DataTable PutDIS(int id, [FromBody] Student student) 
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
         }
 
     }

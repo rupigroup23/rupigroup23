@@ -512,7 +512,7 @@ public class DBservices
     {
         SqlConnection con = null;
         string str = "";
-        try /////// בדיקה - איזה טבלה לקחת
+        try 
         {
             con = connect("DBConnectionString");
 
@@ -639,10 +639,7 @@ public class DBservices
         return command;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
   public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
     {
         SqlConnection con = null;
@@ -652,10 +649,7 @@ public class DBservices
             con = connect("DBConnectionString");
             str = " SELECT * FROM Teacher__";
             da = new SqlDataAdapter(str, con);
-<<<<<<< HEAD
             da = new SqlDataAdapter(str, con); 
-=======
->>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -676,7 +670,7 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
-<<<<<<< HEAD
+
 
 
     public void DeleteStudent(int id) //כמו GET
@@ -721,7 +715,11 @@ public class DBservices
         }
     }
 
+    public void update()
+    {
+        da.Update(dt);
+    }
+
+
 }
-=======
-}
->>>>>>> 9abc2b66713ce32afecfca127203ca39e3ceee7a
+
