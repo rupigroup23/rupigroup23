@@ -572,8 +572,6 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
-
-
     public int insertClassSub(List<ClassSubjects> classSUbObj)
     {
 
@@ -639,8 +637,12 @@ public class DBservices
         return command;
     }
 
+<<<<<<< HEAD
 
   public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+=======
+    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+>>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
     {
         SqlConnection con = null;
         string str = "";
@@ -649,7 +651,12 @@ public class DBservices
             con = connect("DBConnectionString");
             str = " SELECT * FROM Teacher__";
             da = new SqlDataAdapter(str, con);
+<<<<<<< HEAD
             da = new SqlDataAdapter(str, con); 
+=======
+            da = new SqlDataAdapter(str, con);
+
+>>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -671,6 +678,51 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
+<<<<<<< HEAD
+=======
+    public List<ClassSubjects> getCSFromDB(string name, string num)
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<ClassSubjects> listClassSubj = new List<ClassSubjects>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM classProfession
+                               where ClassName = '{name}' and ClassNum='{num}'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                ClassSubjects CS = new ClassSubjects();
+
+                CS.Name = (string)dr["className"];
+                CS.Number = (string)dr["classNum"];
+                CS.Profession = (string)dr["Profession"];
+
+                listClassSubj.Add(CS);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listClassSubj; // מחזיר מערך 
+
+    }
+>>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
 
 
     public void DeleteStudent(int id) //כמו GET
@@ -709,11 +761,11 @@ public class DBservices
         {
             if (con != null)
             {
-                // close the db connection
                 con.Close();
             }
         }
     }
+<<<<<<< HEAD
 
     public void update()
     {
@@ -723,3 +775,9 @@ public class DBservices
 
 }
 
+=======
+}
+
+
+
+>>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25

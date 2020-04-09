@@ -345,14 +345,14 @@
                         </label>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <button onclick="submissions()" id="apply" class="create-btn" style="width: 40px;">
+                        <button onclick="Items()" id="apply" class="create-btn" style="width: 40px;">
                             סנן
                         </button>
                     </div>
               
                 </div>
                 <br />
-                <div class="row" id="showSubmissions" style="display:none">
+                <div class="row" id="showItems" style="display:none">
                     <div class="row">
                         <br /><hr class="mt-0">
                         <div class="btn-group float-right right-action">
@@ -518,17 +518,8 @@
             </div>
         </div>
     </div>
-    <script>
-        function submissions() {
-            var x = document.getElementById("showSubmissions");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script>
     <!-- /#wrapper -->
+    <script src="js/showItem.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

@@ -10,14 +10,14 @@ using System.Text;
 namespace DocuProject.Models
 {
     public class ClassSubjects
-    {        
+    {
         // מותאם למסך כיתה
 
         string name; //שם כיתה למשל ח
         string number; //מספר כיתה למשל 2
         string classType; //סוג כיתה למשל רגילה
         string profession; //מקצוע למשל מתמטיקה
- 
+
         public ClassSubjects() { }
 
         public string Name { get => name; set => name = value; }
@@ -25,11 +25,11 @@ namespace DocuProject.Models
         public string ClassType { get => classType; set => classType = value; }
         public string Profession { get => profession; set => profession = value; }
 
-        public int insertClassSub(List<ClassSubjects> classSUbObj) 
+        public int insertClassSub(List<ClassSubjects> classSUbObj)
         {
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertClassSub(classSUbObj);
-            return numAffected; 
+            return numAffected;
         }
 
         public DataTable GetNumClass()
@@ -38,6 +38,12 @@ namespace DocuProject.Models
             dbs = dbs.Get_Nums();
             return dbs.dt;//מעביר רק את הטבלה 
         }
- 
+
+        public List<ClassSubjects> ReadCS(string name, string num)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getCSFromDB(name, num);
+        }
     }
+
 }
