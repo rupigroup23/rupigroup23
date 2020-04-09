@@ -35,10 +35,10 @@ namespace DocuProject.Controllers
         {
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/values/5
+        //public void Delete(int id)
+        //{
+        //}
 
 
         [HttpPost] /// דף כיתה
@@ -128,7 +128,6 @@ namespace DocuProject.Controllers
         {
             return studentObj.GetStudents();
         }
-
        
         [HttpGet]
         [Route("api/Docu/getTeachers")]
@@ -151,6 +150,11 @@ namespace DocuProject.Controllers
         {
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS(name, num); // Read from Models/Counrty
+        }
+        public DataTable Delete(int id)
+        {
+            Student S = new Student();
+            return S.deleteS(id);
         }
 
     }

@@ -186,7 +186,12 @@
     <Content Include="pages\blank.html" />
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
+    <Content Include="pages\js\manager\ABcsaveProfClass.js" />
+    <Content Include="pages\js\manager\saveProfClass.js" />
+    <Content Include="pages\js\manager\submission.js" />
     <Content Include="pages\js\showItem.js" />
+    <Content Include="pages\js\manager\tasks.js" />
+    <Content Include="pages\manager-ABCprofessions.html" />
     <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
     <Content Include="pages\HtmlPage1.html" />
@@ -195,7 +200,7 @@
     <Content Include="pages\img\הצגה ועריכה.png" />
     <Content Include="pages\img\ציון.png" />
     <Content Include="pages\js\dateStyle.js" />
-    <Content Include="pages\js\saveProfClass.js" />
+    <Content Include="pages\js\saveProfClass1- delete.js" />
     <Content Include="pages\manager-createNewClass.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />

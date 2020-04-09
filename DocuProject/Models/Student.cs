@@ -51,5 +51,13 @@ namespace DocuProject.Models
             dbs = dbs.Get_Students(ClassName, ClassNum);
             return dbs.dt;//מעביר רק את הטבלה 
         }
+
+        public DataTable deleteS(int id)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Students(ClassName, ClassNum);
+            dbs.DeleteStudent(id);
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
     }
 }

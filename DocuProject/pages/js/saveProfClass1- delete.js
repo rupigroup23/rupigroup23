@@ -2,6 +2,7 @@
     readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
     local = localStorage.getItem('studentObj');
     console.log('local: ', JSON.parse(local));
+    $('#NewProfBTN').click(saveProfClassDB);
     classObj = JSON.parse(localStorage["studentObj"]);
     console.log(classObj);
     readClassSUbjFromDB();
@@ -16,7 +17,7 @@
         else {
             X.style.display = "none";
         }
-    }); 
+    });
 });
 
 //add all subjects from the table (DB)
@@ -129,7 +130,6 @@ function checkSub() {
     ClassSubArr.push(ClassSubObj);
 }
 
-
 function readClassSUbjFromDB() {
     var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
     ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
@@ -142,7 +142,8 @@ function GETsuccessCB2(data) {
     listCS = data;
     for (var i = 0; i < listCS.length; i++) {
         ProfARR[i] = listCS[i].Profession;
-    }
+    } 
+
     console.log(ProfARR);
     for (var i = 0; i < ProfARR.length; i++) {
             ProgSTR += " <div class='col-xl-3 col-sm-6 mb-3'>";
@@ -151,6 +152,7 @@ function GETsuccessCB2(data) {
             ProgSTR += ProfARR[i];
             ProgSTR += "<br /><a href='manager-tasks.html'>";
             ProgSTR += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
+        ProgSTR += "localStorage.setItem('studentObj', JSON.stringify(studentObj));";
             ProgSTR += "</div></div></div>";
         document.getElementById("professions").innerHTML = ProgSTR; 
     }
@@ -159,10 +161,10 @@ function GETerrorCB2(err) {
     console.log(err);
 }
 
-str = "";
+orientationSTR = "";
 function Showorientation() {
-    str += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-    str += "<li class='breadcrumb-item'><a style='color: black' >" + classObj.ClassName +"'"+ classObj.ClassNum +"</a></li>";
-    str += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
-    document.getElementById("orientation").innerHTML = str; 
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' >" + classObj.ClassName +"' "+ classObj.ClassNum +"</a></li>";
+    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
+    document.getElementById("orientation").innerHTML = orientationSTR; 
 }

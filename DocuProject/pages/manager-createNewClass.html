@@ -46,6 +46,7 @@
             $('#upload').click(uploadStudents);
             $('#addProff').click(saveProfClassDB); 
             $('#NewProfBTN').click(addProf);
+
         });
         function getTachears() { //////////////////////////
         ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
@@ -230,7 +231,9 @@
                         swal("מקצוע נוסף למערכת בהצלחה", "", "success")
 
         }
-        function POSTerror() {}
+        function POSTerror() { }
+
+     
     </script>
 </head>
 <body id="page-top">
