@@ -637,12 +637,9 @@ public class DBservices
         return command;
     }
 
-<<<<<<< HEAD
 
   public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
-=======
-    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
->>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
+
     {
         SqlConnection con = null;
         string str = "";
@@ -651,12 +648,6 @@ public class DBservices
             con = connect("DBConnectionString");
             str = " SELECT * FROM Teacher__";
             da = new SqlDataAdapter(str, con);
-<<<<<<< HEAD
-            da = new SqlDataAdapter(str, con); 
-=======
-            da = new SqlDataAdapter(str, con);
-
->>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -678,8 +669,6 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
-<<<<<<< HEAD
-=======
     public List<ClassSubjects> getCSFromDB(string name, string num)
     {
         //יצירת רשימה לשמירת הנתונים
@@ -720,11 +709,7 @@ public class DBservices
             }
         }
         return listClassSubj; // מחזיר מערך 
-
     }
->>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
-
-
     public void DeleteStudent(int id) //כמו GET
     {
         SqlConnection con;
@@ -765,8 +750,6 @@ public class DBservices
             }
         }
     }
-<<<<<<< HEAD
-
     public void update()
     {
         da.Update(dt);
@@ -775,9 +758,7 @@ public class DBservices
 
 }
 
-=======
-}
 
 
 
->>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
+
