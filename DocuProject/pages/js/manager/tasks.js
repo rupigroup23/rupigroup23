@@ -50,10 +50,10 @@ function GETsuccessT1(data) {
         tasksSTR += i+1;
         tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
         tasksSTR += "<i class='far fa-edit'></i> <i class='far fa-trash-alt'></i>";
-        tasksSTR += "</div></div><div class='row'><div class='text2'> &nbsp;    נושא:</div> <div class='text2' style='color: black'>";
-        tasksSTR += " <h3 class='textSquareGRAY' style='width: 120 %'>";
+        tasksSTR += "</div></div><div class='row'><div class='text2'> נושא:</div> <div class='text2' style='color: black'>";
+        tasksSTR += "<h3 class='textSquareGRAY' style='width: 120% %'>";
         tasksSTR += listCS[i].Topic;
-        tasksSTR += "</h3></div></div><div class='row'><div class='text2'>&nbsp; תאריך:";
+        tasksSTR += "</h3></div></div><div class='row'><div class='text2'>תאריך:";
         tasksSTR += "</div><div class='text2'><h3 class='textSquareGRA' style='width: 120 %'>";
         tasksSTR += listCS[i].Deadline;
         tasksSTR += "</h3></div></div> <div class='row' style='padding-right: inherit; display: block;'>";

@@ -128,7 +128,12 @@ namespace DocuProject.Controllers
         {
             return studentObj.GetStudents();
         }
+<<<<<<< HEAD
+
+
+=======
        
+>>>>>>> ef23c8483d877f625c75a701919f0ebc2bfdad25
         [HttpGet]
         [Route("api/Docu/getTeachers")]
         public DataTable getTeachers()
@@ -157,6 +162,7 @@ namespace DocuProject.Controllers
             return S.deleteS(id);
         }
 
+<<<<<<< HEAD
         [HttpPost] /// דף מטלה ראשי
         [Route("api/Docu/Tasks")]
         public void Post([FromBody] Task taskObj)
@@ -174,5 +180,15 @@ namespace DocuProject.Controllers
             Task T = new Task();
             return T.ReadTask(name, num, prof); // Read from Models/Counrty
         }
+=======
+        [HttpPut]
+        [Route("api/Docu/updateStudent/{id}")] 
+        public DataTable PutDIS(int id, [FromBody] Student student) 
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
+        }
+
+>>>>>>> d0314ea0383d402bb07d7682b8ece21005f66996
     }
 }
