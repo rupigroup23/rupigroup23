@@ -187,11 +187,14 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
+    <Content Include="pages\js\manager\createNewTask.js" />
+    <Content Include="pages\js\manager\createNewTeacher.js" />
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
+    <Content Include="pages\manager-createNewClass - Copy.html" />
     <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
     <Content Include="pages\HtmlPage1.html" />

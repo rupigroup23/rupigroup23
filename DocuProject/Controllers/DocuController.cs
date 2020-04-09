@@ -157,5 +157,22 @@ namespace DocuProject.Controllers
             return S.deleteS(id);
         }
 
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/Tasks")]
+        public void Post([FromBody] Task taskObj)
+        {
+            Task T = new Task();
+            T.insertTask1(taskObj);
+        }
+
+        /// דף מטלה ראשי
+        // GET api/Docu/GetClassSubj/ז/2/פיזיקה
+        [HttpGet]
+        [Route("api/Docu/GetTasks/{name}/{num}/{prof}")]
+        public List<Task> GetTask(string name, string num, string prof)
+        {
+            Task T = new Task();
+            return T.ReadTask(name, num, prof); // Read from Models/Counrty
+        }
     }
 }

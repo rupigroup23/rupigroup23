@@ -753,6 +753,108 @@ public class DBservices
             }
         }
     }
+
+    ////////////////////////////////שמירת מטלות///////////////////////////////////////////////
+    public int insertTask2(Task taskObj)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = BuildInsertCommandTask(taskObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                             //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertCommandTask(Task taskObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    public List<Task> getTaskFromDB(string name, string num, string prof)
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<Task> listTasks = new List<Task>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM Task
+                               where ClassName = '{name}' and ClassNum='{num}' and Profession='{prof}'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                Task T = new Task();
+
+                T.ClassName = (string)dr["className"];
+                T.ClassNum = (string)dr["classNum"];
+                T.Profession = (string)dr["Profession"];
+                T.Deadline = (string)dr["Deadline"];
+                T.Topic = (string)dr["Topic"];
+                //T.Assignation = (string)dr["Assignation"];
+                //T.Description = (string)dr["Description_ "];
+
+                listTasks.Add(T);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listTasks; // מחזיר מערך 
+    }
 }
 
 
