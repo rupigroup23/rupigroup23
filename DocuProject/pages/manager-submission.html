@@ -27,10 +27,19 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- more -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
+
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
+    <script src="js/manager/submission.js"></script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -349,7 +358,7 @@
                             סנן
                         </button>
                     </div>
-              
+     
                 </div>
                 <br />
                 <div class="row" id="showItems" style="display:none">
@@ -397,19 +406,23 @@
                                     </div>
                                 </div>
                                 <div class="row" style="padding-right: inherit; display: block;">
+                                    <!-- הקלף הטוב!! -->
                                     <div class="channels-card-image">
-                                        <a href="#">
-                                            <!-- לעשות פופ אם של אתה בטוח... -->
-                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        <a>
+                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
+                                            <img onclick="showVideo(this)" id="1" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
                                         </a>&nbsp;
+                                        <div id="headerPopup1" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
                                         <br />
-                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+
                                     </div>
                                 </div>
                             </div>
@@ -449,18 +462,21 @@
                                 </div>
                                 <div class="row" style="padding-right: inherit; display: block;">
                                     <div class="channels-card-image">
-                                        <a href="#">
-                                            <!-- לעשות פופ אם של אתה בטוח... -->
-                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        <a>
+                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
+                                            <img onclick="showVideo(this)" id="2" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
                                         </a>&nbsp;
+                                        <div id="headerPopup2" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
                                         <br />
-                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+
                                     </div>
                                 </div>
                             </div>
@@ -497,18 +513,21 @@
                                 </div>
                                 <div class="row" style="padding-right: inherit; display: block;">
                                     <div class="channels-card-image">
-                                        <a href="#">
-                                            <!-- לעשות פופ אם של אתה בטוח... -->
-                                            <img class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        <a>
+                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
                                         </a>&nbsp;
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/ציון.png" alt="צפיה בסרטון">
+                                        <a>
+                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
+                                            <img onclick="showVideo(this)" id="3" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
                                         </a>&nbsp;
+                                        <div id="headerPopup3" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
                                         <br />
-                                        <i class="fas fa-calendar-alt"></i> 11 שעות
+
                                     </div>
                                 </div>
                             </div>
