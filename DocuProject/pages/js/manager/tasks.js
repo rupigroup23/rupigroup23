@@ -43,29 +43,59 @@ function GETsuccessT1(data) {
     console.log(listCS);
 
     for (var i = 0; i < listCS.length; i++) {
-        tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-        tasksSTR += "<div class='channels-card' style='padding: 24px 25px;'><div class='row'>";
-        tasksSTR += "<div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
+        tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
+        tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
         tasksSTR += "מטלה מספר ";
         tasksSTR += i+1;
         tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
-        tasksSTR += "<i class='far fa-edit'></i> <i class='far fa-trash-alt'></i>";
-        tasksSTR += "</div></div><div class='row'><div class='text2'> נושא:</div> <div class='text2' style='color: black'>";
-        tasksSTR += "<h3 class='textSquareGRAY' style='width: 120% %'>";
+        tasksSTR += "<i class='far fa-edit'></i> <i class='far fa-trash-alt'></i></div></div>";
+        tasksSTR += "<div class='row'><div class='text2'>נושא: </div> <div class='text2' style='color: black'>";
+        tasksSTR += "<span class='textSquareGRAY' style='width: 120% %'>";
         tasksSTR += listCS[i].Topic;
-        tasksSTR += "</h3></div></div><div class='row'><div class='text2'>תאריך:";
-        tasksSTR += "</div><div class='text2'><h3 class='textSquareGRA' style='width: 120 %'>";
+        tasksSTR += "</span></div></div>";
+        tasksSTR += "<div class='row'><div class='text2'>תאריך: </div><div class='text2'>";
+        tasksSTR += "<span class='textSquareGRA' style='width: 120 %'>";
         tasksSTR += listCS[i].Deadline;
-        tasksSTR += "</h3></div></div> <div class='row' style='padding-right: inherit; display: block;'>";
-        tasksSTR += "<div class='channels-card-image'><a href='manager-submission.html'>";
-        tasksSTR += " <img class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-        tasksSTR += " <a href='manager-PresentationAssignment.html'><img class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'>";
-        tasksSTR += "</a>&nbsp;< a href = 'manager-watchingvideos.html'><img class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+        tasksSTR += "</span></div></div> ";
+        tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
+        tasksSTR += "<div class='channels-card-image'>";
+        tasksSTR += "<a href='manager-submission.html'><img class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+        tasksSTR += "<a href='manager-PresentationAssignment.html'><img class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+        tasksSTR += "<a href='teacher-watchingvideos.html'><img class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
         tasksSTR += "</div></div></div></div>";
         
         document.getElementById("tasks").innerHTML = tasksSTR;
     }
+    showLastTask(listCS["length"]);
 }
 function GETerrorT1(err) {
     console.log(err);
+}
+
+lastSTR = "";
+function showLastTask(LastNum) {
+    lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align:right'>מטלה מספר "; 
+    lastSTR += LastNum;
+    lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style = 'text-align:left'>"
+    lastSTR += "<i class='far fa-edit' ></i><i class='far fa-trash-alt'></i></div></div>";
+    lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
+    lastSTR += "<div class='text2'>&nbsp;    נושא: ";
+    lastSTR += "</div><div class='text2' style='color: black;'><span class='textSquareGRAY' style='width: 120%'>"
+    lastSTR += listCS[LastNum-1].Topic;
+    lastSTR += "</span></div></div><div class='row'>";
+    lastSTR += "<div class='text2'> &nbsp; תאריך:"
+    lastSTR += "</div><div class='text2'><span class='textSquareGRAY' style='width: 120 %'>"
+    lastSTR += listCS[LastNum-1].Deadline;
+    lastSTR += "  </span> </div></div></div>";
+    lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
+    lastSTR += "<div class='channels-card-image'>";
+    lastSTR += "<a href='manager-submission.html'><img class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+    lastSTR += "<a href='manager-PresentationAssignment.html'><img class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+    lastSTR += "<a href='teacher-watchingvideos.html'><img class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+    lastSTR += "</div></div></div></div>";
+
+
+    document.getElementById("lastTask").innerHTML = lastSTR;
+
+
 }

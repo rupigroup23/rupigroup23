@@ -1,4 +1,4 @@
-/*
+п»ї/*
 Template Name: VIDOE - Video Streaming Website HTML Template
 Author: Askbootstrap
 Author URI: https://themeforest.net/user/askbootstrap
@@ -22,7 +22,10 @@ Version: 1.0
 /* Body */
 
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap');
-@charset "utf-8";
+.pointer {
+    cursor: pointer;
+}
+
 #headerPopup {
     width: 75%;
     margin: 0 auto;
@@ -34,7 +37,7 @@ Version: 1.0
     }
 
 /*pictures*/
-/*мече гече бсшвм отмд*/
+/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
 
 
 .imgLogo {
@@ -45,7 +48,7 @@ Version: 1.0
     height: 60px;
     width: 115px;
 }
-/*дзх бочцетеъ*/
+/*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 .img-button {
     margin-right: 60%;
     height: 30%;
@@ -57,12 +60,12 @@ Version: 1.0
 }
 
 .img-videoWatch {
-    /*222 Є 139*/
+    /*222 пїЅ 139*/
     width: 222px;
     height:139px;
 }
 /*pictures END*/
-/*orientation bar сшвм дъоцаеъ*/
+/*orientation bar пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 .breadcrumb {
     width: 100%;
     background-color: #e9ecef;
@@ -81,8 +84,8 @@ Version: 1.0
 ul.a {
     list-style-type: circle;
 }
-/*orientation bar сшвм дъоцаеъ END*/
-/*че маешк*/
+/*orientation bar пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ END*/
+/*пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
 .vl {
     border-right: 1px solid rgba(0,0,0,.1);
     padding-right: 35px;
@@ -95,13 +98,13 @@ ul.a {
     font-family: OS Luizi Round_FFC;
 }
 /*Texts*/
-/*ичси свем млеъшеъ*/
+/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 .text2 {
     font-size: 23px;
     font-family: OS Luizi Round_FFC;
     color: #990099;
 }
-/*дичси щзеш...*/
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ...*/
 .create-text, .checkboxTasks {
     /*font-size: 25px;*/
     font-size: 20px;
@@ -109,7 +112,7 @@ ul.a {
     color: black;
     font-weight: 100;
 }
-/*шйбет ичси бцбт афеш, лъб щзеш, освшъ свемд*/
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
 .textSquareGRAY {
     background-color: #eceff0;
     border-color: #990099;
@@ -124,13 +127,13 @@ ul.a {
     padding-top: 5px;
     direction: rtl;
 }
-/*ичси чип-  ичси лъб щзеш мгу двщеъ*/
+/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-  пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
 .statuses-text {
     font-size: 15px;
     font-family: OS Luizi Round_FFC;
     color: black;
 }
-/* ичси бечс моймей ъелп*/
+/* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
 .textSquareTEXT, .term {
     font-family: OS Luizi Round_FFC;
     background-color: #eceff0;
@@ -139,7 +142,7 @@ ul.a {
     color: #757575;
     font-size: 20px;
 }
-/*шйбет мичси бцбт афеш, лъб щзеш, бмй освшъ ебмй шезб */
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 .squareTEXT {
     font-family: OS Luizi Round_FFC;
     background-color: #eceff0;
@@ -204,7 +207,7 @@ ul.a {
 
 
 /*buttons*/
-/*лфъешйн щмре*/
+/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*/
 .btnButton {
     padding: 15px 50px;
     border-color: #990099;
@@ -229,7 +232,7 @@ ul.a {
     direction: rtl;
 }
 
-/*лфъеш ешег баешк мфй длйъеб*/
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*/
 .upload-btn, .showTask-btn {
     background-color: #E6D0DE;
     border: 1px solid #990099;
@@ -273,7 +276,7 @@ a {
 
 
 
-/*ойп*/
+/*пїЅпїЅпїЅ*/
 /*.how-other-disclosure {*/
 .checkboxTasks-disclosure, .taskcontent-file-disclosure, .taskcontent-txtbox-disclosure, .profession-disclosure, .pw-disclosure {
     display: none;
@@ -301,7 +304,7 @@ a {
     height: 20px;
     width: 25px;
 }
-/*отбш тм мйрч*/
+/*пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ*/
 
 
     html {
@@ -450,7 +453,7 @@ div {
     background: -webkit-linear-gradient(-45deg, #650ec0 0%,#00c6ff 100%);
     /* Chrome10-25,Safari5.1-6 */
     /*background: linear-gradient(135deg, #650ec0 0%,#00c6ff 100%); #C71585*/
-    /*жд дрлеп*/
+    /*пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*/
     /*background: linear-gradient(135deg, #a75895 0%,#990099 100%);*/
     background: linear-gradient(135deg, #a75895 0%,#990099 100%);
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -1031,7 +1034,7 @@ div {
      font-weight: 600;
      margin: 0 0 5px;
 }
-/*дцч бечс щм дочцетеъ*/
+/*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #990099;
 }
@@ -1066,7 +1069,7 @@ div {
      margin: 0;
      border-color: #eff2f3;
 }
-/*дбфрйн щм дсмчи (од щйщ щмезцйн тм дзх моид) дафщшейеъ*/
+/*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
  .dropdown-menu .dropdown-item {
      color: rgba(0, 0, 0, 0.5);
      /*font-size: 12px;*/
@@ -1349,7 +1352,7 @@ div {
      opacity: unset;
      width: 16px;
 }
-/*лфъеш щощрд цбт*/
+/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ*/
  .btn-lg {
      font-size: 23px;
      padding: 12px 16px;
