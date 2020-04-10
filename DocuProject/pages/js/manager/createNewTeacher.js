@@ -51,7 +51,7 @@ function saveTeacherDB() // שמירת נתוני המורה בדאטה
     //Profession = $("#selectProf").val();
     Profession = proff;
 
-    console.log(proff + "shir");
+    console.log(proff);
     if (FName == "" || LName == "" || Id == "" || Profession == "") {
         swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning")
         return false;
