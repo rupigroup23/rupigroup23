@@ -1,25 +1,101 @@
 ﻿$(document).ready(function () {
-    local = localStorage.getItem('thisProfObj');
+    local = localStorage.getItem('thisTask');
     console.log('local: ', JSON.parse(local));
-    ProfObj = JSON.parse(localStorage["thisProfObj"]);
-    console.log(ProfObj);
-    //
-    //Showorientation();
+    TaskObj = JSON.parse(localStorage["thisTask"]);
+    console.log(TaskObj);
+    Showorientation();
+    getDatelis();
+    
+    $('#apprVideo').click(approveVidow);
+    $('#score').click(giveScore);
+    $('#apply').click(myfunction);
 });
 
-///////////////////////
+//השתלשלות
 orientationSTR = "";
-//function Showorientation() {
-//    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-//    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' >" + ProfObj.ClassName + "' " + ProfObj.ClassNum + "</a></li>";
-//    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
-//    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' >" + ProfObj.Profession + "</a></li>";
-//    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>מטלות</a></li>";
-//    document.getElementById("orientation").innerHTML = orientationSTR;
-//}
+function Showorientation() {
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>הגשות</a></li>";
+    document.getElementById("orientation").innerHTML = orientationSTR;
+    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+}
+//////
 
+function getDatelis() {
+    //diffDays = diffDays(TaskObj.Task.Date);
+    diffDays = diffDays("4/30/2020");
+    document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
+    document.getElementById("restDate").innerHTML = diffDays;
+}
 
-//approveVidow
+function myfunction() {
+    waitingToAppr = document.getElementById("waiting");
+    approved = document.getElementById("taskApproved");
+    notApproved = document.getElementById("statuses_No");
+
+    if (waiting.checked) {
+        var Waiting = document.getElementById("showWaiting");
+        var Approved = document.getElementById("showApproved");
+        var NotApproved = document.getElementById("showNotApproved");
+
+        if (Waiting.style.display === "none") {
+            Waiting.style.display = "block";
+            Approved.style.display = "none";
+            NotApproved.style.display = "none";
+        } else {
+            Waiting.style.display = "none";
+        }
+    }
+
+    if (approved.checked) {
+        var Waiting = document.getElementById("showWaiting");
+        var Approved = document.getElementById("showApproved");
+        var NotApproved = document.getElementById("showNotApproved");
+
+        if (Approved.style.display === "none") {
+            Approved.style.display = "block";
+            Waiting.style.display = "none";
+            NotApproved.style.display = "none";
+        } else {
+            Approved.style.display = "none";
+        }
+    }
+    
+    if (notApproved.checked) {
+        var Waiting = document.getElementById("showWaiting");
+        var Approved = document.getElementById("showApproved");
+        var NotApproved = document.getElementById("showNotApproved");
+
+        if (NotApproved.style.display === "none") {
+            NotApproved.style.display = "block";
+            Waiting.style.display = "none";
+            Approved.style.display = "none";
+        } else {
+            NotApproved.style.display = "none";
+
+        }
+    }
+}
+
+function diffDays(subm) {
+    //submission = TaskObj.Task.Date;
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    //var submission = new Date('4/30/2020');
+    var submission = new Date(subm);
+    var date2 = new Date(month + '/' + day + '/' + year);
+    var diffDays = submission.getDate() - date2.getDate();
+    return diffDays;
+}
+
 
 function approveVidow() {
     Swal.fire({
@@ -46,7 +122,6 @@ function approveVidow() {
 
 function giveScore() {
     (async () => {
-
         const { value: formValues } = await Swal.fire({
             title: 'ציון ומשוב',
             html: 'משוב- אנא כתבו משוב עבור הפתרון שהועלה' +
@@ -89,43 +164,3 @@ function showVideo(btn) {
     }
 }
 
-//function giveScore() {
-//    Swal.mixin({
-//        confirmButtonText: 'הבא &rarr;',
-//        cancelButtonText: 'ביטול',
-//        showCancelButton: true,
-//        progressSteps: ['1', '2']
-//    }).queue([
-//        {
-//            title: 'משוב',
-//            text: 'אנא כתבו משוב עבור הפתרון שהועלה ',
-//            input: 'textarea',
-//        }, {
-//            title: 'ציון',
-//            text: ' העניקו ציון עבור הסרטון ',
-//            input: 'text',
-//        }
-//    ])
-//}
-
-
-
-//Swal.fire({
-//    title: 'משוב',
-//    text: 'אנא כתבו משוב עבור הפתרון שהועלה ',
-//    input: 'textarea',
-//    //icon: 'warning',
-//    showCancelButton: true,
-//    confirmButtonColor: '#3085d6',
-//    cancelButtonColor: '#d33',
-//    confirmButtonText: 'שמור',
-//    cancelButtonText: 'ביטול'
-//}).then((result) => {
-//    if (result.value) {
-//        Swal.fire(
-//            'תודה!',
-//            'המשוב נשלח לצוות',
-//            'success'
-//        )
-//    }
-//})
