@@ -35,8 +35,12 @@
 
 
         $(document).ready(function () {
-         getNumOfClass();
-
+            getNumOfClass();
+            //התחברות
+            local = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local);
+            console.log(objAdmin);
+            //
             $("#class1").click(function ()
             {    
           var open = $(this).data("isopen");

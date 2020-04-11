@@ -44,12 +44,14 @@
                     "Password": password
                  }
              console.log(admin);
+             localStorage.setItem('admin', JSON.stringify(admin));
             ajaxCall("POST", "../api/Docu/checkUsers", JSON.stringify(admin), POSTsuccess_Check, POSTerror_Check);
         }
 
         function POSTsuccess_Check(admin) {
 
-             if (admin.Password !== null) {
+            if (admin.Password !== null) {
+
             window.location = "manager-index.html";
             }
             else {
@@ -60,7 +62,6 @@
         function POSTerror_Check(err) {
                         console.log(err);
         }
-
 
     </script>
 
