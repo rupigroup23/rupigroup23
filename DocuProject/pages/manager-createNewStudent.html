@@ -24,6 +24,149 @@
 
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            var imagePath = '';
+            var userEmail = '';
+
+            $('#imageUplaodDiv').hide();
+            $('#form2').submit(function (e) {  //שמירת הפרטים של התלמיד
+
+                e.preventDefault();
+                ////יצירת סיסמא מאחורי הקלעים
+                pass = Math.random().toString(36).substring(7);
+                ////
+
+                // לוקח את הערכים שהמשתמש הזין
+                let fnameVal = document.getElementById("fname").value;
+                let lnameVal = document.getElementById("lname").value;
+                let emailVal = document.getElementById("email").value;
+                let addressVal = document.getElementById("street").value;
+                let idVal = document.getElementById("idT").value;
+                let birthVal = document.getElementById("birth").value;
+                console.log(birthVal);
+                birthValArr = birthVal.split('-');
+                birthVal = `${birthValArr[1]}-${birthValArr[2]}-${birthValArr[0]}`
+                console.log(birthVal);
+                let phoneVal = document.getElementById("phone").value;
+                let classNumVal = document.getElementById("classNum").value;
+                let cityVal = $('#city').val(); //רשימה נגללת
+                let classVal = $('#class').val(); //רשימה נגללת
+
+
+                if (fnameVal == "" || lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
+                    alert("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning")
+                    return false;
+                }
+
+                StudentObj = // נגדיר אובייקט ג'ייסוני שאליו יכנסו הערכים של המשתמש
+                    { // האדום חייב להיות זהה לפרופרטיז במחלקה
+                        "FName": fnameVal,
+                        "LName": lnameVal,
+                        "PhoneNum": phoneVal,
+                        "Address": addressVal,
+                        "Email": emailVal,
+                        "City": cityVal,
+                        "Id": idVal,
+                        "Bday": birthVal,
+                        "ClassName": classVal,
+                        "ClassNum": classNumVal,
+                        "Password": pass,
+                    }
+                userEmail = emailVal;
+                console.log(StudentObj);
+                ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
+                document.getElementById("form2").reset(); //מנקה את הפקדים
+                return false;
+            });
+
+            function POSTerror(err) {
+                console.log(err)
+            }
+
+            function POSTsuccess() {
+
+                alert("תלמיד/ה נוסף/ה למערכת בהצלחה", "", "success")
+                $('#imageUplaodDiv').show();
+
+            }
+
+            //שלב1 -העלאת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+                console.log('clicked')
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+
+                // Add the uploaded file to the form data collection
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedImage", files[f]);
+                    }
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/Docu/uploadimage",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showImages,
+                    error: error
+                });
+
+                return false;
+            });
+
+
+
+            function showImages(data) {
+                imagePath = data;
+                alert("התמונה סיימה להיטען, לחץ על 'שמור תמונה'", "", "success")
+            }
+
+            function error(data) {
+                console.log(data);
+            }
+
+
+            // שלב2- העלאת התמונה מהתוכנה לדטא
+            $('#uploadIMG').on('click', function () {
+                var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
+                StudentImage = {
+                    "email": userEmail,
+                    "Img": imgStr
+                }
+                ajaxCall('POST', '../api/Docu/uploadUrlImg', JSON.stringify(StudentImage), POSTsuccessImg, POSTerrorImg);
+
+
+            });
+
+        });
+
+
+        function POSTsuccessImg() {
+
+            alert("התמונה הועלתה בהצלחה!", "", "success")
+
+        }
+
+
+        function POSTerrorImg(data) {
+            console.log(data);
+        }
+
+
+
+    </script>
+
+
 
 </head>
 <body id="page-top">
@@ -287,28 +430,31 @@
                             </div>
                             <div class="row">
                                 <!--<form action="/action_page.php">-->
-                                <form>
+                                <form id="form2">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-6">
                                             <label class="create-text" for="fname">שם פרטי:</label><br />
-                                            <input type="text" class="create-select textSquareTEXT" id="fname" name="firstname">
+                                            <input type="text" class="create-select textSquareTEXT" id="fname" name="firstname" />
                                             <br />
                                             <label class="create-text" for="lname"> שם משפחה:</label><br />
-                                            <input class="create-select textSquareTEXT" type="text" id="lname" name="lastname" />
+                                            <input class="create-select textSquareTEXT" type="text" id="lname" name="lastname"  />
                                             <br />
                                             <label for="email" class="create-text">אימייל:</label><br />
-                                            <input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off">
+                                            <input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off"  />
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <label class="create-text" for="idT">תעודת זהות:</label><br />
-                                            <input type="text" class="create-select textSquareTEXT" id="idT" name="idTeacher">
+                                            <input type="text" class="create-select textSquareTEXT" id="idT" name="idTeacher"  />
                                             <br />
-                                            <label class="create-text" for="dateInput"> תאריך לידה:</label><br />
-                                            <input class="create-select textSquareTEXT" type="date" id="dateInput" />
+                                            <label class="create-text" for="lname"> תאריך לידה:</label><br />
+                                            <input class="create-select textSquareTEXT" type="date" id="birth" name="lastname" placeholder="docu@docu.com" />
                                             <br />
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
-                                            <input class="create-select textSquareTEXT" type="tel" id="phone" name="phone" />
+                                            <input class="create-select textSquareTEXT" type="tel" id="phone" name="phone"  />
                                         </div>
+
+
+
                                         <div class="col-lg-3 col-sm-6">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">עיר:</label><br />
@@ -327,58 +473,87 @@
 
                                             </div>
                                         </div>
+
                                         <div class="col-lg-3 col-sm-12">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">כיתה:</label><br />
                                             <select id="class" class="create-select">
                                                 <option value="">בחר כיתה</option>
-                                                <option>ז</option>
-                                                <option>ח</option>
-                                                <option>ט</option>
+                                                <option>א</option>
+                                                <option>ב</option>
+                                                <option>ג</option>
+                                                 <option>ד</option>
+                                                <option>ה</option>
+                                                <option>ו</option>
                                             </select>
 
-                                            <label for="email" class="create-text">מספר כיתה:</label><br />
-                                            <input class="create-select textSquareTEXT" id="classNum" type="email" autocomplete="off">
+                                            <label class="create-text">מספר כיתה:</label><br />
+                                            <input class="create-select textSquareTEXT" id="classNum" autocomplete="off">
 
                                         </div>
                                     </div>
 
+                                    <hr class="mt-0">
+                                    <div class="row">
+                                        <div class="col-xl-3 col-sm-6 mb-3">
+                                            <a class="1">
+                                                <input type="submit" value="הוספה" class="btn btn-outline-primary btn-block btn-lg" />
+                                            </a>
+
+                                        </div>
+                                    </div>
                                 </form>
+
                             </div>
-                            <br />
                             <hr class="mt-0">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-6">
-                                    <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
+                            <div id="imageUplaodDiv" class="row">
+                                <div class="col-lg-3 col-sm-4 ">
+                                    <span class="text2">
+                                        העלאת תמונה :
+                                    </span>
                                 </div>
-                                <br />
-                            </div>
-                            <br />
-                            <hr class="mt-0">
-                            <div class="row">
-                                <div class="col-xl-3 col-sm-6 mb-3">
-                                    <a class="btn btn-outline-primary btn-block btn-lg" href="manager-index.html">
-                                        <buttom>
-                                            הוספה
-                                        </buttom>
-                                    </a>
+
+                                <div class="col-lg-8 col-sm-12">
+                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                    &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
                                 </div>
                             </div>
+
+
+
+
+
+                            <!--<hr class="mt-0">
+                             <div class="row">
+                                 <div class="col-lg-3 col-sm-6">
+                                     <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
+                                 </div>                               <br />-->
+                            <!--<div class="col-lg-3 col-sm-6">
+                                <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
+                            </div>                               <br />
+
+                            <div class="col-lg-3 col-sm-6">
+                                <button class="create-btn" style="padding-right: 15px;">  הפקת סיסמא ראשונית</button>
+                            </div>-->
                         </div>
+                        <br />
+                        <hr class="mt-0">
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <!-- /#wrapper -->
-    <script>
+    <!--<script>
         let currDate =
-        new Date().toLocaleDateString('he-IL');
+            new Date().toLocaleDateString('he-IL');
         let inputDate = new Date();
         let bday = new Date();
 
-        document.querySelector('#dateInput').valueAsDate= inputDate; 
-    </script>
+        document.querySelector('#dateInput').valueAsDate = inputDate;
+    </script>-->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

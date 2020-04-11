@@ -166,6 +166,7 @@
     <Compile Include="Models\DAL\DBservices.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\ImgStudent.cs" />
     <Compile Include="Models\Profession.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Task.cs" />
@@ -396,6 +397,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="uploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
