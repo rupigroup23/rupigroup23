@@ -151,7 +151,7 @@ function GETsuccessCB2(data) {
         ProgSTR += "<div class='channels-card'>";
         ProgSTR += " <div id='prof" + i + "' class='create-text' style='color: black; font-size: 35px'>";
         ProgSTR += ProfARR[i];
-        ProgSTR += "<br /><a href='manager-tasks.html' onclick='savelocal(this)' id='"+i+"'>";
+        ProgSTR += "<br /><a href='manager-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
         ProgSTR += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
         ProgSTR += "</div></div></div>";
         document.getElementById("professions").innerHTML = ProgSTR;
@@ -170,7 +170,7 @@ function savelocal(thisprof) {
         "ClassNum": listCS[0].Number,//4
         "Profession": profession, //פיזיקה
     }
-    console.log(thisProfObj); 
+    console.log(thisProfObj);
     localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
 }
 
