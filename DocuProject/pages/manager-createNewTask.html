@@ -37,7 +37,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
-    <script src="js/manager/createNewTask.js"></script>
+    <script src="js/manager/createNewTask.js"></script> 
 
 </head>
 <body id="page-top">
@@ -414,6 +414,7 @@
                                             <section>
                                                 <input onclick="mItems()" id="taskcontent-file" name="taskcontent" type="radio" value="קובץ">
                                                 <label for="taskcontent-file" class="create-text">קובץ</label>
+
                                                 &nbsp;
                                                 <input onclick="mItems()" id="taskcontent-txtbox" name="taskcontent" type="radio" value="תיבת טקסט">
                                                 <label for="taskcontent-txtbox" class="create-text">תיבת טקסט</label>
@@ -421,11 +422,17 @@
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="row" id="show1" style="display:none">
-                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                
+                                <div class="col-lg-8 col-sm-12">
+                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                    &nbsp;&nbsp; <input type="button" id="uploadC" value="שמור קובץ" class="upload-btn" />
+                                </div>
+                                                <!--<div class="col-xl-5 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>העלאת קובץ</buttom>
                                                     </a>
-                                                </div>
+                                                </div>-->
                                             </div>
                                             <div class="row" id="show2" style="display:none">
                                                 <div class="col-xl-5 col-sm-6 mb-3">
@@ -453,9 +460,6 @@
             </div>
         </div>
     </div>
-    <script>
-       
-    </script>
     <!-- /#wrapper -->
     <script>
          let currDate =
