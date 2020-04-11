@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,55 +44,53 @@
 
             pass = objAdmin.Password; //If pass not changed
 
-            $("#changePass").click(function () {              
-                    if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val() )
-                {
+            $("#changePass").click(function () {
+                if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
                     pass = $('#pass2').val();
                     swal("סיסמא שונתה בהצלחה", "", "success");
                 }
-                else
-                    {
-                        if ($('#pass1').val() != objAdmin.Password) {
-                            swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
-                            return false;
-                        }
-                             if ($('#pass2').val() != $('#pass3').val()) {
-                            swal("אין אימות נתונים", "סיסמא בשנית לא תואמת לסיסמא שהוזנה", "warning");
-                             return false;
-                      }                
+                else {
+                    if ($('#pass1').val() != objAdmin.Password) {
+                        swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
+                        return false;
+                    }
+                    if ($('#pass2').val() != $('#pass3').val()) {
+                        swal("אין אימות נתונים", "סיסמא בשנית לא תואמת לסיסמא שהוזנה", "warning");
+                        return false;
+                    }
                 }
-  
+
             });
 
         });
 
 
         function readFromDB() {
-        ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
-}
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+        }
         function GETsuccessCB(data) {
-        console.log(data);
-        listP = data;
+            console.log(data);
+            listP = data;
 
-    //insert options to select
-    for (var i = 0; i < listP.length; i++) {
-        var select = document.getElementById("selectProf");
-        var option = document.createElement("option");
-        option.text = listP[i].Name;
-        select.add(option);
-    }
+            //insert options to select
+            for (var i = 0; i < listP.length; i++) {
+                var select = document.getElementById("selectProf");
+                var option = document.createElement("option");
+                option.text = listP[i].Name;
+                select.add(option);
+            }
         }
 
-function GETerrorCB(err) {
-        console.log(err);
-}
-            function sub() { 
+        function GETerrorCB(err) {
+            console.log(err);
+        }
+        function sub() {
             return false;
         }
         function showDetalis(objAdmin) {
-            
-            ID= objAdmin.Id;
-           var url = "../api/Docu/GetDetails/" + ID;
+
+            ID = objAdmin.Id;
+            var url = "../api/Docu/GetDetails/" + ID;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
 
@@ -115,28 +114,27 @@ function GETerrorCB(err) {
             document.getElementById('profCard').innerHTML = str;
 
         };
-        function funcerror() {}
+        function funcerror() { }
 
 
-        function saveDetails_()
-        {
-             let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-             {
+        function saveDetails_() {
+            let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+            {
                 "Fname": $("#fname").val(),
-                 "Lname": $("#lname").val(), 
-                 "Id": $("#Id").val(),
+                "Lname": $("#lname").val(),
+                "Id": $("#Id").val(),
                 "Email": $("#mail").val(),
                 "City": $("#city").val(),
                 "Street": $("#street").val(),
                 "Bday": $("#bday").val(),
                 "PhoneNum": $("#phone").val(),
-                 "Profession": $("#selectProf").val(),
-                "Password": pass 
-           
+                "Profession": $("#selectProf").val(),
+                "Password": pass
+
             }
             console.log(admin);
 
-            url = "../api/Docu/updatetAdmin" ;
+            url = "../api/Docu/updatetAdmin";
             ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
         }
 
@@ -147,7 +145,7 @@ function GETerrorCB(err) {
 
 
         }
-        function updateDerror() {}
+        function updateDerror() { }
 
     </script>
 </head>
@@ -400,11 +398,11 @@ function GETerrorCB(err) {
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value=""type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">עיר: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value=""type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required">*</span></label>
@@ -414,7 +412,7 @@ function GETerrorCB(err) {
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname"  type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required">*</span></label>
@@ -428,7 +426,7 @@ function GETerrorCB(err) {
                         </div>
                         <div class="col-lg-3 col-sm-6">
                             <label class="control-label create-text">תעודת זהות:<span class="required">*</span></label><br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id"  type="tel">
+                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
 
                             <br />
                             <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
@@ -438,10 +436,17 @@ function GETerrorCB(err) {
                                 <div class="col-lg-4 col-sm-6">
                                     <label class="create-text">מקצוע:</label><br />
                                 </div>
+
                                 <div class="row">
                                     <select id="selectProf" class="create-select">
                                         <option value="1">שם המקצוע</option>
                                     </select>
+                                    <button id="addsub" class="create-select" style="width: auto;">
+                                        הוספה
+                                    </button>
+                                    <div class="profession-txtbox-disclosure">
+                                        <textarea id="txtbox" style="display:none"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-6">
 
@@ -455,9 +460,9 @@ function GETerrorCB(err) {
                                 <h6 class="create-text" for="city">מקצועות לימוד:</h6>
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <!--<div class="create-text">
-                                        <h6 style="font-size: 23px"></h6>
-                            
-                                    </div>-->
+                                    <h6 style="font-size: 23px"></h6>
+
+                                </div>-->
                                 </div>
                             </div>
                             <br />
@@ -474,13 +479,13 @@ function GETerrorCB(err) {
                         </div>
                         <br />
                         <!--<div class="col-lg-3 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
-                        </div>-->
+                        <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
+                    </div>-->
                         <br />
                         <div class="col-lg-6 col-sm-6">
-                            <button  id="changePass"class="create-btn" style="padding-right: 65px;">
-                            שינוי סיסמא
-                        </button>
+                            <button id="changePass" class="create-btn" style="padding-right: 65px;">
+                                שינוי סיסמא
+                            </button>
                             <input id="pw" name="pw" type="radio">
                             <label for="pw" class="create-text">שינוי סיסמא</label>
                             <div class="pw-disclosure">
@@ -515,50 +520,51 @@ function GETerrorCB(err) {
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
                             <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
-                                <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg">
-                                    שמירה
-                                </button>
+                            <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg">
+                                שמירה
+                            </button>
                             <!--</a>-->
                         </div>
                     </div>
                 </form>
             </div>
-            <!-- /.container-fluid 
-            
+            <!-- /.container-fluid
+
         </div>
         <!-- /.content-wrapper -->
+        </div>
     </div>
-    <!-- /#wrapper -->
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- /#wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Owl Carousel -->
-    <script src="vendor/owl-carousel/owl.carousel.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/custom.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Owl Carousel -->
+        <script src="vendor/owl-carousel/owl.carousel.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/custom.js"></script>
 </body>
 </html>
