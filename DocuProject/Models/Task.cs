@@ -7,16 +7,35 @@ namespace DocuProject.Models
 {
     public class Task
     {
-        DateTime deadline; //תאריך הגשת המטלה
+        string deadline; //תאריך הגשת המטלה
         string topic; //נושא המטלה
         string assignation; // שיבוץ תלמידים
         string description; // תיאור המטלה
+        string className;
+        string classNum;
+        string profession;
 
         public Task() { }
 
-        public DateTime Deadline { get => deadline; set => deadline = value; }
+        public string Deadline { get => deadline; set => deadline = value; }
         public string Topic { get => topic; set => topic = value; }
         public string Assignation { get => assignation; set => assignation = value; }
         public string Description { get => description; set => description = value; }
+        public string ClassName { get => className; set => className = value; }
+        public string ClassNum { get => classNum; set => classNum = value; }
+        public string Profession { get => profession; set => profession = value; }
+
+        public int insertTask1(Task taskObj)
+        {
+            DBservices dbs = new DBservices();
+            int numAffected = dbs.insertTask2(taskObj);
+            return numAffected;
+        }
+        public List<Task> ReadTask(string name, string num, string prof)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getTaskFromDB(name, num, prof);
+        }
+
     }
 }

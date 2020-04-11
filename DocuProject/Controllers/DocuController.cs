@@ -131,7 +131,7 @@ namespace DocuProject.Controllers
         {
             return studentObj.GetStudents();
         }
-       
+
         [HttpGet]
         [Route("api/Docu/getTeachers")]
         public DataTable getTeachers()
@@ -211,5 +211,29 @@ namespace DocuProject.Controllers
             pic.insertPic(StudentImage);
         }
 
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/Tasks")]
+        public void Post([FromBody] Task taskObj)
+        {
+            Task T = new Task();
+            T.insertTask1(taskObj);
+        }
+
+        /// דף מטלה ראשי
+        // GET api/Docu/GetClassSubj/ז/2/פיזיקה
+        [HttpGet]
+        [Route("api/Docu/GetTasks/{name}/{num}/{prof}")]
+        public List<Task> GetTask(string name, string num, string prof)
+        {
+            Task T = new Task();
+            return T.ReadTask(name, num, prof); // Read from Models/Counrty
+        }
+        [HttpPut]
+        [Route("api/Docu/updateStudent/{id}")] 
+        public DataTable PutDIS(int id, [FromBody] Student student) 
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
+        }
     }
 }

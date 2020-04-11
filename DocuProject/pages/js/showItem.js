@@ -17,6 +17,8 @@ function mItems() {
         y.style.display = "block";//תיבת טקסט
     }
 }
+
+
 //function txtbox() {
 //    var x = document.getElementById("showtxtbox");
 //    var y = document.getElementById("showFile");

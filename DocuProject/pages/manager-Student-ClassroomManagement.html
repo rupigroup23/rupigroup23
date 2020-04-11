@@ -38,20 +38,21 @@
 
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
-    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script>
 
         $(document).ready(function () {
 
             showStudentsData();
+            $('#saveBTN').click(saveStudent);
+            $('#form1').submit(sub); //FORM
         });
 
+            function sub() { 
+            return false;
+        }
         //////////////////////////////////////////////
         function showStudentsData(obj) {
-
 
             local = localStorage.getItem('studentObj');
             obj = JSON.parse(local);
@@ -68,6 +69,8 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
+            studentsArr = studentsData;
+
             console.log(studentsData)
             students = studentsData;
             try {
@@ -76,14 +79,15 @@
                     pageLength: 5,
                     columns: [
                         {
-                            render: function (data, type, row, meta) {
-                               let rowID = "data-RowId='" + row.ID + "'"; 
-
+                            render: function (data, type, row, meta)
+                            {
+                                let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<button type='button' class = 'editBtn btn btn-success' " + rowID + "> עריכה </button>";
-                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + rowID + "> מחיקה </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='"+row.id+"' > מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
+                        { data: "id" },
                         { data: "FName" },
                         { data: "LName" },
                         { data: "PhoneNum" },
@@ -98,7 +102,6 @@
                     ],
                 });
             }
-
             catch (err) {
                 alert(err);
             }
@@ -108,61 +111,135 @@
         //////////////////////////////////
         $(document).on("click", ".deleteBtn", function () {
 
-            Swal.fire({
-                title: "האם את/ה בטוח?",
-                icon: 'warning',
-                text: "לאחר האישור, התלמיד/ה יימחק מהמערכת",
-                confirmButtonText: 'אישור',
-                cancelButtonText: 'ביטול',
-                showCancelButton: true,
-                showCloseButton: true
-            })
-
-            //swal({
-            //    title: "האם את/ה בטוח?",
-            //    text: "לאחר האישור, התלמיד/ה יימחק מהמערכת",
-            //    type: "warning",
-            //    showCancelButton: true,
-            //    confirmButtonClass: "btn-danger",
-            //    confirmButtonText: "אישור",
-            //    cancelButtonText: "ביטול",
-            //    closeOnConfirm: false,
-            //    closeOnCancel: false
-            //},
-            //    function (isConfirm) {
-            //        if (isConfirm) {
-            //            swal("התלמיד/ה נמחק/ה ממערכת!", "", "success");
-            //        } else {
-            //            swal("הפעולה בוטלה", "", "error");
-            //        }
-
-            //    });
-
-
+            mode = "delete";
             //markSelected(this);
+             rowID = this.getAttribute('data-RowId');
 
-            rowID = this.getAttribute('data-RowId');
-            deleteStudent(rowID);
-        })
-        function deleteStudent(rowID)
+            swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר,התלמיד/ה יימחק מהמערכת",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete)
+                        deleteStudent(rowID);
+                    else swal("הפעולה בוטלה");
+                });
+        });
+
+        function deleteStudent(rowID) {
+            var url = "../api/Docu/" + rowID;
+            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+        }
+        function DeleteSuccess(data)
         {
-                var url = "../api/Docu/" + rowID;
-                ajaxCall("DELETE", url , "" ,DeleteSuccess ,DeleteError)
+            swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
+            console.log(data);
+            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+        }
+        function DeleteError(err) { console.log(err) }
+
+        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
+        {
+            tbl.clear();
+            for (var i = 0; i < data.length; i++)
+            {
+                tbl.row.add(data[i]);
             }
-            function DeleteSuccess(data) {
-                console.log(data);
-                tbl.clear();
-                redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+            tbl.draw();
+        }
+        ///////////////////////////
+
+        $(document).on("click", ".editBtn", function () {
+        //markSelected(this);
+        $("#editDiv").show();
+        $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+        populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
+        });
+
+        function populateFields(rowID) {
+
+            id1 = rowID
+            console.log(id1);
+            student = getStudebts(id1);
+            console.log(student);
+
+            $("#fname").val(student.FName);
+            $("#lname").val(student.LName);
+            $("#number").val(student.PhoneNum);
+            $("#mail").val(student.Email);
+            $("#city").val(student.City);
+            $("#street").val(student.Street);
+            $("#id").val(student.Id_);
+            $("#bday").val(student.Bday);
+            $("#class").val(student.ClassName);
+            $("#classNum").val(student.ClassNum);
+            $("#password").val(student.Password_);
+        }
+
+        $(document).on("click", "#cancelSaveBTN", function ()
+        {
+    swal("הפעולה בוטלה", "", "error");
+            $("#editDiv").hide();
+        });
+
+        function getStudebts(RowID) 
+        { 
+            console.log(studentsArr);
+            for (i in studentsArr) {
+                if (studentsArr[i].id == RowID)
+                    return studentsArr[i];
             }
-            function DeleteError(err) { console.log(err) }
+            return null;
+        }
 
-            //////////////////////////
+        /////////////////////
+        
+        function saveStudent()
+        {
+            let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+            {
+                "FName": $("#fname").val(),
+                "LName": $("#lname").val(),
+                "PhoneNum": $("#number").val(),
+                "Email": $("#mail").val(),
+                "City": $("#city").val(),
+                "Address": $("#street").val(),
+                "Id": $("#id").val(),
+                "Bday": $("#bday").val(),
+                "ClassName": $("#class").val(),
+                "ClassNum": $("#classNum").val(),
+                "Password": $("#password").val()
 
+            }
+            console.log(student); // האיבר המעודכן
 
+            console.log(id);
+            url = "../api/Docu/updateStudent/" + id1;
+            ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
+        }
+
+        function updateDsuccess(data)
+
+        {
+            console.log(data);
+            swal("העריכה נשמרה", "", "success");
+            tbl.clear();
+            redrawTBL(tbl, data); 
+            $("#editDiv").hide();
+        }
+
+        function updateDerror(err)
+            {
+            console.log(err);
+        }
+
+        //////////////////
+        //       
 
     </script>
-
-
 
 </head>
 <body id="page-top">
@@ -421,6 +498,7 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
                                 <th>מספר נייד</th>
@@ -436,7 +514,72 @@
                         </thead>
                     </table>
                 </form>
-            </div>
+
+                    <div id="editDiv" style="display:none">
+                        <form id="form1">
+                            <div class="form-group row">
+                                <div class="form-group col-sm-3">
+                                    <label for="name">שם פרטי</label>
+                                    <input type="text" class="form-control" id="fname" required>
+                                </div>
+
+
+                                <div class="form-group col-sm-3">
+                                    <label for="model"><span class="red-star"> </span>שם משפחה</label>
+                                    <input type="text" class="form-control" id="lname" required>
+                                </div>
+
+
+                                <div class="form-group col-sm-3">
+                                    <label for="year"><span class="red-star"> </span>מספר נייד</label>
+                                    <input type="text" class="form-control" id="number" required>
+
+                                </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>איימל</label>
+                                    <input type="text" class="form-control" id="mail" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>עיר</label>
+                                    <input type="text" class="form-control" id="city" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>רחוב</label>
+                                    <input type="text" class="form-control" id="street" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>תעודת זהות</label>
+                                    <input type="number" class="form-control" id="id" required />
+                                </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>תאריך לידה</label>
+                                    <input type="date" class="form-control" id="bday" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>כיתה</label>
+                                    <input type="text" class="form-control" id="class" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>מספר כיתה</label>
+                                    <input type="number" class="form-control" id="classNum" required />
+                                </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
+                                    <input type="text" class="form-control" id="password" required />
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">שמירה</button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="cancelSaveBTN">ביטול</button>
+
+                        </form>
+
+
+                    </div>
+                </div>
         </div>
     </div>
     <!-- /#wrapper -->

@@ -27,337 +27,13 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#form1').submit(sub);//FORM
-            $('#addTeacher').click(saveTeacherDB); // שמירת פרטי המורה בדאטה
-            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
-            $('#upload').click(uploadTeachers);
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-        /////// שינוי בתיבת בחירה ל-"אחר" - תפתח תיבת טקסט חדשה בכל אחת מהאופציות
-
-        $('#selectProf').change(function () {
-
-            var value = $(this).val();
-            if (value == "אחר") {
-                var X = document.getElementById("txtbox");
-                X.style.display = "block";
-                
-            }
-        });
-
-        $('#selectProf1').change(function () {
-            var value = $(this).val();
-            if (value == "אחר") {
-                var X = document.getElementById("txtbox1");
-                X.style.display = "block";
-            }
-        });
-
-        $('#selectProf2').change(function () {
-            var value = $(this).val();
-            if (value == "אחר") {
-                var X = document.getElementById("txtbox2");
-                X.style.display = "block";
-            }
-        });
-        $('#selectProf3').change(function () {
-            var value = $(this).val();
-            if (value == "אחר") {
-                var X = document.getElementById("txtbox3");
-                X.style.display = "block";
-            }
-        });
-
-});
-        function sub() { // לא יתן להמשיך אם לא יוזנו נתונים
-            return false; //////// לא עובד
-        }
-
-        function saveTeacherDB() // שמירת נתוני המורה בדאטה
-        {
-            checkPreffesion(); // אם הוזן מקצוע חדש, מקצוע מתווסף לטבלת מקצועות
-
-            ////יצירת סיסמא מאחורי הקלעים
-            pass = Math.random().toString(36).substring(7);
-            ////
-
-            if ($("#profession").attr('checked', 'checked')) {
-                addAnotherTeacher(); // אם למורה מספר מקצועות, מתווספת רשומה חדשה למורה
-            }
-
-            if ($("#selectProf").val() != "1" && $("#selectProf").val() != "שם המקצוע") {
-                // בודק במידה וזה מקצוע חדש - ישמור את הערך מהתיבת טקסט
-                if ($("#selectProf").val() == "אחר")
-                    proff = $("#txtbox").val();
-                else
-                    proff = $("#selectProf").val();
-            }
-            // בדיקה האם השדות מלאים
-            FName = $("#fname").val();
-            LName = $("#lname").val();
-            Email = $("#email").val();
-            City = $("#city").val();
-            Street = $("#street").val();
-            Id = $("#idT").val();
-            Bday = $("#bday").val();
-            PhoneNum = $("#phone").val();
-            Profession = $("#selectProf").val();
-
-            console.log(proff)
-
-            if (FName == "" || LName == "" || Id == "" || Profession == "") {
-                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning")
-                return false;
-            }
-            ///////////////
-            TeacherObj =
-                {
-                    "FName": $("#fname").val(),
-                    "LName": $("#lname").val(),
-                    "Email": $("#email").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Id": $("#idT").val(),
-                    "Bday": $("#bday").val(),
-                    "PhoneNum": $("#phone").val(),
-                    "Profession": proff,
-                    "Password": pass
-                }
-            console.log(TeacherObj);
-            ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
-        }
-
-        ///שמירת ערכי המקצועות
-        proff = $("#txtbox").val();
-        proff1 = $("#txtbox1").val();
-        proff2 = $("#txtbox2").val();
-        proff3 = $("#txtbox3").val();
-        selcet = $("#selectProf").val();
-        selcet1 = $("#selectProf1").val();
-        selcet2 = $("#selectProf2").val();
-        selcet3 = $("#selectProf3").val();
-        /////
-
-        function checkPreffesion() { // במידה והוזנו מקצועות חדשים, שומרת לטבלת מקצועות
-            proff = $("#txtbox").val();
-            proff1 = $("#txtbox1").val();
-            proff2 = $("#txtbox2").val();
-            proff3 = $("#txtbox3").val();
-            if ($("#selectProf1").val() == "אחר" && proff != "") {
-                proffObj =
-                    {
-                        "Name": proff
-                    }
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess1, POSTerror1);
-            }
-            if ($("#selectProf1").val() == "אחר" && proff1 != "") {
-                proffObj1 =
-                    {
-                        "Name": proff1
-                    }
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj1), POSTsuccess2, POSTerror2);
-            }
-            if ($("#selectProf2").val() == "אחר" && proff2 != "") {
-                proffObj2 =
-                    {
-                        "Name": proff2
-                    }
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj2), POSTsuccess3, POSTerror3);
-            }
-            if ($("#selectProf3").val() == "אחר" && proff3 != "") {
-                proffObj3 =
-                    {
-                        "Name": proff3
-                    }
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj3), POSTsuccess4, POSTerror4);
-            }
-        }
-
-        function addAnotherTeacher() {
-
-            if ($("#selectProf1").val() != "1" && $("#selectProf1").val() != "שם המקצוע") {
-                // בודק במידה וזה מקצוע חדש - ישמור את הערך מהתיבת טקסט
-                if ($("#selectProf1").val() == "אחר")
-                    proff = $("#txtbox").val();
-                else
-                    proff = $("#selectProf1").val();
-
-                addTeachersPreff();
-                ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess_1, POSTerror_1);
-            }
-
-            if ($("#selectProf2").val() != "1" && $("#selectProf2").val() != "שם המקצוע") {
-
-                if ($("#selectProf2").val() == "אחר")
-                    proff = $("#txtbox2").val();
-                else
-                    proff = $("#selectProf2").val();
-                addTeachersPreff();
-                ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess_2, POSTerror_2);
-            }
-
-            if ($("#selectProf3").val() != "1" && $("#selectProf3").val() != "שם המקצוע") {
-                if ($("#selectProf3").val() == "אחר")
-                    proff = $("#txtbox3").val();
-                else
-                    proff = $("#selectProf3").val();
-
-                addTeachersPreff();
-                ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess_3, POSTerror_3);
-
-            }
-        }
-
-        function addTeachersPreff() {
-            TeacherObj =
-                {
-                    "FName": $("#fname").val(),
-                    "LName": $("#lname").val(),
-                    "Email": $("#email").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Id": $("#idT").val(),
-                    "Bday": $("#bday").val(),
-                    "PhoneNum": $("#phone").val(),
-                    "Profession": proff,
-                    "Password": pass
-                }
-            console.log(TeacherObj);
-        }
-        /////////
-        function POSTsuccess1(data) { console.log(data) }
-        function POSTerror1() { }
-
-        function POSTsuccess2() { }
-        function POSTerror2() { }
-
-        function POSTsuccess3() { }
-        function POSTerror3() { }
-
-        function POSTsuccess4() { }
-        function POSTerror4() { }
-
-        ///////////////////////
-
-        function POSTsuccess_1(data) { console.log(data) }
-        function POSTerror_1() { }
-        function POSTsuccess_2(data) { console.log(data) }
-        function POSTerror_2() { }
-        function POSTsuccess_3(data) { console.log(data) }
-        function POSTerror_3() { }
-        //////////////////
-        function readFromDB() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
-        }
-
-        function GETsuccessCB(data) {
-            console.log(data);
-            listP = data;
-
-            //insert options to select
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
-            }
-
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf1");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
-            }
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf2");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
-            }
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf3");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
-            }
-        }
-        function GETerrorCB(err) {
-            console.log(err);
-        }
-
-
-        function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
-
-            swal("מורה נוסף/ה למערכת בהצלחה", "", "success")
-            // לאחר לחיצה מאפס לחצנים
-            //$("#classSelect option:first").attr('selected', 'selected');
-            //$("#classNum option:first").attr('selected', 'selected');
-            //$("#Year").val("");
-            //$("#NumOfs").val("");
-            //$("#teacherName option:first").attr('selected', 'selected');
-            //$("#classType option:first").attr('selected', 'selected');
-            /////////////
-        }
-
-        function POSTerror(err) { console.log(err) };
-
-        teachersArr = new Array();
-        $(function () {
-
-            $("#load").bind("click", function () {
-
-                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-                if (regex.test($("#fileUpload").val().toLowerCase())) {
-                    if (typeof (FileReader) != "undefined") {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            var rows = e.target.result.split("\r\n");
-                            for (var i = 0; i < rows.length; i++) {
-                                var cells = rows[i].split(",");
-                                if (cells.length > 1) {
-                                    var teacher = {};
-                                    teacher.FName = cells[0];
-                                    teacher.LName = cells[1];
-                                    teacher.Email = cells[2];
-                                    teacher.City = cells[3];
-                                    teacher.Street = cells[4];
-                                    teacher.Id = cells[5];
-                                    teacher.Bday = cells[6];
-                                    teacher.PhoneNum = cells[7];
-                                    teacher.Profession = cells[8];
-                                    teacher.Password = Math.random().toString(36).substring(7);
-
-
-                                    teachersArr.push(teacher);
-                                    console.log(teachersArr[0]);
-                                    console.log(teachersArr.length);
-                                }
-                            }
-
-                        }
-                        reader.readAsText($("#fileUpload")[0].files[0]);
-                    }
-                    else {
-                        swal("This browser does not support HTML5.", "", "warning")
-                    }
-                }
-                else {
-                    swal("Please upload a valid CSV file", "", "warning")
-                }
-            });
-        });
-        function uploadTeachers() {
-            ajaxCall("POST", "../api/Docu/postTeach2", JSON.stringify(teachersArr), POSTsuccess_, POSTerror_);
-        }
-
-        function POSTsuccess_() {
-         swal("מורים נוספו למערכת בהצלחה", "על מנת לצפות ברשימת המורים, גש/י למורים", "success")
-
-        }
-        function POSTerror_(err) { console.log(err) }
-
-    </script>
+    <script src="js/manager/createNewTeacher.js"></script>
 
 </head>
 <body id="page-top">
@@ -632,15 +308,15 @@
                                             <input type="text" class="create-select textSquareTEXT" id="street" name="street">
                                             <br />
                                             <!--<div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <label class="create-text" for="homeNumber">מס' בית:</label><br />
-                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <label class="create-text" for="floor">קומה: </label><br />
-                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
-                                                </div>
-                                            </div>-->
+                        <div class="col-lg-4 col-sm-6">
+                            <label class="create-text" for="homeNumber">מס' בית:</label><br />
+                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <label class="create-text" for="floor">קומה: </label><br />
+                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
+                        </div>
+                    </div>-->
 
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
@@ -651,72 +327,64 @@
                                                 <select id="selectProf" class="create-select">
                                                     <option value="1">שם המקצוע</option>
                                                 </select>
-                                            </div>
-                                            <input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">
-                                            <label for="profession" class="create-text">הוספת מקצועות חדשים</label>
-                                            <div class="profession-disclosure">
-                                                <div class="row">
-                                                    <select id="selectProf1" class="create-select" style="background-color:#eceff0">
-                                                        <option value="1">שם המקצוע</option>
-                                                    </select>
-                                                    <!-- תיבת טקסט להכנסת מקצוע חדש -->
-                                                    <div class="profession-txtbox-disclosure">
-                                                        <textarea id="txtbox1" style="display:none"></textarea>
-                                                    </div>
-                                                    <label for="add-profession" class="create-text"></label>
-                                                </div>
-                                                <div class="row">
-                                                    <select id="selectProf2" class="create-select" style="background-color:#eceff0">
-                                                        <option value="1">שם המקצוע</option>
-                                                    </select>
-                                                    <div class="profession-txtbox-disclosure">
-                                                        <textarea id="txtbox2" style="display:none"></textarea>
-                                                    </div>
-                                                    <label for="add-profession" class="create-text"></label>
-                                                </div>
-                                                <div class="row">
-                                                    <select id="selectProf3" class="create-select" style="background-color:#eceff0">
-                                                        <option value="1">שם המקצוע</option>
-                                                    </select>
-                                                    <div class="profession-txtbox-disclosure">
-                                                        <textarea id="txtbox3" style="display:none"></textarea>
-                                                    </div>
-                                                    <label for="add-profession" class="create-text"></label>
+                                                <button id="addsub" class="create-select" style="width: auto;">
+                                                    הוספה
+                                                </button>
+                                                <div class="profession-txtbox-disclosure">
+                                                    <textarea id="txtbox" style="display:none"></textarea>
                                                 </div>
                                             </div>
+                                            <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">
+                    <label for="profession" class="create-text">הוספת מקצועות חדשים</label>-->
+                                            <!--<div class="profession-disclosure">
+                    <div class="row">
+                        <select id="selectProf1" class="create-select" style="background-color:#eceff0">
+                            <option value="1">שם המקצוע</option>
+                        </select>-->
                                             <!-- תיבת טקסט להכנסת מקצוע חדש -->
-                                            <div class="profession-txtbox-disclosure">
-                                                <textarea id="txtbox" style="display:none"></textarea>
-                                            </div>
+                                            <!--<div class="profession-txtbox-disclosure">
+                                <textarea id="txtbox1" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                        <div class="row">
+                            <select id="selectProf2" class="create-select" style="background-color:#eceff0">
+                                <option value="1">שם המקצוע</option>
+                            </select>
+                            <div class="profession-txtbox-disclosure">
+                                <textarea id="txtbox2" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                        <div class="row">
+                            <select id="selectProf3" class="create-select" style="background-color:#eceff0">
+                                <option value="1">שם המקצוע</option>
+                            </select>
+                            <div class="profession-txtbox-disclosure">
+                                <textarea id="txtbox3" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                    </div>-->
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <hr class="mt-0">
-                            <div class="row">
+                            <br />
+
+                            <!--<div class="row">-->
                                 <!--<div class="col-lg-3 col-sm-4">
-                                    <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
-                                </div>-->
-                                <br />
-
-                                <!--<div class="col-lg-3 col-sm-4">
-                                    <button class="create-btn" style="padding-right: 15px;">  הפקת סיסמא ראשונית</button>
-                                </div>-->
-
-
-                                <div class="col-lg-3 col-sm-4">
-                                    <span class="text2">
-                                        העלאת קובץ מורים:
-                                    </span>
-                                    <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-                                </div>
-
-                                <div class="col-lg-8 col-sm-12">
-                                    <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                    &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
-                                    &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
-                                </div>
-                            </div>
+            <span class="text2">
+                העלאת קובץ מורים:
+            </span>
+            <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+        </div>-->
+                                <!--<div class="col-lg-8 col-sm-12">
+            <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+            &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
+            &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+        </div>-->
+                            <!--</div>-->
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-xl-3 col-sm-6 mb-3">

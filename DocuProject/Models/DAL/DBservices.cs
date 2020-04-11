@@ -282,8 +282,6 @@ public class DBservices
     }
 
 
-    ///////////////////
-    ///
     public int insertS(List<Student> studentsArr)
     {
 
@@ -512,7 +510,7 @@ public class DBservices
     {
         SqlConnection con = null;
         string str = "";
-        try /////// בדיקה - איזה טבלה לקחת
+        try 
         {
             con = connect("DBConnectionString");
 
@@ -637,7 +635,9 @@ public class DBservices
         return command;
     }
 
-    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+
+  public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+
     {
         SqlConnection con = null;
         string str = "";
@@ -646,8 +646,6 @@ public class DBservices
             con = connect("DBConnectionString");
             str = " SELECT * FROM Teacher__";
             da = new SqlDataAdapter(str, con);
-            da = new SqlDataAdapter(str, con);
-
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
             DataSet ds = new DataSet();
@@ -709,10 +707,7 @@ public class DBservices
             }
         }
         return listClassSubj; // מחזיר מערך 
-
     }
-
-
     public void DeleteStudent(int id) //כמו GET
     {
         SqlConnection con;
@@ -766,6 +761,15 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
 
+
+    ////////////////////////////////שמירת מטלות///////////////////////////////////////////////
+    public int insertTask2(Task taskObj)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
         }
         catch (Exception ex)
         {
@@ -776,6 +780,8 @@ public class DBservices
             int numEffected = 0;
             string cStr = BuildInsertCommand_S(StudentObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
                                                                  //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            string cStr = BuildInsertCommandTask(taskObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                             //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -807,6 +813,11 @@ public class DBservices
         string bday = StudentObj.Bday.ToString();
         arr = bday.Split('/');
         string newBday = arr[1] + '-' + arr[0] + '-' + arr[2];
+
+    private String BuildInsertCommandTask(Task taskObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
         String command;
 
         StringBuilder sb = new StringBuilder();
@@ -814,6 +825,8 @@ public class DBservices
 
         sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, newBday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -852,6 +865,42 @@ public class DBservices
             throw (ex);
         }
 
+
+    public List<Task> getTaskFromDB(string name, string num, string prof)
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<Task> listTasks = new List<Task>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM Task
+                               where ClassName = '{name}' and ClassNum='{num}' and Profession='{prof}'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                Task T = new Task();
+
+                T.ClassName = (string)dr["className"];
+                T.ClassNum = (string)dr["classNum"];
+                T.Profession = (string)dr["Profession"];
+                T.Deadline = (string)dr["Deadline"];
+                T.Topic = (string)dr["Topic"];
+                //T.Assignation = (string)dr["Assignation"];
+                //T.Description = (string)dr["Description_ "];
+
+                listTasks.Add(T);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
         finally
         {
             if (con != null)
@@ -879,7 +928,21 @@ public class DBservices
         return command;
     }
 
+
+                con.Close();
+            }
+        }
+        return listTasks; // מחזיר מערך 
+    }
+
+    public void update()
+    {
+        da.Update(dt);
+    }
 }
+
+
+
 
 
 

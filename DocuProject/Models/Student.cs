@@ -13,6 +13,7 @@ namespace DocuProject.Models
         public Student() { }
         // להוסיף שם משתמש וסיסמא??
 
+        int id_row;
         string fName;
         string lName;
         string phoneNum;
@@ -27,6 +28,8 @@ namespace DocuProject.Models
        
 
 
+        string img;
+        public int Id_row { get => id_row; set => id_row = value; }
         public string FName { get => fName; set => fName = value; }
         public string LName { get => lName; set => lName = value; }
         public string PhoneNum { get => phoneNum; set => phoneNum = value; }
@@ -67,6 +70,37 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertS2(StudentObj);
             return numAffected; //מחזיר את מספר השורות
+
+        public DataTable PutS(int id, Student student)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Students(student.className, student.ClassNum);
+            dbs.dt = checkTbl(id, student, dbs.dt);
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable checkTbl(int id, Student student, DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                ////////// שינוי בתוך הטבלה עצמה
+                if (id == Convert.ToInt32(dr["id"]))
+                {
+                    dr["FName"] = student.FName;
+                    dr["LName"] = student.LName;
+                    dr["PhoneNum"] = student.PhoneNum;
+                    dr["Email"] = student.Email;
+                    dr["City"] = student.city;
+                    dr["Street"] = student.Address;
+                    dr["Id_"] = student.Id;
+                    dr["Bday"] = student.Bday;
+                    dr["ClassName"] = student.ClassName;
+                    dr["ClassNum"] = student.ClassNum;
+                    dr["Password_"] = student.Password;
+                }
+            }
+            return dt;
         }
     }
 }
