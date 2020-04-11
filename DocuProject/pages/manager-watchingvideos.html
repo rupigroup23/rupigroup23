@@ -27,8 +27,16 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- more -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/manager/watchingvideos.js"></script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -94,11 +102,7 @@
     </nav>
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a style="color: black" href="teacher-index.html">בית</a></li>
-            <li class="breadcrumb-item"><a style="color: black" href="teacher-professions.html">מקצועות</a></li>
-            <li class="breadcrumb-item"><a style="color: black" href="teacher-tasks.html">מטלות</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="teacher-watchingvideos.html">צפייה בסרטונים</a></li>
+        <ol class="breadcrumb" id="orientation">
         </ol>
     </nav>
     <div id="wrapper">
@@ -247,8 +251,8 @@
                     <div class="col-md-9 col-sm-10">
                         <div class="row text2">
                             הסרטונים של מטלה מספר &nbsp;
-                            <div id="">
-                                7
+                            <div id="taskNum">
+                                
                                 <!-- להוסיף מספר -->
                             </div>
                         </div>

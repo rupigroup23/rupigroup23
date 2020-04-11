@@ -21,6 +21,14 @@ Version: 1.0
 */
 /* Body */
 
+/*turn off button*/
+.btn-outline-primary:disabled {
+    color: #010408;
+    background-color: #e6e1e6;
+    border-color: black;
+}
+/*END turn off button*/
+
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap');
 .pointer {
     cursor: pointer;

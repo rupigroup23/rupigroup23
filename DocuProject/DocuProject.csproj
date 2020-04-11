@@ -193,6 +193,7 @@
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
     <Content Include="pages\js\manager\teacher-Management.js" />
+    <Content Include="pages\js\manager\watchingvideos.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
@@ -400,6 +401,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="pages\js\teacher\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

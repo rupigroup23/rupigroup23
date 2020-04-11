@@ -5,7 +5,7 @@
     console.log(TaskObj);
 
     Showorientation();//סרגל השתלשלות
-    getDatelis(); //Bring the details up
+    //getDatelis(); //Bring the details up
 });
 
 
@@ -18,7 +18,7 @@ function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
-    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-PresentationAssignment.html'>הצגה ועריכה</a></li>";
+    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
     document.getElementById("orientation").innerHTML = orientationSTR;
     document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
 }

@@ -3,15 +3,15 @@
     console.log('local: ', JSON.parse(local));
     TaskObj = JSON.parse(localStorage["thisTask"]);
     console.log(TaskObj);
-    Showorientation();
-    getDatelis();
+    Showorientation();//סרגל השתלשלות
+    getDatelis(); //Bring the details up
     
     $('#apprVideo').click(approveVidow);
     $('#score').click(giveScore);
-    $('#apply').click(myfunction);
+    $('#apply').click(filingSubm);
 });
 
-//השתלשלות
+//סרגל השתלשלות
 orientationSTR = "";
 function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
@@ -24,8 +24,8 @@ function Showorientation() {
     document.getElementById("orientation").innerHTML = orientationSTR;
     document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
 }
-//////
 
+//Bring the details up
 function getDatelis() {
     //diffDays = diffDays(TaskObj.Task.Date);
     diffDays = diffDays("4/30/2020");
@@ -33,7 +33,8 @@ function getDatelis() {
     document.getElementById("restDate").innerHTML = diffDays;
 }
 
-function myfunction() {
+//Filing submissions
+function filingSubm() {
     waitingToAppr = document.getElementById("waiting");
     approved = document.getElementById("taskApproved");
     notApproved = document.getElementById("statuses_No");
@@ -82,6 +83,7 @@ function myfunction() {
     }
 }
 
+//The time difference
 function diffDays(subm) {
     //submission = TaskObj.Task.Date;
     var date = new Date();
@@ -97,6 +99,7 @@ function diffDays(subm) {
 }
 
 
+//הכפתורים בכל צוות
 function approveVidow() {
     Swal.fire({
         title: 'האם את/ה בטוח/ה?',
