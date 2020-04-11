@@ -252,7 +252,6 @@
     <Content Include="pages\js\הגשות.png" />
     <Content Include="pages\Do not delete.html" />
     <Content Include="pages\manager-login.html" />
-    <Content Include="pages\manager-createNewClass1.html" />
     <Content Include="pages\manager-forgot-password.html" />
     <Content Include="pages\manager-index.html" />
     <Content Include="pages\manager-professions.html" />

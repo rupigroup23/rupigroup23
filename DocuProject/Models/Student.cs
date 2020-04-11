@@ -26,9 +26,6 @@ namespace DocuProject.Models
         int classNum;
         string password;
        
-
-
-        string img;
         public int Id_row { get => id_row; set => id_row = value; }
         public string FName { get => fName; set => fName = value; }
         public string LName { get => lName; set => lName = value; }
