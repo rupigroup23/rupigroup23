@@ -914,6 +914,41 @@ public class DBservices
         }
     }
 
+    /// //////////////////////////שמירת תמונה אדמין////////////////////////////////////////
+
+    public int insertPic2(ImgAdmin AdminImage)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = "UPDATE Admin_ SET Image_='" + AdminImage.Img + "' where Email='" + AdminImage.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                                                                         //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+
+
 
     public List<Task> getTaskFromDB(string name, string num, string prof)
     {
@@ -972,9 +1007,9 @@ public class DBservices
     }
 
 
-<<<<<<< HEAD
 
-=======
+
+
     ////
     ///
 
@@ -1010,7 +1045,42 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
->>>>>>> 34bf130179396e54af183f074da18ccba0b85c3a
+
+
+    public string getAvatarImage(string Id)
+    {
+        string imagePath = "";
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "select Image_ from Admin_ where Id_='"+Id+"'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                imagePath = (string)dr["Image_"];
+            }
+            return imagePath; // מחזיר מערך 
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
 }
 
 

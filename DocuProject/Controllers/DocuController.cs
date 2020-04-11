@@ -203,12 +203,20 @@ namespace DocuProject.Controllers
             return Request.CreateResponse(HttpStatusCode.Created, imageLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
         }
 
-        [HttpPost] ///  שלב 2- הכנסה לדטא
+        [HttpPost] ///  שלב 2- הכנסה לדטא דף יצירת תלמיד ספציפי
         [Route("api/Docu/uploadUrlImg")]
         public void Post([FromBody] ImgStudent StudentImage)
         {
             ImgStudent pic = new ImgStudent();
             pic.insertPic(StudentImage);
+        }
+
+        [HttpPost] ///  שלב 2- הכנסה לדטא דף אדמין
+        [Route("api/Docu/uploadUrlImg2")]
+        public void Post([FromBody] ImgAdmin AdminImage)
+        {
+            ImgAdmin pic = new ImgAdmin();
+            pic.insertPic2(AdminImage);
         }
 
         [HttpPost] /// דף מטלה ראשי
@@ -229,8 +237,8 @@ namespace DocuProject.Controllers
         }
 
         [HttpPut]
-        [Route("api/Docu/updateStudent/{id}")] 
-        public DataTable PutDIS(int id, [FromBody] Student student) 
+        [Route("api/Docu/updateStudent/{id}")]
+        public DataTable PutDIS(int id, [FromBody] Student student)
         {
             Student S = new Student();
             return S.PutS(id, student);
@@ -238,11 +246,11 @@ namespace DocuProject.Controllers
 
         //Setting
         [HttpGet]
-        [Route("api/Docu/GetDetails/{ID}")]
-        public DataTable GetDIS(int ID) // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
+        [Route("api/Docu/GetDetails/{Id}")]
+        public DataTable GetDIS(int Id) // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
         {
             Admin A = new Admin();
-            return A.GetDetails(ID);
+            return A.GetDetails(Id);
         }
 
         [HttpPut]
@@ -252,6 +260,17 @@ namespace DocuProject.Controllers
             Admin A = new Admin();
             return A.PutA(admin);
         }
-  
+
+
+        [HttpGet]
+        [Route("api/Docu/getavatar/{Id}")]
+        
+        public string Get(string Id)
+        {
+            ImgAdmin i = new ImgAdmin();
+            return i.getAvatarImage(Id);
+        }
+
+
     }
 }

@@ -7,7 +7,6 @@ namespace DocuProject.Models
 {
     public class ImgStudent
     {
-
         string email;
         string img;
 
@@ -21,5 +20,7 @@ namespace DocuProject.Models
             int numAffected = dbs.insertPic(StudentImage);
             return numAffected; //מחזיר את מספר השורות
         }
+
+       
     }
 }
