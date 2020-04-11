@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web;
+using System.Web.Hosting;
 using DocuProject.Models;
 using System.Web.Configuration;
 using System.Data;
@@ -157,6 +160,57 @@ namespace DocuProject.Controllers
             return S.deleteS(id);
         }
 
+        [HttpPost] ///  הכנסת תלמיד ספציפי
+        [Route("api/Docu/postStudent")]
+        public void Post([FromBody] Student StudentObj)
+        {
+            Student S2 = new Student();
+            S2.insertS2(StudentObj);
+        }
+
+        [HttpPost] //שלב1- העלת התמונה לתוכנה
+        [Route("api/Docu/uploadimage")]
+        public HttpResponseMessage Post()
+        {
+            List<string> imageLinks = new List<string>();
+            var httpContext = HttpContext.Current;
+
+            // Check for any uploaded file  
+            if (httpContext.Request.Files.Count > 0)
+            {
+                //Loop through uploaded files  
+                for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                {
+                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+
+                    // this is an example of how you can extract addional values from the Ajax call
+                    string name = httpContext.Request.Form["name"];
+
+                    if (httpPostedFile != null)
+                    {
+                        // Construct file save path  
+                        //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
+                        string fname = httpPostedFile.FileName.Split('\\').Last(); // שומר את השם של התמונה
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ישמור את התמונה בתוך התיקיה אפלודפיילס שיצרנו
+                        // Save the uploaded file  
+                        httpPostedFile.SaveAs(fileSavePath);
+                        imageLinks.Add("uploadedFiles/" + fname);
+                    }
+                }
+            }
+
+            // Return status code  
+            return Request.CreateResponse(HttpStatusCode.Created, imageLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
+        }
+
+        [HttpPost] ///  שלב 2- הכנסה לדטא
+        [Route("api/Docu/uploadUrlImg")]
+        public void Post([FromBody] ImgStudent StudentImage)
+        {
+            ImgStudent pic = new ImgStudent();
+            pic.insertPic(StudentImage);
+        }
+
         [HttpPost] /// דף מטלה ראשי
         [Route("api/Docu/Tasks")]
         public void Post([FromBody] Task taskObj)
@@ -164,7 +218,6 @@ namespace DocuProject.Controllers
             Task T = new Task();
             T.insertTask1(taskObj);
         }
-
         /// דף מטלה ראשי
         // GET api/Docu/GetClassSubj/ז/2/פיזיקה
         [HttpGet]
@@ -183,6 +236,22 @@ namespace DocuProject.Controllers
             return S.PutS(id, student);
         }
 
+        //Setting
+        [HttpGet]
+        [Route("api/Docu/GetDetails/{ID}")]
+        public DataTable GetDIS(int ID) // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
+        {
+            Admin A = new Admin();
+            return A.GetDetails(ID);
+        }
 
+        [HttpPut]
+        [Route("api/Docu/updatetAdmin")]
+        public DataTable PutA([FromBody] Admin admin)
+        {
+            Admin A = new Admin();
+            return A.PutA(admin);
+        }
+  
     }
 }

@@ -16,6 +16,9 @@ using DocuProject.Models;
 /// </summary>
 public class DBservices
 {
+    public SqlDataAdapter da;
+    public DataTable dt;
+
     public DBservices()
     {
         //
@@ -504,13 +507,11 @@ public class DBservices
         return A;
     }
 
-    public SqlDataAdapter da;
-    public DataTable dt;
     public DBservices Get_Nums() // מחזיר איבר מסוג DBSERVICES
     {
         SqlConnection con = null;
         string str = "";
-        try 
+        try
         {
             con = connect("DBConnectionString");
 
@@ -636,7 +637,7 @@ public class DBservices
     }
 
 
-  public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
 
     {
         SqlConnection con = null;
@@ -749,6 +750,70 @@ public class DBservices
         }
     }
 
+    
+    /// //////////////////////////שמירת תלמיד ספציפי////////////////////////////////////////
+
+    public int insertS2(Student StudentObj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = BuildInsertCommand_S(StudentObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertCommand_S(Student StudentObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                            //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+        string[] arr;
+        string bday = StudentObj.Bday.ToString();
+        arr = bday.Split('/');
+        string newBday = arr[1] + '-' + arr[0] + '-' + arr[2];
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, newBday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
 
     ////////////////////////////////שמירת מטלות///////////////////////////////////////////////
     public int insertTask2(Task taskObj)
@@ -766,8 +831,10 @@ public class DBservices
         try
         {
             int numEffected = 0;
+           
+                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
             string cStr = BuildInsertCommandTask(taskObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                             //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -778,6 +845,7 @@ public class DBservices
             // write to log
             throw (ex);
         }
+
         finally
         {
             if (con != null)
@@ -788,11 +856,8 @@ public class DBservices
         }
     }
 
-    //--------------------------------------------------------------------
-    // Build the Insert command String
-    //--------------------------------------------------------------------
     private String BuildInsertCommandTask(Task taskObj) // שלב 1 - נעביר את כל המערך לדטה בייס
-                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+                                                        //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
     { ////עובר שורה שורה 
 
         String command;
@@ -800,12 +865,55 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
+        
         sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
     }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+
+
+
+
+    /// //////////////////////////שמירת תמונה לתלמיד////////////////////////////////////////
+
+    public int insertPic(ImgStudent StudentImage)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = "UPDATE Student SET Image_='" + StudentImage.Img + "' where Email='" + StudentImage.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                                                                              //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+
 
     public List<Task> getTaskFromDB(string name, string num, string prof)
     {
@@ -837,7 +945,58 @@ public class DBservices
 
                 listTasks.Add(T);
             }
+            return listTasks; // מחזיר מערך 
+
         }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+
+    public void update()
+    {
+        da.Update(dt);
+    }
+
+
+<<<<<<< HEAD
+
+=======
+    ////
+    ///
+
+    public DBservices Get_Details(int ID)
+    {
+        Admin A = new Admin();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = $@"select * from
+                              Admin_
+                              where Id_='{ID}'";
+            da = new SqlDataAdapter(selectSTR, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
         catch (Exception ex)
         {
             throw (ex);
@@ -849,16 +1008,9 @@ public class DBservices
                 con.Close();
             }
         }
-        return listTasks; // מחזיר מערך 
+        return this; // מחזיר איבר מסוג DB SERVICES
     }
-
-    public void update()
-    {
-        da.Update(dt);
-    }
-
-
-
+>>>>>>> 34bf130179396e54af183f074da18ccba0b85c3a
 }
 
 
@@ -866,3 +1018,49 @@ public class DBservices
 
 
 
+
+
+
+
+
+
+
+
+
+
+    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+    //        // get a reader
+    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+    //        while (dr.Read())
+    //        {   // Read till the end of the data into a row
+
+    //            A.Fname = (string)dr["FName"];
+    //            A.Lname = (string)dr["LName"];
+    //            A.Id = (int)dr["Id_"];
+    //            A.Email = (string)dr["Email"];
+    //            A.City = (string)dr["City"];
+    //            A.Street = (string)dr["Street"];
+    //            A.Bday = (DateTime)dr["Bday"];
+    //            A.PhoneNum = (string)dr["PhoneNum"];
+    //            A.Profession = (string)dr["Profession"];
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            con.Close();
+    //        }
+    //    }
+    //    return this;
+
+    //}
+
+
+ 

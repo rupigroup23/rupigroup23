@@ -166,6 +166,7 @@
     <Compile Include="Models\DAL\DBservices.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\ImgStudent.cs" />
     <Compile Include="Models\Profession.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Task.cs" />
@@ -187,17 +188,11 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
-    <Content Include="pages\js\manager\createNewTask.js" />
-    <Content Include="pages\js\manager\createNewTeacher.js" />
-    <Content Include="pages\js\manager\PresentationAssignment.js" />
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
-    <Content Include="pages\js\manager\teacher-Management.js" />
-    <Content Include="pages\js\manager\watchingvideos.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
-    <Content Include="pages\manager-createNewClass.html" />
     <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
     <Content Include="pages\HtmlPage1.html" />
@@ -207,6 +202,7 @@
     <Content Include="pages\img\ציון.png" />
     <Content Include="pages\js\dateStyle.js" />
     <Content Include="pages\js\saveProfClass1- delete.js" />
+    <Content Include="pages\manager-createNewClass.html" />
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />
     <Content Include="pages\manager-createNewTask.html" />
@@ -270,7 +266,6 @@
     <Content Include="pages\teacher-createNewTask.html" />
     <Content Include="pages\teacher-feedbacks.html" />
     <Content Include="pages\teacher-index.html" />
-    <Content Include="pages\student-login.html" />
     <Content Include="pages\teacher-login.html" />
     <Content Include="pages\manager-PresentationAssignment.html" />
     <Content Include="pages\teacher-PresentationAssignment.html" />
@@ -401,7 +396,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="pages\js\teacher\" />
+    <Folder Include="uploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
