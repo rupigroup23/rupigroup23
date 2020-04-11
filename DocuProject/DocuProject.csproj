@@ -190,8 +190,15 @@
     <Content Include="pages\channels.html" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
     <Content Include="pages\js\manager\createNewTask.js" />
+<<<<<<< HEAD
+=======
+    <Content Include="pages\js\manager\createNewTeacher.js" />
+    <Content Include="pages\js\manager\PresentationAssignment.js" />
+>>>>>>> b5cbf4afb476bd4a96f09bdf27c225c9a72c0501
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
+    <Content Include="pages\js\manager\teacher-Management.js" />
+    <Content Include="pages\js\manager\watchingvideos.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />

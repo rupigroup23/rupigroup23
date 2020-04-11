@@ -1006,13 +1006,6 @@ public class DBservices
         da.Update(dt);
     }
 
-
-
-
-
-    ////
-    ///
-
     public DBservices Get_Details(int ID)
     {
         Admin A = new Admin();
@@ -1045,7 +1038,6 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
-
 
     public string getAvatarImage(string Id)
     {
@@ -1080,7 +1072,6 @@ public class DBservices
             }
         }
     }
-
 }
 
 

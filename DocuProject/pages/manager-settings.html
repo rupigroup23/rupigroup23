@@ -30,7 +30,11 @@
     <!--<script src="../Scripts/Manager-addClass.js"></script>-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script>
         var imagePath = '';
@@ -43,10 +47,11 @@
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
-            
+
             pass = objAdmin.Password;
 
-            
+            pass = objAdmin.Password; //If pass not changed
+            $("#addsub").click(addSubj);
 
             $("#changePass").click(function () {
                 if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
@@ -107,136 +112,242 @@
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
 
-        });
 
 
-        function readFromDB() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
-        }
-        function GETsuccessCB(data) {
-            listP = data;
 
-            //insert options to select
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
+            function readFromDB() {
+                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
             }
-        }
+            function GETsuccessCB(data) {
+                ProfARR = []; //מערך המקצועות מהדאטא בייס
+            }
+            function GETsuccessCB(data) {
+                console.log(data);
+                listP = data;
 
-        function GETerrorCB(err) {
-            console.log(err);
-        }
-        function sub() {
-            return false;
-        }
-        function showDetalis(objAdmin) {
-            Id = objAdmin.Id;
-            var url = "../api/Docu/GetDetails/" + Id;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-
-        function funcsuccess(data) {
-
-            obj = data;
-
-
-            $('#fname').val(obj[0].FName);
-            $('#lname').val(obj[0].LName);
-            $('#Id').val(obj[0].Id_);
-            $('#mail').val(obj[0].Email);
-            $('#city').val(obj[0].City);
-            $('#street').val(obj[0].Street);
-            $('#bday').val(obj[0].Bday);
-            $('#phone').val(obj[0].PhoneNum);
-
-            userEmail = obj[0].Email;
-            Prof = obj[0].Profession;
-            str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-            document.getElementById('profCard').innerHTML = str;
-
-
-
-            ajaxCall('GET', '../api/Docu/getavatar/'+obj[0].Id_ ,'' , getAvatarImageSuccess, getAvatarImageError)
-
-        };
-        function funcerror() { }
-
-
-        function saveDetails_() {
-            let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-                {
-                    "Fname": $("#fname").val(),
-                    "Lname": $("#lname").val(),
-                    "Id": $("#Id").val(),
-                    "Email": $("#mail").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Bday": $("#bday").val(),
-                    "PhoneNum": $("#phone").val(),
-                    "Profession": $("#selectProf").val(),
-                    "Password": pass
-
+                //insert options to select
+                for (var i = 0; i < listP.length; i++) {
+                    var select = document.getElementById("selectProf");
+                    var option = document.createElement("option");
+                    option.text = listP[i].Name;
+                    select.add(option);
                 }
-            console.log(admin);
+            }
 
-            url = "../api/Docu/updatetAdmin";
-            ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
-        }
+            function GETerrorCB(err) {
+                console.log(err);
 
-        function updateDsuccess(data) {
-            console.log(data)
-            funcsuccess(data);
-            swal("הפרטים שונו בהצלחה", "", "success");
+                listCS = data;
 
+                for (var i = 0; i < listP.length; i++) {
+                    ProfARR[i] = listP[i].Profession;
+                }
+            }
 
-        }
-        function updateDerror() { }
+            function GETerrorCB(err) {
+                console.log(err);
+            }
 
-        function showImages(data) {
-            imagePath = data;
+            function sub() {
+                return false;
+            }
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
 
-            Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
-        }
+                ID = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
 
-        function error(data) {
-            console.log(data);
-        }
+            function funcsuccess(data) {
+                obj = data;
 
+                $('#fname').val(obj[0].FName);
+                $('#lname').val(obj[0].LName);
+                $('#Id').val(obj[0].Id_);
+                $('#mail').val(obj[0].Email);
+                $('#city').val(obj[0].City);
+                $('#street').val(obj[0].Street);
+                $('#bday').val(obj[0].Bday);
+                $('#phone').val(obj[0].PhoneNum);
 
-
-
-        function POSTsuccessImg() {
-            Swal.fire(
-                'Good job!',
-                'התמונה הועלתה בהצלחה!',
-                'success'
-            )
-
-        }
-
-
-        function POSTerrorImg(data) {
-            console.log(data);
-        }
-
-        function getAvatarImageSuccess(imagePath) {
-
-            src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-           
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
-
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
+                userEmail = obj[0].Email;
+                Prof = obj[0].Profession;
+                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+                ProfDB = obj[0].Profession;
+                str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
+                document.getElementById('profCard').innerHTML = str;
 
 
 
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            };
+            function funcerror() { }
 
 
+            function saveDetails_() {
+                let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                    {
+                        "Fname": $("#fname").val(),
+                        "Lname": $("#lname").val(),
+                        "Id": $("#Id").val(),
+                        "Email": $("#mail").val(),
+                        "City": $("#city").val(),
+                        "Street": $("#street").val(),
+                        "Bday": $("#bday").val(),
+                        "PhoneNum": $("#phone").val(),
+                        "Profession": $("#selectProf").val(),
+                        "Password": pass
+
+                    }
+                console.log(admin);
+
+                url = "../api/Docu/updatetAdmin";
+                ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+            }
+
+            function updateDsuccess(data) {
+                console.log(data)
+                funcsuccess(data);
+                Swal.fire({
+                    icon: 'success',
+                    text: 'הפרטים שונו בהצלחה',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+            }
+            function updateDerror() { }
+            ///
+            var profession = "";
+            ClassSubArr = [];
+            ProfARR = [];
+
+
+            function addSubj() // שמירת נתוני המורה בדאטה
+            {
+                profession = $("#selectProf").val();
+                if (profession == "1") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'לא בחרת מקצוע 😓',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                }
+                else {
+                    if (profession == "אחר") {
+                        var X = $("#txtbox").val();
+                        profession = X;
+                    }
+                    checkSub();
+                }
+            }
+            function updateDerror() { }
+
+            function showImages(data) {
+                imagePath = data;
+
+                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+            }
+
+            function error(data) {
+                console.log(data);
+            }
+
+
+
+
+            function POSTsuccessImg() {
+                Swal.fire(
+                    'Good job!',
+                    'התמונה הועלתה בהצלחה!',
+                    'success'
+                )
+
+            }
+
+
+            function POSTerrorImg(data) {
+                console.log(data);
+            }
+
+            function getAvatarImageSuccess(imagePath) {
+
+                src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function checkSub() {
+                //אם המקצוע קיים בדטא
+                obj[0].Profession
+                //for (var i = 0; i < ProfARR.length; i++) {
+                for (var i = 0; i < obj.length; i++) {
+
+                    if (obj[0].Profession == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע כבר קיים',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                //אין כזה מקצוע
+                for (var i = 0; i < ClassSubArr.length; i++) {
+
+                    if (ClassSubArr[i] == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע הוכנס כבר למערכת',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: ' המקצוע נשמר 😀',
+                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+                ClassSubArr.push(profession);
+            }
+
+            function saveDetails_() {
+                for (var i = 0; i < ClassSubArr.length; i++) {
+                    admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                        {
+                            "Fname": $("#fname").val(),
+                            "Lname": $("#lname").val(),
+                            "Id": $("#Id").val(),
+                            "Email": $("#mail").val(),
+                            "City": $("#city").val(),
+                            "Street": $("#street").val(),
+                            "Bday": $("#bday").val(),
+                            "PhoneNum": $("#phone").val(),
+                            "Profession": ClassSubArr[i],
+                            "Password": pass
+
+                        }
+                    url = "../api/Docu/updatetAdmin";
+                    console.log(url);
+                    ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+                }
+            }
     </script>
 </head>
 <body id="page-top">
@@ -488,11 +599,11 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value=""type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">עיר: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value=""type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required">*</span></label>
@@ -502,7 +613,7 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname"  type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required">*</span></label>
@@ -516,7 +627,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-6">
                             <label class="control-label create-text">תעודת זהות:<span class="required">*</span></label><br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id"  type="tel">
+                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
 
                             <br />
                             <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
@@ -526,10 +637,20 @@
                                 <div class="col-lg-4 col-sm-6">
                                     <label class="create-text">מקצוע:</label><br />
                                 </div>
+
                                 <div class="row">
                                     <select id="selectProf" class="create-select">
                                         <option value="1">שם המקצוע</option>
                                     </select>
+                                    <button id="addsub" class="create-select" style="width: auto;">
+                                        הוספה
+                                    </button>
+                                    <button id="addsub" class="create-select" style="width: auto;">
+                                        הוספה
+                                    </button>
+                                    <div class="profession-txtbox-disclosure">
+                                        <textarea id="txtbox" style="display:none"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-6">
 
@@ -544,84 +665,88 @@
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <!--<div class="create-text">
                                         <h6 style="font-size: 23px"></h6>
-                            
-                                    </div>-->
-                                </div>
-                            </div>
-                            <br />
-                            <div class="col-lg-12 col-sm-6">
-                                <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
-                            </div>
-                        </div>
 
-                    </div>
-                    <hr class="mt-0">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-6">
-                            <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
-                            <div class="col-lg-8 col-sm-12">
-                                <img src=""/>
-                                <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
-                                &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                                    </div>-->
+                                    <h6 style="font-size: 23px"></h6>
+
+                                </div>-->
                             </div>
                         </div>
                         <br />
-                        <!--<div class="col-lg-3 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
-                        </div>-->
-                        <br />
-                        <div class="col-lg-6 col-sm-6">
-                            <button  id="changePass"class="create-btn" style="padding-right: 65px;">
-                            שינוי סיסמא
-                        </button>
-                            <input id="pw" name="pw" type="radio">
-                            <label for="pw" class="create-text">שינוי סיסמא</label>
-                            <div class="pw-disclosure">
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא נוכחית:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא חדשה:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא חדשה בשנית:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="row">
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
-                                <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg">
-                                    שמירה
-                                </button>
-                            <!--</a>-->
+                        <div class="col-lg-12 col-sm-6">
+                            <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <!-- /.container-fluid 
-            
+            <hr class="mt-0">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
+                    <div class="col-lg-8 col-sm-12">
+                        <img src="" />
+                        <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                        &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                        &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                    </div>
+                </div>
+                <br />
+                <!--<div class="col-lg-3 col-sm-6">
+                    <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
+                </div>-->
+                <br />
+                <div class="col-lg-6 col-sm-6">
+                    <button id="changePass" class="create-btn" style="padding-right: 65px;">
+                        שינוי סיסמא
+                    </button>
+                    <input id="pw" name="pw" type="radio">
+                    <label for="pw" class="create-text">שינוי סיסמא</label>
+                    <div class="pw-disclosure">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא נוכחית:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא חדשה:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא חדשה בשנית:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-0">
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
+                    <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg">
+                        שמירה
+                    </button>
+                    <!--</a>-->
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid
+
         </div>
         <!-- /.content-wrapper -->
     </div>
+
+
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
