@@ -67,6 +67,7 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertS2(StudentObj);
             return numAffected; //מחזיר את מספר השורות
+        }
 
         public DataTable PutS(int id, Student student)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
