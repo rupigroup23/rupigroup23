@@ -3,6 +3,7 @@
     console.log('local: ', JSON.parse(local));
     ProfObj1 = JSON.parse(localStorage["thisProfObj1"]);
     console.log(ProfObj1);
+    $('#saveTask').click(saveTask);
 
     Showorientation();
 });
@@ -102,6 +103,7 @@ function POSTsuccess(data) {
         title: 'הצלחת',
         text: 'המטלה נוצרה בהצלחה! 😀',
     })
+
 }
 function POSTerror() {
     alert("ops");

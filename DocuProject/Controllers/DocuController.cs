@@ -181,6 +181,7 @@ namespace DocuProject.Controllers
             return S.PutS(id, student);
         }
 
+<<<<<<< HEAD
         //Setting
         [HttpGet]
         [Route("api/Docu/GetDetails/{ID}")]
@@ -198,6 +199,8 @@ namespace DocuProject.Controllers
             return A.PutA(admin);
         }
 
+=======
+>>>>>>> 2eb216497c6f5ccb38e53813990f1ab3ef5514b8
 
     }
 }

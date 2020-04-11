@@ -161,8 +161,6 @@ function GETerrorCB2(err) {
     console.log(err);
 }
 
-
-
 function savelocal(thisprof) {
     id = thisprof.id; //1
     profession = ProfARR[id]; //פיזיקה
@@ -181,7 +179,7 @@ function savelocal(thisprof) {
 orientationSTR = "";
 function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' >" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
     orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
     document.getElementById("orientation").innerHTML = orientationSTR;
 }

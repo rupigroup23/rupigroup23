@@ -308,15 +308,15 @@
                                             <input type="text" class="create-select textSquareTEXT" id="street" name="street">
                                             <br />
                                             <!--<div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <label class="create-text" for="homeNumber">מס' בית:</label><br />
-                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <label class="create-text" for="floor">קומה: </label><br />
-                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
-                                                </div>
-                                            </div>-->
+                        <div class="col-lg-4 col-sm-6">
+                            <label class="create-text" for="homeNumber">מס' בית:</label><br />
+                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <label class="create-text" for="floor">קומה: </label><br />
+                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
+                        </div>
+                    </div>-->
 
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
@@ -327,7 +327,7 @@
                                                 <select id="selectProf" class="create-select">
                                                     <option value="1">שם המקצוע</option>
                                                 </select>
-                                                <button id="NewProfBTN" onclick="addSubj()" class="create-select" style="width: auto;">
+                                                <button id="addsub" class="create-select" style="width: auto;">
                                                     הוספה
                                                 </button>
                                                 <div class="profession-txtbox-disclosure">
@@ -335,66 +335,56 @@
                                                 </div>
                                             </div>
                                             <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">
-    <label for="profession" class="create-text">הוספת מקצועות חדשים</label>-->
+                    <label for="profession" class="create-text">הוספת מקצועות חדשים</label>-->
                                             <!--<div class="profession-disclosure">
-        <div class="row">
-            <select id="selectProf1" class="create-select" style="background-color:#eceff0">
-                <option value="1">שם המקצוע</option>
-            </select>-->
+                    <div class="row">
+                        <select id="selectProf1" class="create-select" style="background-color:#eceff0">
+                            <option value="1">שם המקצוע</option>
+                        </select>-->
                                             <!-- תיבת טקסט להכנסת מקצוע חדש -->
                                             <!--<div class="profession-txtbox-disclosure">
-                <textarea id="txtbox1" style="display:none"></textarea>
-            </div>
-            <label for="add-profession" class="create-text"></label>
-        </div>
-        <div class="row">
-            <select id="selectProf2" class="create-select" style="background-color:#eceff0">
-                <option value="1">שם המקצוע</option>
-            </select>
-            <div class="profession-txtbox-disclosure">
-                <textarea id="txtbox2" style="display:none"></textarea>
-            </div>
-            <label for="add-profession" class="create-text"></label>
-        </div>
-        <div class="row">
-            <select id="selectProf3" class="create-select" style="background-color:#eceff0">
-                <option value="1">שם המקצוע</option>
-            </select>
-            <div class="profession-txtbox-disclosure">
-                <textarea id="txtbox3" style="display:none"></textarea>
-            </div>
-            <label for="add-profession" class="create-text"></label>
-        </div>
-    </div>-->
+                                <textarea id="txtbox1" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                        <div class="row">
+                            <select id="selectProf2" class="create-select" style="background-color:#eceff0">
+                                <option value="1">שם המקצוע</option>
+                            </select>
+                            <div class="profession-txtbox-disclosure">
+                                <textarea id="txtbox2" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                        <div class="row">
+                            <select id="selectProf3" class="create-select" style="background-color:#eceff0">
+                                <option value="1">שם המקצוע</option>
+                            </select>
+                            <div class="profession-txtbox-disclosure">
+                                <textarea id="txtbox3" style="display:none"></textarea>
+                            </div>
+                            <label for="add-profession" class="create-text"></label>
+                        </div>
+                    </div>-->
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <hr class="mt-0">
-                            <div class="row">
+                            <br />
+
+                            <!--<div class="row">-->
                                 <!--<div class="col-lg-3 col-sm-4">
-                                    <button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>
-                                </div>-->
-                                <br />
-
-                                <!--<div class="col-lg-3 col-sm-4">
-                                    <button class="create-btn" style="padding-right: 15px;">  הפקת סיסמא ראשונית</button>
-                                </div>-->
-
-
-                                <div class="col-lg-3 col-sm-4">
-                                    <span class="text2">
-                                        העלאת קובץ מורים:
-                                    </span>
-                                    <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-                                </div>
-
-                                <div class="col-lg-8 col-sm-12">
-                                    <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                    &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
-                                    &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
-                                </div>
-                            </div>
+            <span class="text2">
+                העלאת קובץ מורים:
+            </span>
+            <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+        </div>-->
+                                <!--<div class="col-lg-8 col-sm-12">
+            <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+            &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
+            &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+        </div>-->
+                            <!--</div>-->
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-xl-3 col-sm-6 mb-3">
