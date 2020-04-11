@@ -20,11 +20,11 @@ function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
     orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-PresentationAssignment.html'>הצגה ועריכה</a></li>";
     document.getElementById("orientation").innerHTML = orientationSTR;
-    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
 }
 
 //Bring the details up
 function getDatelis() {
+    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
     //date = diffDays(TaskObj.Task.Date);
     date = "4/30/2020";
     document.getElementById("topic").innerHTML = TaskObj.Task.Topic;

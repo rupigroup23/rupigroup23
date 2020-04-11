@@ -972,6 +972,9 @@ public class DBservices
     }
 
 
+<<<<<<< HEAD
+
+=======
     ////
     ///
 
@@ -1007,6 +1010,7 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+>>>>>>> 34bf130179396e54af183f074da18ccba0b85c3a
 }
 
 

@@ -1,23 +1,26 @@
 ﻿$(document).ready(function () {
-    local = localStorage.getItem('thisProfObj1');
+    local = localStorage.getItem('forNewTask');
     console.log('local: ', JSON.parse(local));
-    ProfObj1 = JSON.parse(localStorage["thisProfObj1"]);
-    console.log(ProfObj1);
+    newTaskObj = JSON.parse(localStorage["forNewTask"]);
+
+    console.log(newTaskObj);
     $('#saveTask').click(saveTask);
 
     Showorientation();
 });
 
-///////////////////////
+//סרגל השתלשלות
 let orientationSTR1 = "";
 function Showorientation() {
     orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-    orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + ProfObj1.ClassName + "' " + ProfObj1.ClassNum + "</a></li>";
+    orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + newTaskObj.ClassName + "' " + newTaskObj.ClassNum + "</a></li>";
     orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
-    orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + ProfObj1.Profession + "</a></li>";
+    orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + newTaskObj.Profession + "</a></li>";
     orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
     orientationSTR1 += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-createNewTask.html'>הקמת מטלה חדשה</a></li>";
-    document.getElementById("orientation").innerHTML = orientationSTR1;
+    document.getElementById("orientation").innerHTML = orientationSTR1; 
+    document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num;
+
 }
 
 var assignation = "";
@@ -83,9 +86,9 @@ function saveTask() {
     
     TaskObj =
         {
-        "ClassName": ProfObj1.ClassName,
-        "ClassNum": ProfObj1.ClassNum,
-        "Profession": ProfObj1.Profession,
+        "ClassName": newTaskObj.ClassName,
+        "ClassNum": newTaskObj.ClassNum,
+        "Profession": newTaskObj.Profession,
         "Topic": $("#topic").val(),
         "DateT": $("#dateInput").val(),
         "Assignation": assignation,
