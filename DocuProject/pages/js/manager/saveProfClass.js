@@ -6,6 +6,8 @@
     console.log(classObj);
     readClassSUbjFromDB();
     Showorientation();
+    $('#saveSubj').click(saveSubj);
+    $('#addSubj').click(addSubj);
 
     $('#selectProf').change(function () {
         var value = $(this).val();
