@@ -511,7 +511,7 @@ public class DBservices
     {
         SqlConnection con = null;
         string str = "";
-        try 
+        try
         {
             con = connect("DBConnectionString");
 
@@ -637,7 +637,7 @@ public class DBservices
     }
 
 
-  public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
+    public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
 
     {
         SqlConnection con = null;
@@ -834,7 +834,7 @@ public class DBservices
            
                                                                  //בניית פקודת דחיפה - הכנסה לדאטהבייס
             string cStr = BuildInsertCommandTask(taskObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                             //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -970,6 +970,43 @@ public class DBservices
     {
         da.Update(dt);
     }
+
+
+    ////
+    ///
+
+    public DBservices Get_Details(int ID)
+    {
+        Admin A = new Admin();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = $@"select * from
+                              Admin_
+                              where Id_='{ID}'";
+            da = new SqlDataAdapter(selectSTR, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
 }
 
 
@@ -977,3 +1014,49 @@ public class DBservices
 
 
 
+
+
+
+
+
+
+
+
+
+
+    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+    //        // get a reader
+    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+    //        while (dr.Read())
+    //        {   // Read till the end of the data into a row
+
+    //            A.Fname = (string)dr["FName"];
+    //            A.Lname = (string)dr["LName"];
+    //            A.Id = (int)dr["Id_"];
+    //            A.Email = (string)dr["Email"];
+    //            A.City = (string)dr["City"];
+    //            A.Street = (string)dr["Street"];
+    //            A.Bday = (DateTime)dr["Bday"];
+    //            A.PhoneNum = (string)dr["PhoneNum"];
+    //            A.Profession = (string)dr["Profession"];
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            con.Close();
+    //        }
+    //    }
+    //    return this;
+
+    //}
+
+
+ 

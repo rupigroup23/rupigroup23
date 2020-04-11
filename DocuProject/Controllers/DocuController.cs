@@ -218,7 +218,6 @@ namespace DocuProject.Controllers
             Task T = new Task();
             T.insertTask1(taskObj);
         }
-
         /// דף מטלה ראשי
         // GET api/Docu/GetClassSubj/ז/2/פיזיקה
         [HttpGet]
@@ -235,5 +234,23 @@ namespace DocuProject.Controllers
             Student S = new Student();
             return S.PutS(id, student);
         }
+
+        //Setting
+        [HttpGet]
+        [Route("api/Docu/GetDetails/{ID}")]
+        public DataTable GetDIS(int ID) // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
+        {
+            Admin A = new Admin();
+            return A.GetDetails(ID);
+        }
+
+        [HttpPut]
+        [Route("api/Docu/updatetAdmin")]
+        public DataTable PutA([FromBody] Admin admin)
+        {
+            Admin A = new Admin();
+            return A.PutA(admin);
+        }
+  
     }
 }
