@@ -972,11 +972,7 @@ public class DBservices
     }
 
 
-<<<<<<< HEAD
 
-=======
-    ////
-    ///
 
     public DBservices Get_Details(int ID)
     {
@@ -1010,7 +1006,6 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
->>>>>>> 34bf130179396e54af183f074da18ccba0b85c3a
 }
 
 

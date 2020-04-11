@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,7 +30,11 @@
     <!--<script src="../Scripts/Manager-addClass.js"></script>-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script>
         $(document).ready(function () {
@@ -43,6 +46,7 @@
             showDetalis(objAdmin);
 
             pass = objAdmin.Password; //If pass not changed
+            $("#addsub").click(addSubj);
 
             $("#changePass").click(function () {
                 if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
@@ -68,6 +72,8 @@
         function readFromDB() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
+        ProfARR = []; //מערך המקצועות מהדאטא בייס
+
         function GETsuccessCB(data) {
             console.log(data);
             listP = data;
@@ -79,11 +85,16 @@
                 option.text = listP[i].Name;
                 select.add(option);
             }
-        }
+            listCS = data;
 
+            for (var i = 0; i < listP.length; i++) {
+                ProfARR[i] = listP[i].Profession;
+            }
+        }
         function GETerrorCB(err) {
             console.log(err);
         }
+
         function sub() {
             return false;
         }
@@ -95,10 +106,8 @@
         }
 
         function funcsuccess(data) {
-
             obj = data;
             console.log(data)
-
 
             $('#fname').val(obj[0].FName);
             $('#lname').val(obj[0].LName);
@@ -109,44 +118,114 @@
             $('#bday').val(obj[0].Bday);
             $('#phone').val(obj[0].PhoneNum);
 
-            Prof = obj[0].Profession;
-            str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+            ProfDB = obj[0].Profession;
+            str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
             document.getElementById('profCard').innerHTML = str;
 
         };
         function funcerror() { }
 
 
-        function saveDetails_() {
-            let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-            {
-                "Fname": $("#fname").val(),
-                "Lname": $("#lname").val(),
-                "Id": $("#Id").val(),
-                "Email": $("#mail").val(),
-                "City": $("#city").val(),
-                "Street": $("#street").val(),
-                "Bday": $("#bday").val(),
-                "PhoneNum": $("#phone").val(),
-                "Profession": $("#selectProf").val(),
-                "Password": pass
-
-            }
-            console.log(admin);
-
-            url = "../api/Docu/updatetAdmin";
-            ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
-        }
-
         function updateDsuccess(data) {
             console.log(data)
             funcsuccess(data);
-            swal("הפרטים שונו בהצלחה", "", "success");
-
-
+            Swal.fire({
+                icon: 'success',
+                text: 'הפרטים שונו בהצלחה',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+            })
         }
         function updateDerror() { }
+        ///
+        var profession = "";
+        ClassSubArr = [];
+        ProfARR = [];
 
+
+        function addSubj() // שמירת נתוני המורה בדאטה
+        {
+            profession = $("#selectProf").val();
+            if (profession == "1") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת מקצוע 😓',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+            }
+            else {
+                if (profession == "אחר") {
+                    var X = $("#txtbox").val();
+                    profession = X;
+                }
+                checkSub();
+            }
+        }
+
+        function checkSub() {
+            //אם המקצוע קיים בדטא
+             obj[0].Profession
+            //for (var i = 0; i < ProfARR.length; i++) {
+            for (var i = 0; i < obj.length; i++) {
+               
+                if (obj[0].Profession == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'המקצוע כבר קיים',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                    return;
+                }
+            }
+            //אין כזה מקצוע
+            for (var i = 0; i < ClassSubArr.length; i++) {
+
+                if (ClassSubArr[i] == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'המקצוע הוכנס כבר למערכת',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                    return;
+                }
+            }
+            Swal.fire({
+                icon: 'success',
+                title: ' המקצוע נשמר 😀',
+                text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+            })
+            ClassSubArr.push(profession);
+        }
+
+        function saveDetails_() {
+            for (var i = 0; i < ClassSubArr.length; i++) {
+                admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                    {
+                        "Fname": $("#fname").val(),
+                        "Lname": $("#lname").val(),
+                        "Id": $("#Id").val(),
+                        "Email": $("#mail").val(),
+                        "City": $("#city").val(),
+                        "Street": $("#street").val(),
+                        "Bday": $("#bday").val(),
+                        "PhoneNum": $("#phone").val(),
+                        "Profession": ClassSubArr[i],
+                        "Password": pass
+
+                    }
+                    url = "../api/Docu/updatetAdmin";
+                    console.log(url);
+                    ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+            }
+        }
     </script>
 </head>
 <body id="page-top">
