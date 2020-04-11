@@ -3,6 +3,7 @@
     console.log('local: ', JSON.parse(local));
     TaskObj = JSON.parse(localStorage["thisTask"]);
     console.log(TaskObj);
+
     Showorientation();//סרגל השתלשלות
     getDatelis(); //Bring the details up
     
@@ -22,11 +23,11 @@ function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
     orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>הגשות</a></li>";
     document.getElementById("orientation").innerHTML = orientationSTR;
-    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
 }
 
 //Bring the details up
 function getDatelis() {
+    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
     //diffDays = diffDays(TaskObj.Task.Date);
     diffDays = diffDays("4/30/2020");
     document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
