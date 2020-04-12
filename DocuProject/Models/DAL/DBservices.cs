@@ -946,9 +946,6 @@ public class DBservices
             throw (ex);
         }
     }
-
-
-
     public List<Task> getTaskFromDB(string name, string num, string prof)
     {
         //יצירת רשימה לשמירת הנתונים

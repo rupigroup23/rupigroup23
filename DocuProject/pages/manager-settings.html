@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +49,9 @@
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
-            pass = objAdmin.Password; //If pass not changed
+            pass = objAdmin.Password;
+
+            //pass = objAdmin.Password; //If pass not changed
             $("#addsub").click(addSubj);
 
             $("#changePass").click(function () {
@@ -68,94 +70,94 @@
                     }
                 }
             });
+            //שלב1 -העלאת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+                console.log('clicked')
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
 
-        });
-
-
-        //שלב1 -העלאת התמונה לתוכנה
-        $('#upload').on('click', function () { // טעינת התמונה לתוכנה
-            console.log('clicked')
-            var data = new FormData();
-            var files = $("#fileUpload").get(0).files;
-
-            // Add the uploaded file to the form data collection
-            if (files.length > 0) {
-                for (f = 0; f < files.length; f++) {
-                    data.append("UploadedImage", files[f]);
+                // Add the uploaded file to the form data collection
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedImage", files[f]);
+                    }
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
-                data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
-            }
 
-            //Ajax upload
-            $.ajax({
-                type: "POST",
-                url: "../Api/Docu/uploadimage",
-                contentType: false,
-                processData: false,
-                data: data,
-                success: showImages,
-                error: error
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/Docu/uploadimage",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showImages,
+                    error: error
+                });
+
+                return false;
             });
 
-            return false;
-        });
+
+            // שלב2- העלאת התמונה מהתוכנה לדטא
+            $('#uploadIMG').on('click', function () {
+                var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
+                AdminImage = {
+                    "email": userEmail,
+                    "Img": imgStr
+                }
+                ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
+            });
 
 
-        // שלב2- העלאת התמונה מהתוכנה לדטא
-        $('#uploadIMG').on('click', function () {
-            var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
-            //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
-            AdminImage = {
-                "email": userEmail,
-                "Img": imgStr
+            function readFromDB() {
+                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
             }
-            ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
-        });
-
-        function readFromDB() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
-        }
-        function GETsuccessCB(data) {
-            ProfARR = []; //מערך המקצועות מהדאטא בייס
-        }
-        function GETsuccessCB(data) {
-            console.log(data);
-            listP = data;
-
-            //insert options to select
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
+            function GETsuccessCB(data) {
+                ProfARR = []; //מערך המקצועות מהדאטא בייס
             }
-        }
+            function GETsuccessCB(data) {
+                console.log(data);
+                listP = data;
 
-        function GETerrorCB(err) {
-            console.log(err);
-
-            listCS = data;
-
-            for (var i = 0; i < listP.length; i++) {
-                ProfARR[i] = listP[i].Profession;
+                //insert options to select
+                for (var i = 0; i < listP.length; i++) {
+                    var select = document.getElementById("selectProf");
+                    var option = document.createElement("option");
+                    option.text = listP[i].Name;
+                    select.add(option);
+                }
             }
-        }
 
-        function GETerrorCB(err) {
-            console.log(err);
-        }
+            function GETerrorCB(err) {
+                console.log(err);
 
-        function sub() {
-            return false;
-        }
-        function showDetalis(objAdmin) {
-            ID = objAdmin.Id;
-            var url = "../api/Docu/GetDetails/" + ID;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-        ProfDB = "";
-        function funcsuccess(data) {
-            obj = data;
+                listCS = data;
+
+                for (var i = 0; i < listP.length; i++) {
+                    ProfARR[i] = listP[i].Profession;
+                }
+            }
+
+            function GETerrorCB(err) {
+                console.log(err);
+            }
+
+            function sub() {
+                return false;
+            }
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
+                //ID = objAdmin.Id;
+                //var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+
+            function funcsuccess(data) {
+                obj = data;
 
                 $('#fname').val(obj[0].FName);
                 $('#lname').val(obj[0].LName);
@@ -166,163 +168,161 @@
                 $('#bday').val(obj[0].Bday);
                 $('#phone').val(obj[0].PhoneNum);
 
-            userEmail = obj[0].Email;
-            if (obj.length == 1) {
-                //Prof = obj[0].Profession;
-                //str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+                userEmail = obj[0].Email;
+                Prof = obj[0].Profession;
+                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
                 ProfDB = obj[0].Profession;
                 str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
-            }
-            else { // a few proffession
-                for (var i = 0; i < obj.length; i++)
+
+
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            };
+            function funcerror() { }
+
+
+            function saveDetails_() {
+                let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
                 {
-                    ProfDB = obj[i].Profession;
-                    str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
-                    document.getElementById('profCard').innerHTML = str;
+                    "Fname": $("#fname").val(),
+                    "Lname": $("#lname").val(),
+                    "Id": $("#Id").val(),
+                    "Email": $("#mail").val(),
+                    "City": $("#city").val(),
+                    "Street": $("#street").val(),
+                    "Bday": $("#bday").val(),
+                    "PhoneNum": $("#phone").val(),
+                    "Profession": $("#selectProf").val(),
+                    "Password": pass
+
                 }
+                console.log(admin);
+
+                url = "../api/Docu/updatetAdmin";
+                ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
-            //picture
-            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
-        };
-        function funcerror() { }
-
-        //function saveDetails_() {
-        //    let admin =
-        //    {
-        //        "Fname": $("#fname").val(),
-        //        "Lname": $("#lname").val(),
-        //        "Id": $("#Id").val(),
-        //        "Email": $("#mail").val(),
-        //        "City": $("#city").val(),
-        //        "Street": $("#street").val(),
-        //        "Bday": $("#bday").val(),
-        //        "PhoneNum": $("#phone").val(),
-        //        "Profession": $("#selectProf").val(),
-        //        "Password": pass
-
-        //    }
-        //    console.log(admin);
-
-        //    url = "../api/Docu/updatetAdmin";
-        //    ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
-        //}
-
-        function updateDsuccess(data) {
-            console.log(data)
-            funcsuccess(data);
-            Swal.fire({
-                icon: 'success',
-                text: 'הפרטים שונו בהצלחה',
-                confirmButtonText: 'אוקי',
-                showCloseButton: true
-            })
-        }
-        function updateDerror() { }
-        ///
-        var profession = "";
-        ClassSubArr = [];
-        ProfARR = [];
-
-        function addSubj() // שמירת נתוני המורה בדאטה
-        {
-            profession = $("#selectProf").val();
-            if (profession == "1") {
+            function updateDsuccess(data) {
+                console.log(data)
+                funcsuccess(data);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה...',
-                    text: 'לא בחרת מקצוע 😓',
+                    icon: 'success',
+                    text: 'הפרטים שונו בהצלחה',
                     confirmButtonText: 'אוקי',
                     showCloseButton: true
                 })
             }
-            else {
-                if (profession == "אחר") {
-                    var X = $("#txtbox").val();
-                    profession = X;
-                }
-                checkSub();
-            }
-        }
-        function updateDerror() { }
+            function updateDerror() { }
+            ///
+            var profession = "";
+            ClassSubArr = [];
+            ProfARR = [];
 
-        function showImages(data) {
-            imagePath = data;
 
-            Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
-        }
-
-        function error(data) {
-            console.log(data);
-        }
-        function POSTsuccessImg() {
-            Swal.fire(
-                'Good job!',
-                'התמונה הועלתה בהצלחה!',
-                'success'
-            )
-        }
-        function POSTerrorImg(data) {
-            console.log(data);
-        }
-
-        function getAvatarImageSuccess(imagePath) {
-
-            src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
-
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
-
-        function checkSub() {
-            //אם המקצוע קיים בדטא
-            obj[0].Profession
-            for (var i = 0; i < obj.length; i++) {
-
-                if (obj[0].Profession == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'המקצוע כבר קיים',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                    return;
-                }
-            }
-            //אין כזה מקצוע
-            for (var i = 0; i < ClassSubArr.length; i++) {
-
-                if (ClassSubArr[i] == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'המקצוע הוכנס כבר למערכת',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                    return;
-                }
-            }
-            Swal.fire({
-                icon: 'success',
-                title: ' המקצוע נשמר 😀',
-                text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                confirmButtonText: 'אוקי',
-                showCloseButton: true
-            })
-            ClassSubArr.push(profession);
-        }
-
-        function saveDetails_() {
-
-            if (ClassSubArr.length == 1)
+            function addSubj() // שמירת נתוני המורה בדאטה
             {
+                profession = $("#selectProf").val();
+                if (profession == "1") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'לא בחרת מקצוע 😓',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                }
+                else {
+                    if (profession == "אחר") {
+                        var X = $("#txtbox").val();
+                        profession = X;
+                    }
+                    checkSub();
+                }
+            }
+            function updateDerror() { }
+
+            function showImages(data) {
+                imagePath = data;
+
+                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+            }
+
+            function error(data) {
+                console.log(data);
+            }
+
+
+
+
+            function POSTsuccessImg() {
+                Swal.fire(
+                    'Good job!',
+                    'התמונה הועלתה בהצלחה!',
+                    'success'
+                )
+
+            }
+
+
+            function POSTerrorImg(data) {
+                console.log(data);
+            }
+
+            function getAvatarImageSuccess(imagePath) {
+
+                src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function checkSub() {
+                //אם המקצוע קיים בדטא
+                obj[0].Profession
+                //for (var i = 0; i < ProfARR.length; i++) {
+                for (var i = 0; i < obj.length; i++) {
+
+                    if (obj[0].Profession == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע כבר קיים',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                //אין כזה מקצוע
+                for (var i = 0; i < ClassSubArr.length; i++) {
+
+                    if (ClassSubArr[i] == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע הוכנס כבר למערכת',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: ' המקצוע נשמר 😀',
+                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+                ClassSubArr.push(profession);
+            }
+
+            function saveDetails_() {
                 for (var i = 0; i < ClassSubArr.length; i++) {
                     admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
                         {
@@ -334,36 +334,16 @@
                             "Street": $("#street").val(),
                             "Bday": $("#bday").val(),
                             "PhoneNum": $("#phone").val(),
-                            "Profession": ClassSubArr[0],
-                            "Password": pass
-                        }
-                    url = "../api/Docu/updatetAdmin";
-                    ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
-
-                }
-            }
-
-            else { // a few proffesions
-                for (var i = 0; i < ClassSubArr.length; i++) {
-
-                    admin =
-                        {
-                            "Fname": $("#fname").val(),
-                            "Lname": $("#lname").val(),
-                            "Id": $("#Id").val(),
-                            "Email": $("#mail").val(),
-                            "City": $("#city").val(),
-                            "Street": $("#street").val(),
-                            "Bday": $("#bday").val(),
-                            "PhoneNum": $("#phone").val(),
                             "Profession": ClassSubArr[i],
                             "Password": pass
+
                         }
-                    url = "../api/Docu/PostAdmin";
-                    ajaxCall("POST", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+                    url = "../api/Docu/updatetAdmin";
+                    console.log(url);
+                    ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
                 }
             }
-        }
+        })
 
     </script>
 
@@ -663,6 +643,7 @@
                                     <button id="addsub" class="create-select" style="width: auto;">
                                         הוספה
                                     </button>
+                           
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>
@@ -680,6 +661,7 @@
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <!--<div class="create-text">
                                         <h6 style="font-size: 23px"></h6>
+
                                     </div>-->
                                     <h6 style="font-size: 23px"></h6>
 
@@ -793,10 +775,5 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
-
 </body>
-
-
-
-
 </html>

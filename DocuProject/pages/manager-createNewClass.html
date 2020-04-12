@@ -42,7 +42,7 @@
         $(document).ready(function () {
             getTachears(); ////////////////////////
             $('#saveClass').click(saveClassDB);
-            //$('#upload').click(uploadStudents);
+            $('#upload').click(uploadStudents);
             $('#addProff').click(saveProfClassDB); 
             $('#NewProfBTN').click(addProf);
         });
@@ -147,7 +147,57 @@
             swal("המקצוע נוסף למערכת בהצלחה", "", "success")
         }
         function POST1error(err) { console.log(err) };
-       
+
+
+        studentsArr = new Array();
+        $(function () {
+            $("#load").bind("click", function () {
+               var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                if (regex.test($("#fileUpload").val().toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var rows = e.target.result.split("\r\n");
+                            for (var i = 0; i < rows.length; i++) {
+                                var cells = rows[i].split(",");
+                                if (cells.length > 1) {
+                                    var student = {};
+                                    student.FName = cells[0];
+                                    student.LName = cells[1];
+                                    student.PhoneNum = cells[2];
+                                    student.Email = cells[3];
+                                    student.City = cells[4];
+                                    student.Address = cells[5];
+                                    student.Id = cells[6];
+                                    student.Bday = cells[7];
+                                    student.ClassName = $("#classSelect").val();
+                                    student.ClassNum = $("#classNum").val();
+                                    student.Password = Math.random().toString(36).substring(7);
+                                    studentsArr.push(student);
+                                    console.log(studentsArr[0]);
+                                    console.log(studentsArr.length);
+                                }
+                            }
+                        }
+                        reader.readAsText($("#fileUpload")[0].files[0]);
+                    } else {
+                        swal("This browser does not support HTML5.", "", "warning")
+                    }
+                }
+                else {
+                    swal("Please upload a valid CSV file", "", "warning")
+                }
+                //ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+            });
+        });
+        function uploadStudents() {
+            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        }
+        function POSTsuccess(data) {
+            console.log(data)
+            swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
+        }
+        function POSTerror(err) { console.log(err) }
     </script>
 
   
