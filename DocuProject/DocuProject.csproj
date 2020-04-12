@@ -166,6 +166,7 @@
     <Compile Include="Models\DAL\DBservices.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\ImgAdmin.cs" />
     <Compile Include="Models\ImgStudent.cs" />
     <Compile Include="Models\Profession.cs" />
     <Compile Include="Models\Student.cs" />
@@ -188,14 +189,15 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
+<<<<<<< HEAD
     <Content Include="pages\js\manager\createNewTask.js" />
     <Content Include="pages\js\manager\createNewTeacher.js" />
     <Content Include="pages\js\manager\EDITPresentationAssignment.js" />
     <Content Include="pages\js\manager\PresentationAssignment.js" />
+=======
+>>>>>>> 76f9fcea44dc9b70016dfe5a9fc374c936ab98e7
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
-    <Content Include="pages\js\manager\teacher-Management.js" />
-    <Content Include="pages\js\manager\watchingvideos.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
@@ -450,9 +452,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52913</DevelopmentServerPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44328/</IISUrl>
+          <IISUrl>http://localhost:51955/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
