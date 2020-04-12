@@ -21,11 +21,12 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
     <!-- dates -->
-
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <script>
 
         $(document).ready(function () {
@@ -59,7 +60,12 @@
 
 
                 if (fnameVal == "" || lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
-                    alert("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning")
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'ישנם שדות חסרים, אנא מלא/י אותם',
+                       
+                    })
                     return false;
                 }
 
@@ -90,7 +96,11 @@
 
             function POSTsuccess() {
 
-                alert("תלמיד/ה נוסף/ה למערכת בהצלחה", "", "success")
+                Swal.fire(
+                    'OK',
+                    'תלמיד/ה חדש/ה נוספו למערכת',
+                    'success'
+                )
                 $('#imageUplaodDiv').show();
 
             }
@@ -127,7 +137,8 @@
 
             function showImages(data) {
                 imagePath = data;
-                alert("התמונה סיימה להיטען, לחץ על 'שמור תמונה'", "", "success")
+              
+                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
             }
 
             function error(data) {
@@ -152,9 +163,12 @@
 
 
         function POSTsuccessImg() {
-
-            alert("התמונה הועלתה בהצלחה!", "", "success")
-
+            Swal.fire(
+                'Good job!',
+                'התמונה הועלתה בהצלחה!',
+                'success'
+            )
+            
         }
 
 

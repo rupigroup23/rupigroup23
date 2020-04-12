@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DocuProject.Models
 {
-    public class ImgStudent
+    public class ImgAdmin
     {
         string email;
         string img;
@@ -14,13 +14,17 @@ namespace DocuProject.Models
         public string Email { get => email; set => email = value; }
 
 
-        public int insertPic(ImgStudent StudentImage) // הכנסת התמונה משלב2
+        public int insertPic2(ImgAdmin AdminImage) // הכנסת התמונה משלב2
         {
             DBservices dbs = new DBservices();
-            int numAffected = dbs.insertPic(StudentImage);
+            int numAffected = dbs.insertPic2(AdminImage);
             return numAffected; //מחזיר את מספר השורות
         }
 
-       
+        public string getAvatarImage(string  Id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getAvatarImage(Id);
+        }
     }
 }
