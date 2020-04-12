@@ -205,7 +205,8 @@
             ClassSubArr.push(profession);
         }
 
-        function saveDetails_() {
+        function saveDetails_()
+        {
             for (var i = 0; i < ClassSubArr.length; i++) {
                 admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
                     {
@@ -222,7 +223,6 @@
 
                     }
                     url = "../api/Docu/updatetAdmin";
-                    console.log(url);
                     ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
         }
@@ -520,15 +520,13 @@
                                     <select id="selectProf" class="create-select">
                                         <option value="1">שם המקצוע</option>
                                     </select>
-<<<<<<< HEAD
                                       <button id="addsub" class="create-select" style="width: auto;">
                                                     הוספה
                                                 </button>
-=======
+
                                     <button id="addsub" class="create-select" style="width: auto;">
                                         הוספה
                                     </button>
->>>>>>> a36fff57055137d529e31833be7e08cf8b6c909a
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>
@@ -545,15 +543,13 @@
                                 <h6 class="create-text" for="city">מקצועות לימוד:</h6>
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <!--<div class="create-text">
-<<<<<<< HEAD
                                         <h6 style="font-size: 23px"></h6>
 
                                     </div>-->
-=======
+
                                     <h6 style="font-size: 23px"></h6>
 
                                 </div>-->
->>>>>>> a36fff57055137d529e31833be7e08cf8b6c909a
                                 </div>
                             </div>
                             <br />
@@ -621,16 +617,13 @@
             </div>
             <!-- /.container-fluid
 
-<<<<<<< HEAD
             </div>
             <!-- /.content-wrapper -->
         </div>
-=======
         </div>
         <!-- /.content-wrapper -->
         </div>
     </div>
->>>>>>> a36fff57055137d529e31833be7e08cf8b6c909a
         <!-- /#wrapper -->
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
