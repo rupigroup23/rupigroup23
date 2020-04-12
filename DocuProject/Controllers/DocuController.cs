@@ -252,6 +252,13 @@ namespace DocuProject.Controllers
             Admin A = new Admin();
             return A.PutA(admin);
         }
-  
+
+        //[HttpPut]
+        //[Route("api/Docu/updatetTask")]
+        //public DataTable PutTask([FromBody] Task task)
+        //{
+        //    Task T = new Task();
+        //    return T.PutTask(Task);
+        //}
     }
 }

@@ -36,8 +36,7 @@
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <script src="js/manager/PresentationAssignment.js"></script>
+    <script src="js/manager/EDITPresentationAssignment.js"></script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -301,13 +300,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
-                                    <a href="manager-EDIT_PresentationAssignment.html">
-                                        <i class="far fa-edit"></i>
-                                    </a>
-                                    &nbsp;
-                                    <i class="far fa-trash-alt"></i>
-                                </div>
                             </div>
                             <br />
                             <div class="row">
@@ -316,8 +308,9 @@
                                         <span class="text2">
                                             נושא המטלה:&nbsp;
                                         </span>
-                                        <div id="topic" class="squareTEXT" >
-                                        </div>
+                                        <input id="topic" class="form-control border-form-control create-select textSquareTEXT"  value="" type="text">
+                                        <!--<div id="topic" class="squareTEXT">
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12 col-xs-3 ">
@@ -325,10 +318,14 @@
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
                                         </span>
-                                        <div id="date" class="squareTEXT" >
-                                        </div>
+                                        <input id="date" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
+                                        <!--<div id="date" class="squareTEXT">
+                                        </div>-->
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <button id="saveDetails" class="showTask-btn">שמירה</button>
                             </div>
                             <br />
                             <hr class="mt-0">

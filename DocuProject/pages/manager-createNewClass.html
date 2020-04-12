@@ -42,9 +42,9 @@
         $(document).ready(function () {
             getTachears(); ////////////////////////
             $('#saveClass').click(saveClassDB);
-            //$('#upload').click(uploadStudents);
+            $('#upload').click(uploadStudents);
             $('#addProff').click(saveProfClassDB); 
-            $('#NewProfBTN').click(addProf);
+            //$('#NewProfBTN').click(addProf);
         });
 
         function getTachears() { //////////////////////////
@@ -121,6 +121,7 @@
             }
         }
         ClassSubArr = [];
+
         function saveProfClassDB() {
             addProfession();
             size = subjArr.length;
@@ -137,21 +138,67 @@
                     console.log(ClassSubArr);
                 }
                 ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
-
             }
             else {
-                alert("pleass insert the Profession")
+                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
             }
         }
+
         function POST1success() {
             swal("המקצוע נוסף למערכת בהצלחה", "", "success")
         }
         function POST1error(err) { console.log(err) };
-       
+
+        studentsArr = new Array();
+        $(function () {
+            $("#load").bind("click", function () {
+               var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                if (regex.test($("#fileUpload").val().toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var rows = e.target.result.split("\r\n");
+                            for (var i = 0; i < rows.length; i++) {
+                                var cells = rows[i].split(",");
+                                if (cells.length > 1) {
+                                    var student = {};
+                                    student.FName = cells[0];
+                                    student.LName = cells[1];
+                                    student.PhoneNum = cells[2];
+                                    student.Email = cells[3];
+                                    student.City = cells[4];
+                                    student.Address = cells[5];
+                                    student.Id = cells[6];
+                                    student.Bday = cells[7];
+                                    student.ClassName = $("#classSelect").val();
+                                    student.ClassNum = $("#classNum").val();
+                                    student.Password = Math.random().toString(36).substring(7);
+                                    studentsArr.push(student);
+                                    console.log(studentsArr[0]);
+                                    console.log(studentsArr.length);
+                                }
+                            }
+                        }
+                        reader.readAsText($("#fileUpload")[0].files[0]);
+                    } else {
+                        swal("This browser does not support HTML5.", "", "warning")
+                    }
+                }
+                else {
+                    swal("Please upload a valid CSV file", "", "warning")
+                }
+                //ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+            });
+        });
+        function uploadStudents() {
+            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        }
+        function POSTsuccess(data) {
+            console.log(data)
+            swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
+        }
+        function POSTerror(err) { console.log(err) }
     </script>
-
-  
-
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -402,14 +449,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="video-block section-padding">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h6>הקמת כיתה חדשה</h6>
-                        </div>
-                    </div>
-                </div>-->
-                <!--<hr class="mt-0">-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
@@ -438,9 +477,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="vl"></div>
-
                                 <div class="col-lg-3 col-sm-12 text2">
                                     מילוי פרטי הכיתה:
                                     <br />
@@ -467,9 +504,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="vl"></div>
-
                                 <div class="col-lg-3 col-sm-12 text2">
                                     העלאת קובץ תלמידים:
                                     <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
@@ -623,8 +658,8 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

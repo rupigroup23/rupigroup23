@@ -971,12 +971,6 @@ public class DBservices
         da.Update(dt);
     }
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> aad8cd4ceecdf03b7256b42a3947cd4f42b90510
-
     public DBservices Get_Details(int ID)
     {
         Admin A = new Admin();
