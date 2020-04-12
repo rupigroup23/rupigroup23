@@ -1002,16 +1002,6 @@ public class DBservices
         da.Update(dt);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
->>>>>>> 76f9fcea44dc9b70016dfe5a9fc374c936ab98e7
-=======
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
     public DBservices Get_Details(int ID)
     {
         Admin A = new Admin();

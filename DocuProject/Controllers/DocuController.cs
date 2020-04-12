@@ -247,7 +247,7 @@ namespace DocuProject.Controllers
         //Setting
         [HttpGet]
         [Route("api/Docu/GetDetails/{Id}")]
-        public DataTable GetDIS(int Id) 
+        public DataTable GetDIS(int Id)
         {
             Admin A = new Admin();
             return A.GetDetails(Id);
@@ -261,8 +261,6 @@ namespace DocuProject.Controllers
             return A.PutA(admin);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         //[HttpPut]
         //[Route("api/Docu/updatetTask")]
         //public DataTable PutTask([FromBody] Task task)
@@ -270,13 +268,10 @@ namespace DocuProject.Controllers
         //    Task T = new Task();
         //    return T.PutTask(Task);
         //}
-=======
 
-=======
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
-        
+
         public string Get(string Id)
         {
             ImgAdmin i = new ImgAdmin();
@@ -292,6 +287,5 @@ namespace DocuProject.Controllers
         }
 
 
->>>>>>> 76f9fcea44dc9b70016dfe5a9fc374c936ab98e7
     }
 }
