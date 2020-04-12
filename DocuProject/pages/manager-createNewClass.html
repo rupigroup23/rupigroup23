@@ -34,21 +34,22 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
         $(document).ready(function () {
-            getTachears(); ////////////////////////
+            getTachears();
             $('#saveClass').click(saveClassDB);
             $('#upload').click(uploadStudents);
-            $('#addProff').click(saveProfClassDB); 
+            $('#addProff').click(saveProfClassDB);
             $('#NewProfBTN').click(addProf);
         });
 
-        function getTachears() { //////////////////////////
-        ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+        //get teacher
+        function getTachears() {
+            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
         function GETsuccessT(data) {
             console.log(data);
@@ -64,95 +65,11 @@
         }
         function GETerrorT(err) { console.log(err) }
 
-        function saveClassDB() {
-
-        Year = $("#Year").val();
-        NumOfStudents = $("#NumOfs").val();
-
-            if (Year == "" || NumOfStudents == "") {
-                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                return false;
-            }
-            classObj =
-                {
-                    "Name": $("#classSelect").val(),
-                    "Number": $("#classNum").val(),
-                    "Number": $("#classNum").val(),
-                    "Year": $("#Year").val(),
-                    "TeacherName": $("#teacherName").val(),
-                    "ClassType": $("#classType").val()
-                }
-            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
-        }
-        function POSTsuccessCB() {
-            swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
-            // לאחר לחיצה מאפס לחצנים
-            $("#classSelect option:first").attr('selected', 'selected');
-            $("#classNum option:first").attr('selected', 'selected');
-            $("#Year").val("");
-            $("#NumOfs").val("");
-            $("#teacherName option:first").attr('selected', 'selected');
-            $("#classType option:first").attr('selected', 'selected');
-            /////////////
-        }
-        function POSTerrorCB(err) { console.log(err) }; // ממירה קובץ אקסל לאובייקט+ דחיפה למערך
-
-        ///////////////שיר//////////
-        subjArr = [];
-        function addProfession() {
-            var num = 5;
-            for (var i = 1; i < num; i++) {
-                var col1 = "customCheck";
-                if ($("#" + col1 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col1 + i + "").val());
-                }
-                var col2 = "zcustomCheck";
-                if ($("#" + col2 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col2 + i + "").val());
-                }
-                var col3 = "czcustomCheck";
-                if ($("#" + col3 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col3 + i + "").val());
-                }
-                var col4 = "scustomCheck";
-                if ($("#" + col4 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col4 + i + "").val());
-                }
-            }
-        }
-        ClassSubArr = [];
-        function saveProfClassDB() {
-            addProfession();
-            size = subjArr.length;
-            if (size >= 1) {
-                for (j in subjArr) {
-                    ClassSubObj =
-                        {
-                            "Name": $("#classSelect").val(),
-                            "Number": $("#classNum").val(),
-                            "ClassType": $("#classType").val(),
-                            "Profession": subjArr[j],
-                        }
-                    ClassSubArr.push(ClassSubObj);
-                    console.log(ClassSubArr);
-                }
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
-
-            }
-            else {
-                alert("pleass insert the Profession")
-            }
-        }
-        function POST1success() {
-            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-        function POST1error(err) { console.log(err) };
-
-
+        //Excel
         studentsArr = new Array();
         $(function () {
             $("#load").bind("click", function () {
-               var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
                 if (regex.test($("#fileUpload").val().toLowerCase())) {
                     if (typeof (FileReader) != "undefined") {
                         var reader = new FileReader();
@@ -180,14 +97,14 @@
                             }
                         }
                         reader.readAsText($("#fileUpload")[0].files[0]);
-                    } else {
+                    }
+                    else {
                         swal("This browser does not support HTML5.", "", "warning")
                     }
                 }
                 else {
                     swal("Please upload a valid CSV file", "", "warning")
                 }
-                //ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
             });
         });
         function uploadStudents() {
@@ -198,10 +115,126 @@
             swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
         }
         function POSTerror(err) { console.log(err) }
+
+        //proff
+        subjArr = [];
+        ClassSubArr = [];
+
+        function addProfession() {
+            var num = 5;
+            for (var i = 1; i < num; i++) {
+                var col1 = "customCheck";
+                if ($("#" + col1 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col1 + i + "").val());
+                }
+                var col2 = "zcustomCheck";
+                if ($("#" + col2 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col2 + i + "").val());
+                }
+                var col3 = "czcustomCheck";
+                if ($("#" + col3 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col3 + i + "").val());
+                }
+                var col4 = "scustomCheck";
+                if ($("#" + col4 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col4 + i + "").val());
+                }
+            }
+        }
+
+        function saveProfClassDB() {
+            addProfession();
+            size = subjArr.length;
+            Newf = $("#NewProfession").val();
+            subjArr.push(Newf);
+            if (size >= 1) {
+                for (j in subjArr) {
+                    ClassSubObj =
+                        {
+                            "Name": $("#classSelect").val(),
+                            "Number": $("#classNum").val(),
+                            "ClassType": $("#classType").val(),
+                            "Profession": subjArr[j],
+                        }
+                    ClassSubArr.push(ClassSubObj);
+                    console.log(ClassSubArr);
+                }
+                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+            }
+            else {
+                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
+            }
+        }
+        function POST1success() {
+            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+        }
+        function POST1error(err) { console.log(err) };
+
+        function addProf() {
+            Year = $("#Year").val();
+            NumOfStudents = $("#NumOfs").val();
+
+            if (Year == "" || NumOfStudents == "") {
+                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
+                return false;
+            }
+
+            Prof1 = $("#NewProfession").val();
+            //מדביק בטבלת מקצועות לכיתה
+            proffObj =
+                {
+                    "Name": Prof1,
+                }
+            console.log(proffObj);
+
+            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
+
+            //ClassSubObj1 = {
+            //    "Name": $("#classSelect").val() ,
+            //    "Number": $("#classNum").val(),
+            //    "ClassType": $("#classType").val(),
+            //    "Profession": Prof1,
+            //}
+            //console.log(ClassSubObj1);
+
+            //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
+        }
+        function POSTsuccess() {
+            swal("מקצוע נוסף למערכת בהצלחה", "", "success")
+
+        }
+        function POSTerror() { }
+        function POST2success() {
+            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+        }
+        function POST2error(err) { console.log(err) };
+
+        function saveClassDB() {
+            classObj =
+                {
+                    "Name": $("#classSelect").val(),
+                    "Number": $("#classNum").val(),
+                    "Number": $("#classNum").val(),
+                    "Year": $("#Year").val(),
+                    "TeacherName": $("#teacherName").val(),
+                    "ClassType": $("#classType").val()
+
+                }
+            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+        }
+        function POSTsuccessCB() {
+            swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
+            // לאחר לחיצה מאפס לחצנים
+            $("#classSelect option:first").attr('selected', 'selected');
+            $("#classNum option:first").attr('selected', 'selected');
+            $("#Year").val("");
+            $("#NumOfs").val("");
+            $("#teacherName option:first").attr('selected', 'selected');
+            $("#classType option:first").attr('selected', 'selected');
+            /////////////
+        }
+        function POSTerrorCB(err) { console.log(err) };
     </script>
-
-  
-
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -452,14 +485,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="video-block section-padding">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h6>הקמת כיתה חדשה</h6>
-                        </div>
-                    </div>
-                </div>-->
-                <!--<hr class="mt-0">-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
@@ -488,9 +513,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="vl"></div>
-
                                 <div class="col-lg-3 col-sm-12 text2">
                                     מילוי פרטי הכיתה:
                                     <br />
@@ -517,9 +540,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="vl"></div>
-
                                 <div class="col-lg-3 col-sm-12 text2">
                                     העלאת קובץ תלמידים:
                                     <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
@@ -673,8 +694,8 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
