@@ -822,7 +822,7 @@ public class DBservices
         SqlCommand cmd;
         try
         {
-            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+            con = connect("DBConnectionString");
         }
         catch (Exception ex)
         {
@@ -879,8 +879,7 @@ public class DBservices
 
 
 
-
-    /// //////////////////////////שמירת תמונה לתלמיד////////////////////////////////////////
+    //////////////////////////שמירת תמונה לתלמיד////////////////////////////////////////
 
     public int insertPic(ImgStudent StudentImage)
     {
@@ -902,8 +901,8 @@ public class DBservices
             int numEffected = 0;
             string cStr = "UPDATE Student SET Image_='" + StudentImage.Img + "' where Email='" + StudentImage.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
                                                                                                                               //בניית פקודת דחיפה - הכנסה לדאטהבייס
-            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
-            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            cmd = CreateCommand(cStr, con);  
+            numEffected += cmd.ExecuteNonQuery(); 
             return numEffected;
         }
         catch (Exception ex)
@@ -1006,10 +1005,6 @@ public class DBservices
         da.Update(dt);
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
     public DBservices Get_Details(int ID)
     {
         Admin A = new Admin();
@@ -1076,6 +1071,64 @@ public class DBservices
             }
         }
     }
+
+
+    public int Post_Admin(Admin admin)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            string cStr = BuildInsertCommandAd(admin);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    private String BuildInsertCommandAd(Admin admin)
+                                                        //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+
+        sb.AppendFormat("Values('{0}','{1}',{2},'{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')", admin.Fname, admin.Lname, admin.Id, admin.Email, admin.City, admin.Street, admin.Bday, admin.PhoneNum, admin.Profession,admin.Password); 
+        String prefix = "INSERT INTO Admin_" + "(FName,LName,Id_,Email,City,Street,Bday,PhoneNum,Profession,Password_)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
 }
 
 
@@ -1089,43 +1142,3 @@ public class DBservices
 
 
 
-
-
-
-
-    //        SqlCommand cmd = new SqlCommand(selectSTR, con);
-
-    //        // get a reader
-    //        SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
-
-    //        while (dr.Read())
-    //        {   // Read till the end of the data into a row
-
-    //            A.Fname = (string)dr["FName"];
-    //            A.Lname = (string)dr["LName"];
-    //            A.Id = (int)dr["Id_"];
-    //            A.Email = (string)dr["Email"];
-    //            A.City = (string)dr["City"];
-    //            A.Street = (string)dr["Street"];
-    //            A.Bday = (DateTime)dr["Bday"];
-    //            A.PhoneNum = (string)dr["PhoneNum"];
-    //            A.Profession = (string)dr["Profession"];
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw (ex);
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();
-    //        }
-    //    }
-    //    return this;
-
-    //}
-
-
- 
