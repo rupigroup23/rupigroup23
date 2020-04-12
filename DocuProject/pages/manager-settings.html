@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -48,7 +49,7 @@
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
-            pass = "1234";//objAdmin.Password;
+            pass = objAdmin.Password;
 
             //pass = objAdmin.Password; //If pass not changed
             $("#addsub").click(addSubj);
@@ -68,10 +69,7 @@
                         return false;
                     }
                 }
-
             });
-
-
             //שלב1 -העלאת התמונה לתוכנה
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
@@ -113,8 +111,6 @@
             });
 
 
-
-
             function readFromDB() {
                 ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
             }
@@ -152,29 +148,13 @@
                 return false;
             }
             function showDetalis(objAdmin) {
-                Id = "203937990";//objAdmin.Id;
+                Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
 
                 //ID = objAdmin.Id;
                 //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
-<<<<<<< HEAD
-            Swal.fire({
-                icon: 'success',
-                title: ' המקצוע נשמר 😀',
-                text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                confirmButtonText: 'אוקי',
-                showCloseButton: true
-            })
-            ClassSubArr.push(profession);
-        }
-
-        function saveDetails_()
-        {
-            for (var i = 0; i < ClassSubArr.length; i++) {
-                admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-=======
 
             function funcsuccess(data) {
                 obj = data;
@@ -196,7 +176,6 @@
                 document.getElementById('profCard').innerHTML = str;
 
 
-
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
             };
@@ -205,20 +184,19 @@
 
             function saveDetails_() {
                 let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
-                    {
-                        "Fname": $("#fname").val(),
-                        "Lname": $("#lname").val(),
-                        "Id": $("#Id").val(),
-                        "Email": $("#mail").val(),
-                        "City": $("#city").val(),
-                        "Street": $("#street").val(),
-                        "Bday": $("#bday").val(),
-                        "PhoneNum": $("#phone").val(),
-                        "Profession": $("#selectProf").val(),
-                        "Password": pass
+                {
+                    "Fname": $("#fname").val(),
+                    "Lname": $("#lname").val(),
+                    "Id": $("#Id").val(),
+                    "Email": $("#mail").val(),
+                    "City": $("#city").val(),
+                    "Street": $("#street").val(),
+                    "Bday": $("#bday").val(),
+                    "PhoneNum": $("#phone").val(),
+                    "Profession": $("#selectProf").val(),
+                    "Password": pass
 
-                    }
+                }
                 console.log(admin);
 
                 url = "../api/Docu/updatetAdmin";
@@ -361,6 +339,7 @@
 
                         }
                     url = "../api/Docu/updatetAdmin";
+                    console.log(url);
                     ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
                 }
             }
@@ -661,22 +640,10 @@
                                     <select id="selectProf" class="create-select">
                                         <option value="1">שם המקצוע</option>
                                     </select>
-<<<<<<< HEAD
-                                      <button id="addsub" class="create-select" style="width: auto;">
-                                                    הוספה
-                                                </button>
-
                                     <button id="addsub" class="create-select" style="width: auto;">
                                         הוספה
                                     </button>
-=======
-                                    <button id="addsub" class="create-select" style="width: auto;">
-                                        הוספה
-                                    </button>
-                                    <button id="addsub" class="create-select" style="width: auto;">
-                                        הוספה
-                                    </button>
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
+                           
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>
@@ -696,15 +663,8 @@
                                         <h6 style="font-size: 23px"></h6>
 
                                     </div>-->
-<<<<<<< HEAD
-
                                     <h6 style="font-size: 23px"></h6>
 
-                                </div>-->
-=======
-                                    <h6 style="font-size: 23px"></h6>
-
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
                                 </div>
                             </div>
                         </div>
@@ -719,15 +679,15 @@
             <div class="row">
                 <div class="col-lg-8 col-sm-8">
                     <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
-                        <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />
-                        &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
-                        &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />
+                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                    &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
                 </div>
-                
+
                 <!--<div class="col-lg-3 col-sm-6">
                     <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
                 </div>-->
-                
+
                 <div class="col-lg-4 col-sm-4">
                     <button id="changePass" class="create-btn" style="padding-right: 65px;">
                         שינוי סיסמא
@@ -762,50 +722,18 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            <!-- /.container-fluid
-
-            </div>
-            <!-- /.content-wrapper -->
-        </div>
-        </div>
-        <!-- /.content-wrapper -->
-=======
             <hr class="mt-0">
             <div class="row">
-                    <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
-                    <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg" style="width:300px;margin-right:280px;">
-                        שמירה
-                    </button>
-                    <!--</a>-->
+                <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
+                <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg" style="width:300px;margin-right:280px;">
+                    שמירה
+                </button>
+                <!--</a>-->
             </div>
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
         </div>
         <!--/.container-fluid-->
 
     </div>
-<<<<<<< HEAD
-        <!-- /#wrapper -->
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
-                    </div>
-=======
     <!--/.content-wrapper-->
     <!--</div>-->
     <!-- /#wrapper
@@ -827,7 +755,6 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
->>>>>>> c10d57d91eb7bc8e343ea5dfd05806ab274bf325
                 </div>
             </div>
         </div>
@@ -848,10 +775,5 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
-
 </body>
-
-
-
-
 </html>

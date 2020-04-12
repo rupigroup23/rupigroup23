@@ -247,7 +247,7 @@ namespace DocuProject.Controllers
         //Setting
         [HttpGet]
         [Route("api/Docu/GetDetails/{Id}")]
-        public DataTable GetDIS(int Id) // מקבלת שם של טבלה, מחזירה טבלה מהדטה בייס
+        public DataTable GetDIS(int Id) 
         {
             Admin A = new Admin();
             return A.GetDetails(Id);
@@ -262,6 +262,7 @@ namespace DocuProject.Controllers
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         //[HttpPut]
         //[Route("api/Docu/updatetTask")]
         //public DataTable PutTask([FromBody] Task task)
@@ -271,6 +272,8 @@ namespace DocuProject.Controllers
         //}
 =======
 
+=======
+>>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
         
@@ -278,6 +281,14 @@ namespace DocuProject.Controllers
         {
             ImgAdmin i = new ImgAdmin();
             return i.getAvatarImage(Id);
+        }
+
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/PostAdmin")]
+        public void PostAdmin([FromBody] Admin admin)
+        {
+            Admin A = new Admin();
+            A.PostAdmin(admin);
         }
 
 
