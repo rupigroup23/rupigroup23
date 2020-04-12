@@ -189,13 +189,12 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
-<<<<<<< HEAD
+
     <Content Include="pages\js\manager\createNewTask.js" />
     <Content Include="pages\js\manager\createNewTeacher.js" />
     <Content Include="pages\js\manager\EDITPresentationAssignment.js" />
     <Content Include="pages\js\manager\PresentationAssignment.js" />
-=======
->>>>>>> 76f9fcea44dc9b70016dfe5a9fc374c936ab98e7
+
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
     <Content Include="pages\js\showItem.js" />
