@@ -98,18 +98,18 @@
                 return false;
             });
 
-
             // שלב2- העלאת התמונה מהתוכנה לדטא
-            $('#uploadIMG').on('click', function () {
+            $('#uploadIMG').on('click', function ()
+            {
                 var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
                 //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
-                AdminImage = {
+                AdminImage =
+                    {
                     "email": userEmail,
                     "Img": imgStr
                 }
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
-
 
             function readFromDB() {
                 ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);

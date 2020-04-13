@@ -40,28 +40,16 @@
 
     <script>
         $(document).ready(function () {
-<<<<<<< HEAD
-            getTachears(); 
-            $('#saveClass').click(saveClassDB);
-            $('#upload').click(uploadStudents);
-            $('#addProff').click(saveProfClassDB); 
-=======
             getTachears();
             $('#saveClass').click(saveClassDB);
             $('#upload').click(uploadStudents);
             $('#addProff').click(saveProfClassDB);
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
             $('#NewProfBTN').click(addProf);
         });
 
         //get teacher
-<<<<<<< HEAD
-        function getTachears() { 
-        ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-=======
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
         }
         function GETsuccessT(data) {
             console.log(data);
@@ -111,11 +99,7 @@
                         reader.readAsText($("#fileUpload")[0].files[0]);
                     }
                     else {
-<<<<<<< HEAD
-                                swal("This browser does not support HTML5.", "", "warning")
-=======
                         swal("This browser does not support HTML5.", "", "warning")
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
                     }
                 }
                 else {
@@ -128,11 +112,7 @@
         }
         function POSTsuccess(data) {
             console.log(data)
-<<<<<<< HEAD
-                    swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
-=======
             swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
         }
         function POSTerror(err) { console.log(err) }
 
@@ -190,59 +170,6 @@
         }
         function POST1error(err) { console.log(err) };
 
-<<<<<<< HEAD
-        function addProf()
-        {
-            Year = $("#Year").val();
-            NumOfStudents = $("#NumOfs").val();
-
-            if (Year == "" || NumOfStudents == "") {
-                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                return false;
-            }
-
-            Prof1 = $("#NewProfession").val();
-            //מדביק בטבלת מקצועות לכיתה
-            proffObj =
-                {
-                    "Name": Prof1,
-                }
-            console.log(proffObj);
-
-            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
-
-            //ClassSubObj1 = {
-            //    "Name": $("#classSelect").val() ,
-            //    "Number": $("#classNum").val(),
-            //    "ClassType": $("#classType").val(),
-            //    "Profession": Prof1,
-            //}
-            //console.log(ClassSubObj1);
-
-            //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
-        }
-        function POSTsuccess() {
-                        swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-
-        }
-        function POSTerror() { }
-        function POST2success() {
-            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-        function POST2error(err) { console.log(err) };
-
-        function saveClassDB() {
-            classObj =
-                    {
-                        "Name": $("#classSelect").val(),
-                        "Number": $("#classNum").val(),
-                        "Number": $("#classNum").val(),
-                        "Year": $("#Year").val(),
-                        "TeacherName": $("#teacherName").val(),
-                        "ClassType": $("#classType").val()
-
-                    }
-=======
         function addProf() {
             Year = $("#Year").val();
             NumOfStudents = $("#NumOfs").val();
@@ -274,8 +201,8 @@
         }
         function POSTsuccess() {
             swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-
         }
+
         function POSTerror() { }
         function POST2success() {
             swal("המקצוע נוסף למערכת בהצלחה", "", "success")
@@ -293,7 +220,6 @@
                     "ClassType": $("#classType").val()
 
                 }
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
         function POSTsuccessCB() {
@@ -307,13 +233,8 @@
             $("#classType option:first").attr('selected', 'selected');
             /////////////
         }
-<<<<<<< HEAD
-        function POSTerrorCB(err) { console.log(err) }; 
-</script>
-=======
         function POSTerrorCB(err) { console.log(err) };
     </script>
->>>>>>> 6cbfb525e91163ea1ef001145267764d77622e6c
 </head>
 <body id="page-top">
     <!-- top bar -->

@@ -154,7 +154,7 @@ namespace DocuProject.Controllers
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS(name, num); // Read from Models/Counrty
         }
-        public DataTable Delete(int id)
+        public DataTable Delete(int id) //תלמיד
         {
             Student S = new Student();
             return S.deleteS(id);
@@ -285,16 +285,21 @@ namespace DocuProject.Controllers
             Admin A = new Admin();
             A.PostAdmin(admin);
         }
-
-
-        //[HttpPut]
-        //[Route("api/Docu/updateStudent/{id}")]
-        //public DataTable PutDIS(int id, [FromBody] Student student)
-        //{
-        //    Student S = new Student();
-        //    return S.PutS(id, student);
-        //}
-
+        
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/DeleteT/{rowID}")]
+        public DataTable Delete_T(int rowID) //מורה 
+        {
+            Teacher T = new Teacher();
+            return T.deleteT(rowID);
+        }
+        [HttpPut] //teacher
+        [Route("api/Docu/updateTeacher/{id}")]
+        public DataTable PutT(int id, [FromBody] Teacher teacher)
+        {
+            Teacher T = new Teacher();
+            return T.PutT(id, teacher);
+        }
 
 
     }
