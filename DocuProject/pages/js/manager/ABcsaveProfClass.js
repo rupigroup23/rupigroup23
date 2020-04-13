@@ -175,7 +175,7 @@ function GETerrorCB2(err) {
     console.log(err);
 }
 
-/////////////////////////
+//סרגל השתלשלות
 orientationSTR = "";
 function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";

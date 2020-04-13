@@ -21,109 +21,171 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!-- noy links -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script>
-
-
         $(document).ready(function () {
-            getNumOfClass();
-            //התחברות
-            local = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local);
-            console.log(objAdmin);
-            //
-            $("#class1").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
-                    if ($("#class1").val() == "בחירת כיתה")
-                        return false;
+    local = localStorage.getItem('thisProfObj');
+    console.log('local: ', JSON.parse(local));
+    ProfObj = JSON.parse(localStorage["thisProfObj"]);
+    console.log(ProfObj);
 
-                    window.location.href = "manager-professions.html";
-                    studentObj =
-                        {
-                            "ClassName": "ז",
-                            "ClassNum": $("#class1").val()
-                        }
-                }
+    Showorientation();
+    readTaskFromDB();
+    //$('#oldTask').click(oldTask);
+    $('#newTask').click(forCreateTask);
+});
 
-                $(this).data("isopen", !open);
-                console.log(studentObj);
-                localStorage.setItem('studentObj', JSON.stringify(studentObj));
-            });
-            $("#class2").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
-                    window.location.href = "manager-professions.html";
-                    studentObj =
-                        {
-                            "ClassName": "ח",
-                            "ClassNum": $("#class2").val()
-                        }
-                }
-                $(this).data("isopen", !open);
-                console.log(studentObj);
-                localStorage.setItem('studentObj', JSON.stringify(studentObj));
-            });
-            $("#class3").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
-                    window.location.href = "manager-professions.html";
-                    studentObj =
-                        {
-                            "ClassName": "ט",
-                            "ClassNum": $("#class3").val()
-                        }
-                }
-                $(this).data("isopen", !open);
-                console.log(studentObj);
-                localStorage.setItem('studentObj', JSON.stringify(studentObj));
-            });
-
-        });
-        function getNumOfClass() {
-            console.log();
-            var url = "../api/Docu/getNumClass";
-            ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
+function forCreateTask() {
+    if (listCS.length == 0) {
+        idT = 1;
+    }
+    else {
+        idT = Tnum;
+    }
+    forNewTask = {
+        "ClassName": ProfObj.ClassName, //ח
+        "ClassNum": ProfObj.ClassNum,//4
+        "Profession": ProfObj.Profession, //פיזיקה
+        "Task": {
+            "Num": idT,
+            "Topic": "",
+            "Date": "",
         }
+    }
+    console.log(forNewTask);
 
-        function GETsuccessCB(data) {
+    localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
+}
 
-            console.log(data);
-            list = data;
+//סרגל השתלשלות
+orientationSTR = "";
+function Showorientation() {
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + ProfObj.ClassName + "' " + ProfObj.ClassNum + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html' >" + ProfObj.Profession + "</a></li>";
+    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>מטלות</a></li>";
+    document.getElementById("orientation").innerHTML = orientationSTR;
+}
 
-            for (var i = 0; i < list.length; i++) {// מוסיף מספרי כיתה
-                if (list[i].Name_ == "ז") {
-                    var select = document.getElementById("class1");
-                    var option = document.createElement("option");
-                    option.text = list[i].Number;
-                    select.add(option);
-                }
+task = "";
+//שומר את הערכים 
+function savelocal(thisTask) {
+    idT = thisTask.id; //2
+    task = listCS[idT - 1].Topic; //מרובע
 
-                if (list[i].Name_ == "ח") {
-                    var select = document.getElementById("class2");
-                    var option = document.createElement("option");
-                    option.text = list[i].Number;
-                    select.add(option);
-                }
+    thisTask = {
+        "ClassName": ProfObj.ClassName, //ח
+        "ClassNum": ProfObj.ClassNum,//4
+        "Profession": ProfObj.Profession, //פיזיקה
+        "Task": {
+            "Num": idT,
+            "Topic": listCS[idT - 1].Topic,
+            "Date": listCS[idT - 1].Deadline,
+        }
+    }
+    console.log(thisTask);
 
-                if (list[i].Name_ == "ט") {
-                    var select = document.getElementById("class3");
-                    var option = document.createElement("option");
-                    option.text = list[i].Number;
-                    select.add(option);
-                }
+    localStorage.setItem('thisTask', JSON.stringify(thisTask));
+}
 
+/////////////////////////
+
+function readTaskFromDB() {
+    var apiTasks = "../api/Docu/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
+    ajaxCall("GET", apiTasks, "", GETsuccessT1, GETerrorT1);
+}
+tasksARR = [];
+tasksSTR = "";
+function GETsuccessT1(data) {
+    listCS = data;
+    console.log(listCS);
+    if (listCS.length == 0) {
+        document.getElementById("oldTask").disabled = true;
+    }
+    else {
+        //
+        var x = document.getElementById("showItems");
+            if (x.style.display === "none") {
+                x.style.display = "block";
             }
+        for (var i = 0; i < listCS.length; i++) {
+            Tnum = i + 1;
+            tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
+            tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
+            tasksSTR += "מטלה מספר ";
+            tasksSTR += Tnum;  //1
+            tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
+            tasksSTR += "</div></div>";
+            tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
+            tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
+            tasksSTR += listCS[i].Topic; //0
+            tasksSTR += "</h3></div></div>";
+            tasksSTR += "<div class='row'><div class='text2'>תאריך: </div><div class='text2'>";
+            tasksSTR += "<h3 class='textSquareGRA' style='width: 120 %'>";
+            tasksSTR += listCS[i].Deadline; //0
+            tasksSTR += "</h3></div></div> ";
+            tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
+            tasksSTR += "<div class='channels-card-image'>";
+            tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+            tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+            tasksSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+            tasksSTR += "</div></div></div></div>";
 
-        };
-        function GETerrorCB() { };
+            document.getElementById("tasks").innerHTML = tasksSTR;
+        }
+        showLastTask(listCS["length"]);
+    }
+}
+function GETerrorT1(err) {
+    console.log(err);
+}
+
+lastSTR = "";
+function showLastTask(LastNum) {
+    lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
+    lastSTR += "</div>";
+    lastSTR += "<div class='channels-card' style='height: 75%;'>";
+    lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align:right'>מטלה מספר ";
+    lastSTR += LastNum;
+    lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style = 'text-align:left'>"
+    lastSTR += "</div></div>";
+    lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
+    lastSTR += "<div class='text2'>&nbsp;    נושא: ";
+    lastSTR += "</div><div class='text2' style='color: black;'><h3 class='textSquareGRAY' style='width: 120%'>"
+    lastSTR += listCS[LastNum - 1].Topic;
+    lastSTR += "</h3></div></div><div class='row'>";
+    lastSTR += "<div class='text2'> &nbsp; תאריך:"
+    lastSTR += "</div><div class='text2'><h3 class='textSquareGRAY' style='width: 120 %'>"
+    lastSTR += listCS[LastNum - 1].Deadline;
+    lastSTR += "</h3> </div></div></div>";
+    lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
+    lastSTR += "<div class='channels-card-image'>";
+    lastSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+    lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+    lastSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+    lastSTR += "</div></div></div></div></div>";
+
+    document.getElementById("lastTask").innerHTML = lastSTR;
+}
     </script>
 </head>
 <body id="page-top">
@@ -136,6 +198,7 @@
         </button> &nbsp;&nbsp;
         <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
@@ -171,32 +234,19 @@
                     העלאת סרטון
                 </a>
             </li>
-            <!--<li class="nav-item dropdown no-arrow mx-1">
+            <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell fa-fw" title="התראות"></i>
                     <span class="badge badge-danger">9+</span>
-                </a>-->
-            <!-- לשנות לעדכונים -->
-            <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>-->
-            <!-- הודעות -->
-            <!--<li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge badge-success">7</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                <!-- לשנות לעדכונים -->
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
                 </div>
-            </li>-->
+            </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" src="img/user.png">
@@ -212,11 +262,9 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page"><a href="manager-index.html">בית</a></li>
+        <ol class="breadcrumb" id="orientation">
         </ol>
     </nav>
     <div id="wrapper">
@@ -356,13 +404,12 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-
-
         </ul>
         <!-- END Left menu -->
+        <!-- Page content -->
         <div id="content-wrapper">
-            <!-- Page content -->
             <div class="container-fluid pb-0">
+                <!-- search by mobile -->
                 <div class="top-mobile-search">
                     <div class="row">
                         <div class="col-md-12">
@@ -377,173 +424,75 @@
                         </div>
                     </div>
                 </div>
-                <div class="video-block section-padding">
-                    <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="row">
-                            <h6 class="text2">קיצורים:</h6>
-                            <i class="fas fa-exclamation-circle text2" title="הרשאות: עבור מנהל מערכת בלבד"></i>
+                            <div class="col-xl-3 col-sm-3 mb-3">
+                                <a id="newTask" class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTask.html">
+                                    <buttom>
+                                        הקמת מטלה חדשה
+                                    </buttom>
+                                </a>
+                                <button id="delete" class="btn btn-outline-primary btn-block btn-lg text2">
+                                    מחיקת המקצוע
+                                </button>
+                                <button id="oldTask" class="btn btn-outline-primary btn-block btn-lg text2">
+                                    מטלות ישנות
+                                </button>
+                                <i class="fas fa-exclamation-circle text2" title="הרשאות: יכולת עריכה"></i>
+                            </div>
+                            <div class="col-xl-9 col-sm-9 mb-3" id="lastTask" style="border-right:1px solid rgba(0,0,0,.1)">
+                            </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewClass.html">
-                                    <buttom>
-                                        הקמת כיתה חדשה
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewStudent.html">
-                                    <buttom>
-                                        הקמת תלמיד חדש
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTeacher.html">
-                                    <buttom>
-                                        הקמת מורה חדש
-                                    </buttom>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-teacher-Management.html">
-                                    <buttom>
-                                        ניהול מורים
-                                    </buttom>
-                                </a>
-                            </div>
-                        </div>
-                        <hr class="mt-0">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="row text2">
-                                    בחר/י את הכיתה הרצויה:
+                        <div class="row" id="showItems" style="display:none">
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="text2">
+                                        מטלות קודמות שהועלו:
+                                    </div>
                                 </div>
-                            </div>
-                            <!--<div class="col-md-2">
-                                <div class="main-title">
-                                    <div class="btn-group float-right right-action">
-                                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                <div class="col-md-2">
+                                    <div class="main-title">
+                                        <div class="btn-group float-right right-action">
+                                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="manager-tasks.html"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר מטלה</a>
+                                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
+                            <!-- tasks -->
+                            <div class="row" id="tasks">
+
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center pagination-sm mb-0">
+                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">הבא</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ז.png" alt="כיתה ז">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
-                                    </div>
-                                    <select id="class1" class="choose">
-                                        <!--<option value="">בחר כיתה</option>-->
-                                        <option>בחירת כיתה</option>
-
-                                    </select>
-
-                                    <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
-                                    </div>-->
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ח.png" alt="כיתה ח">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
-                                    </div>
-                                    <select id="class2" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
-                                    </div>-->
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-sm-6 mb-3">
-                                <div class="channels-card">
-                                    <div class="channels-card-image">
-                                        <img class="img-fluid" src="img/ט.png" alt="כיתה ט">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-secondary btn-sm">Subscribed <strong>1.4M</strong></button></div>-->
-                                    </div>
-
-                                    <select id="class3" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
-                                    </select>
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
-                                    </div>-->
-                                </div>
-                            </div>
                         </div>
-
-                    </div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <!--<footer class="sticky-footer">
-                <div class="container">
-                    <div class="row no-gutters">
-                        <div class="col-lg-6 col-sm-6">
-                            <p class="mt-1 mb-0">
-                        &copy; Copyright 2020 <strong class="text-dark">Vidoe</strong>. All Rights Reserved<br>
-                        <small class="mt-0 mb-0">
-                            Made with <i class="fas fa-heart text-danger"></i> by <a class="text-primary" target="_blank" href="https://askbootstrap.com/">Ask Bootstrap</a>
-                        </small>
-                    </p>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 text-right">
-                            <div class="app">
-                                <a href="https://www.facebook.com/MindCET/?tn-str=k*F">
-                                    <img alt="" src="img/facebook.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="" src="img/Instagram1.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="https://mindset.org.il/" src="img/link1.png">
-                                </a>
-                                <a href="#"><img alt="" src="img/google.png"></a>
-                        <a href="#"><img alt="" src="img/apple.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>-->
         </div>
-        <!-- /.content-wrapper -->
     </div>
     <!-- /#wrapper -->
+    <script src="js/showItem.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -563,14 +512,18 @@
         </div>
     </div>
 
+
+
+
+
     <!-- Bootstrap core JavaScript-->
-    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Owl Carousel -->
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
-    <!--<script src="js/custom.js"></script>-->
+    <script src="js/custom.js"></script>
 </body>
 </html>

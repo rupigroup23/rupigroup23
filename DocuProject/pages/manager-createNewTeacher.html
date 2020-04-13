@@ -286,127 +286,63 @@
                                             <input class="create-select textSquareTEXT" type="text" id="lname" name="lastname" required />
                                             <br />
                                             <label for="email" class="create-text">אימייל:</label><br />
-                                            <input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off">
+                                            <!--<input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off">-->
+                                            <input class="create-select textSquareTEXT" id="email" type="email" required >
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <label class="create-text" for="idT">תעודת זהות:</label><br />
                                             <input type="text" class="create-select textSquareTEXT" id="idT" name="idTeacher" required>
                                             <br />
                                             <label class="create-text" for="bday"> תאריך לידה:</label><br />
-                                            <input class="create-select textSquareTEXT" type="date" id="bday" name="bday" />
+                                            <input class="create-select textSquareTEXT" type="date" id="bday" name="bday"  />
                                             <br />
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
                                             <input class="create-select textSquareTEXT" type="tel" id="phone" name="phone" required />
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
-                                            <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text">עיר:</label><br />
                                             <input type="text" class="create-select textSquareTEXT" id="city" required>
                                             <br />
-                                            <!-- לעשות משלים -->
                                             <label class="create-text" for="street">רחוב:</label><br />
-                                            <input type="text" class="create-select textSquareTEXT" id="street" name="street">
-                                            <br />
-                                            <!--<div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <label class="create-text" for="homeNumber">מס' בית:</label><br />
-                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <label class="create-text" for="floor">קומה: </label><br />
-                            <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
-                        </div>
-                    </div>-->
-
+                                            <input type="text" class="create-select textSquareTEXT" id="street" name="street" required>
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="row">
                                                 <label class="create-text">מקצוע:</label><br />
                                             </div>
                                             <div class="row">
-                                                <select id="selectProf" class="create-select">
+                                                <select id="selectProf" class="create-select" required>
                                                     <option value="1">שם המקצוע</option>
                                                 </select>
-                                                <button id="addsub" class="create-select" style="width: auto;">
-                                                    הוספה
-                                                </button>
-                                                <div class="profession-txtbox-disclosure">
+                                                <div class="profession-txtbox-disclosure ">
                                                     <textarea id="txtbox" style="display:none"></textarea>
                                                 </div>
                                             </div>
-                                            <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">
-                    <label for="profession" class="create-text">הוספת מקצועות חדשים</label>-->
-                                            <!--<div class="profession-disclosure">
-                    <div class="row">
-                        <select id="selectProf1" class="create-select" style="background-color:#eceff0">
-                            <option value="1">שם המקצוע</option>
-                        </select>-->
-                                            <!-- תיבת טקסט להכנסת מקצוע חדש -->
-                                            <!--<div class="profession-txtbox-disclosure">
-                                <textarea id="txtbox1" style="display:none"></textarea>
-                            </div>
-                            <label for="add-profession" class="create-text"></label>
-                        </div>
-                        <div class="row">
-                            <select id="selectProf2" class="create-select" style="background-color:#eceff0">
-                                <option value="1">שם המקצוע</option>
-                            </select>
-                            <div class="profession-txtbox-disclosure">
-                                <textarea id="txtbox2" style="display:none"></textarea>
-                            </div>
-                            <label for="add-profession" class="create-text"></label>
-                        </div>
-                        <div class="row">
-                            <select id="selectProf3" class="create-select" style="background-color:#eceff0">
-                                <option value="1">שם המקצוע</option>
-                            </select>
-                            <div class="profession-txtbox-disclosure">
-                                <textarea id="txtbox3" style="display:none"></textarea>
-                            </div>
-                            <label for="add-profession" class="create-text"></label>
-                        </div>
-                    </div>-->
+                                            <div class="row">
+                                                <button id="addsub" class="create-select" style="width: auto;">
+                                                    הוספת מקצוע
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <br />
-
-                            <!--<div class="row">-->
-                                <!--<div class="col-lg-3 col-sm-4">
-            <span class="text2">
-                העלאת קובץ מורים:
-            </span>
-            <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-        </div>-->
-                                <!--<div class="col-lg-8 col-sm-12">
-            <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-            &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
-            &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
-        </div>-->
-                            <!--</div>-->
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-xl-3 col-sm-6 mb-3">
                                     <a class="btn btn-outline-primary btn-block btn-lg" id="addTeacher">
                                         <!--<input type="submit" value="הוספה" class="btn btn-outline-primary btn-block btn-lg" id="addTeacher"/>-->
                                         <buttom>
-                                            הוספה
+                                            שמירה
                                         </buttom>
                                     </a>
-
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <!-- /#wrapper -->

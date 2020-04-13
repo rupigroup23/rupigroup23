@@ -35,6 +35,7 @@ function getDatelis() {
 }
 
 function saveDetails() {
+    id = TaskObj.Task.Num;
     Details = {
         "ClassName": TaskObj.ClassName,
         "ClassNum": TaskObj.ClassNum,
@@ -42,7 +43,7 @@ function saveDetails() {
         "Topic": $("#topic").val(),
         "DateT": $("#date").val(),
     }
-    ApiEditTask = "../api/Docu/updatetTask";
+    ApiEditTask = "../api/Docu/updatetTask/"+id;
     console.log(Details);
     console.log(ApiEditTask);
     //ajaxCall("PUT", url, JSON.stringify(ApiEditTask), updateDsuccess, updateDerror);

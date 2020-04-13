@@ -40,8 +40,6 @@ function GETerrorCB(err) {
     console.log(err);
 }
 
-///////////////////////////////////
-
 var profession = "";
 ClassSubArr = [];
 function addSubj() // שמירת נתוני המורה בדאטה
@@ -108,8 +106,6 @@ function checkSub() {
     ClassSubArr.push(ClassSubObj);
 }
 
-/////////////////////////
-
 function saveSubj() {
     if (ClassSubArr == 0) {
         Swal.fire({
@@ -132,8 +128,6 @@ function POST1success() {
     })
 }
 function POST1error(err) { console.log(err) };
-
-/////////////////////////
 
 function readClassSUbjFromDB() {
     var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
@@ -177,7 +171,7 @@ function savelocal(thisprof) {
 }
 
 
-/////////////////////////
+//סרגל השתלשלות
 orientationSTR = "";
 function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
