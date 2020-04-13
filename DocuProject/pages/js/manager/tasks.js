@@ -32,7 +32,7 @@ function forCreateTask() {
     localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
 }
 
-///////////////////////
+//סרגל השתלשלות
 orientationSTR = "";
 function Showorientation() {
     orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
