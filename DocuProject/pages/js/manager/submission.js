@@ -99,7 +99,6 @@ function diffDays(subm) {
     return diffDays;
 }
 
-
 //הכפתורים בכל צוות
 function approveVidow() {
     Swal.fire({

@@ -2,7 +2,7 @@
     $('#form1').submit(sub);
     $('#addTeacher').click(saveTeacherDB);
     readFromDB(); 
-    $('#upload').click(uploadTeachers);
+    //$('#upload').click(uploadTeachers);
 
     $('#selectProf').change(function () {
         var value = $(this).val();
@@ -14,10 +14,8 @@
             X.style.display = "none";
         }
     });
-    saveprof
     $('#addsub').click(addSubj);
     //$('#saveprof').click(saveSubj);
-
 });
 
 function sub() { 
@@ -40,9 +38,14 @@ function saveTeacherDB()
     PhoneNum = $("#phone").val();
 
     if (FName == "" || LName == "" || Id == "") {
-        swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning")
+        Swal.fire({
+            icon: 'warning',
+            title: 'שדות חסרים',
+            text: 'אנא מלא/י את כל השדות😀',
+        })
         return false;
     }
+    saveAll(teacherArr);
 }
 
 //Profession
@@ -76,7 +79,7 @@ function addSubj() //שהמשתמש לוחץ על הוספת מקצוע
             icon: 'error',
             title: 'שגיאה...',
             text: 'לא בחרת מקצוע 😓',
-            confirmButtonText: 'אוקי',
+            confirmButtonText: 'אישור',
             showCloseButton: true
         })
     }
@@ -89,37 +92,36 @@ function addSubj() //שהמשתמש לוחץ על הוספת מקצוע
     }
 }
 function checkSub() {
-    for (var i = 0; i < ClassSubArr.length; i++) {
-        if (ClassSubArr[i] == profession) {
+    for (var i = 0; i < teacherArr.length; i++) {
+        if (teacherArr[i] == profession) {
             Swal.fire({
                 icon: 'error',
                 title: 'שגיאה...',
                 text: 'הכנסת עכשיו את המקצוע הזה',
-                confirmButtonText: 'אוקי',
+                confirmButtonText: 'אישור',
                 showCloseButton: true
             })
             return;
         }
     }
-
     Swal.fire({
         icon: 'success',
         title: ' המקצוע נשמר 😀',
-        text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על הוספה',
-        confirmButtonText: 'אוקי',
+        text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
+        confirmButtonText: 'אישור',
         showCloseButton: true
     })
     teacherArr.push(profession);
-    saveSubj(teacherArr);
+    //saveSubj(teacherArr);
 }
 
-function saveSubj(teacherArr) {
+function saveAll(teacherArr) {
     if (teacherArr == 0) {
         Swal.fire({
                 icon: 'error',
                 title: 'שגיאה...',
                 text: 'לא בחרת מקצועות 😓',
-                confirmButtonText: 'אוקי',
+            confirmButtonText: 'אישור',
                 showCloseButton: true
         })
     }
@@ -135,7 +137,7 @@ function saveSubj(teacherArr) {
                     "Id": $("#idT").val(),
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
-                    "Profession": ClassSubArr[i],
+                    "Profession": teacherArr[i],
                     "Password": Math.random().toString(36).substring(7),
                 }
             ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
@@ -143,12 +145,16 @@ function saveSubj(teacherArr) {
     }
 }
 
+count = 0;
 function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
-    Swal.fire({
-        icon: 'success',
-        //title: 'הצלחת',
-        text: 'מורה נוסף/ה למערכת בהצלחה😀',
-    })
+    count += 1;
+    if (count == teacherArr.length) {
+        Swal.fire({
+            icon: 'success',
+            text: 'המורה נוסף/ה למערכת בהצלחה😀',
+        })
+    }
+
     // לאחר לחיצה מאפס לחצנים
     //$("#classSelect option:first").attr('selected', 'selected');
     //$("#classNum option:first").attr('selected', 'selected');
@@ -157,6 +163,6 @@ function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
     //$("#teacherName option:first").attr('selected', 'selected');
     //$("#classType option:first").attr('selected', 'selected');
 }
-function POSTerror(err) { console.log(err) };
+function POSTerror() { console.log(err) };
 
 

@@ -49,11 +49,22 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
+        <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
 
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+            <div class="input-group">
+                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
+                <!--<input type="text" class="form-control" placeholder="Search for...">-->
+                <!--<div class="input-group-append">
+                <button class="btn btn-light" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>-->
+            </div>
         </form>
+        <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
                 <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
@@ -92,11 +103,12 @@
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" src="img/user.png">
-                    קרן גרוסמן
+                    מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
+                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
@@ -265,7 +277,7 @@
                     </div>
                 </div>
                 <div class="row text2">
-                    <div class="col-lg-11 col-sm-11 col-xs-3 ">
+                    <div class="col-lg-12 col-sm-11 col-xs-3 ">
                         <div class="row">
                             <span style="border-bottom: 1px solid #990099">
                                 סטאטוס הגשה - מטלה מספר &nbsp;
@@ -273,10 +285,6 @@
                             <div id="taskNum" style="border-bottom:1px solid #990099">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
-                        <i class="far fa-edit"></i>
-                        <i class="far fa-trash-alt"></i>
                     </div>
                 </div>
                 <br />
@@ -436,17 +444,15 @@
                                     <div class="row">
                                         צוות מספר &nbsp;
                                         <div id="">
-                                            8
-                                            <!-- להוסיף מספר -->
+                                            1
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
                                             <h6 style="font-size: 20px; ">
-                                                מיה מלכה, מאי שלומזון ואיה יצחקי
+                                                עידן קחטן, אלון ארונס וליעד אנקור
                                             </h6>
                                         </div>
                                     </div>
@@ -489,8 +495,7 @@
                                     <div class="row">
                                         צוות מספר &nbsp;
                                         <div id="">
-                                            8
-                                            <!-- להוסיף מספר -->
+                                            5
                                         </div>
                                     </div>
                                 </div>
@@ -499,7 +504,7 @@
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
                                             <h6 style="font-size: 20px; ">
-                                                מיה מלכה, מאי שלומזון ואיה יצחקי
+                                                ניצה יניב, אילנה ברקוביץ ואיציק הוכברג
                                             </h6>
                                         </div>
                                     </div>
@@ -541,14 +546,26 @@
                 <div class="row" id="showWaiting" style="display:none">
                     <div class="row">
                         <br /><hr class="mt-0">
-                        <div class="btn-group float-right right-action">
-                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
-                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                        <div class="col-xl-3 col-sm-6 mb-3">
+                            <div class="row text2" style="color: black; font-size:17px; text-align:right;margin-right: 5%;">
+                                <h6>
+                                    מספר צוותים:
+                                </h6>
+                                <h6 id="">
+                                    &nbsp; 3
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-sm-6 mb-3">
+                            <div class="btn-group float-right right-action">
+                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                </div>
                             </div>
                         </div>
                         <br />
@@ -567,7 +584,6 @@
                                     </div>
                                 </div>
                                 <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
                                             <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
@@ -611,7 +627,7 @@
                                     <div class="row">
                                         צוות מספר &nbsp;
                                         <div id="">
-                                            12
+                                            3
                                             <!-- להוסיף מספר -->
                                         </div>
                                     </div>
@@ -620,7 +636,7 @@
                                     <!-- לעשות שליפה מטבלת צוותים -->
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
+                                            <h6 style="font-size: 20px; ">אורי לוי, שיר פרץ ושובל סיטון</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -654,69 +670,82 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><div class="col-xl-4 col-sm-6 mb-3">
-    <div class="channels-card" style="padding: 24px 25px;">
-        <div class="text2" style="color: black; font-size:17px; text-align:right ">
-            <div class="row">
-                צוות מספר &nbsp;
-                <div id="">
-                    12
-                    <!-- להוסיף מספר -->
-                </div>
-            </div>
-        </div>
-        <div class="row ">
-            <!-- לעשות שליפה מטבלת צוותים -->
-            <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                <div class="statuses-text">
-                    <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
-                </div>
-            </div>
-        </div>
-        <div class="row ">
-            <div class="statuses-text">
-                סטאטוס:
-                &nbsp;
-            </div>
-            <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
-                סרטון הועלה, מחכה לאישור
-            </div>
-        </div>
-        <div class="row" style="padding-right: inherit; display: block;">
-            <!-- הקלף הטוב!! -->
-            <div class="channels-card-image">
-                <a>
-                    <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                </a>&nbsp;
-                <a>
-                    <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                </a>&nbsp;
-                <a>
-                    <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                    <img onclick="showVideo(this)" id="1" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                </a>&nbsp;
-                <div id="headerPopup1" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <br />
+                        </div>
+                        <div class="col-xl-4 col-sm-6 mb-3">
+                            <div class="channels-card" style="padding: 24px 25px;">
+                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
+                                    <div class="row">
+                                        צוות מספר &nbsp;
+                                        <div id="">
+                                            7
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <!-- לעשות שליפה מטבלת צוותים -->
+                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                        <div class="statuses-text">
+                                            <h6 style="font-size: 20px; ">לי נקים, עדי ימין ומאיה בלאט</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="statuses-text">
+                                        סטאטוס:
+                                        &nbsp;
+                                    </div>
+                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
+                                        סרטון הועלה, מחכה לאישור
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-right: inherit; display: block;">
+                                    <!-- הקלף הטוב!! -->
+                                    <div class="channels-card-image">
+                                        <a>
+                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
+                                        </a>&nbsp;
+                                        <a>
+                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
+                                        </a>&nbsp;
+                                        <a>
+                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
+                                            <img onclick="showVideo(this)" id="1" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
+                                        </a>&nbsp;
+                                        <div id="headerPopup1" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        </div>
+                                        <br />
 
-            </div>
-        </div>
-    </div>
-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" id="showNotApproved" style="display:none">
                     <div class="row">
                         <br /><hr class="mt-0">
-                        <div class="btn-group float-right right-action">
-                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
-                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                        <div class="col-xl-3 col-sm-6 mb-3">
+                            <div class="row text2" style="color: black; font-size:17px; text-align:right;margin-right: 5%;">
+                                <h6>
+                                    מספר צוותים:
+                                </h6>
+                                <h6 id="">
+                                    &nbsp; 3
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-sm-6 mb-3">
+                            <div class="btn-group float-right right-action">
+                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                </div>
                             </div>
                         </div>
                         <br />
@@ -780,16 +809,14 @@
                                     <div class="row">
                                         צוות מספר &nbsp;
                                         <div id="">
-                                            4
-                                            <!-- להוסיף מספר -->
+                                            2
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">עומרי יצחקי, רוי שלומזון ובן מלכה</h6>
+                                            <h6 style="font-size: 20px; ">אורן סרוסי, איתמן בן יהודה וגיא גולדרט</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -831,16 +858,14 @@
                                     <div class="row">
                                         צוות מספר &nbsp;
                                         <div id="">
-                                            4
-                                            <!-- להוסיף מספר -->
+                                            6
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
                                     <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                         <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">עומרי יצחקי, רוי שלומזון ובן מלכה</h6>
+                                            <h6 style="font-size: 20px; ">דן לסר, שרון ביבי ועומר לרנר</h6>
                                         </div>
                                     </div>
                                 </div>

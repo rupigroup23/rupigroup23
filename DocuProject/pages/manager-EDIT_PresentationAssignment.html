@@ -19,28 +19,24 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- noy links -->
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+
     <!--shir links-->
     <!-- Include a required theme -->
     <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <!-- more -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <script src="js/manager/tasks.js"></script>
+    <script src="js/manager/EDITPresentationAssignment.js"></script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -52,17 +48,16 @@
         </button> &nbsp;&nbsp;
         <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
-
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
                 <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
                 <!--<input type="text" class="form-control" placeholder="Search for...">-->
                 <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
+                <button class="btn btn-light" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>-->
             </div>
         </form>
         <!-- Navbar -->
@@ -88,19 +83,32 @@
                     העלאת סרטון
                 </a>
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw" title="התראות"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
+            <!--<li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw" title="התראות"></i>
+                <span class="badge badge-danger">9+</span>
+            </a>-->
+            <!-- לשנות לעדכונים -->
+            <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+            </div>
+        </li>-->
+            <!-- הודעות -->
+            <!--<li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <span class="badge badge-success">7</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+            </div>
+        </li>-->
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" src="img/user.png">
@@ -121,6 +129,7 @@
         <ol class="breadcrumb" id="orientation">
         </ol>
     </nav>
+    <!-- תפריט -->
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
@@ -263,7 +272,6 @@
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
-                <!-- search by mobile -->
                 <div class="top-mobile-search">
                     <div class="row">
                         <div class="col-md-12">
@@ -280,69 +288,87 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-xl-3 col-sm-3 mb-3">
-                                <a id="newTask" class="btn btn-outline-primary btn-block btn-lg" href="manager-createNewTask.html">
-                                    <buttom>
-                                        הקמת מטלה חדשה
-                                    </buttom>
-                                </a>
-                                <button id="delete" class="btn btn-outline-primary btn-block btn-lg text2">
-                                    מחיקת המקצוע
-                                </button>
-                                <button id="oldTask" class="btn btn-outline-primary btn-block btn-lg text2">
-                                    מטלות ישנות
-                                </button>
-                                <i class="fas fa-exclamation-circle text2" title="הרשאות: יכולת עריכה"></i>
-                            </div>
-                            <div class="col-xl-9 col-sm-9 mb-3" id="lastTask" style="border-right:1px solid rgba(0,0,0,.1)">
-                            </div>
-
-                        </div>
-                        <div class="row" id="showItems" style="display:none">
-                            <hr class="mt-0">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="text2">
-                                        מטלות קודמות שהועלו:
+                        <div class="osahan-form">
+                            <div class="row text2 ">
+                                <div class="col-lg-11 col-sm-11 col-xs-3 ">
+                                    <div class="row">
+                                        <span style="font-size:27px; border-bottom: 1px solid #990099">
+                                            מטלה מספר &nbsp;
+                                        </span>
+                                        <div id="taskNum" style="font-size:27px; border-bottom: 1px solid #990099">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="main-title">
-                                        <div class="btn-group float-right right-action">
-                                            <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="manager-SORT1-2tasks.html"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר מטלה</a>
-                                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
-                                                <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12 col-xs-3">
+                                    <div class="row ">
+                                        <span class="text2">
+                                            נושא המטלה:&nbsp;
+                                        </span>
+                                        <input id="topic" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
+                                        <!--<div id="topic" class="squareTEXT">
+            </div>-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 col-xs-3 ">
+                                    <div class="row">
+                                        <span class="text2">
+                                            מועד הגשה:&nbsp;
+                                        </span>
+                                        <input id="date" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
+                                        <!--<div id="date" class="squareTEXT">
+            </div>-->
+                                        <button id="saveDetails" class="showTask-btn">עדכון</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 create-text">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <h3 class="text2">אפשרויות: </h3>
+                                            <br />
+                                        </div>
+                                        <div class="col-lg-9 col-sm-12">
+                                            <button id="addPic" class="showTask-btn">
+                                                הורדת המטלה
+                                                <!--(קובץ חיצוני)-->
+                                            </button>
+                                            <button onclick="Items()" id="addPic" class="showTask-btn">
+                                                הצג מטלה
+                                                <!--(טקסט)-->
+                                            </button>
+                                            <button class="showTask-btn">
+                                                ניהול צוותים
+                                                <!--(טקסט)-->
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="col-lg-3 col-sm-6" id="showItems" style="display:none">
+                                                <div class="textSquareGRAY" style="height: 200px; width: 860px">
+                                                    המטלההההה
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- tasks -->
-                            <div class="row" id="tasks">
-
-                            </div>
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center pagination-sm mb-0">
-                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">הבא</a>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- /#wrapper -->
-    <script src="js/showItem.js"></script>
+    
+    <!--<script src="js/showItem.js"></script>-->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -365,11 +391,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -95,14 +95,12 @@
             }
 
             function POSTsuccess() {
-
                 Swal.fire(
-                    'OK',
-                    'תלמיד/ה חדש/ה נוספו למערכת',
+                    //'הצלחת',
+                    'התלמיד/ה נוספ/ה למערכת',
                     'success'
                 )
                 $('#imageUplaodDiv').show();
-
             }
 
             //שלב1 -העלאת התמונה לתוכנה
@@ -164,7 +162,7 @@
 
         function POSTsuccessImg() {
             Swal.fire(
-                'Good job!',
+                //'Good job!',
                 'התמונה הועלתה בהצלחה!',
                 'success'
             )
@@ -472,12 +470,7 @@
                                         <div class="col-lg-3 col-sm-6">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">עיר:</label><br />
-                                            <select id="city" class="create-select">
-                                                <option>בחר עיר</option>
-                                                <option>תל אביב</option>
-                                                <option value="hifa">חיפה</option>
-                                                <option value="hadera">חדרה</option>
-                                            </select>
+                                            <input type="text" class="create-select textSquareTEXT" id="city" name="city">
                                             <br />
                                             <!-- לעשות משלים -->
                                             <label class="create-text" for="street">רחוב:</label><br />
@@ -491,7 +484,6 @@
                                         <div class="col-lg-3 col-sm-12">
                                             <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">כיתה:</label><br />
-<<<<<<< HEAD
                                         <select id="class" class="create-select">
                                             <option value="">בחר כיתה</option>
                                             <option>ז</option>
@@ -499,32 +491,21 @@
                                             <option>ט</option>
 
                                         </select>
-=======
-                                            <select id="class" class="create-select">
-                                                <option value="">בחר כיתה</option>
-                                                <option>ז</option>
-                                                <option>ח</option>
-                                                <option>ט</option>
-                                            </select>
->>>>>>> 4a84885360af0385e4af419cba8bc5cde6b1c0f8
 
                                             <label class="create-text">מספר כיתה:</label><br />
                                             <input class="create-select textSquareTEXT" id="classNum" autocomplete="off">
 
                                         </div>
                                     </div>
-
-                                    <hr class="mt-0">
+                                    <br />
                                     <div class="row">
                                         <div class="col-xl-3 col-sm-6 mb-3">
                                             <a class="1">
                                                 <input type="submit" value="הוספה" class="btn btn-outline-primary btn-block btn-lg" />
                                             </a>
-
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                             <hr class="mt-0">
                                 <div id="imageUplaodDiv" class="row">
@@ -541,12 +522,6 @@
                                     </div>
                                 </div>
 
-
-
-
-
-
-
                             <!--<hr class="mt-0">
                              <div class="row">
                                  <div class="col-lg-3 col-sm-6">
@@ -561,12 +536,10 @@
                             </div>-->
                         </div>
                         <br />
-                        <hr class="mt-0">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
     <!-- /#wrapper -->
     <!--<script>

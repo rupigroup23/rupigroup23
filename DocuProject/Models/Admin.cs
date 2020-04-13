@@ -45,7 +45,6 @@ namespace DocuProject.Models
             dbs = dbs.Get_Details(ID);
             return dbs.dt;//מעביר רק את הטבלה 
         }
-
         public DataTable PutA(Admin admin)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
             DBservices dbs = new DBservices();
@@ -54,7 +53,6 @@ namespace DocuProject.Models
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
-
         public DataTable checkTbl(Admin admin, int id, DataTable dt)
         {
             foreach (DataRow dr in dt.Rows)
@@ -74,6 +72,13 @@ namespace DocuProject.Models
             }
             return dt;
         }
+        public int PostAdmin(Admin admin) // הכנסת תלמיד ספציפי
+        {
+            DBservices dbs = new DBservices();
+            int numAffected = dbs.Post_Admin(admin);
+            return numAffected; //מחזיר את מספר השורות
+        }
+
     }
 
 
