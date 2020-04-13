@@ -48,7 +48,7 @@
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
-            pass = "1234";//objAdmin.Password;
+            pass = objAdmin.Password;
 
             //pass = objAdmin.Password; //If pass not changed
             $("#addsub").click(addSubj);
@@ -152,7 +152,7 @@
                 return false;
             }
             function showDetalis(objAdmin) {
-                Id = "203937990";//objAdmin.Id;
+                Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
 
                 //ID = objAdmin.Id;
@@ -348,7 +348,7 @@
                     ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
                 }
             }
-        })
+        });
 
     </script>
 
