@@ -287,5 +287,15 @@ namespace DocuProject.Controllers
         }
 
 
+        //[HttpPut]
+        //[Route("api/Docu/updateStudent/{id}")]
+        //public DataTable PutDIS(int id, [FromBody] Student student)
+        //{
+        //    Student S = new Student();
+        //    return S.PutS(id, student);
+        //}
+
+
+
     }
 }
