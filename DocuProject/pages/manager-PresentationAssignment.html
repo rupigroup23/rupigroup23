@@ -74,14 +74,13 @@
 
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
-            //showDetalis(objAdmin);
+            showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
 
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
+           
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
@@ -108,7 +107,7 @@
             function funcerror(err) { console.log(err) }
 
             function getSpecificTaskSuccess(data) {
-                //$('#addpic').attr("disabled", false);
+                $('#addpic').attr("disabled", false);
                 taskPath = data;
 
             }
