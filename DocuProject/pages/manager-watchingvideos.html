@@ -37,62 +37,6 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/manager/watchingvideos.js"></script>
-
-    <script>
-        var imagePath1 = '';
-        var userEmail1 = '';
-
-        $(document).ready(function () {
-
-            /////// אייקון תמונה של מנהל למעלה
-
-            local = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local);
-            showDetalis(objAdmin);
-
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
-
-
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
-            }
-            function getAvatarImageSuccess(imagePath1) {
-
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-
-            function funcerror() { }
-
-
-        });
-
-
-
-
-
-    </script>
-
-
-
-
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -102,20 +46,9 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
-
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                <button class="btn btn-light" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>-->
-            </div>
         </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
@@ -134,25 +67,10 @@
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="upload.html">
-                    <i class="fas fa-plus-circle fa-fw"></i>
-                    העלאת סרטון
-                </a>
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw" title="התראות"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
+
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" id="avatarImage" src="img/user.png">
@@ -168,6 +86,7 @@
             </li>
         </ul>
     </nav>
+
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
@@ -217,99 +136,23 @@
                     <!--&#127891;--> כיתות
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="manager-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span> מקצועות</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-professions.html">&#127891; מקצועות</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
-                    <a class="dropdown-item" href="#">📝 ניהול כיתה</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="manager-tasks.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>מטלות</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-tasks.html">
-                        &#127891; מטלות
-                    </a>
-                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
-                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
-                </div>
-            </li>
 
             <li class="nav-item channel-sidebar-list">
                 <h6>פרטיות</h6>
                 <ul>
                     <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s1.png"> הגדרות
+                        <a href="manager-settings.html">
+                            <i class="fa fa-gear" style="font-size:24px"></i>
+                            הגדרות
                         </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s2.png"> שינוי סיסמא  <span class="badge badge-warning">2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
+                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fa fa-sign-out" style="font-size:24px"></i>
+                            יציאה מהמערכת
                         </a>
                     </li>
                 </ul>
             </li>
-            <!-- כרגע לא משתמשים אבל לא מחקתי  -->
-            <li class="nav-item channel-sidebar-list">
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="upload-video.html">
-                    <i class="fas fa-fw fa-cloud-upload-alt"></i>
-                    <span>העלאת סרטונים</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="channels.html">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Channels</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="video-page.html">
-                    <i class="fas fa-fw fa-video"></i>
-                    <span>Video Page</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="upload-video.html">
-                    <i class="fas fa-fw fa-cloud-upload-alt"></i>
-                    <span>העלאת סרטונים</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header">Login Screens:</h6>
-                    <a class="dropdown-item" href="login.html">Login</a>
-                    <a class="dropdown-item" href="register.html">Register</a>
-                    <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Other Pages:</h6>
-                    <a class="dropdown-item" href="404.html">404 Page</a>
-                    <a class="dropdown-item" href="blank.html">Blank Page</a>
-                </div>
-            </li>
+
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
@@ -320,8 +163,6 @@
                         <div class="row text2">
                             הסרטונים של מטלה מספר &nbsp;
                             <div id="taskNum">
-                                
-                                <!-- להוסיף מספר -->
                             </div>
                         </div>
                     </div>
@@ -358,7 +199,7 @@
                                     </a>
                                     <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
                                     </iframe>
-                                    <div class="time">3:50</div>
+                                    <!--<div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -392,9 +233,11 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/0Vy2Je0hLLc">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
+                                    </a>-->
                                     <div class="time">3:50</div>
                                 </div>
                                 <div class="video-card-body">
@@ -429,9 +272,11 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/aHKtdgt0yK0&t=215s">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
+                                    </a>-->
                                     <div class="time">3:50</div>
                                 </div>
                                 <div class="video-card-body">
@@ -466,10 +311,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/Z9iFyMNgR0U">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -503,10 +350,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/aHKtdgt0yK0">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -540,10 +389,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/Lx-2TL8RMVI">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -577,10 +428,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/cqr-Jx31js0">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -651,10 +504,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -688,10 +543,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -725,10 +582,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -762,10 +621,12 @@
                                     <a class="play-icon" href="teacher-feedbacks.html">
                                         <i class="fas fa-play-circle"></i>
                                     </a>
-                                    <a href="teacher-feedbacks.html">
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
+                                    </iframe>
+                                    <!--<a href="teacher-feedbacks.html">
                                         <img class="img-fluid" src="img/v1.png" alt="">
                                     </a>
-                                    <div class="time">3:50</div>
+                                    <div class="time">3:50</div>-->
                                 </div>
                                 <div class="video-card-body">
                                     <div class="video-title">
@@ -798,8 +659,8 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center pagination-sm mb-0">
                             <!--<li class="page-item disabled">
-                    <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
-                </li>-->
+                                <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
+                            </li>-->
                             <li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
                             <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
                             <li class="page-item">
@@ -812,7 +673,7 @@
             <!-- /.container-fluid -->
         </div>
     </div>
-    
+
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -823,15 +684,15 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
                 </div>
             </div>
         </div>

@@ -189,6 +189,7 @@
     <Content Include="pages\blank.html" />
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
+    <Content Include="pages\css\upl.css" />
     <Content Include="pages\img\student.png" />
     <Content Include="pages\img\student2.png" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
@@ -198,10 +199,14 @@
     <Content Include="pages\js\manager\PresentationAssignment.js" />
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
+    <Content Include="pages\js\manager\teacher-Management.js" />
+    <Content Include="pages\js\manager\watchingvideos.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
+    <Content Include="pages\manager-createNewTaskShir.html" />
     <Content Include="pages\manager-EDIT_PresentationAssignment.html" />
+    <Content Include="pages\לא למחוק.html" />
     <Content Include="pages\manager-SORT1-2tasks.html" />
     <Content Include="pages\teacher-forgot-password.html" />
     <Content Include="pages\history-page.html" />
@@ -345,7 +350,6 @@
     <Content Include="pages\vendor\owl-carousel\owl.theme.css" />
     <Content Include="pages\video-page.html" />
     <Content Include="pages\video-page1.html" />
-    <Content Include="pages\טבלת ניהול תלמידים.html" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\allTask.js" />
     <Content Include="Scripts\bootstrap.js" />

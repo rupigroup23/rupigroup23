@@ -21,6 +21,12 @@ Version: 1.0
 */
 /* Body */
 
+
+
+/*///////////////*/
+.modal-body, .modal-title {
+    font-family: OS Luizi Round_FFC;
+}
 /*turn off button*/
 .btn-outline-primary:disabled {
     color: #010408;
@@ -826,6 +832,8 @@ div {
      border: none;
 }
 .bg-primary, .btn-primary, .btn-outline-primary:hover, .badge-primary {
+        font-family: OS Luizi Round_FFC;
+
     border-color: transparent !important;
     background: #990099;
     /*#650ec0  #00c6ff
@@ -922,6 +930,7 @@ div {
      color: #ff253a !important;
 }
 .bg-secondary, .btn-secondary, .btn-outline-secondary:hover, .badge-secondary {
+    font-family: OS Luizi Round_FFC;
     border-color: transparent !important;
     background: #9ba8aa;
     /* Old browsers */
@@ -1346,8 +1355,9 @@ div {
      margin: auto;
      max-width: 561px;
 }
- .carousel-login-card h5 {
-     font-size: 18px;
+.carousel-login-card h5 {
+    font-size: 18px;
+    font-family: OS Luizi Round_FFC;
 }
  .login-main-wrapper .form-control {
      background: transparent none repeat scroll 0 0;

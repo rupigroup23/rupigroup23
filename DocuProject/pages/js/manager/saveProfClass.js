@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var imagePath1 = '';
+var userEmail1 = '';
+$(document).ready(function () {
     readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
     local = localStorage.getItem('studentObj');
     console.log('local: ', JSON.parse(local));
@@ -19,6 +21,37 @@
             X.style.display = "none";
         }
     });
+
+    //User image
+    local = localStorage.getItem('admin');
+    objAdmin = JSON.parse(local);
+    showDetalis(objAdmin);
+
+    function showDetalis(objAdmin) {
+        Id = objAdmin.Id;
+        var url = "../api/Docu/GetDetails/" + Id;
+
+        //ID = objAdmin.Id;
+        //var url = "../api/Docu/GetDetails/" + ID;
+        ajaxCall("GET", url, "", funcsuccess, funcerror);
+    }
+    function funcsuccess(data) {
+        obj = data;
+        userEmail1 = obj[0].Email;
+        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+    }
+    function getAvatarImageSuccess(imagePath1) {
+        src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+    }
+    function getAvatarImageError(err) {
+        console.log(err)
+    }
+    function funcerror() { }
+    //END User image
 });
 
 //add all subjects from the table (DB)

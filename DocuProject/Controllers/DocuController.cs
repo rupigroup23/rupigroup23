@@ -261,7 +261,6 @@ namespace DocuProject.Controllers
             return A.PutA(admin);
         }
 
-
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
 
@@ -284,9 +283,16 @@ namespace DocuProject.Controllers
         public string getSpecificTask (string class1, string numClass, string sub, string topic)
         {
             Task task = new Task();
-            return task.getSpecificTask( class1,  numClass,  sub,  topic);
+            return task.getSpecificTask( class1,numClass,  sub,  topic);
         }
 
+        //[HttpPut]
+        //[Route("api/Docu/updateTask/{id}")]
+        //public DataTable PutTask(int id, [FromBody] Task task)
+        //{
+        //    Student S = new Student();
+        //    return S.PutTask(id, task); 
+        //}
  
         
         [HttpPost] /// דף מטלה ראשי
@@ -303,8 +309,6 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.PutT(id, teacher);
         }
-
-
 
     }
 }
