@@ -210,18 +210,30 @@
         function POST2error(err) { console.log(err) };
 
         function saveClassDB() {
-            classObj =
-                {
-                    "Name": $("#classSelect").val(),
-                    "Number": $("#classNum").val(),
-                    "Number": $("#classNum").val(),
-                    "Year": $("#Year").val(),
-                    "TeacherName": $("#teacherName").val(),
-                    "ClassType": $("#classType").val()
 
-                }
-            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
-        }
+            //if ($("#classSelect").val() == "" || $("#classNum").val() == "" || $("#classNum").val() == "" || $("#Year").val() == "" || $("#teacherName").val() == "" || $("#classType").val())
+            //{
+            //    Swal.fire({
+            //        icon: 'error',
+            //        title: 'Oops...',
+            //        text: 'ישנם שדות חסרים, אנא מלא/י אותם',
+
+            //    })
+            //    return false;
+            //}
+                classObj =
+                    {
+                        "Name": $("#classSelect").val(),
+                        "Number": $("#classNum").val(),
+                        "Number": $("#classNum").val(),
+                        "Year": $("#Year").val(),
+                        "TeacherName": $("#teacherName").val(),
+                        "ClassType": $("#classType").val()
+
+                    }
+                ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+            }
+        
         function POSTsuccessCB() {
             swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
             // לאחר לחיצה מאפס לחצנים
