@@ -45,6 +45,7 @@
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
+
             console.log(classObj);
             Showorientation(); //shir
 
@@ -73,8 +74,6 @@
         }
         //shir END//
 
-
-  
         ////////////////////////NOY//////////////////////
         function showStudentsData(obj) {
 
@@ -82,10 +81,10 @@
             obj = JSON.parse(local);
             console.log(obj);
 
-            obj2 = {
+            obj2 =
+                {
                 "ClassName": obj.ClassName,
                 "ClassNum": obj.ClassNum
-
             }
             console.log(obj2);
 
@@ -236,7 +235,6 @@
                 "ClassName": $("#class").val(),
                 "ClassNum": $("#classNum").val(),
                 "Password": $("#password").val()
-
             }
             console.log(student); // האיבר המעודכן
 

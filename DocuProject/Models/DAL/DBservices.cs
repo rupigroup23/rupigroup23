@@ -507,7 +507,7 @@ public class DBservices
         return A;
     }
 
-    public DBservices Get_Nums() // מחזיר איבר מסוג DBSERVICES
+    public DBservices Get_Nums() 
     {
         SqlConnection con = null;
         string str = "";
@@ -638,7 +638,6 @@ public class DBservices
 
 
     public DBservices Get_Techers() // מחזיר איבר מסוג DBSERVICES
-
     {
         SqlConnection con = null;
         string str = "";
@@ -709,8 +708,9 @@ public class DBservices
         }
         return listClassSubj; // מחזיר מערך 
     }
-    public void DeleteStudent(int id) //כמו GET
+    public void Delete(string str ,int id) //כמו GET
     {
+        string cStr = "";
         SqlConnection con;
         SqlCommand cmd;
         try
@@ -723,11 +723,23 @@ public class DBservices
         }
         try
         {
-            int numEffected = 0;
-            ///// נייצר שאילתה שמוחקת במידה ומדובר באותו איידי////////
-            String cStr = $@"delete from
+            if (str == "Student")
+            {
+                 cStr = $@"delete from
                               Student
                               where id='{id}'";
+            }
+            else
+            {
+                 cStr = $@"delete from
+                              Teacher__
+                              where id='{id}'";
+            }
+
+            int numEffected = 0;
+            //String cStr = $@"delete from
+            //                  Student
+            //                  where id='{id}'";
 
             cmd = CreateCommand(cStr, con);
             numEffected += cmd.ExecuteNonQuery();
@@ -1160,6 +1172,7 @@ public class DBservices
             }
         }
     }
+    } 
 }
 
 

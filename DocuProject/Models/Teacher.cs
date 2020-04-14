@@ -54,14 +54,49 @@ namespace DocuProject.Models
             int numAffected = dbs.insertT2(teachersArr);
             return numAffected; //מחזיר את מספר השורות
         }
-
-
- 
           public DataTable GetTechers()
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Techers();
             return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable deleteT(int rowID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Techers(); //get a teachers table 
+            dbs.Delete("Teacher", rowID); // check the spcific teacher
+            return dbs.dt;
+        }
+
+        public DataTable PutT(int id, Teacher teacher)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Techers();
+            dbs.dt = checkTbl(id, teacher, dbs.dt);
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable checkTbl(int id, Teacher teacher, DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (id == Convert.ToInt32(dr["id"]))
+                {
+                    dr["FName"] = teacher.FName;
+                    dr["LName"] = teacher.LName;
+                    dr["PhoneNum"] = teacher.PhoneNum;
+                    dr["Email"] = teacher.Email;
+                    dr["City"] = teacher.city;
+                    dr["Street"] = teacher.Street;
+                    dr["Id_"] = teacher.Id;
+                    dr["Bday"] = teacher.Bday;
+                    dr["Profession"] = teacher.Profession;
+                    dr["Password_"] = teacher.Password;
+                }
+            }
+            return dt;
         }
 
     }

@@ -40,25 +40,25 @@ namespace DocuProject.Models
         public string Password { get => password; set => password = value; }
         
 
-        public int insertS(List<Student> stdentsArr) //// שלב 1 - נעביר את כל המערך לדטה בייס
+        public int insertS(List<Student> stdentsArr) 
         {
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertS(stdentsArr);
             return numAffected; //מחזיר את מספר השורות
         }
 
-        internal DataTable GetStudents()// הפונקציה מחזערה דאטה טייבל ולכן מסוג דאטה טייבל
+        internal DataTable GetStudents()
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(ClassName, ClassNum);
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable deleteS(int id)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        public DataTable deleteS(int id)
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(ClassName, ClassNum);
-            dbs.DeleteStudent(id);
+            dbs.Delete("Student", id);
             return dbs.dt;//מעביר רק את הטבלה 
         }
 

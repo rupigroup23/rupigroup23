@@ -103,6 +103,20 @@
             function getTachears() {
                 ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
 
+
+        function getTachears() {
+            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+        }
+        function GETsuccessT(data) {
+            console.log(data);
+            listT = data;
+            //insert options to select
+            for (var i = 0; i < listT.length; i++) {
+                var select = document.getElementById("teacherName");
+
+                var option = document.createElement("option");
+                option.text = listT[i].FName + " " + listT[i].LName;
+                select.add(option);
             }
             function GETsuccessT(data) {
                 console.log(data);
@@ -155,12 +169,15 @@
 
                             swal("This browser does not support HTML5.", "", "warning")
 
-                            swal("This browser does not support HTML5.", "", "warning")
+                            //swal("This browser does not support HTML5.", "", "warning")
 
                         }
                     }
                     else {
+ 
                         swal("Please upload a valid CSV file", "", "warning")
+
+                        //swal("This browser does not support HTML5.", "", "warning")
                     }
                 });
             });
@@ -172,7 +189,7 @@
 
                 swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
 
-                swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
+                //swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
 
             }
             function POSTerror(err) { console.log(err) }
@@ -200,6 +217,39 @@
                     if ($("#" + col4 + i + "").is(':checked')) {
                         subjArr.push($("#" + col4 + i + "").val());
                     }
+
+        };
+        function uploadStudents() {
+            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        }
+        function POSTsuccess(data) {
+            console.log(data)
+            swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
+        }
+        function POSTerror(err) { console.log(err) }
+
+        //proff
+        subjArr = [];
+        ClassSubArr = [];
+
+        function addProfession() {
+            var num = 5;
+            for (var i = 1; i < num; i++) {
+                var col1 = "customCheck";
+                if ($("#" + col1 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col1 + i + "").val());
+                }
+                var col2 = "zcustomCheck";
+                if ($("#" + col2 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col2 + i + "").val());
+                }
+                var col3 = "czcustomCheck";
+                if ($("#" + col3 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col3 + i + "").val());
+                }
+                var col4 = "scustomCheck";
+                if ($("#" + col4 + i + "").is(':checked')) {
+                    subjArr.push($("#" + col4 + i + "").val());
                 }
             }
 
@@ -283,6 +333,15 @@
 
                     }
 
+        function addProf() {
+            Year = $("#Year").val();
+            NumOfStudents = $("#NumOfs").val();
+
+            if (Year == "" || NumOfStudents == "") {
+                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
+                return false;
+            }
+
                 function addProf() {
                     Year = $("#Year").val();
                     NumOfStudents = $("#NumOfs").val();
@@ -309,6 +368,28 @@
                     //    "Profession": Prof1,
                     //}
                     //console.log(ClassSubObj1);
+
+            //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
+        }
+        function POSTsuccess() {
+            swal("מקצוע נוסף למערכת בהצלחה", "", "success")
+        }
+
+        function POSTerror() { }
+        function POST2success() {
+            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+        }
+        function POST2error(err) { console.log(err) };
+
+        function saveClassDB() {
+            classObj =
+                {
+                    "Name": $("#classSelect").val(),
+                    "Number": $("#classNum").val(),
+                    "Number": $("#classNum").val(),
+                    "Year": $("#Year").val(),
+                    "TeacherName": $("#teacherName").val(),
+                    "ClassType": $("#classType").val()
 
                     //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
                 }
@@ -354,13 +435,27 @@
 
     </script>
 
-    function POSTerrorCB(err) { console.log(err) };
 
 
 
+    <script>
+
+
+            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+        }
+        function POSTsuccessCB() {
+            swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
+            // לאחר לחיצה מאפס לחצנים
+            $("#classSelect option:first").attr('selected', 'selected');
+            $("#classNum option:first").attr('selected', 'selected');
+            $("#Year").val("");
+            $("#NumOfs").val("");
+            $("#teacherName option:first").attr('selected', 'selected');
+            $("#classType option:first").attr('selected', 'selected');
+            /////////////
+        }
+        function POSTerrorCB(err) { console.log(err) };
     </script>
-
-
 </head>
 <body id="page-top">
     <!-- top bar -->
