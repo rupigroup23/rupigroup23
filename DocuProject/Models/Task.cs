@@ -63,10 +63,7 @@ namespace DocuProject.Models
         //    }
         //    return dt;
         //}
-<<<<<<< HEAD
 
-=======
->>>>>>> 43a038fdc69b16a68338ac0657333fb1017a35e6
         public string getSpecificTask(string class1, string numClass, string sub, string topic)
         {
             DBservices dbs = new DBservices();
