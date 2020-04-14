@@ -44,8 +44,7 @@
 
         $(document).ready(function () {
 
-            /////// אייקון תמונה של מנהל למעלה
-
+            //User image
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
@@ -53,12 +52,8 @@
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
-
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
@@ -74,7 +69,6 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
@@ -94,16 +88,13 @@
 
             $('#NewProfBTN').click(addProf);
         });
-
         //get teacher
-
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-
-            function getTachears() {
+        }
+        function getTachears() {
                 ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-
-
+        }
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }

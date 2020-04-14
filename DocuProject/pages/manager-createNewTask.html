@@ -68,6 +68,8 @@
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
+                console.log(data);
+                console.log(files);
 
                 // Add the uploaded file to the form data collection
                 if (files.length > 0) {
@@ -156,7 +158,6 @@
             Topic = $("#topic").val();
             DateT = $("#dateInput").val();
 
-
             if (Topic == "" || DateT == "") {
                 Swal.fire({
                     icon: 'error',
@@ -220,7 +221,6 @@
                     "DateT": $("#dateInput").val(),
                     "Assignation": assignation,
                     "Description": taskStr,
-
                 }
 
             console.log(TaskObj)
@@ -286,20 +286,9 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="manager-index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
-
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
-            </div>
         </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
@@ -318,25 +307,10 @@
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="upload.html">
-                    <i class="fas fa-plus-circle fa-fw"></i>
-                    העלאת סרטון
-                </a>
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw" title="התראות"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
+
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" id="avatarImage" src="img/user.png">
@@ -352,6 +326,7 @@
             </li>
         </ul>
     </nav>
+
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
@@ -540,7 +515,7 @@
                                         <span>
                                             נושא המטלה:&nbsp;
                                         </span>
-                                        <input id="topic" type="text" class="textSquareTEXT" placeholder="שם הנושא" required/>
+                                        <input id="topic" type="text" class="textSquareTEXT" placeholder="שם הנושא" required />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-6 col-xs-3">
@@ -548,7 +523,7 @@
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
                                         </span>
-                                        <input class="term" type="date" id="dateInput"  required/>
+                                        <input class="term" type="date" id="dateInput" required />
                                     </div>
                                 </div>
                             </div>
@@ -561,8 +536,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-7 col-sm-12">
-                                            <section >
-                                                <input  type="radio" id="random" name="staffing" value="רנדומלי">
+                                            <section>
+                                                <input type="radio" id="random" name="staffing" value="רנדומלי">
                                                 <label class="checkboxTasks" for="random" checked="checked">
                                                     רנדומלי
                                                 </label>
@@ -660,12 +635,12 @@
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="row" id="show1" style="display:none">
-                                                
-                                <div class="col-lg-8 col-sm-12">
-                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
-                                    <!--&nbsp;&nbsp; <input type="button" id="uploadTask" value="שמור קובץ" class="upload-btn" />-->
-                                </div>
+
+                                                <div class="col-lg-8 col-sm-12">
+                                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                    <!--&nbsp;&nbsp; <input type="button" id="uploadTask" value="שמור קובץ" class="upload-btn" />-->
+                                                </div>
                                                 <!--<div class="col-xl-5 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>העלאת קובץ</buttom>
@@ -684,7 +659,7 @@
                                                 <button id="saveTask" class="btn btn-outline-primary btn-block btn-lg">
                                                     פרסום מטלה
                                                 </button>
-                                                <a  class="btn btn-outline-primary btn-block btn-lg" href="manager-tasks.html">
+                                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-tasks.html">
                                                     <buttom>
                                                         חזרה לדף המטלות
                                                     </buttom>
@@ -702,12 +677,12 @@
     </div>
     <!-- /#wrapper -->
     <script>
-         let currDate =
-        new Date().toLocaleDateString('he-IL');
-    let inputDate = new Date();
-    let bday = new Date();
+        let currDate =
+            new Date().toLocaleDateString('he-IL');
+        let inputDate = new Date();
+        let bday = new Date();
 
-    document.querySelector('#dateInput').valueAsDate = inputDate;
+        document.querySelector('#dateInput').valueAsDate = inputDate;
     </script>
     <script src="js/showItem.js"></script>
     <!-- Scroll to Top Button-->

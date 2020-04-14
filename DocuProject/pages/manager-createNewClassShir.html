@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
+
     <!-- page name -->
     <title>'דוקו'</title>
     <!-- Favicon Icon -->
@@ -19,27 +21,24 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- noy links -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
     <!--shir links-->
     <!-- Include a required theme -->
     <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <!-- more -->
-    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
-    <!-- links of Facebook, instedram and links -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="js/manager/EDITPresentationAssignment.js"></script>
 
 
-
+    <script src="js/manager/createNewTask.js"></script>
 
 </head>
 <body id="page-top">
@@ -50,9 +49,20 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
+        <!--<a class="navbar-brand mr-1" href="manager-index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+            <div class="input-group">
+                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
+                <!--<input type="text" class="form-control" placeholder="Search for...">-->
+                <!--<div class="input-group-append">
+                    <button class="btn btn-light" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>-->
+            </div>
         </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
@@ -71,13 +81,28 @@
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
-            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
-
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="upload.html">
+                    <i class="fas fa-plus-circle fa-fw"></i>
+                    העלאת סרטון
+                </a>
             </li>
-
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw" title="התראות"></i>
+                    <span class="badge badge-danger">9+</span>
+                </a>
+                <!-- לשנות לעדכונים -->
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+                </div>
+            </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" src="img/user.png">
                     מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -90,13 +115,11 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
         </ol>
     </nav>
-    <!-- תפריט -->
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
@@ -253,75 +276,166 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
-                            <div class="row text2 ">
-                                <div class="col-lg-11 col-sm-11 col-xs-3 ">
-                                    <div class="row">
-                                        <span style="font-size:27px; border-bottom: 1px solid #990099">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-12 col-xs-3 text2">
+                                    <div class="row text2">
+                                        <span style="border-bottom: 1px solid #990099">
                                             מטלה מספר &nbsp;
                                         </span>
-                                        <div id="taskNum" style="font-size:27px; border-bottom: 1px solid #990099">
+                                        <div id="numTasks" style="border-bottom: 1px solid #990099">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-lg-6 col-sm-12 col-xs-3">
-                                    <div class="row ">
-                                        <span class="text2">
+                                <div class="col-lg-5 col-sm-6 col-xs-3 text2">
+                                    <div class="row">
+                                        <span>
                                             נושא המטלה:&nbsp;
                                         </span>
-                                        <input id="topic" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
-                                        <!--<div id="topic" class="squareTEXT">
-                                        </div>-->
+                                        <input id="topic" type="text" class="textSquareTEXT" placeholder="שם הנושא" required />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-sm-12 col-xs-3 ">
+                                <div class="col-lg-4 col-sm-6 col-xs-3">
                                     <div class="row">
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
                                         </span>
-                                        <input id="date" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
-                                        <!--<div id="date" class="squareTEXT">
-                                        </div>-->
-                                        <button id="saveDetails" class="showTask-btn">עדכון</button>
-
+                                        <input class="term" type="date" id="dateInput" required />
                                     </div>
                                 </div>
                             </div>
-                            <br />
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="row">
+                                        <!-- אלגוריתם -->
+                                        <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-12">
+                                            <section>
+                                                <input type="radio" id="random" name="staffing" value="רנדומלי">
+                                                <label class="checkboxTasks" for="random" checked="checked">
+                                                    רנדומלי
+                                                </label>
+                                                <br>
+                                                <input type="radio" id="gd" name="staffing" value="מרחק גיאוגרפי">
+                                                <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
+                                                <br>
+                                                <input type="radio" id="sw" name="staffing" value="חזקים-חלשים">
+                                                <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
+                                                <br>
+                                                <input id="checkboxTasks" name="staffing" type="radio" value="מין">
+                                                <label for="checkboxTasks" class="create-text">מין</label>
+                                                <div class="checkboxTasks-disclosure">
+                                                    <section>
+                                                        <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="boys">רוב בנים</label>
+                                                        <br>
+                                                        <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="girls">רוב בנות</label>
+                                                        <br>
+                                                        <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="one">מין אחד</label>
+                                                        <br>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <!-- כפתורים -->
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-sm-6 mb-3">
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>
+                                                            הפעל אלגוריתם צוות
+                                                        </buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6 col-sm-6 mb-3">
+                                                    <!-- לשים קישור -->
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>
+                                                            ניהול צוותים
+                                                        </buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-lg-12 col-sm-12 create-text">
                                     <div class="row">
-                                        <div class="col-lg-3 col-sm-12">
-                                            <h3 class="text2">אפשרויות: </h3>
-                                            <br />
+                                        <div class="col-lg-7 col-sm-12">
+                                            <h3 class="text2">תוכן המטלה </h3>
+                                            <div create-text">אנא בחר/י אופציית העלאה:</div>
                                         </div>
-                                        <div class="col-lg-9 col-sm-12">
-                                            <button id="addPic" class="showTask-btn">
-                                                הורדת המטלה
-                                                <!--(קובץ חיצוני)-->
-                                            </button>
-                                            <button onclick="Items()" id="addPic" class="showTask-btn">
-                                                הצג מטלה
-                                                <!--(טקסט)-->
-                                            </button>
-                                            <button class="showTask-btn">
-                                                ניהול צוותים
-                                                <!--(טקסט)-->
-                                            </button>
+                                        <!--//edit delte and save-->
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
+                                                    </buttom>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-12">
-                                            <div class="col-lg-3 col-sm-6" id="showItems" style="display:none">
-                                                <div class="textSquareGRAY" style="height: 200px; width: 860px">
-                                                    המטלההההה
+                                        <div class="col-lg-3 col-sm-12">
+                                            <section>
+                                                <input id="uploadFile" name="taskcontent" type="radio" value="קובץ">
+                                                <label for="uploadFile" class="create-text">קובץ</label>
+
+                                                &nbsp;
+                                                <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
+                                                <label  for="uploadtxtbox" class="create-text">תיבת טקסט</label>
+                                            </section>
+                                        </div>
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row" id="showUpload" style="display:none">
+                                                <div class="col-lg-8 col-sm-12">
+                                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                    <!--&nbsp;&nbsp; <input type="button" id="uploadC" value="שמור קובץ" class="upload-btn" />-->
                                                 </div>
+                                            </div>
+                                            <div class="row" id="showTxtbox" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <textarea id="taskcontent-txtbox"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="col-xl-12 col-sm-6 mb-3">
+                                                <!-- saveTask -->
+                                                <button id="saveTask" class="btn btn-outline-primary btn-block btn-lg">
+                                                    פרסום מטלה
+                                                </button>
+                                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-tasks.html">
+                                                    <buttom>
+                                                        חזרה לדף המטלות
+                                                    </buttom>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -334,7 +448,14 @@
         </div>
     </div>
     <!-- /#wrapper -->
-    <!--<script src="js/showItem.js"></script>-->
+    <script>
+        let currDate =
+            new Date().toLocaleDateString('he-IL');
+        let inputDate = new Date();
+        let bday = new Date();
+
+        document.querySelector('#dateInput').valueAsDate = inputDate;
+    </script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

@@ -16,7 +16,10 @@ function mItems() {
         x.style.display = "none";
         y.style.display = "block";//תיבת טקסט
     }
+
 }
+
+
 
 
 //function txtbox() {

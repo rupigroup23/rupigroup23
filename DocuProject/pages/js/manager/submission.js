@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var imagePath1 = '';
+var userEmail1 = '';
+
+$(document).ready(function () {
     local = localStorage.getItem('thisTask');
     console.log('local: ', JSON.parse(local));
     TaskObj = JSON.parse(localStorage["thisTask"]);
@@ -10,6 +13,36 @@
     $('#apprVideo').click(approveVidow);
     $('#score').click(giveScore);
     $('#apply').click(filingSubm);
+
+    //User image
+    local = localStorage.getItem('admin');
+    objAdmin = JSON.parse(local);
+    showDetalis(objAdmin);
+    function showDetalis(objAdmin) {
+        Id = objAdmin.Id;
+        var url = "../api/Docu/GetDetails/" + Id;
+
+        //ID = objAdmin.Id;
+        //var url = "../api/Docu/GetDetails/" + ID;
+        ajaxCall("GET", url, "", funcsuccess, funcerror);
+    }
+    function funcsuccess(data) {
+        obj = data;
+        userEmail1 = obj[0].Email;
+        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+    }
+    function getAvatarImageSuccess(imagePath1) {
+
+        src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+    }
+    function getAvatarImageError(err) {
+        console.log(err)
+    }
+    function funcerror() { }
+    //END- User image
 });
 
 //סרגל השתלשלות
@@ -36,52 +69,68 @@ function getDatelis() {
 
 //Filing submissions
 function filingSubm() {
+    //radio
     waitingToAppr = document.getElementById("waiting");
-    approved = document.getElementById("taskApproved");
+    approved = document.getElementById("approved");
     notApproved = document.getElementById("statuses_No");
+    allstatus = document.getElementById("allstatus");
+    //
+    var Waiting = document.getElementById("showWaiting");
+    var Approved = document.getElementById("showApproved");
+    var NotApproved = document.getElementById("showNotApproved");
+    var Allstatus = document.getElementById("show_num_sort");
 
-    if (waiting.checked) {
-        var Waiting = document.getElementById("showWaiting");
-        var Approved = document.getElementById("showApproved");
-        var NotApproved = document.getElementById("showNotApproved");
-
+    if (waitingToAppr.checked) {
         if (Waiting.style.display === "none") {
             Waiting.style.display = "block";
+            Allstatus.style.display = "block";
             Approved.style.display = "none";
             NotApproved.style.display = "none";
-        } else {
+        }
+        else {
             Waiting.style.display = "none";
+            Allstatus.style.display = "none";
         }
     }
-
     if (approved.checked) {
-        var Waiting = document.getElementById("showWaiting");
-        var Approved = document.getElementById("showApproved");
-        var NotApproved = document.getElementById("showNotApproved");
-
         if (Approved.style.display === "none") {
             Approved.style.display = "block";
+            Allstatus.style.display = "block";
             Waiting.style.display = "none";
             NotApproved.style.display = "none";
-        } else {
+        }
+        else {
             Approved.style.display = "none";
+            Allstatus.style.display = "none";
         }
     }
-    
     if (notApproved.checked) {
-        var Waiting = document.getElementById("showWaiting");
-        var Approved = document.getElementById("showApproved");
-        var NotApproved = document.getElementById("showNotApproved");
-
         if (NotApproved.style.display === "none") {
             NotApproved.style.display = "block";
-            Waiting.style.display = "none";
+            Allstatus.style.display = "block";
             Approved.style.display = "none";
-        } else {
+            Waiting.style.display = "none";
+        }
+        else {
             NotApproved.style.display = "none";
-
+            Allstatus.style.display = "none";
         }
     }
+    if (allstatus.checked) {
+        if (NotApproved.style.display === "none" || Approved.style.display === "none" || Waiting.style.display === "none" ) {
+            NotApproved.style.display = "block";
+            Allstatus.style.display = "none";
+            Approved.style.display = "block";
+            Waiting.style.display = "block";
+        }
+        else {
+            NotApproved.style.display = "none";
+            Allstatus.style.display = "none";
+            Approved.style.display = "none";
+            Waiting.style.display = "none";
+        }
+    }
+
 }
 
 //The time difference

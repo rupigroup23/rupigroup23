@@ -32,19 +32,33 @@
     <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="js/manager/createNewTeacher.js"></script>
+    <!--<script src="js/manager/createNewTeacher.js"></script>-->
    
 
     <script>    
-
-
         var imagePath1 = '';
         var userEmail1 = '';
 
         $(document).ready(function () {
+            $('#form1').submit(sub);
+            $('#addTeacher').click(saveTeacherDB);
+            readFromDB(); 
+            //$('#upload').click(uploadTeachers);
 
-            /////// אייקון תמונה של מנהל למעלה
+            $('#selectProf').change(function () {
+                var value = $(this).val();
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
+                }
+                else {
+                    X.style.display = "none";
+                }
+            });
 
+            $('#addsub').click(addSubj);
+            //$('#saveprof').click(saveSubj);
+            //User image
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
@@ -79,70 +93,186 @@
             }
 
             function funcerror() { }
-
-
+            //END User image
         });
 
+        function sub() { 
+        return false; 
+        }
 
+        function saveTeacherDB() 
+        {
+            // בדיקה האם השדות מלאים
+            FName = $("#fname").val();
+            LName = $("#lname").val();
+            Email = $("#email").val();
+            City = $("#city").val();
+            Street = $("#street").val();
+            Id = $("#idT").val();
+            Bday = $("#bday").val();
+            PhoneNum = $("#phone").val();
 
+            if (FName == "" || LName == "" || Id == "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'שדות חסרים',
+                    text: 'אנא מלא/י את כל השדות😀',
+                })
+                return false;
+            }
+            saveAll(teacherArr);
+        }
 
+        //Profession
+        function readFromDB() {
+                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+        }
+        function GETsuccessCB(data) {
+            console.log(data);
+            listP = data;
+            //insert options to select
+            for (var i = 0; i < listP.length; i++) {
+                var select = document.getElementById("selectProf");
+                var option = document.createElement("option");
+                option.text = listP[i].Name;
+                select.add(option);
+            }
+        }
+        function GETerrorCB(err) {
+                console.log(err);
+        }
+
+        //post
+        var profession = "";
+        teacherArr = []; 
+
+        function addSubj() //שהמשתמש לוחץ על הוספת מקצוע 
+        {
+            profession = $("#selectProf").val();
+            if (profession == "1") { // אם לחץ על שם המקצוע (כלומר לא הוסיף כלום)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת מקצוע 😓',
+                    confirmButtonText: 'אישור',
+                    showCloseButton: true
+                })
+            }
+            else { //אם לחץ על אחר
+                if (profession == "אחר") {
+                    var X = $("#txtbox").val();
+                    profession = X;
+                }
+                checkSub();
+            }
+        }
+        function checkSub() {
+            for (var i = 0; i < teacherArr.length; i++) {
+                if (teacherArr[i] == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה',
+                        text: 'הכנסת עכשיו את המקצוע הזה',
+                        confirmButtonText: 'אישור',
+                        showCloseButton: true
+                    })
+                    return;
+                }
+            }
+            Swal.fire({
+                icon: 'success',
+                title: ' המקצוע נשמר בהצלחה 😀',
+                text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
+                confirmButtonText: 'אישור',
+                showCloseButton: true
+            })
+            teacherArr.push(profession);
+            //saveSubj(teacherArr);
+        }
+
+        function saveAll(teacherArr) {
+            if (teacherArr == 0) {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה',
+                        text: 'לא בחרת מקצועות 😓',
+                    confirmButtonText: 'אישור',
+                        showCloseButton: true
+                })
+            }
+            else {       
+                for (var i = 0; i < teacherArr.length; i++) {
+                    TeacherObj =
+                        {
+                            "FName": $("#fname").val(),
+                            "LName": $("#lname").val(),
+                            "Email": $("#email").val(),
+                            "City": $("#city").val(),
+                            "Street": $("#street").val(),
+                            "Id": $("#idT").val(),
+                            "Bday": $("#bday").val(),
+                            "PhoneNum": $("#phone").val(),
+                            "Profession": teacherArr[i],
+                            "Password": Math.random().toString(36).substring(7),
+                        }
+                    ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
+                }
+            }
+        }
+
+        count = 0;
+        function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
+            count += 1;
+           if (count == teacherArr.length) {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'המורה נוסף/ה למערכת בהצלחה😀',
+                })
+            }
+
+            // לאחר לחיצה מאפס לחצנים
+            //$("#classSelect option:first").attr('selected', 'selected');
+            //$("#classNum option:first").attr('selected', 'selected');
+            //$("#Year").val("");
+            //$("#NumOfs").val("");
+            //$("#teacherName option:first").attr('selected', 'selected');
+            //$("#classType option:first").attr('selected', 'selected');
+        }
+        function POSTerror() { console.log(err) };
     </script>
-
 </head>
 <body id="page-top">
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
         &nbsp;&nbsp;
+        <br />
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                    <button class="btn btn-light" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>-->
-            </div>
         </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="upload.html">
-                    <i class="fas fa-plus-circle fa-fw"></i>
-                    העלאת סרטון
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-facebook-f" title="פייסבוק"></i>
                 </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-instagram" title="אינסטגרם"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-external-link" title="אתר אינטרנט"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
-            <!-- הודעות -->
-            <!--<li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge badge-success">7</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>-->
+
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" id="avatarImage" src="img/user.png">
@@ -151,13 +281,14 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
                     <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
-                    <a class="dropdown-item" href="settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
             </li>
         </ul>
     </nav>
+
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
