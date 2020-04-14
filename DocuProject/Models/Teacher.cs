@@ -98,6 +98,13 @@ namespace DocuProject.Models
             }
             return dt;
         }
+        public Teacher CheckUser2(Teacher teacher)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.check_User2(teacher);
 
+        }
     }
+
+
 }

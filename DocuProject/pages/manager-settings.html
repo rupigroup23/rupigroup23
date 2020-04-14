@@ -43,7 +43,8 @@
             $('#form').submit(sub); //FORM
             $('#saveDetails').click(saveDetails_); //FORM
             readFromDB(); //profession
-            local = localStorage.getItem('admin');
+
+            local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 

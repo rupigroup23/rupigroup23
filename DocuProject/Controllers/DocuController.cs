@@ -108,12 +108,20 @@ namespace DocuProject.Controllers
             return T.Read();
         }
 
-        [HttpPost] //// דף כניסה למערכת
+        [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Docu/checkUsers")]
         public Admin Post([FromBody] Admin admin) // מקבלת מערך של אובייקטים- מה שהכנתי
         {
             Admin A = new Admin();
             return A.CheckUser(admin);
+        }
+
+        [HttpPost] /// דף כניסה- במידה ומורה
+        [Route("api/Docu/checkUsersTeacher")]
+        public Teacher Post2([FromBody] Teacher teacher) // מקבלת מערך של אובייקטים- מה שהכנתי
+        {
+            Teacher T = new Teacher();
+            return T.CheckUser2(teacher);
         }
 
         [HttpGet]

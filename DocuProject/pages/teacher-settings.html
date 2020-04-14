@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
@@ -18,9 +18,318 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- noy links -->
+    <!-- Include a required theme -->
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css" />
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--shir links-->
+    <!-- Include a required theme -->
+
+    <script>
+        var imagePath = '';
+        //var userEmail = '';
+
+        //$(document).ready(function ()
+        //{
+        //    $('#form').submit(sub); //FORM
+        //    $('#saveDetails').click(saveDetails_); //FORM
+        //    readFromDB(); //profession
+        //    local = localStorage.getItem('user');
+        //    objTeacher = JSON.parse(local);
+        //    showDetalis(objTeacher);
+
+        //    pass = objAdmin.Password;
+
+        //    //pass = objAdmin.Password; //If pass not changed
+        //    $("#addsub").click(addSubj);
+
+        //    $("#changePass").click(function () {
+        //        if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
+        //            pass = $('#pass2').val();
+        //            swal("סיסמא שונתה בהצלחה", "", "success");
+        //        }
+        //        else {
+        //            if ($('#pass1').val() != objAdmin.Password) {
+        //                swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
+        //                return false;
+        //            }
+        //            if ($('#pass2').val() != $('#pass3').val()) {
+        //                swal("אין אימות נתונים", "סיסמא בשנית לא תואמת לסיסמא שהוזנה", "warning");
+        //                return false;
+        //            }
+        //        }
+        //    });
+        //    //שלב1 -העלאת התמונה לתוכנה
+        //    //$('#upload').on('click', function () { // טעינת התמונה לתוכנה
+        //    //    console.log('clicked')
+        //    //    var data = new FormData();
+        //    //    var files = $("#fileUpload").get(0).files;
+
+        //    //    // Add the uploaded file to the form data collection
+        //    //    if (files.length > 0) {
+        //    //        for (f = 0; f < files.length; f++) {
+        //    //            data.append("UploadedImage", files[f]);
+        //    //        }
+        //    //        data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+        //    //    }
+        //    //    //Ajax upload
+        //    //    $.ajax({
+        //    //        type: "POST",
+        //    //        url: "../Api/Docu/uploadimage",
+        //    //        contentType: false,
+        //    //        processData: false,
+        //    //        data: data,
+        //    //        success: showImages,
+        //    //        error: error
+        //    //    });
+
+        //    //    return false;
+        //    //});
+
+        //    //// שלב2- העלאת התמונה מהתוכנה לדטא
+        //    //$('#uploadIMG').on('click', function () {
+        //    //    var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+        //    //    //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
+        //    //    AdminImage =
+        //    //        {
+        //    //            "email": userEmail,
+        //    //            "Img": imgStr
+        //    //        }
+        //    //    ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
+        //    //});
+
+        //    function readFromDB() {
+        //        ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+        //    }
+        //    function GETsuccessCB(data) {
+        //        ProfARR = []; //מערך המקצועות מהדאטא בייס
+        //    }
+        //    function GETsuccessCB(data) {
+        //        console.log(data);
+        //        listP = data;
+
+        //        //insert options to select
+        //        for (var i = 0; i < listP.length; i++) {
+        //            var select = document.getElementById("selectProf");
+        //            var option = document.createElement("option");
+        //            option.text = listP[i].Name;
+        //            select.add(option);
+        //        }
+        //    }
+
+        //    function GETerrorCB(err) {
+        //        console.log(err);
+
+        //        listCS = data;
+
+        //        for (var i = 0; i < listP.length; i++) {
+        //            ProfARR[i] = listP[i].Profession;
+        //        }
+        //    }
+
+        //    function GETerrorCB(err) {
+        //        console.log(err);
+        //    }
+
+        //    function sub() {
+        //        return false;
+        //    }
+        //    function showDetalis(objAdmin) {
+        //        Id = objAdmin.Id;
+        //        var url = "../api/Docu/GetDetails/" + Id;
+
+        //        //ID = objAdmin.Id;
+        //        //var url = "../api/Docu/GetDetails/" + ID;
+        //        ajaxCall("GET", url, "", funcsuccess, funcerror);
+        //    }
+
+        //    function funcsuccess(data) {
+        //        obj = data;
+
+        //        $('#fname').val(obj[0].FName);
+        //        $('#lname').val(obj[0].LName);
+        //        $('#Id').val(obj[0].Id_);
+        //        $('#mail').val(obj[0].Email);
+        //        $('#city').val(obj[0].City);
+        //        $('#street').val(obj[0].Street);
+        //        $('#bday').val(obj[0].Bday);
+        //        $('#phone').val(obj[0].PhoneNum);
+
+        //        userEmail = obj[0].Email;
+        //        Prof = obj[0].Profession;
+        //        str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+        //        ProfDB = obj[0].Profession;
+        //        str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
+        //        document.getElementById('profCard').innerHTML = str;
+
+
+        //        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+        //    };
+        //    function funcerror() { }
+
+
+        //    function saveDetails_() {
+
+        //        if ($("#selectProf").val() == '1')
+        //            prof = obj[0].Profession;
+        //        else
+        //            prof = $("#selectProf").val();
+
+
+        //        let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+        //        {
+        //            "Fname": $("#fname").val(),
+        //            "Lname": $("#lname").val(),
+        //            "Id": $("#Id").val(),
+        //            "Email": $("#mail").val(),
+        //            "City": $("#city").val(),
+        //            "Street": $("#street").val(),
+        //            "Bday": $("#bday").val(),
+        //            "PhoneNum": $("#phone").val(),
+        //            "Profession": prof,
+        //            "Password": pass
+        //        }
+
+
+
+        //        console.log(admin);
+
+        //        url = "../api/Docu/updatetAdmin";
+        //        ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+        //    }
+
+        //    function updateDsuccess(data) {
+        //        console.log(data)
+        //        funcsuccess(data);
+        //        Swal.fire({
+        //            icon: 'success',
+        //            text: 'הפרטים שונו בהצלחה',
+        //            confirmButtonText: 'אוקי',
+        //            showCloseButton: true
+        //        })
+        //    }
+        //    function updateDerror() { }
+        //    ///
+        //    var profession = "";
+        //    ClassSubArr = [];
+        //    ProfARR = [];
+
+
+        //    function addSubj() {
+        //        profession = $("#selectProf").val();
+        //        if (profession == "1") {
+        //            Swal.fire({
+        //                icon: 'error',
+        //                title: 'שגיאה...',
+        //                text: 'לא בחרת מקצוע 😓',
+        //                confirmButtonText: 'אוקי',
+        //                showCloseButton: true
+        //            })
+        //        }
+        //        else {
+        //            if (profession == "אחר") {
+        //                var X = $("#txtbox").val();
+        //                profession = X;
+        //            }
+        //            checkSub();
+        //        }
+        //    }
+        //    function updateDerror() { }
+
+        //    function showImages(data) {
+        //        imagePath = data;
+
+        //        Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+        //    }
+
+        //    function error(data) {
+        //        console.log(data);
+        //    }
+
+
+
+
+        //    function POSTsuccessImg() {
+        //        Swal.fire(
+        //            'Good job!',
+        //            'התמונה הועלתה בהצלחה!',
+        //            'success'
+        //        )
+
+        //    }
+
+
+        //    function POSTerrorImg(data) {
+        //        console.log(data);
+        //    }
+
+        //    function getAvatarImageSuccess(imagePath) {
+
+        //        src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+        //        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+        //        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        //    }
+
+        //    function getAvatarImageError(err) {
+        //        console.log(err)
+        //    }
+
+        //    function checkSub() {
+        //        //אם המקצוע קיים בדטא
+        //        obj[0].Profession
+        //        //for (var i = 0; i < ProfARR.length; i++) {
+        //        for (var i = 0; i < obj.length; i++) {
+
+        //            if (obj[0].Profession == profession) {
+        //                Swal.fire({
+        //                    icon: 'error',
+        //                    title: 'שגיאה...',
+        //                    text: 'המקצוע כבר קיים',
+        //                    confirmButtonText: 'אוקי',
+        //                    showCloseButton: true
+        //                })
+        //                return;
+        //            }
+        //        }
+        //        //אין כזה מקצוע
+        //        for (var i = 0; i < ClassSubArr.length; i++) {
+
+        //            if (ClassSubArr[i] == profession) {
+        //                Swal.fire({
+        //                    icon: 'error',
+        //                    title: 'שגיאה...',
+        //                    text: 'המקצוע הוכנס כבר למערכת',
+        //                    confirmButtonText: 'אוקי',
+        //                    showCloseButton: true
+        //                })
+        //                return;
+        //            }
+        //        }
+        //        Swal.fire({
+        //            icon: 'success',
+        //            title: ' המקצוע נשמר 😀',
+        //            text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+        //            confirmButtonText: 'אוקי',
+        //            showCloseButton: true
+        //        })
+        //        ClassSubArr.push(profession);
+        //    }
+
+        //});
+
+    </script>
 
 </head>
 <body id="page-top">
@@ -52,32 +361,18 @@
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="upload.html">
-                    <i class="fas fa-plus-circle fa-fw"></i>
-                    העלאת סרטון
-                </a>
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw" title="התראות"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
+
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" src="img/user.png">
-                    קרן גרוסמן
+                    <img alt="Avatar" id="avatarImage" src="img/user.png"> <!--תמונה קטנה-->
+                    מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -85,6 +380,7 @@
             </li>
         </ul>
     </nav>
+
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
@@ -102,16 +398,40 @@
                     <span>בית</span>
                 </a>
             </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 class="nav-item">מנהל מערכת</h6>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="teacher-index.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>כיתות</span>
+                    <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="teacher-index.html"> &#127891; כיתות</a>
+                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ניהול</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
+                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
+            <li class="nav-item">
+                <a class="nav-link" href="teacher-index.html">
+                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                    <i class="fas fa-fw fa-users"></i>
+                    <!--&#127891;--> כיתות
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="teacher-professions.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
@@ -119,6 +439,7 @@
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="teacher-professions.html">&#127891; מקצועות</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                     <a class="dropdown-item" href="#">📝 ניהול כיתה</a>
                 </div>
             </li>
@@ -136,7 +457,34 @@
                 </div>
             </li>
 
+            <li class="nav-item channel-sidebar-list">
+                <h6>פרטיות</h6>
+                <ul>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s1.png"> הגדרות
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s2.png"> שינוי סיסמא  <span class="badge badge-warning">2</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
+                        </a>
+                    </li>
+                    <li>
+                        <a href="subscriptions.html">
+                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <!-- כרגע לא משתמשים אבל לא מחקתי  -->
+            <li class="nav-item channel-sidebar-list">
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="upload-video.html">
                     <i class="fas fa-fw fa-cloud-upload-alt"></i>
@@ -147,12 +495,6 @@
                 <a class="nav-link" href="channels.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Channels</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="single-channel.html">
-                    <i class="fas fa-fw fa-user-alt"></i>
-                    <span>Single Channel</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -183,177 +525,165 @@
                     <a class="dropdown-item" href="blank.html">Blank Page</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="history-page.html">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>History Page</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-list-alt"></i>
-                    <span>Categories</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="categories.html">Movie</a>
-                    <a class="dropdown-item" href="categories.html">Music</a>
-                    <a class="dropdown-item" href="categories.html">Television</a>
-                </div>
-            </li>
-            <li class="nav-item channel-sidebar-list">
-                <h6>SUBSCRIPTIONS</h6>
-                <ul>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s1.png"> Your Life
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s2.png"> Unboxing  <span class="badge badge-warning">2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s3.png"> Product / Service
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subscriptions.html">
-                            <img class="img-fluid" alt="" src="img/s4.png">  Gaming
-                        </a>
-                    </li>
-                </ul>
-            </li>
+
+
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid upload-details">
-                <form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-title">
+                            <h6 class="text2">הגדרות</h6>
+                        </div>
+                    </div>
+                </div>
+                <form id="form">
                     <div class="row">
                         <!--<div class="col-sm-6">-->
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ישראל" type="text">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text">
                             </div>
                             <div class="form-group">
-                                <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ישראלי" type="text">
+                                <label class="control-label create-text">עיר: <span class="required">*</span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT " value="" placeholder="israel@gmail.com" disabled="" type="email">
+                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" disabled="" type="email">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
-                                <label class="control-label create-text">תעודת זהות: <span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="123456789" type="text">
+                                <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT" value="" type="date">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" value="" type="date">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">פלאפון<span class="required">*</span></label>
-                                <input class="form-control border-form-control textSquareTEXT" value="" placeholder="0541122334" type="tel">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="phone" value="" type="tel">
                                 <!--<input class="form-control border-form-control" value="" placeholder="123 456 7890" type="number">-->
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
-                            <label class="control-label create-text">עיר:<span class="required">*</span></label><br />
-                            <select id="city" class="custom-select textSquareTEXT" style="font-size: 20px;">
-                                <option value="telaviv">בחר עיר</option>
-                                <option value="telaviv">תל אביב</option>
-                                <option value="hifa">חיפה</option>
-                                <option value="hadera">חדרה</option>
-                            </select>
+                            <label class="control-label create-text">תעודת זהות:<span class="required">*</span></label><br />
+                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
+
                             <br />
                             <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
-                            <input class="form-control border-form-control textSquareTEXT" value="" placeholder="ז'בוטינסקי" type="text">
+                            <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
                             <br />
                             <div class="row">
-                                <div class="col-lg-6 col-sm-6">
-                                    <label class="control-label create-text">מס' בית:</label>
-                                    <input class="form-control border-form-control textSquareTEXT" style="width: 50%;" value="" placeholder="6" type="text">
+                                <div class="col-lg-4 col-sm-6">
+                                    <label class="create-text">מקצוע:</label><br />
                                 </div>
-                                <div class="col-lg-6 col-sm-6">
-                                    <label class="control-label create-text">קומה:</label>
-                                    <input class="form-control border-form-control textSquareTEXT" style="width: 50%;" value="" placeholder="1" type="text">
+
+                                <div class="row">
+                                    <select id="selectProf" class="create-select">
+                                        <option value="1">שם המקצוע</option>
+                                    </select>
+                                    <button id="addsub" class="create-select" style="width: auto;">
+                                        הוספה
+                                    </button>
+
+                                    <div class="profession-txtbox-disclosure">
+                                        <textarea id="txtbox" style="display:none"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6">
+
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
+
                             <div class="col-lg-12 col-sm-6">
-                                <div class="row">
-                                    <span class="create-text" for="city">מקצועות לימוד:</span>
-                                    &nbsp;<button class="showTask-btn">מקצוע חדש</button>
+                                <h6 class="create-text" for="city">מקצועות לימוד:</h6>
+                                <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                    <!--<div class="create-text">
+                                        <h6 style="font-size: 23px"></h6>
+                                    </div>-->
+                                    <h6 style="font-size: 23px"></h6>
+
                                 </div>
-                                <div class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                    <div class="create-text">
-                                        <h6 style="font-size: 20px">-מתמטיקה</h6>
-                                        <h6 style="font-size: 20px">-לשון</h6>
-                                    </div>
-                                </div>
-                            </div>                       
-                        </div>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <button class="showTask-btn">צירוף תמונה</button>
+                            </div>
                         </div>
                         <br />
-                        <div class="col-lg-6 col-sm-6">
-                            <!--<button class="create-btn" style="padding-right: 65px;">
-            שינוי סיסמא
-        </button>-->
-                            <input id="pw" name="pw" type="radio">
-                            <label for="pw" class="create-text">שינוי סיסמא</label>
-                            <div class="pw-disclosure">
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא חדשה:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <label class="control-label create-text">סיסמא חדשה בשנית:</label>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <input class="form-control border-form-control textSquareTEXT" value="" type="password">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-index.html">
-                                <buttom>
-                                    שמירה
-                                </buttom>
-                            </a>
+                        <div class="col-lg-12 col-sm-6">
+                            <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <!-- /.container-fluid -->
+            <hr class="mt-0">
+            <div class="row">
+                <div class="col-lg-8 col-sm-8">
+                    <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
+                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />
+                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                    &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                </div>
+
+                <!--<div class="col-lg-3 col-sm-6">
+                    <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
+                </div>-->
+
+                <div class="col-lg-4 col-sm-4">
+                    <button id="changePass" class="create-btn" style="padding-right: 65px;">
+                        שינוי סיסמא
+                    </button>
+                    <input id="pw" name="pw" type="radio">
+                    <label for="pw" class="create-text">שינוי סיסמא</label>
+                    <div class="pw-disclosure">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא נוכחית:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא חדשה:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label class="control-label create-text">סיסמא חדשה בשנית:</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-0">
+            <div class="row">
+                <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
+                <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg" style="width:300px;margin-right:280px;">
+                    שמירה
+                </button>
+                <!--</a>-->
+            </div>
         </div>
-        <!-- /.content-wrapper -->
+        <!--/.container-fluid-->
+
     </div>
-    <!-- /#wrapper -->
+    <!--/.content-wrapper-->
+    <!--</div>-->
+    <!-- /#wrapper
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -385,5 +715,10 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 </body>
 </html>

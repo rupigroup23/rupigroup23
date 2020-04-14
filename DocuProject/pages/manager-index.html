@@ -35,7 +35,7 @@
         $(document).ready(function () {
             getNumOfClass();
             //login
-            local = localStorage.getItem('admin');
+            local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             console.log(objAdmin);
 
@@ -67,6 +67,7 @@
                             "ClassNum": $("#class2").val()
                         }
                 }
+
                 $(this).data("isopen", !open);
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
@@ -86,12 +87,13 @@
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
 
-            //User image
+            ///////////////////User image
 
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
+            
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -122,7 +124,7 @@
             }
 
             function funcerror() { }
-            //END User image
+            ////////////////////////////END User image
 
         });
         function getNumOfClass() {

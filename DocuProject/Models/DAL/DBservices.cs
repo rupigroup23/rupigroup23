@@ -1172,7 +1172,49 @@ public class DBservices
             }
         }
     }
-    
+
+    public Teacher check_User2(Teacher teacher)
+    {
+        Teacher T = new Teacher();
+
+        // שומרת את המשתנים שהוכנסו בפועל
+        int id_ = teacher.Id;
+        string pass_ = teacher.Password;
+
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM Teacher__
+                               where Id_ = '{id_}' and Password_='{pass_}'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                // שומרת את הנתונים מהדטה בייס לתוך אובייקט שיצרתי
+                T.Id = (int)dr["Id_"];
+                T.Password = (string)dr["Password_"];
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return T;
+    }
+
 }
 
 
