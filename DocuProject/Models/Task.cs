@@ -37,5 +37,32 @@ namespace DocuProject.Models
             return dbs.getTaskFromDB(name, num, prof);
         }
 
+        //public DataTable PutTask(int id, Task task)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        //{
+        //    DBservices dbs = new DBservices();
+        //    dbs = dbs.Get_task(task.className, task.ClassNum); //Get_Students
+        //    dbs.dt = checkTbtask(id, task, dbs.dt); //checkTbl
+        //    dbs.update();
+        //    return dbs.dt;//מעביר רק את הטבלה 
+        //}
+        //public DataTable checkTbtask(int id, Task task, DataTable dt)
+        //{
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+        //        ////////// שינוי בתוך הטבלה עצמה
+        //        if (id == Convert.ToInt32(dr["id"]))
+        //        {
+        //            dr["ClassName"] = task.ClassName;
+        //            dr["ClassNum"] = task.ClassNum;
+        //            dr["Profession"] = task.Profession;
+        //            dr["Deadline"] = task.Deadline;
+        //            dr["Topic"] = task.Topic;
+        //            dr["Assignation"] = task.Assignation;
+        //            dr["Description"] = task.Description;
+        //        }
+        //    }
+        //    return dt;
+        //}
+
     }
 }

@@ -261,14 +261,6 @@ namespace DocuProject.Controllers
             return A.PutA(admin);
         }
 
-        //[HttpPut]
-        //[Route("api/Docu/updatetTask")]
-        //public DataTable PutTask([FromBody] Task task)
-        //{
-        //    Task T = new Task();
-        //    return T.PutTask(Task);
-        //}
-
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
 
@@ -288,11 +280,11 @@ namespace DocuProject.Controllers
 
 
         //[HttpPut]
-        //[Route("api/Docu/updateStudent/{id}")]
-        //public DataTable PutDIS(int id, [FromBody] Student student)
+        //[Route("api/Docu/updateTask/{id}")]
+        //public DataTable PutTask(int id, [FromBody] Task task)
         //{
         //    Student S = new Student();
-        //    return S.PutS(id, student);
+        //    return S.PutTask(id, task); 
         //}
 
 
