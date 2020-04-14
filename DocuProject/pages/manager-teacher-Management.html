@@ -332,20 +332,9 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <!--<a class="navbar-brand mr-1" href="index.html"><img class="img-fluid" alt="" src="img/logo.png"></a>-->
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
-
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-                <!-- חיפוש בסרגל כלים - הורדתי בינתיים כי לא נראה לי שצריך -->
-                <!--<input type="text" class="form-control" placeholder="Search for...">-->
-                <!--<div class="input-group-append">
-                <button class="btn btn-light" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>-->
-            </div>
         </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
@@ -364,25 +353,10 @@
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
-            <li class="nav-item mx-1">
-                <a class="nav-link" href="upload.html">
-                    <i class="fas fa-plus-circle fa-fw"></i>
-                    העלאת סרטון
-                </a>
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw" title="התראות"></i>
-                    <span class="badge badge-danger">9+</span>
-                </a>
-                <!-- לשנות לעדכונים -->
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-                </div>
-            </li>
+
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" id="avatarImage" src="img/user.png">
@@ -398,6 +372,7 @@
             </li>
         </ul>
     </nav>
+
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
@@ -551,11 +526,11 @@
             <div class="container-fluid pb-0">
                 <div class="row">
                     <!--<div class="col-md-4">
-        <div class="main-title text2" style="display: flex;     font-size: 18px;">
-            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מורה...">
-            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
-        </div>
-    </div>-->
+                        <div class="main-title text2" style="display: flex;     font-size: 18px;">
+                            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מורה...">
+                            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
+                        </div>
+                    </div>-->
                     <div class="col-md-2 text2">
                         <span style="border-bottom: 1px solid #990099">
                             ניהול מורים
@@ -576,20 +551,20 @@
                             </div>
                         </div>
                     </div>
-                        <div class="col-md-1">
-                            <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                                &nbsp;<i class="fas fa-file-excel"></i>
-                                <!--&nbsp;<i class="fas fa-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </i>
-            <div class="btn-group float-right right-action">
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; כיתה</a>
-                    <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
-                </div>
-            </div>-->
-                            </div>
+                    <div class="col-md-1">
+                        <div class="main-title text2" style="display: flex;     font-size: 18px;">
+                            &nbsp;<i class="fas fa-file-excel"></i>
+                            <!--&nbsp;<i class="fas fa-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> </i>
+                            <div class="btn-group float-right right-action">
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; כיתה</a>
+                                    <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                </div>
+                            </div>-->
                         </div>
                     </div>
+                </div>
                 <hr class="mt-0">
                 <div>
                     <form>
@@ -676,39 +651,39 @@
                     </div>
 
                 </div>
+            </div>
         </div>
-    </div>
-    <!-- /#wrapper -->
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- /#wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
-    <!-- Owl Carousel -->
-    <script src="vendor/owl-carousel/owl.carousel.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/custom.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
+        <!-- Owl Carousel -->
+        <script src="vendor/owl-carousel/owl.carousel.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/custom.js"></script>
 </body>
 </html>
