@@ -173,7 +173,6 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Teacher.cs" />
-    <Compile Include="Models\UploadTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
