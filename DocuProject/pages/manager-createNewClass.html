@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -39,17 +38,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
+<<<<<<< HEAD
+              $(document).ready(function ()
+        {
+=======
         var imagePath1 = '';
         var userEmail1 = '';
 
         $(document).ready(function () {
 
             //User image
+>>>>>>> 43a038fdc69b16a68338ac0657333fb1017a35e6
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
-            showDetalis(objAdmin);
+            showDetalis(objAdmin);          
+            getTachears();
+            $('#saveClass').click(saveClassDB);
+            $('#upload').click(uploadStudents);
+            $('#addProff').click(saveProfClassDB);
+            $('#NewProfBTN').click(addProf);
+        });
 
-            function showDetalis(objAdmin) {
+	  
+	  function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
@@ -57,13 +68,12 @@
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-
-
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
 
-            }
-            function getAvatarImageSuccess(imagePath1) {
-
+        function funcerror() { }
+            function getAvatarImageSuccess(imagePath1)
+            {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
@@ -72,6 +82,9 @@
             function getAvatarImageError(err) {
                 console.log(err)
             }
+<<<<<<< HEAD
+        //get teacher
+=======
 
             function funcerror() { }
 
@@ -95,6 +108,7 @@
         function getTachears() {
                 ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
+>>>>>>> 43a038fdc69b16a68338ac0657333fb1017a35e6
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
@@ -109,107 +123,51 @@
                 option.text = listT[i].FName + " " + listT[i].LName;
                 select.add(option);
             }
-            function GETsuccessT(data) {
-                console.log(data);
-                listT = data;
-                //insert options to select
-                for (var i = 0; i < listT.length; i++) {
-                    var select = document.getElementById("teacherName");
+        }
+        function GETerrorT(err) { console.log(err) }
 
-                    var option = document.createElement("option");
-                    option.text = listT[i].FName + " " + listT[i].LName;
-                    select.add(option);
-                }
-            }
-            function GETerrorT(err) { console.log(err) }
-
-            //Excel
-            studentsArr = new Array();
-            $(function () {
-                $("#load").bind("click", function () {
-                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-                    if (regex.test($("#fileUpload").val().toLowerCase())) {
-                        if (typeof (FileReader) != "undefined") {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                var rows = e.target.result.split("\r\n");
-                                for (var i = 0; i < rows.length; i++) {
-                                    var cells = rows[i].split(",");
-                                    if (cells.length > 1) {
-                                        var student = {};
-                                        student.FName = cells[0];
-                                        student.LName = cells[1];
-                                        student.PhoneNum = cells[2];
-                                        student.Email = cells[3];
-                                        student.City = cells[4];
-                                        student.Address = cells[5];
-                                        student.Id = cells[6];
-                                        student.Bday = cells[7];
-                                        student.ClassName = $("#classSelect").val();
-                                        student.ClassNum = $("#classNum").val();
-                                        student.Password = Math.random().toString(36).substring(7);
-                                        studentsArr.push(student);
-                                        console.log(studentsArr[0]);
-                                        console.log(studentsArr.length);
-                                    }
+        //Excel
+        studentsArr = new Array();
+        $(function () {
+            $("#load").bind("click", function () {
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                if (regex.test($("#fileUpload").val().toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var rows = e.target.result.split("\r\n");
+                            for (var i = 0; i < rows.length; i++) {
+                                var cells = rows[i].split(",");
+                                if (cells.length > 1) {
+                                    var student = {};
+                                    student.FName = cells[0];
+                                    student.LName = cells[1];
+                                    student.PhoneNum = cells[2];
+                                    student.Email = cells[3];
+                                    student.City = cells[4];
+                                    student.Address = cells[5];
+                                    student.Id = cells[6];
+                                    student.Bday = cells[7];
+                                    student.ClassName = $("#classSelect").val();
+                                    student.ClassNum = $("#classNum").val();
+                                    student.Password = Math.random().toString(36).substring(7);
+                                    studentsArr.push(student);
+                                    console.log(studentsArr[0]);
+                                    console.log(studentsArr.length);
                                 }
                             }
-                            reader.readAsText($("#fileUpload")[0].files[0]);
                         }
-                        else {
-
-                            swal("This browser does not support HTML5.", "", "warning")
-
-                            //swal("This browser does not support HTML5.", "", "warning")
-
-                        }
+                        reader.readAsText($("#fileUpload")[0].files[0]);
                     }
                     else {
- 
-                        swal("Please upload a valid CSV file", "", "warning")
-
-                        //swal("This browser does not support HTML5.", "", "warning")
+                        swal("This browser does not support HTML5.", "", "warning")
                     }
-                });
+                }
+                else {
+                    swal("Please upload a valid CSV file", "", "warning")
+                }
             });
-            function uploadStudents() {
-                ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
-            }
-            function POSTsuccess(data) {
-                console.log(data)
-
-                swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
-
-                //swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
-
-            }
-            function POSTerror(err) { console.log(err) }
-
-            //proff
-            subjArr = [];
-            ClassSubArr = [];
-
-            function addProfession() {
-                var num = 5;
-                for (var i = 1; i < num; i++) {
-                    var col1 = "customCheck";
-                    if ($("#" + col1 + i + "").is(':checked')) {
-                        subjArr.push($("#" + col1 + i + "").val());
-                    }
-                    var col2 = "zcustomCheck";
-                    if ($("#" + col2 + i + "").is(':checked')) {
-                        subjArr.push($("#" + col2 + i + "").val());
-                    }
-                    var col3 = "czcustomCheck";
-                    if ($("#" + col3 + i + "").is(':checked')) {
-                        subjArr.push($("#" + col3 + i + "").val());
-                    }
-                    var col4 = "scustomCheck";
-                    if ($("#" + col4 + i + "").is(':checked')) {
-                        subjArr.push($("#" + col4 + i + "").val());
-                    }
-
-        };
+        });
         function uploadStudents() {
             ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
         }
@@ -243,86 +201,35 @@
                     subjArr.push($("#" + col4 + i + "").val());
                 }
             }
+        }
 
-            function saveProfClassDB() {
-                addProfession();
-                size = subjArr.length;
-                Newf = $("#NewProfession").val();
-                subjArr.push(Newf);
-                if (size >= 1) {
-                    for (j in subjArr) {
-                        ClassSubObj =
-                            {
-                                "Name": $("#classSelect").val(),
-                                "Number": $("#classNum").val(),
-                                "ClassType": $("#classType").val(),
-                                "Profession": subjArr[j],
-                            }
-                        ClassSubArr.push(ClassSubObj);
-                        console.log(ClassSubArr);
-                    }
-                    ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+        function saveProfClassDB() {
+            addProfession();
+            size = subjArr.length;
+            Newf = $("#NewProfession").val();
+            subjArr.push(Newf);
+            if (size >= 1) {
+                for (j in subjArr) {
+                    ClassSubObj =
+                        {
+                            "Name": $("#classSelect").val(),
+                            "Number": $("#classNum").val(),
+                            "ClassType": $("#classType").val(),
+                            "Profession": subjArr[j],
+                        }
+                    ClassSubArr.push(ClassSubObj);
+                    console.log(ClassSubArr);
                 }
-                else {
-                    alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
-                }
+                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
             }
-            function POST1success() {
-                swal("המקצוע נוסף למערכת בהצלחה", "", "success")
+            else {
+                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
             }
-            function POST1error(err) { console.log(err) };
-
-
-            function addProf() {
-                Year = $("#Year").val();
-                NumOfStudents = $("#NumOfs").val();
-
-                if (Year == "" || NumOfStudents == "") {
-                    swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                    return false;
-                }
-
-                Prof1 = $("#NewProfession").val();
-                //מדביק בטבלת מקצועות לכיתה
-                proffObj =
-                    {
-                        "Name": Prof1,
-                    }
-                console.log(proffObj);
-
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
-
-                //ClassSubObj1 = {
-                //    "Name": $("#classSelect").val() ,
-                //    "Number": $("#classNum").val(),
-                //    "ClassType": $("#classType").val(),
-                //    "Profession": Prof1,
-                //}
-                //console.log(ClassSubObj1);
-
-                //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
-            }
-            function POSTsuccess() {
-                swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-
-            }
-            function POSTerror() { }
-            function POST2success() {
-                swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-            }
-            function POST2error(err) { console.log(err) };
-
-            function saveClassDB() {
-                classObj =
-                    {
-                        "Name": $("#classSelect").val(),
-                        "Number": $("#classNum").val(),
-                        "Number": $("#classNum").val(),
-                        "Year": $("#Year").val(),
-                        "TeacherName": $("#teacherName").val(),
-                        "ClassType": $("#classType").val()
-
-                    }
+        }
+        function POST1success() {
+            swal("המקצועות שויכו לכיתה בהצלחה", "", "success")
+        }
+        function POST1error(err) { console.log(err) };
 
         function addProf() {
             Year = $("#Year").val();
@@ -333,32 +240,23 @@
                 return false;
             }
 
-                function addProf() {
-                    Year = $("#Year").val();
-                    NumOfStudents = $("#NumOfs").val();
+            Prof1 = $("#NewProfession").val();
+            //מדביק בטבלת מקצועות לכיתה
+            proffObj =
+                {
+                    "Name": Prof1,
+                }
+            console.log(proffObj);
 
-                    if (Year == "" || NumOfStudents == "") {
-                        swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                        return false;
-                    }
+            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
 
-                    Prof1 = $("#NewProfession").val();
-                    //מדביק בטבלת מקצועות לכיתה
-                    proffObj =
-                        {
-                            "Name": Prof1,
-                        }
-                    console.log(proffObj);
-
-                    ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
-
-                    //ClassSubObj1 = {
-                    //    "Name": $("#classSelect").val() ,
-                    //    "Number": $("#classNum").val(),
-                    //    "ClassType": $("#classType").val(),
-                    //    "Profession": Prof1,
-                    //}
-                    //console.log(ClassSubObj1);
+            //ClassSubObj1 = {
+            //    "Name": $("#classSelect").val() ,
+            //    "Number": $("#classNum").val(),
+            //    "ClassType": $("#classType").val(),
+            //    "Profession": Prof1,
+            //}
+            //console.log(ClassSubObj1);
 
             //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
         }
@@ -382,56 +280,7 @@
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
 
-                    //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
                 }
-                function POSTsuccess() {
-                    swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-
-                }
-                function POSTerror() { }
-                function POST2success() {
-                    swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-                }
-                function POST2error(err) { console.log(err) };
-
-                function saveClassDB() {
-                    classObj =
-                        {
-                            "Name": $("#classSelect").val(),
-                            "Number": $("#classNum").val(),
-                            "Number": $("#classNum").val(),
-                            "Year": $("#Year").val(),
-                            "TeacherName": $("#teacherName").val(),
-                            "ClassType": $("#classType").val()
-
-                        }
-
-                    ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
-                }
-                function POSTsuccessCB() {
-                    swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
-                    // לאחר לחיצה מאפס לחצנים
-                    $("#classSelect option:first").attr('selected', 'selected');
-                    $("#classNum option:first").attr('selected', 'selected');
-                    $("#Year").val("");
-                    $("#NumOfs").val("");
-                    $("#teacherName option:first").attr('selected', 'selected');
-                    $("#classType option:first").attr('selected', 'selected');
-                    /////////////
-                }
-
-                function POSTerrorCB(err) { console.log(err) };
-
-
-
-    </script>
-
-
-
-
-    <script>
-
-
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
         function POSTsuccessCB() {
@@ -521,7 +370,7 @@
             </li>-->
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar"  id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" src="img/user.png">
                     מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">

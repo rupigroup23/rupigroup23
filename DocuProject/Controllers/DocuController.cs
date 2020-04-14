@@ -260,6 +260,7 @@ namespace DocuProject.Controllers
             Admin A = new Admin();
             return A.PutA(admin);
         }
+
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
 
@@ -282,7 +283,7 @@ namespace DocuProject.Controllers
         public string getSpecificTask (string class1, string numClass, string sub, string topic)
         {
             Task task = new Task();
-            return task.getSpecificTask( class1,  numClass,  sub,  topic);
+            return task.getSpecificTask( class1,numClass,  sub,  topic);
         }
 
         //[HttpPut]
@@ -308,7 +309,6 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.PutT(id, teacher);
         }
-
 
     }
 }
