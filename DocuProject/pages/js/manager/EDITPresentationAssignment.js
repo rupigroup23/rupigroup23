@@ -43,8 +43,19 @@ function saveDetails() {
         "Topic": $("#topic").val(),
         "DateT": $("#date").val(),
     }
-    ApiEditTask = "../api/Docu/updatetTask/"+id;
+
     console.log(Details);
     console.log(ApiEditTask);
-    //ajaxCall("PUT", url, JSON.stringify(ApiEditTask), updateDsuccess, updateDerror);
+    //ajaxCall("PUT", ApiEditTask, JSON.stringify(Details), updateDsuccess, updateDerror);
 }
+//function updateDsuccess(data) {
+//    console.log(data);
+//    swal("העריכה נשמרה", "", "success");
+//    tbl.clear();
+//    redrawTBL(tbl, data);
+//    $("#editDiv").hide();
+//}
+
+//function updateDerror(err) {
+//    console.log(err);
+//}
