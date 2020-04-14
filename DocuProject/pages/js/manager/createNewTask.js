@@ -121,7 +121,6 @@ function saveTask() {
     Topic = $("#topic").val();
     DateT = $("#dateInput").val();
     
-    //if ((Topic == "" || DateT == "") && (radioFile.checked || radioTxt.checked)) {
     if (Topic == "" || DateT == "") {
         Swal.fire({
             icon: 'error',
@@ -239,7 +238,7 @@ function UploadFileReal() {
         // aopend what ever data you want to send along with the files. See how you extract it in the controller.
     }
     ajaxCall("POST", "../api/Docu/uploadtask", JSON.stringify(files), POST1success, error);
-    //return false;
+    return false;
 
 }    
 function POST1success() {
@@ -249,7 +248,7 @@ function POST1success() {
         confirmButtonColor: '#990099',
     })
     //$('#saveTask').attr("disabled", false);
-    taskPath = data;
+    taskPath = files[0].name;
 
 }
 function error() {
