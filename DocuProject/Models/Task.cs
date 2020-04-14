@@ -37,5 +37,11 @@ namespace DocuProject.Models
             return dbs.getTaskFromDB(name, num, prof);
         }
 
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSpecificTask( class1,  numClass,  sub,  topic);
+        }
+
     }
 }
