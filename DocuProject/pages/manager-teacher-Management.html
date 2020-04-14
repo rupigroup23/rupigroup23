@@ -30,42 +30,84 @@
 
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
-    <script src="js/manager/teacher-Management.js"></script>
+    <!--<script src="js/manager/teacher-Management.js"></script>-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    var imagePath1 = '';
+    var userEmail1 = '';
 
-        getTeachers();
+        $(document).ready(function () {
+            getTeachers();
+            $('#saveBTN').click(saveTeacherDB);
 
-    });
+            local = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local);
+            showDetalis(objAdmin);
 
-    function getTeachers() {
-        var url = "../api/Docu/getTeachers";
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
+                //ID = objAdmin.Id;
+                //var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+
+
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            }
+            function getAvatarImageSuccess(imagePath1) {
+
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function funcerror() { }
+
+        });
+           function sub() { 
+        return false;
+        }
+        function getTeachers(data) {
+
+            var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
-
-    }
-
-    function GETsuccess(data) {
-        console.log(data);
+        }
+        techersArr = [];
+        function GETsuccess(data) {
+            techersArr = data;
 
             try {
                 tbl = $('#teachersTable').DataTable({
                     data: data,
                     pageLength: 5,
                     columns: [
-                      {
+                        {
                             render: function (data, type, row, meta) {
-                                let dataS = "data-studentsId='" + row.Id + "'";
-                                editBtn = "<img src='img/editPNG.png' class= 'editButtons' style='margin-right: 0%'  onclick= ''" + dataS + ">";
-                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons' style='margin-right: 0%'  onclick= ''" + dataS + ">";
+                                let rowID = "data-RowId='" + row.id + "'";
+                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-success' style='margin-right: 0%'  " + rowID + ">";
+                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-danger' style='margin-right: 0%'  " + rowID + ">";
 
                                 //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
                                 //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
-                                return editBtn +" "+ deleteBtn;
+                                return editBtn + " " + deleteBtn;
                             }
                         },
+                        { data: "id" },
                         { data: "FName" },
                         { data: "LName" },
                         { data: "Email" },
@@ -79,20 +121,148 @@
                     ],
                 });
             }
-                   
-            catch (err)
-            {
+            catch (err) {
                 alert(err);
             }
         }
 
-    
+        function GETerror(err) { console.log(err) }
 
-    function GETerror(err) {console.log(err)}
+        ////////////////////DELETE//////////////
+        $(document).on("click", ".deleteBtn", function () {
+            rowID = this.getAttribute('data-RowId');
+
+            swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר,המורה יימחק מהמערכת",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete)
+                        deleteTecher(rowID);
+                    else swal("הפעולה בוטלה");
+                });
+        });
+
+        function deleteTecher(rowID) {
+            ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
+        }
+        function DeleteSuccess(data) {
+            //console.log(data);
+            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+            swal("המורה נמחק/ה בהצלחה!", "", "success");
+
+
+        }
+        function DeleteError(err) { console.log(err) }
+
+        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
+        {
+            tbl.clear();
+            for (var i = 0; i < data.length; i++) {
+                tbl.row.add(data[i]);
+            }
+            tbl.draw();
+
+        }
+        ///////////////UPDATE///////////
+        $(document).on("click", ".editBtn", function () {
+            //markSelected(this);
+            $("#editDiv").show();
+            $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+            populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
+        });
+
+
+        function populateFields(rowID) {
+
+            id1 = rowID
+            console.log(id1);
+            teacher = getTeachers_(id1);
+
+            $("#fname").val(teacher.FName);
+            $("#lname").val(teacher.LName);
+            $("#number").val(teacher.PhoneNum);
+            $("#mail").val(teacher.Email);
+            $("#city").val(teacher.City);
+            $("#street").val(teacher.Street);
+            $("#id").val(teacher.Id_);
+            $("#bday").val(teacher.Bday);
+            $("#prof").val(teacher.Profession);
+            $("#password").val(teacher.Password_);
+        }
+
+        function getTeachers_(RowID) {
+            console.log(techersArr);
+            for (i in techersArr) {
+                if (techersArr[i].id == RowID)
+                    return techersArr[i];
+            }
+            return null;
+        }
+
+        $(document).on("click", "#cancelSaveBTN", function () {
+            swal("הפעולה בוטלה", "", "error");
+            $("#editDiv").hide();
+        });
+
+        function getStudebts(RowID) {
+            console.log(studentsArr);
+            for (i in studentsArr) {
+                if (studentsArr[i].id == RowID)
+                    return studentsArr[i];
+            }
+            return null;
+        }
+
+            /////////////////////
+
+            function saveTeacherDB()
+            {
+                let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                {
+                    "FName": $("#fname").val(),
+                    "LName": $("#lname").val(),
+                    "PhoneNum": $("#number").val(),
+                    "Email": $("#mail").val(),
+                    "City": $("#city").val(),
+                    "Street": $("#street").val(),
+                    "Id": $("#id").val(),
+                    "Bday": $("#bday").val(),
+                    "Profession": $("#prof").val(),
+                    "Password": $("#password").val()
+                }
+                console.log(teacher); // האיבר המעודכן
+
+                console.log(id);
+                url = "../api/Docu/updateTeacher/" + id1;
+                ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+            }
+
+            function updateDsuccess(data)
+
+            {
+                teacherN = data;
+                console.log(data);
+                swal("העריכה נשמרה", "", "success");
+                tbl.clear();
+                redrawTBL(tbl, data);
+                $("#editDiv").hide();
+            }
+
+            function updateDerror(err)
+                {
+                console.log(err);
+        }
 
 
 
-</script>
+
+            //////////////////
+
+    </script>
 
 
 </head>
@@ -157,7 +327,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
                     מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -370,6 +540,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th></th>
                                     <th>שם פרטי</th>
                                     <th>שם משפחה</th>
                                     <th>אימייל</th>
@@ -384,9 +555,69 @@
                             </thead>
                         </table>
                     </form>
-                </div>
 
-            </div>
+                    <div id="editDiv" style="display:none">
+                        <form id="form1">
+                            <div class="form-group row">
+                                <div class="form-group col-sm-3">
+                                    <label for="name">שם פרטי</label>
+                                    <input type="text" class="form-control" id="fname" required>
+                                </div>
+
+
+                                <div class="form-group col-sm-3">
+                                    <label for="model"><span class="red-star"> </span>שם משפחה</label>
+                                    <input type="text" class="form-control" id="lname" required>
+                                </div>
+
+
+                                <div class="form-group col-sm-3">
+                                    <label for="year"><span class="red-star"> </span>מספר נייד</label>
+                                    <input type="text" class="form-control" id="number" required>
+
+                                </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>איימל</label>
+                                    <input type="email" class="form-control" id="mail" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>עיר</label>
+                                    <input type="text" class="form-control" id="city" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>רחוב</label>
+                                    <input type="text" class="form-control" id="street" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>תעודת זהות</label>
+                                    <input type="number" class="form-control" id="id" required />
+                                </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>תאריך לידה</label>
+                                    <input type="date" class="form-control" id="bday" required />
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>מקצוע</label>
+                                    <input type="text" class="form-control" id="prof" required />
+                                </div>
+
+
+                                <div class="form-group col-sm-3">
+                                    <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
+                                    <input type="text" class="form-control" id="password" required />
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">שמירה</button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="cancelSaveBTN">ביטול</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
         </div>
     </div>
     <!-- /#wrapper -->

@@ -1,9 +1,6 @@
 ﻿$(document).ready(function () {
     local = localStorage.getItem('thisTask');
-    console.log('local: ', JSON.parse(local));
     TaskObj = JSON.parse(localStorage["thisTask"]);
-    console.log(TaskObj);
-
     Showorientation();//סרגל השתלשלות
     getDatelis(); //Bring the details up
 });

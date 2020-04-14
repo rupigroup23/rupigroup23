@@ -154,7 +154,7 @@ namespace DocuProject.Controllers
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS(name, num); // Read from Models/Counrty
         }
-        public DataTable Delete(int id)
+        public DataTable Delete(int id) //תלמיד
         {
             Student S = new Student();
             return S.deleteS(id);
@@ -261,6 +261,10 @@ namespace DocuProject.Controllers
             return A.PutA(admin);
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 93dac56d9d3aebc82fe4ade0ddb7288718f8a18c
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
 
@@ -278,7 +282,15 @@ namespace DocuProject.Controllers
             A.PostAdmin(admin);
         }
 
+        [HttpGet]
+        [Route("api/Docu/specifictask/{class1}/{numClass}/{sub}/{topic}")]
+        public string getSpecificTask (string class1, string numClass, string sub, string topic)
+        {
+            Task task = new Task();
+            return task.getSpecificTask( class1,  numClass,  sub,  topic);
+        }
 
+<<<<<<< HEAD
         //[HttpPut]
         //[Route("api/Docu/updateTask/{id}")]
         //public DataTable PutTask(int id, [FromBody] Task task)
@@ -286,6 +298,24 @@ namespace DocuProject.Controllers
         //    Student S = new Student();
         //    return S.PutTask(id, task); 
         //}
+=======
+ 
+        
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/DeleteT/{rowID}")]
+        public DataTable Delete_T(int rowID) //מורה 
+        {
+            Teacher T = new Teacher();
+            return T.deleteT(rowID);
+        }
+        [HttpPut] //teacher
+        [Route("api/Docu/updateTeacher/{id}")]
+        public DataTable PutT(int id, [FromBody] Teacher teacher)
+        {
+            Teacher T = new Teacher();
+            return T.PutT(id, teacher);
+        }
+>>>>>>> 93dac56d9d3aebc82fe4ade0ddb7288718f8a18c
 
 
 

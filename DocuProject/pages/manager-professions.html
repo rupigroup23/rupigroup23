@@ -43,6 +43,56 @@
     <!-- js links -->
     <script src="js\manager\saveProfClass.js"></script>
     <script src="js/showItem.js"></script>
+    <script>
+        var imagePath1 = '';
+        var userEmail1 = '';
+
+        $(document).ready(function () {
+
+            /////// אייקון תמונה של מנהל למעלה
+
+            local = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local);
+            showDetalis(objAdmin);
+
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
+                //ID = objAdmin.Id;
+                //var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+
+
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            }
+            function getAvatarImageSuccess(imagePath1) {
+
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function funcerror() { }
+
+
+        });
+
+
+        
+    </script>
+
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -104,7 +154,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
                     מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">

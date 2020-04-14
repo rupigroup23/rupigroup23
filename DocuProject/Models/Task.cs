@@ -37,6 +37,7 @@ namespace DocuProject.Models
             return dbs.getTaskFromDB(name, num, prof);
         }
 
+<<<<<<< HEAD
         //public DataTable PutTask(int id, Task task)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         //{
         //    DBservices dbs = new DBservices();
@@ -63,6 +64,13 @@ namespace DocuProject.Models
         //    }
         //    return dt;
         //}
+=======
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSpecificTask( class1,  numClass,  sub,  topic);
+        }
+>>>>>>> 93dac56d9d3aebc82fe4ade0ddb7288718f8a18c
 
     }
 }

@@ -29,11 +29,64 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <!--shir links-->
     <!-- Include a required theme -->
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
-    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
     <script src="js/manager/createNewTeacher.js"></script>
+   
+
+    <script>    
+
+
+        var imagePath1 = '';
+        var userEmail1 = '';
+
+        $(document).ready(function () {
+
+            /////// אייקון תמונה של מנהל למעלה
+
+            local = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local);
+            showDetalis(objAdmin);
+
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
+                //ID = objAdmin.Id;
+                //var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+
+
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            }
+            function getAvatarImageSuccess(imagePath1) {
+
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function funcerror() { }
+
+
+        });
+
+
+
+
+    </script>
 
 </head>
 <body id="page-top">
@@ -92,7 +145,7 @@
             </li>-->
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
                     מנהל מערכת
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -286,63 +339,127 @@
                                             <input class="create-select textSquareTEXT" type="text" id="lname" name="lastname" required />
                                             <br />
                                             <label for="email" class="create-text">אימייל:</label><br />
-                                            <!--<input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off">-->
-                                            <input class="create-select textSquareTEXT" id="email" type="email" required >
+                                            <input class="create-select textSquareTEXT" id="email" type="email" autocomplete="off">
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <label class="create-text" for="idT">תעודת זהות:</label><br />
                                             <input type="text" class="create-select textSquareTEXT" id="idT" name="idTeacher" required>
                                             <br />
                                             <label class="create-text" for="bday"> תאריך לידה:</label><br />
-                                            <input class="create-select textSquareTEXT" type="date" id="bday" name="bday"  />
+                                            <input class="create-select textSquareTEXT" type="date" id="bday" name="bday" />
                                             <br />
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
                                             <input class="create-select textSquareTEXT" type="tel" id="phone" name="phone" required />
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
+                                            <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text">עיר:</label><br />
                                             <input type="text" class="create-select textSquareTEXT" id="city" required>
                                             <br />
+                                            <!-- לעשות משלים -->
                                             <label class="create-text" for="street">רחוב:</label><br />
-                                            <input type="text" class="create-select textSquareTEXT" id="street" name="street" required>
+                                            <input type="text" class="create-select textSquareTEXT" id="street" name="street">
+                                            <br />
+                                            <!--<div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <label class="create-text" for="homeNumber">מס' בית:</label><br />
+                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="homeNumber" name="homeNumber">
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <label class="create-text" for="floor">קומה: </label><br />
+                                                    <input type="text" class="create-select textSquareTEXT" style="width: 50%;" id="floor" name="floor">
+                                                </div>
+                                            </div>-->
+
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="row">
                                                 <label class="create-text">מקצוע:</label><br />
                                             </div>
                                             <div class="row">
-                                                <select id="selectProf" class="create-select" required>
+                                                <select id="selectProf" class="create-select">
                                                     <option value="1">שם המקצוע</option>
                                                 </select>
-                                                <div class="profession-txtbox-disclosure ">
+                                                <button id="addsub" class="create-select" style="width: auto;">
+                                                    הוספה
+                                                </button>
+                                                <div class="profession-txtbox-disclosure">
                                                     <textarea id="txtbox" style="display:none"></textarea>
                                                 </div>
                                             </div>
+                                            <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">
+                                            <label for="profession" class="create-text">הוספת מקצועות חדשים</label>-->
+                                            <!--<div class="profession-disclosure">
                                             <div class="row">
-                                                <button id="addsub" class="create-select" style="width: auto;">
-                                                    הוספת מקצוע
-                                                </button>
-                                            </div>
+                                                <select id="selectProf1" class="create-select" style="background-color:#eceff0">
+                                                    <option value="1">שם המקצוע</option>
+                                                </select>-->
+                                            <!-- תיבת טקסט להכנסת מקצוע חדש -->
+                                            <!--<div class="profession-txtbox-disclosure">
+                                                        <textarea id="txtbox1" style="display:none"></textarea>
+                                                    </div>
+                                                    <label for="add-profession" class="create-text"></label>
+                                                </div>
+                                                <div class="row">
+                                                    <select id="selectProf2" class="create-select" style="background-color:#eceff0">
+                                                        <option value="1">שם המקצוע</option>
+                                                    </select>
+                                                    <div class="profession-txtbox-disclosure">
+                                                        <textarea id="txtbox2" style="display:none"></textarea>
+                                                    </div>
+                                                    <label for="add-profession" class="create-text"></label>
+                                                </div>
+                                                <div class="row">
+                                                    <select id="selectProf3" class="create-select" style="background-color:#eceff0">
+                                                        <option value="1">שם המקצוע</option>
+                                                    </select>
+                                                    <div class="profession-txtbox-disclosure">
+                                                        <textarea id="txtbox3" style="display:none"></textarea>
+                                                    </div>
+                                                    <label for="add-profession" class="create-text"></label>
+                                                </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <br />
+
+                            <!--<div class="row">-->
+                            <!--<div class="col-lg-3 col-sm-4">
+                                <span class="text2">
+                                    העלאת קובץ מורים:
+                                </span>
+                                <i class="fas fa-info" style="color: black" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+                            </div>-->
+                            <!--<div class="col-lg-8 col-sm-12">
+                                <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
+                                &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+                            </div>-->
+                            <!--</div>-->
                             <hr class="mt-0">
                             <div class="row">
                                 <div class="col-xl-3 col-sm-6 mb-3">
                                     <a class="btn btn-outline-primary btn-block btn-lg" id="addTeacher">
                                         <!--<input type="submit" value="הוספה" class="btn btn-outline-primary btn-block btn-lg" id="addTeacher"/>-->
                                         <buttom>
-                                            שמירה
+                                            הוספה
                                         </buttom>
                                     </a>
+
                                 </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
+
             </div>
+
+
         </div>
     </div>
     <!-- /#wrapper -->
