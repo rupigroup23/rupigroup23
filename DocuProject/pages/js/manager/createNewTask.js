@@ -177,7 +177,10 @@ function saveTask() {
     }
     if (radiosContent[0].checked==true) { //קובץ
         ///*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
-        var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
+        //taskStr = `http://proj.ruppin.ac.il/igroup23/prod/{taskPath}`;
+
+        taskStr = "http://proj.ruppin.ac.il/igroup23/prod/"+ taskPath+"`";
+        console.log(taskStr);
     }
     else if (radiosContent[1].checked==true) { //טקסט
         taskStr = $("#taskcontent-txtbox").val();
@@ -222,12 +225,11 @@ var taskPath = '';
 var taskId = 0;
 var data = "";
 var files = "";
+
 function UploadFileReal() {
     console.log('clicked')
     data = new FormData();
     files = $("#fileUpload").get(0).files;
-    console.log(files);
-    console.log(data);
 
     // Add the uploaded file to the form data collection
     if (files.length > 0) {
@@ -237,7 +239,7 @@ function UploadFileReal() {
         data.append("name", "Shir");
         // aopend what ever data you want to send along with the files. See how you extract it in the controller.
     }
-    ajaxCall("POST", "../api/Docu/uploadtask", JSON.stringify(files), POST1success, error);
+    ajaxCall("POST", "../Api/DocuUpload/uploadtask", JSON.stringify(files), POST1success, error);
     return false;
 
 }    
@@ -248,8 +250,8 @@ function POST1success() {
         confirmButtonColor: '#990099',
     })
     //$('#saveTask').attr("disabled", false);
+    //taskPath = files[0].name;
     taskPath = files[0].name;
-
 }
 function error() {
     alert("wrong");
