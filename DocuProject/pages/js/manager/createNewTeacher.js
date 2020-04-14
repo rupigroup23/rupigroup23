@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     $('#form1').submit(sub);
     $('#addTeacher').click(saveTeacherDB);
     readFromDB(); 
@@ -21,9 +22,6 @@
 function sub() { 
     return false; 
 }
-
-//password
-//pass = Math.random().toString(36).substring(7);
 
 function saveTeacherDB() 
 {
