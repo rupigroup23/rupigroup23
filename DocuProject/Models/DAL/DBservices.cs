@@ -1233,7 +1233,6 @@ public class DBservices
         return T;
     }
 
-<<<<<<< HEAD
     public int insertPic2(ImgTeacher img)
     {
 
@@ -1268,7 +1267,6 @@ public class DBservices
 
 
 
-=======
     //public DBservices Get_DetailsT(int ID)
     //{
     //    Task T = new Task();
@@ -1305,7 +1303,6 @@ public class DBservices
     //{
     //    da.Update(dt);
     //}
->>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
 }
 
 
