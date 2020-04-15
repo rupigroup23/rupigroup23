@@ -38,6 +38,22 @@
     <script src="js/myName.js"></script>
     <script>
         $(document).ready(function () {
+<<<<<<< HEAD
+            //Menus
+            //local = localStorage.getItem('myName');
+            //console.log('local: ', JSON.parse(local));
+            //myNameObj1 = JSON.parse(localStorage["myName"]);
+            ////name= myNameObj1.firstName + " " + myNameObj1.lastName;
+            //document.getElementById("myNameN1").innerHTML = 'שיר מלכה';
+            //document.getElementById("myNameN2").innerHTML = 'שיר מלכה';;
+            //savelocal();
+
+            getNumOfClass();
+            //login
+            local = localStorage.getItem('user');
+            objAdmin = JSON.parse(local);
+            console.log(objAdmin);
+=======
             getNumOfClass();
 
             ///////////////////User image
@@ -77,6 +93,7 @@
             localUser = localStorage.getItem('user');
             objuser = JSON.parse(localUser);
             console.log(objuser);
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
             studentObj = "";
             $("#class1").click(function () {
                 var open = $(this).data("isopen");
