@@ -34,6 +34,10 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -56,11 +60,11 @@
 
 
             $('#saveClass').click(saveClassDB);
-            $('#upload').click(uploadStudents);
+            $('#upload').click(save_uploadStudents);
             $('#addProff').click(saveProfClassDB);
             $('#NewProfBTN').click(addProf);
         });
-
+        //admin
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
@@ -142,14 +146,19 @@
                 }
             });
         });
-        function uploadStudents() {
-            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        function save_uploadStudents() {
+            Swal.fire({
+                title: 'הצלחת!',
+                text: 'התלמידים שויכו לכיתה בהצלחה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
+            studentsArr1 = studentsArr;
         }
-        function POSTsuccess(data) {
-            console.log(data)
-            swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
-        }
-        function POSTerror(err) { console.log(err) }
+
+        //function uploadStudents() {
+        //}
 
         //proff
         subjArr = [];
@@ -193,17 +202,19 @@
                         }
                     ClassSubArr.push(ClassSubObj);
                     console.log(ClassSubArr);
+                    Swal.fire({
+                        title: 'הצלחת!',
+                        text: 'המקצועות שויכו לכיתה בהצלחה',
+                        icon: 'success',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
                 }
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
             }
             else {
                 alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
             }
         }
-        function POST1success() {
-            swal("המקצועות שויכו לכיתה בהצלחה", "", "success")
-        }
-        function POST1error(err) { console.log(err) };
 
         function addProf() {
             Year = $("#Year").val();
@@ -221,30 +232,17 @@
                     "Name": Prof1,
                 }
             console.log(proffObj);
-
-            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
-
-            //ClassSubObj1 = {
-            //    "Name": $("#classSelect").val() ,
-            //    "Number": $("#classNum").val(),
-            //    "ClassType": $("#classType").val(),
-            //    "Profession": Prof1,
-            //}
-            //console.log(ClassSubObj1);
-
-            //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
+            Swal.fire({
+                title: 'הצלחת!',
+                text: 'המקצועות שויכו לכיתה בהצלחה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
         }
-        function POSTsuccess() {
-            swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-
-        function POSTerror() { }
-        function POST2success() {
-            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-        function POST2error(err) { console.log(err) };
 
         function saveClassDB() {
+
             classObj =
                 {
                     "Name": $("#classSelect").val(),
@@ -253,13 +251,35 @@
                     "Year": $("#Year").val(),
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
-
                 }
             //Class
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+            //Profession
+            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccessP, POSTerrorP);
+            //ClassSubjects
+            ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+            //Student
+            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+
         }
+        //ClassSubjects
+        function POST1success() {
+            console.log("good");
+        }
+        function POST1error(err) { console.log(err) };
+        //Student
+        function POSTsuccess(data) {
+            console.log(data)
+        }
+        function POSTerror(err) { console.log(err) }
+        //Class
         function POSTsuccessCB() {
-            swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
+            Swal.fire({
+                text: 'הכיתה נוספה למערכתהמקצועות שויכו לכיתה בהצלחה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
             // לאחר לחיצה מאפס לחצנים
             $("#classSelect option:first").attr('selected', 'selected');
             $("#classNum option:first").attr('selected', 'selected');
@@ -270,6 +290,13 @@
             /////////////
         }
         function POSTerrorCB(err) { console.log(err) };
+        //Profession
+        function POSTsuccessP() {
+            console.log("good");
+        }
+        function POSTerrorP() {
+            console.log(err)
+        }
     </script>
 </head>
 <body id="page-top">
