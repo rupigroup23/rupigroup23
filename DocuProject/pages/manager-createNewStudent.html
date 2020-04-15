@@ -56,10 +56,12 @@
                 let addressVal = document.getElementById("street").value;
                 let idVal = document.getElementById("idT").value;
                 let birthVal = document.getElementById("birth").value;
+
                 console.log(birthVal);
                 birthValArr = birthVal.split('-');
                 birthVal = `${birthValArr[1]}-${birthValArr[2]}-${birthValArr[0]}`
                 console.log(birthVal);
+
                 let phoneVal = document.getElementById("phone").value;
                 let classNumVal = document.getElementById("classNum").value;
                 let cityVal = $('#city').val(); //רשימה נגללת

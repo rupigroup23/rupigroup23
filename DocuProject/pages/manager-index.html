@@ -37,17 +37,17 @@
             //local = localStorage.getItem('myName');
             //console.log('local: ', JSON.parse(local));
             //myNameObj1 = JSON.parse(localStorage["myName"]);
-            //name= myNameObj1.firstName + " " + myNameObj1.lastName;
-            document.getElementById("myNameN1").innerHTML = 'שיר מלכה';
-            document.getElementById("myNameN2").innerHTML = 'שיר מלכה';;
-            savelocal();
+            ////name= myNameObj1.firstName + " " + myNameObj1.lastName;
+            //document.getElementById("myNameN1").innerHTML = 'שיר מלכה';
+            //document.getElementById("myNameN2").innerHTML = 'שיר מלכה';;
+            //savelocal();
 
             getNumOfClass();
             //login
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             console.log(objAdmin);
-
+            studentObj = "";
             $("#class1").click(function () {
                 var open = $(this).data("isopen");
                 if (open) {

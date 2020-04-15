@@ -491,6 +491,7 @@ public class DBservices
                 // שומרת את הנתונים מהדטה בייס לתוך אובייקט שיצרתי
                 A.Id = (int)dr["Id_"];
                 A.Password = (string)dr["Password_"];
+                A.Fname = (string)dr["FName"];
             }
         }
         catch (Exception ex)
@@ -1014,17 +1015,29 @@ public class DBservices
         da.Update(dt);
     }
 
-    public DBservices Get_Details(int ID)
+    public DBservices Get_Details(int ID, string str)
     {
+        string selectSTR = "";
         Admin A = new Admin();
         SqlConnection con = null;
         try
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = $@"select * from
+
+            if (str == "teacher")
+            {
+                selectSTR = $@"select * from
+                              Teacher__
+                              where Id_='{ID}'";
+            }
+            else
+            {
+                selectSTR = $@"select * from
                               Admin_
                               where Id_='{ID}'";
+
+            }
             da = new SqlDataAdapter(selectSTR, con);
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
@@ -1047,15 +1060,23 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
-    public string getAvatarImage(string Id)
+    public string getAvatarImage(string Id,string str )
     {
+        string selectSTR = "";
         string imagePath = "";
         SqlConnection con = null; //שורה קבועה
         try
-        {   //שורה קבועה
-            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "select Image_ from Admin_ where Id_='"+Id+"'";
-            //שורה קבועה
+        {   //שורה 
+            if (str == "admin" )
+            {
+                selectSTR = "select Image_ from Admin_ where Id_='" + Id + "'";
+            }
+            else
+            {
+                selectSTR = "select Image_ from Teacher__ where Id_='" + Id + "'";
+
+            }
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file       
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             //קורא שורה סוגר וככה הלאה //שורה קבועה
             SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -1211,6 +1232,40 @@ public class DBservices
         }
         return T;
     }
+
+    public int insertPic2(ImgTeacher img)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = "UPDATE Teacher__ SET Image_='" + img.Img + "' where Email='" + img.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                                                                         //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+
+
 
 }
 

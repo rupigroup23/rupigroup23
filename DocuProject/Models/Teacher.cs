@@ -104,6 +104,41 @@ namespace DocuProject.Models
             return dbs.check_User2(teacher);
 
         }
+
+        public DataTable GetDetails(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Details(ID,"teacher");
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable PutT(Teacher teacher)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Details(teacher.Id, "teacher");
+            dbs.dt = checkTbl(teacher, teacher.Id, dbs.dt);
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+        public DataTable checkTbl(Teacher teacher, int id, DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                {
+                    dr["FName"] = teacher.FName;
+                    dr["LName"] = teacher.LName;
+                    dr["Id_"] = teacher.Id;
+                    dr["Email"] = teacher.Email;
+                    dr["City"] = teacher.City;
+                    dr["Street"] = teacher.Street;
+                    dr["Bday"] = teacher.Bday;
+                    dr["PhoneNum"] = teacher.PhoneNum;
+                    dr["Profession"] = teacher.Profession;
+                    dr["Password_"] = teacher.Password;
+                }
+            }
+            return dt;
+        }
     }
 
 

@@ -42,13 +42,13 @@ namespace DocuProject.Models
             public DataTable GetDetails(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_Details(ID);
+            dbs = dbs.Get_Details(ID,"admin");
             return dbs.dt;//מעביר רק את הטבלה 
         }
         public DataTable PutA(Admin admin)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_Details(admin.Id);
+            dbs = dbs.Get_Details(admin.Id,"admin");
             dbs.dt = checkTbl(admin, admin.Id, dbs.dt);
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
