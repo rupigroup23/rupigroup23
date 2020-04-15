@@ -7,7 +7,7 @@ $(document).ready(function () {
     myNameObj = JSON.parse(localStorage["myName"]);
     document.getElementById("myNameN1").innerHTML = myNameObj.name;
     document.getElementById("myNameN2").innerHTML = myNameObj.name;
-    savelocal1();
+    savelocal1(myNameObj.name);
 
     readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
     local = localStorage.getItem('studentObj');
@@ -31,8 +31,8 @@ $(document).ready(function () {
     });
 
     //User image
-    local = localStorage.getItem('admin');
-    objAdmin = JSON.parse(local);
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
     showDetalis(objAdmin);
 
     function showDetalis(objAdmin) {

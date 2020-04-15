@@ -33,6 +33,7 @@
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!--<script src="js/manager/createNewTeacher.js"></script>-->
+<<<<<<< HEAD
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
@@ -57,6 +58,24 @@
                 local = localStorage.getItem('admin');
                 objAdmin = JSON.parse(local);
                 showDetalis(objAdmin);
+=======
+    <script>
+        var imagePath1 = '';
+        var userEmail1 = '';
+
+        $(document).ready(function () {
+            //Menus
+            localN= localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
+
+            $('#form1').submit(sub);
+            $('#addTeacher').click(saveTeacherDB);
+            readFromDB();
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
             //$('#upload').click(uploadTeachers);
             //$('#saveprof').click(saveSubj);
 
@@ -70,9 +89,22 @@
                             else {
                         X.style.display = "none";
                 }
+<<<<<<< HEAD
         });
                 ////////img/////////
                 function showDetalis(objAdmin) {
+=======
+            });
+
+            $('#addsub').click(addSubj);
+            //$('#saveprof').click(saveSubj);
+            //User image
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
+
+            function showDetalis(objAdmin) {
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
                 Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
 
@@ -245,8 +277,12 @@ count = 0;
             }
             location.reload();
         }
+<<<<<<< HEAD
             function POSTerror() {console.log(err)};
 
+=======
+        function POSTerror() { console.log(err) };
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
     </script>
 </head>
 <body id="page-top">
@@ -442,8 +478,9 @@ count = 0;
                                                 <button id="addsub" class="create-select" style="width: auto;">
                                                     הוספה
                                                 </button>
+                                                <br />
                                                 <div class="profession-txtbox-disclosure">
-                                                    <textarea id="txtbox" style="display:none"></textarea>
+                                                    <textarea class="comment-box" id="txtbox" rows="1" cols="15"style="display:none"></textarea>
                                                 </div>
                                             </div>
                                             <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">

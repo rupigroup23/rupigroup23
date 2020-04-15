@@ -38,6 +38,8 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+
+
             var imagePath = '';
             var userEmail = '';
 
@@ -166,10 +168,10 @@
 
 
             });
-            /////// אייקון תמונה של מנהל למעלה
 
-            local = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local);
+            //User image
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {

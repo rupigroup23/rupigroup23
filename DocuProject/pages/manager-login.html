@@ -1,4 +1,5 @@
 ﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,21 +39,21 @@
             id = $('#id').val();
             password = $('#pass').val();
 
-                user =
-                    {
-                        "Id": id,
-                        "Password": password
+            user =
+                {
+                    "Id": id,
+                    "Password": password
                 }
 
             if (($('input[type=checkbox]').is(":checked"))) { //if its a admin
- 
+
                 console.log(user);
                 localStorage.setItem('user', JSON.stringify(user));
                 ajaxCall("POST", "../api/Docu/checkUsers", JSON.stringify(user), POSTsuccess_Check, POSTerror_Check);
 
             }
             else { //if its a teacher
-              localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user', JSON.stringify(user));
                 ajaxCall("POST", "../api/Docu/checkUsersTeacher", JSON.stringify(user), POSTsuccess_Check2, POSTerror_Check2);
             }
 
@@ -61,7 +62,7 @@
         function POSTsuccess_Check(admin) {
 
             if (admin.Password !== null) {
-               window.location = "manager-index.html";
+                window.location = "manager-index.html";
             }
             else {
                 console.log("null")
@@ -73,7 +74,7 @@
         }
 
         function POSTsuccess_Check2(teacher) {
-        
+
             if (teacher.Password !== null) {
 
                 window.location = "teacher-index.html";
@@ -82,8 +83,9 @@
             else {
                 console.log("null")
                 swal("תעודת זהות/סיסמא לא נכונים", "", "warning")
-            }}
-        function POSTerror_Check2() {}
+            }
+        }
+        function POSTerror_Check2() { }
     </script>
 
 </head>

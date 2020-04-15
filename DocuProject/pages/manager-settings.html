@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -39,6 +40,14 @@
         var userEmail = '';
 
         $(document).ready(function () {
+            //Menus
+            localN= localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
+
             $('#form').submit(sub); //FORM
             $('#saveDetails').click(saveDetails_); //FORM
             readFromDB(); //profession
@@ -170,7 +179,6 @@
                 ProfDB = obj[0].Profession;
                 str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
-                savelocal();
 
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
@@ -217,7 +225,6 @@
                     confirmButtonText: 'אוקי',
                     showCloseButton: true
                 })
-                savelocal();
             }
             function updateDerror() { }
             ///
@@ -326,16 +333,6 @@
 
 
         });
-        function savelocal() {
-            myName = {
-                "firstName": $("#fname").val(),
-                "lastName": $("#lname").val(),
-            }
-            localStorage.setItem('myName', JSON.stringify(myName));
-            name = $("#fname").val() + " " + $("#lname").val();
-            document.getElementById("myNameN1").innerHTML = name;
-            document.getElementById("myNameN2").innerHTML = name;
-        }
     </script>
 
 </head>

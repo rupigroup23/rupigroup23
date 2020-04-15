@@ -318,8 +318,18 @@ namespace DocuProject.Controllers
             return T.PutT(id, teacher);
         }
 
+<<<<<<< HEAD
 
 
+=======
+        //[HttpPut]
+        //[Route("api/Docu/updatetTask")]
+        //public DataTable PutT([FromBody] Task task)
+        //{
+        //    Task T = new Task();
+        //    return T.PutT(task);
+        //}
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
 
     }
 }

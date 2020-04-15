@@ -1,6 +1,4 @@
-﻿
-<<<<<<< HEAD
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $('#form1').submit(sub);
     $('#addTeacher').click(saveTeacherDB);
     readFromDB(); 
@@ -164,6 +162,4 @@ function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
 }
 function POSTerror() { console.log(err) };
 
-=======
->>>>>>> 43a038fdc69b16a68338ac0657333fb1017a35e6
 

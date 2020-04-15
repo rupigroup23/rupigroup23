@@ -24,15 +24,21 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    
-    <script src="js/myName.js"></script>   
+
+    <script src="js/myName.js"></script>
     <script>
         $(document).ready(function () {
+<<<<<<< HEAD
             //Menus
             //local = localStorage.getItem('myName');
             //console.log('local: ', JSON.parse(local));
@@ -47,6 +53,47 @@
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             console.log(objAdmin);
+=======
+            getNumOfClass();
+
+            ///////////////////User image
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+            function funcsuccess(data) {
+                obj = data;
+                myname = obj[0].FName + " " + obj[0].LName;
+                document.getElementById("myNameN1").innerHTML = myname;
+                document.getElementById("myNameN2").innerHTML = myname;
+
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                savelocal1(myname);
+            }
+            function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror() { }
+            ////////////////////////////END User image
+
+
+            //login
+            localUser = localStorage.getItem('user');
+            objuser = JSON.parse(localUser);
+            console.log(objuser);
+>>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
             studentObj = "";
             $("#class1").click(function () {
                 var open = $(this).data("isopen");
@@ -96,45 +143,7 @@
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
 
-            ///////////////////User image
-
-            local = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local);
-            showDetalis(objAdmin);
-
-
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
-
-
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
-            }
-            function getAvatarImageSuccess(imagePath1) {
-
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-
-            function funcerror() { }
-            ////////////////////////////END User image
-
+      
         });
         function getNumOfClass() {
             console.log();
@@ -206,8 +215,8 @@
             <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
-                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                    <img alt="Avatar" id="avatarImage" src="img/user.png" >
+                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -308,8 +317,6 @@
                     <div class="col-md-12">
                         <div class="row">
                             <h6 class="text2">קיצורים:</h6>
-                            <i class="fas fa-exclamation-circle text2" title="הרשאות: עבור מנהל מערכת בלבד"></i>
-
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-sm-6 mb-3">
