@@ -1142,14 +1142,12 @@ public class DBservices
     public string getSpecificTask(string class1, string numClass, string sub, string topic)
     {
         string taskPath = "";
-        SqlConnection con = null; //שורה קבועה
+        SqlConnection con = null; 
         try
-        {   //שורה קבועה
+        {   
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
             String selectSTR = "select Description_ from Task where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" +topic + "'";
-            //שורה קבועה
             SqlCommand cmd = new SqlCommand(selectSTR, con);
-            //קורא שורה סוגר וככה הלאה //שורה קבועה
             SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
             while (dr.Read())
@@ -1157,7 +1155,6 @@ public class DBservices
                 taskPath = (string)dr["Description_"];
             }
             return taskPath; // מחזיר מערך 
-
         }
         catch (Exception ex)
         {

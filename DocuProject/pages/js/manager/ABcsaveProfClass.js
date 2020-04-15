@@ -1,6 +1,14 @@
 ﻿var imagePath1 = '';
 var userEmail1 = '';
 $(document).ready(function () {
+    //Menus
+    local = localStorage.getItem('myName');
+    console.log('local: ', JSON.parse(local));
+    myNameObj = JSON.parse(localStorage["myName"]);
+    name = myNameObj.firstName + " " + myNameObj.lastName;
+    document.getElementById("myNameN1").innerHTML = name;
+    document.getElementById("myNameN2").innerHTML = name;
+
     readFromDB(); 
     local = localStorage.getItem('studentObj');
     console.log('local: ', JSON.parse(local));

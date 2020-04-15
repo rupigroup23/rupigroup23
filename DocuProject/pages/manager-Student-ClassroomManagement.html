@@ -38,11 +38,16 @@
 
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script>
         var imagePath1 = '';
-var userEmail1 = '';
+        var userEmail1 = '';
         $(document).ready(function () {
+            //Menus
+            localN= localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
@@ -313,23 +318,21 @@ var userEmail1 = '';
                 </a>
             </li>  &nbsp;
             <li class="nav-item mx-1 app">
-                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                <a class="nav-link" href="https://www.instagram.com/mindcet/channel/">
                     <i class="fa fa-instagram" title="אינסטגרם"></i>
                 </a>
             </li>  &nbsp;
             <li class="nav-item mx-1 app">
-                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                <a class="nav-link" href="https://www.mindcet.org/">
                     <i class="fa fa-external-link" title="אתר אינטרנט"></i>
                 </a>
             </li>  &nbsp;
             <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
-
             </li>
-
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img alt="Avatar" id="avatarImage" src="img/user.png">
-                    מנהל מערכת
+                    <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
@@ -359,7 +362,7 @@ var userEmail1 = '';
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">מנהל מערכת</h6>
+                <h6 id="myNameN2" class="nav-item"></h6>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -392,7 +395,6 @@ var userEmail1 = '';
                     <!--&#127891;--> כיתות
                 </a>
             </li>
-
             <li class="nav-item channel-sidebar-list">
                 <h6>פרטיות</h6>
                 <ul>
@@ -408,7 +410,6 @@ var userEmail1 = '';
                     </li>
                 </ul>
             </li>
-
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
@@ -429,7 +430,7 @@ var userEmail1 = '';
                             </div>
                             <div class="col-lg-1 col-sm-12 text2">
                                 <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                                    &nbsp;<i class="fas fa-file-excel"></i>
+                                    <!--&nbsp;<i class="fas fa-file-excel"></i>-->
                                     <!--&nbsp;<i class="fas fa-filter"></i>-->
                                 </div>
                             </div>

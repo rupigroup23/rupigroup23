@@ -21,8 +21,16 @@ Version: 1.0
 */
 /* Body */
 
+/*textarea like input field*/
+.comment-box {
+    padding: 0.8rem 1rem;
+    border-radius: 30px;
+}
 
-
+/*תפריט למעלה*/
+.navbar-light .navbar-nav .nav-link {
+    color: #990099;
+}
 /*///////////////*/
 .modal-body, .modal-title {
     font-family: OS Luizi Round_FFC;

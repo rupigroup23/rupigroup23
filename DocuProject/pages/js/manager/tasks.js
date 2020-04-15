@@ -2,6 +2,14 @@
 var userEmail1 = '';
 
 $(document).ready(function () {
+    //Menus
+    localN = localStorage.getItem('myName');
+    console.log('local: ', JSON.parse(localN));
+    myNameObj = JSON.parse(localStorage["myName"]);
+    document.getElementById("myNameN1").innerHTML = myNameObj.name;
+    document.getElementById("myNameN2").innerHTML = myNameObj.name;
+    savelocal1();
+
     local = localStorage.getItem('thisProfObj');
     console.log('local: ', JSON.parse(local));
     ProfObj = JSON.parse(localStorage["thisProfObj"]);

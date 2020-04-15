@@ -1,50 +1,103 @@
-﻿$(document).ready(function () {
+﻿//user img
+var imagePath1 = '';
+var userEmail1 = '';
+
+/// העלאת קובץ
+//files
+var taskPath = '';
+var taskId = 0;
+var data = "";
+var files = "";
+
+$(document).ready(function () {
+    //localstorage for the orientation
     local = localStorage.getItem('forNewTask');
     console.log('local: ', JSON.parse(local));
     newTaskObj = JSON.parse(localStorage["forNewTask"]);
     Showorientation();
 
-    //$('#saveTask').attr("disabled", true) //?
-
-    //
-    $('#uploadFile').click(UploadFile);
-    $('#uploadtxtbox').click(UploadTxt);
-    //
-    $('#upload').click(UploadFileReal);
-    $('#saveTask').click(saveTask);
-
     //User image
     local = localStorage.getItem('admin');
     objAdmin = JSON.parse(local);
     showDetalis(objAdmin);
-    function showDetalis(objAdmin) {
-        Id = objAdmin.Id;
-        var url = "../api/Docu/GetDetails/" + Id;
-        ajaxCall("GET", url, "", funcsuccess, funcerror);
-    }
-    function funcsuccess(data) {
-        obj = data;
-        userEmail1 = obj[0].Email;
-        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-    }
-    function getAvatarImageSuccess(imagePath1) {
-
-        src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-    }
-    function getAvatarImageError(err) {
-        console.log(err)
-    }
-    function funcerror() { }
+   
     //END- User image
+
+    //$('#saveTask').attr("disabled", true) //?
+
+    //view the options
+    $('#uploadFile').click(UploadFile);
+    $('#uploadtxtbox').click(UploadTxt);
+    //
+    ////$('#upload').click(UploadFileReal);
+    $('#saveTask').click(saveTask);
+
+    //function UploadFileReal() {
+    //    console.log('clicked')
+    //    data = new FormData();
+    //    files = $("#fileUpload").get(0).files;
+
+    //    // Add the uploaded file to the form data collection
+    //    if (files.length > 0) {
+    //        for (f = 0; f < files.length; f++) {
+    //            data.append("UploadedTasks", files[f]);
+    //        }
+    //        data.append("name", "Shir");
+    //        // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+    //    }
+    //    ajaxCall("POST", "../Api/DocuUpload/uploadtask", JSON.stringify(files), POST1success, error);
+    //    return false;
+
+    //}
+
+    $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+        console.log('clicked')
+        var data = new FormData();
+        var files = $("#fileUpload").get(0).files;
+        console.log(data);
+        console.log(files);
+
+        // Add the uploaded file to the form data collection
+        if (files.length > 0) {
+            for (f = 0; f < files.length; f++) {
+                data.append("UploadedTasks", files[f]);
+            }
+            data.append("name", "Shir"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+        }
+
+        //Ajax upload
+        $.ajax({
+            type: "POST",
+            url: "../Api/DocuUpload/uploadtask",
+            contentType: false,
+            processData: false,
+            data: data,
+            success: showTasks,
+            error: error
+        });
+
+        return false;
+    });
+
+    function showTasks() {
+        taskPath = data;
+
+        Swal.fire({
+            icon: 'success',
+            title: 'הקובץ נטען בהצלחה',
+            confirmButtonColor: '#990099',
+        })
+        //$('#saveTask').attr("disabled", false);
+        //taskPath = files[0].name;
+    }
+    function error() {
+        alert("wrong");
+        //console.log(data);
+    }
+
 });
 
-//user img
-var imagePath1 = '';
-var userEmail1 = '';
-
+//show items
 function UploadFile() {
     //radio
     radioFile = document.getElementById("uploadFile");
@@ -99,6 +152,7 @@ function UploadTxt() {
         }
     }
 }   
+
 //סרגל השתלשלות
 let orientationSTR1 = "";
 function Showorientation() {
@@ -179,7 +233,7 @@ function saveTask() {
         ///*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
         //taskStr = `http://proj.ruppin.ac.il/igroup23/prod/{taskPath}`;
 
-        taskStr = "http://proj.ruppin.ac.il/igroup23/prod/"+ taskPath+"`";
+        taskStr = "http://proj.ruppin.ac.il/igroup23/prod/"+ taskPath;
         console.log(taskStr);
     }
     else if (radiosContent[1].checked==true) { //טקסט
@@ -219,42 +273,26 @@ function POSTerror() {
     })
     }
 
-/// העלאת קובץ
-//files
-var taskPath = '';
-var taskId = 0;
-var data = "";
-var files = "";
-
-function UploadFileReal() {
-    console.log('clicked')
-    data = new FormData();
-    files = $("#fileUpload").get(0).files;
-
-    // Add the uploaded file to the form data collection
-    if (files.length > 0) {
-        for (f = 0; f < files.length; f++) {
-            data.append("UploadedTasks", files[f]);
-        }
-        data.append("name", "Shir");
-        // aopend what ever data you want to send along with the files. See how you extract it in the controller.
-    }
-    ajaxCall("POST", "../Api/DocuUpload/uploadtask", JSON.stringify(files), POST1success, error);
-    return false;
-
-}    
-function POST1success() {
-    Swal.fire({
-        icon: 'success',
-        title: 'הקובץ נטען בהצלחה',
-        confirmButtonColor: '#990099',
-    })
-    //$('#saveTask').attr("disabled", false);
-    //taskPath = files[0].name;
-    taskPath = files[0].name;
+function showDetalis(objAdmin) {
+    Id = objAdmin.Id;
+    var url = "../api/Docu/GetDetails/" + Id;
+    ajaxCall("GET", url, "", funcsuccess, funcerror);
 }
-function error() {
-    alert("wrong");
-    //console.log(data);
+function funcsuccess(data) {
+    obj = data;
+    userEmail1 = obj[0].Email;
+    ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 }
+function getAvatarImageSuccess(imagePath1) {
+    src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+}
+function getAvatarImageError(err) {
+    console.log(err)
+}
+function funcerror() { }
+
+
 
