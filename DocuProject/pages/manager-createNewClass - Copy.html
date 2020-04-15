@@ -50,14 +50,12 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
 
             showDetalis(objAdmin);
             getTachears();
-
 
             $('#saveClass').click(saveClassDB);
             $('#upload').click(save_uploadStudents);
@@ -104,6 +102,15 @@
         }
         function GETerrorT(err) { console.log(err) }
 
+        //details
+        var numOfStudents = "";
+        var className = $("#classSelect").val();
+        var classNum = $("#classNum").val();
+        var classType = $("#classType").val();
+        var year = $("#Year").val();
+        var numOfStudents = $("#NumOfs").val();
+        var teacherName= $("#teacherName").val();
+
         //Excel
         studentsArr = new Array();
         $(function () {
@@ -131,6 +138,7 @@
                                     student.Password = Math.random().toString(36).substring(7);
                                     studentsArr.push(student);
                                     console.log(studentsArr[0]);
+                                    console.log(studentsArr);
                                     console.log(studentsArr.length);
                                 }
                             }
@@ -147,6 +155,7 @@
             });
         });
         function save_uploadStudents() {
+            numOfStudents = studentsArr.length;
             Swal.fire({
                 title: 'הצלחת!',
                 text: 'התלמידים שויכו לכיתה בהצלחה',
@@ -154,11 +163,7 @@
                 confirmButtonColor: '#990099',
                 confirmButtonText: 'אישור',
             })
-            studentsArr1 = studentsArr;
         }
-
-        //function uploadStudents() {
-        //}
 
         //proff
         subjArr = [];
@@ -189,49 +194,47 @@
         function saveProfClassDB() {
             addProfession();
             size = subjArr.length;
-            Newf = $("#NewProfession").val();
-            subjArr.push(Newf);
+            //Newf = $("#NewProfession").val();
+            //subjArr.push(Newf);
             if (size >= 1) {
                 for (j in subjArr) {
                     ClassSubObj =
                         {
                             "Name": $("#classSelect").val(),
                             "Number": $("#classNum").val(),
-                            "ClassType": $("#classType").val(),
+                            "ClassType":$("#classType").val() ,
                             "Profession": subjArr[j],
                         }
-                    ClassSubArr.push(ClassSubObj);
-                    console.log(ClassSubArr);
-                    Swal.fire({
+                    ClassSubArr.push(ClassSubObj);    
+                }
+                console.log(ClassSubArr);
+                Swal.fire({
                         title: 'הצלחת!',
                         text: 'המקצועות שויכו לכיתה בהצלחה',
                         icon: 'success',
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                     })
-                }
             }
             else {
-                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
+                Swal.fire({
+                        text: 'אנא הכנס/י מקצועות הנלמדים בכיתה זו',
+                        icon: 'error',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
             }
         }
 
         function addProf() {
-            Year = $("#Year").val();
-            NumOfStudents = $("#NumOfs").val();
-
-            if (Year == "" || NumOfStudents == "") {
-                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                return false;
-            }
-
             Prof1 = $("#NewProfession").val();
             //מדביק בטבלת מקצועות לכיתה
-            proffObj =
-                {
-                    "Name": Prof1,
-                }
-            console.log(proffObj);
+            //proffObj =
+            //    {
+            //        "Name": Prof1,
+            //    }
+            subjArr.push(Prof1)
+            console.log(subjArr);
             Swal.fire({
                 title: 'הצלחת!',
                 text: 'המקצועות שויכו לכיתה בהצלחה',
@@ -239,60 +242,83 @@
                 confirmButtonColor: '#990099',
                 confirmButtonText: 'אישור',
             })
+
         }
 
         function saveClassDB() {
-
+            if (year == "" || numOfStudents == 0) {
+                Swal.fire({
+                        title: 'שדות חסרים',
+                        text: 'אנא מלא/י את כל השדות',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                return false;
+            }
+            if (ClassSubArr.length == 0) {
+                    Swal.fire({
+                        text: 'לחצו על שמירת מקצועות',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                return false;
+            }
             classObj =
                 {
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
-                    "Number": $("#classNum").val(),
                     "Year": $("#Year").val(),
+                    "numOfStudents": numOfStudents,
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
                 }
-            //Class
-            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+            console.log(classObj);
             //Profession
-            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccessP, POSTerrorP);
-            //ClassSubjects
+            //ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccessP, POSTerrorP);
+            //ClassSubjects // לא מוסיף
+            for (var i = 0; i < ClassSubArr.length; i++) {
+                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr[i]), POST1success, POST1error);
+            }
             ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+
             //Student
             ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
-
+            //Class
+            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
         }
         //ClassSubjects
         function POST1success() {
-            console.log("good");
+            console.log("ClassSubjects good");
         }
         function POST1error(err) { console.log(err) };
         //Student
         function POSTsuccess(data) {
-            console.log(data)
+            console.log(data);
         }
         function POSTerror(err) { console.log(err) }
         //Class
         function POSTsuccessCB() {
             Swal.fire({
-                text: 'הכיתה נוספה למערכתהמקצועות שויכו לכיתה בהצלחה',
+                text: 'מקצועות שויכו לכיתה בהצלחה',
                 icon: 'success',
                 confirmButtonColor: '#990099',
                 confirmButtonText: 'אישור',
             })
             // לאחר לחיצה מאפס לחצנים
-            $("#classSelect option:first").attr('selected', 'selected');
-            $("#classNum option:first").attr('selected', 'selected');
-            $("#Year").val("");
-            $("#NumOfs").val("");
-            $("#teacherName option:first").attr('selected', 'selected');
-            $("#classType option:first").attr('selected', 'selected');
+            //$("#classSelect option:first").attr('selected', 'selected');
+            //$("#classNum option:first").attr('selected', 'selected');
+            //$("#Year").val("");
+            //$("#NumOfs").val("");
+            //$("#teacherName option:first").attr('selected', 'selected');
+            //$("#classType option:first").attr('selected', 'selected');
             /////////////
         }
         function POSTerrorCB(err) { console.log(err) };
         //Profession
         function POSTsuccessP() {
-            console.log("good");
+            console.log("Profession good");
         }
         function POSTerrorP() {
             console.log(err)
