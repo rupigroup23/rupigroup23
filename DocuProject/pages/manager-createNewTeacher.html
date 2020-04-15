@@ -33,8 +33,18 @@
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!--<script src="js/manager/createNewTeacher.js"></script>-->
+<<<<<<< HEAD
   
     <script>    
+=======
+
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <script>
+
+
+
+>>>>>>> 4e5bb40853191e89270d9fcf3d729a5d332de685
         var imagePath1 = '';
         var userEmail1 = '';
 
@@ -48,7 +58,7 @@
 
             $('#form1').submit(sub);
             $('#addTeacher').click(saveTeacherDB);
-            readFromDB(); 
+            readFromDB();
             //$('#upload').click(uploadTeachers);
 
             $('#selectProf').change(function () {
@@ -73,8 +83,6 @@
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
 
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
@@ -102,12 +110,11 @@
             //END User image
         });
 
-        function sub() { 
-        return false; 
+        function sub() {
+            return false;
         }
 
-        function saveTeacherDB() 
-        {
+        function saveTeacherDB() {
             // בדיקה האם השדות מלאים
             FName = $("#fname").val();
             LName = $("#lname").val();
@@ -131,7 +138,7 @@
 
         //Profession
         function readFromDB() {
-                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
@@ -145,16 +152,16 @@
             }
         }
         function GETerrorCB(err) {
-                console.log(err);
+            console.log(err);
         }
 
         //post
         var profession = "";
-        teacherArr = []; 
+        teacherArr = [];
 
-        function addSubj() //שהמשתמש לוחץ על הוספת מקצוע 
+        function addSubj() //שהמשתמש לוחץ על הוספת מקצוע
         {
-            profession = $("#selectProf").val();
+                profession = $("#selectProf").val();
             if (profession == "1") { // אם לחץ על שם המקצוע (כלומר לא הוסיף כלום)
                 Swal.fire({
                     icon: 'error',
@@ -199,14 +206,14 @@
         function saveAll(teacherArr) {
             if (teacherArr == 0) {
                 Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה',
-                        text: 'לא בחרת מקצועות 😓',
+                    icon: 'error',
+                    title: 'שגיאה',
+                    text: 'לא בחרת מקצועות 😓',
                     confirmButtonText: 'אישור',
-                        showCloseButton: true
+                    showCloseButton: true
                 })
             }
-            else {       
+            else {
                 for (var i = 0; i < teacherArr.length; i++) {
                     TeacherObj =
                         {
@@ -221,7 +228,7 @@
                             "Profession": teacherArr[i],
                             "Password": Math.random().toString(36).substring(7),
                         }
-                    ajaxCall("POST", "../api/Docu/postTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
+                    ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
                 }
             }
         }
@@ -229,13 +236,13 @@
         count = 0;
         function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
             count += 1;
-           if (count == teacherArr.length) {
+            if (count == teacherArr.length) {
                 Swal.fire({
                     icon: 'success',
                     text: 'המורה נוסף/ה למערכת בהצלחה😀',
                 })
             }
-
+            location.reload();
             // לאחר לחיצה מאפס לחצנים
             //$("#classSelect option:first").attr('selected', 'selected');
             //$("#classNum option:first").attr('selected', 'selected');
@@ -245,6 +252,10 @@
             //$("#classType option:first").attr('selected', 'selected');
         }
         function POSTerror() { console.log(err) };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e5bb40853191e89270d9fcf3d729a5d332de685
     </script>
 </head>
 <body id="page-top">
