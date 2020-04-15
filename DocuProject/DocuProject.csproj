@@ -196,6 +196,7 @@
     <Content Include="pages\js\manager\createNewTask.js" />
     <Content Include="pages\js\manager\createNewTeacher.js" />
     <Content Include="pages\js\manager\EDITPresentationAssignment.js" />
+    <Content Include="pages\js\manager\PresentationAssignment - Copy.js" />
     <Content Include="pages\js\manager\PresentationAssignment.js" />
     <Content Include="pages\js\manager\saveProfClass.js" />
     <Content Include="pages\js\manager\submission.js" />
@@ -206,6 +207,7 @@
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
     <Content Include="pages\manager-EDIT_PresentationAssignment.html" />
+    <Content Include="pages\manager-PresentationAssignment - Copy.html" />
     <Content Include="pages\לא למחוק.html" />
     <Content Include="pages\manager-SORT1-2tasks.html" />
     <Content Include="pages\teacher-forgot-password.html" />

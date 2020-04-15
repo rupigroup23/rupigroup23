@@ -33,18 +33,7 @@
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!--<script src="js/manager/createNewTeacher.js"></script>-->
-<<<<<<< HEAD
-  
-    <script>    
-=======
-
-    <script src="../Scripts/ajaxCalls.js"></script>
-
     <script>
-
-
-
->>>>>>> 4e5bb40853191e89270d9fcf3d729a5d332de685
         var imagePath1 = '';
         var userEmail1 = '';
 
@@ -55,6 +44,7 @@
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
 
             $('#form1').submit(sub);
             $('#addTeacher').click(saveTeacherDB);
@@ -252,10 +242,6 @@
             //$("#classType option:first").attr('selected', 'selected');
         }
         function POSTerror() { console.log(err) };
-<<<<<<< HEAD
-=======
-
->>>>>>> 4e5bb40853191e89270d9fcf3d729a5d332de685
     </script>
 </head>
 <body id="page-top">
@@ -451,8 +437,9 @@
                                                 <button id="addsub" class="create-select" style="width: auto;">
                                                     הוספה
                                                 </button>
+                                                <br />
                                                 <div class="profession-txtbox-disclosure">
-                                                    <textarea id="txtbox" style="display:none"></textarea>
+                                                    <textarea class="comment-box" id="txtbox" rows="1" cols="15"style="display:none"></textarea>
                                                 </div>
                                             </div>
                                             <!--<input name="profession" type="checkbox" id="profession" style="margin-top: 10px;">

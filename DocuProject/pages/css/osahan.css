@@ -25,6 +25,9 @@ Version: 1.0
 .comment-box {
     padding: 0.8rem 1rem;
     border-radius: 30px;
+    float: left;
+    width: 100%;
+    height: auto;
 }
 
 /*תפריט למעלה*/
