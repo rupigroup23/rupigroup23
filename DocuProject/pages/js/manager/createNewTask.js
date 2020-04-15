@@ -17,8 +17,8 @@ $(document).ready(function () {
     Showorientation();
 
     //User image
-    local = localStorage.getItem('admin');
-    objAdmin = JSON.parse(local);
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
     showDetalis(objAdmin);
    
     //END- User image

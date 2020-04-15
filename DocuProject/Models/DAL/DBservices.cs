@@ -1212,6 +1212,42 @@ public class DBservices
         return T;
     }
 
+    //public DBservices Get_DetailsT(int ID)
+    //{
+    //    Task T = new Task();
+    //    SqlConnection con = null;
+    //    try
+    //    {
+    //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+    //        String selectSTR = $@"select * from
+    //                          Task
+    //                          where Id='{ID}'";
+    //        da = new SqlDataAdapter(selectSTR, con);
+    //        SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+    //        DataSet ds = new DataSet();
+    //        da.Fill(ds);
+    //        dt = ds.Tables[0];
+    //    }
+
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            con.Close();
+    //        }
+    //    }
+    //    return this; // מחזיר איבר מסוג DB SERVICES
+    //}
+    //public void update1()
+    //{
+    //    da.Update(dt);
+    //}
 }
 
 

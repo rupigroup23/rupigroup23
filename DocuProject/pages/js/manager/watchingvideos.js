@@ -18,9 +18,8 @@ $(document).ready(function () {
     Showorientation();//סרגל השתלשלות
 
     //User image
-
-    local = localStorage.getItem('admin');
-    objAdmin = JSON.parse(local);
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
     showDetalis(objAdmin);
 
     function showDetalis(objAdmin) {

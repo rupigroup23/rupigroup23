@@ -54,8 +54,9 @@
                    $('#upload').click(uploadTeachers);
 
 
-            local = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local);
+            //User image
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
     });

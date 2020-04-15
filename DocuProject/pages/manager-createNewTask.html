@@ -52,8 +52,9 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the images
-            local1 = localStorage.getItem('admin');
-            objAdmin = JSON.parse(local1);
+            //User image
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
             //localstorage for the orientation
