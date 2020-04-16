@@ -574,7 +574,6 @@ public class DBservices
 
     public int insertClassSub(List<ClassSubjects> classSUbObj)
     {
-
         SqlConnection con;
         SqlCommand cmd;
         try
@@ -630,8 +629,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession, classSUbObj.Id_teacher, classSUbObj.Teacher_name); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession,Id_teacher,Teacher_name)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
