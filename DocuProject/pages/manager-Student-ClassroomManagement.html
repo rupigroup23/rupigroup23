@@ -28,13 +28,14 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- noy links -->
+    <!-- Our links -->
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -43,7 +44,7 @@
         var userEmail1 = '';
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
 
@@ -92,7 +93,7 @@
 
         });
 
-        function sub() { 
+        function sub() {
             return false;
         }
         //shir//
@@ -105,7 +106,7 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-Student-ClassroomManagement.html'>ניהול תלמידים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
 
-            document.getElementById("classNum").innerHTML =thisclass;
+            document.getElementById("classNum").innerHTML = thisclass;
         }
 
         function showStudentsData(obj) {
@@ -116,9 +117,9 @@
 
             obj2 =
                 {
-                "ClassName": obj.ClassName,
-                "ClassNum": obj.ClassNum
-            }
+                    "ClassName": obj.ClassName,
+                    "ClassNum": obj.ClassNum
+                }
             console.log(obj2);
 
             url = "../api/Docu/GetStudents";
@@ -135,11 +136,10 @@
                     pageLength: 5,
                     columns: [
                         {
-                            render: function (data, type, row, meta)
-                            {
+                            render: function (data, type, row, meta) {
                                 let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<button type='button' class = 'editBtn btn btn-success' " + rowID + "> עריכה </button>";
-                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='"+row.id+"' > מחיקה </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='" + row.id + "' > מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
@@ -168,7 +168,7 @@
 
             mode = "delete";
             //markSelected(this);
-             rowID = this.getAttribute('data-RowId');
+            rowID = this.getAttribute('data-RowId');
 
             swal({
                 title: "האם את/ה בטוח?",
@@ -188,8 +188,7 @@
             var url = "../api/Docu/" + rowID;
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
         }
-        function DeleteSuccess(data)
-        {
+        function DeleteSuccess(data) {
             swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
             console.log(data);
             redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
@@ -199,18 +198,17 @@
         function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
         {
             tbl.clear();
-            for (var i = 0; i < data.length; i++)
-            {
+            for (var i = 0; i < data.length; i++) {
                 tbl.row.add(data[i]);
             }
             tbl.draw();
         }
-       
+
         $(document).on("click", ".editBtn", function () {
-        //markSelected(this);
-        $("#editDiv").show();
-        $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
-        populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
+            //markSelected(this);
+            $("#editDiv").show();
+            $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+            populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
 
         function populateFields(rowID) {
@@ -233,14 +231,12 @@
             $("#password").val(student.Password_);
         }
 
-        $(document).on("click", "#cancelSaveBTN", function ()
-        {
+        $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
-                    $("#editDiv").hide();
+            $("#editDiv").hide();
         });
 
-        function getStudebts(RowID) 
-        { 
+        function getStudebts(RowID) {
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -248,9 +244,8 @@
             }
             return null;
         }
-        
-        function saveStudent()
-        {
+
+        function saveStudent() {
             let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
                 "FName": $("#fname").val(),
@@ -272,18 +267,15 @@
             ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
         }
 
-        function updateDsuccess(data)
-
-        {
+        function updateDsuccess(data) {
             console.log(data);
             swal("העריכה נשמרה", "", "success");
             tbl.clear();
-            redrawTBL(tbl, data); 
+            redrawTBL(tbl, data);
             $("#editDiv").hide();
         }
 
-        function updateDerror(err)
-            {
+        function updateDerror(err) {
             console.log(err);
         }
 

@@ -20,13 +20,7 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="../Scripts/ajaxCalls.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-
-    <!-- noy links -->
+    <!-- Our links -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
@@ -34,8 +28,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
-    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- links of Facebook, instedram and links -->
@@ -109,7 +101,7 @@
         var classType = $("#classType").val();
         var year = $("#Year").val();
         var numOfStudents = $("#NumOfs").val();
-        var teacherName= $("#teacherName").val();
+        var teacherName = $("#teacherName").val();
 
         //Excel
         studentsArr = new Array();
@@ -202,27 +194,27 @@
                         {
                             "Name": $("#classSelect").val(),
                             "Number": $("#classNum").val(),
-                            "ClassType":$("#classType").val() ,
+                            "ClassType": $("#classType").val(),
                             "Profession": subjArr[j],
                         }
-                    ClassSubArr.push(ClassSubObj);    
+                    ClassSubArr.push(ClassSubObj);
                 }
                 console.log(ClassSubArr);
                 Swal.fire({
-                        title: 'הצלחת!',
-                        text: 'המקצועות שויכו לכיתה בהצלחה',
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    title: 'הצלחת!',
+                    text: 'המקצועות שויכו לכיתה בהצלחה',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
             }
             else {
                 Swal.fire({
-                        text: 'אנא הכנס/י מקצועות הנלמדים בכיתה זו',
-                        icon: 'error',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    text: 'אנא הכנס/י מקצועות הנלמדים בכיתה זו',
+                    icon: 'error',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
             }
         }
 
@@ -248,21 +240,21 @@
         function saveClassDB() {
             if (year == "" || numOfStudents == 0) {
                 Swal.fire({
-                        title: 'שדות חסרים',
-                        text: 'אנא מלא/י את כל השדות',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    title: 'שדות חסרים',
+                    text: 'אנא מלא/י את כל השדות',
+                    icon: 'warning',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
                 return false;
             }
             if (ClassSubArr.length == 0) {
-                    Swal.fire({
-                        text: 'לחצו על שמירת מקצועות',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                Swal.fire({
+                    text: 'לחצו על שמירת מקצועות',
+                    icon: 'warning',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
                 return false;
             }
             classObj =

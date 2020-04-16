@@ -19,7 +19,7 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-
+    <!-- Our links -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -27,138 +27,133 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <!--shir links-->
-    <!-- Include a required theme -->
-    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
-    <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <!--<script src="js/manager/createNewTeacher.js"></script>-->
-<<<<<<< HEAD
+
+
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <script>
 
 
-            var imagePath1 = '';
-            var userEmail1 = '';
-
-            $(document).ready(function () {
-                //Menus
-                localN = localStorage.getItem('myName');
-                console.log('local: ', JSON.parse(localN));
-                //myNameObj = JSON.parse(localStorage["myName"]);
-                //document.getElementById("myNameN1").innerHTML = myNameObj.name;
-                //document.getElementById("myNameN2").innerHTML = myNameObj.name;
-                /////
-                $('#form1').submit(sub);
-                $('#addTeacher').click(saveTeacherDB); //save teacher
-                readFromDB(); //professions
-                $('#addsub').click(addSubj);
-                //User image
-                local = localStorage.getItem('admin');
-                objAdmin = JSON.parse(local);
-                showDetalis(objAdmin);
-=======
-    <script>
         var imagePath1 = '';
         var userEmail1 = '';
 
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
-
-
+            //myNameObj = JSON.parse(localStorage["myName"]);
+            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            /////
             $('#form1').submit(sub);
-            $('#addTeacher').click(saveTeacherDB);
-            readFromDB();
+            $('#addTeacher').click(saveTeacherDB); //save teacher
+            readFromDB(); //professions
+            $('#addsub').click(addSubj);
+            //User image
+            local = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local);
+            showDetalis(objAdmin);
+=======
+        <script>
+            var imagePath1 = '';
+            var userEmail1 = '';
+
+            $(document).ready(function () {
+                //Menus
+                localN= localStorage.getItem('myName');
+                console.log('local: ', JSON.parse(localN));
+                myNameObj = JSON.parse(localStorage["myName"]);
+                document.getElementById("myNameN1").innerHTML = myNameObj.name;
+                document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
+
+                $('#form1').submit(sub);
+                $('#addTeacher').click(saveTeacherDB);
+                readFromDB();
 >>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
             //$('#upload').click(uploadTeachers);
             //$('#saveprof').click(saveSubj);
 
-                $('#selectProf').change(function ()
-                {
-                            var value = $(this).val();
-                    var X = document.getElementById("txtbox");
-                            if (value == "אחר") {
-                        X.style.display = "block";
+            $('#selectProf').change(function () {
+                var value = $(this).val();
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
                 }
-                            else {
-                        X.style.display = "none";
+                else {
+                    X.style.display = "none";
                 }
 <<<<<<< HEAD
-        });
-                ////////img/////////
-                function showDetalis(objAdmin) {
-=======
             });
-
-            $('#addsub').click(addSubj);
-            //$('#saveprof').click(saveSubj);
-            //User image
-    localAdmin = localStorage.getItem('user');
-    objAdmin = JSON.parse(localAdmin);
-            showDetalis(objAdmin);
-
+            ////////img/////////
             function showDetalis(objAdmin) {
+=======
+                });
+
+                $('#addsub').click(addSubj);
+                //$('#saveprof').click(saveSubj);
+                //User image
+        localAdmin = localStorage.getItem('user');
+        objAdmin = JSON.parse(localAdmin);
+                showDetalis(objAdmin);
+
+                function showDetalis(objAdmin) {
 >>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
                 Id = objAdmin.Id;
-            var url = "../api/Docu/GetDetails/" + Id;
+                var url = "../api/Docu/GetDetails/" + Id;
 
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-                function funcsuccess(data) {
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+            function funcsuccess(data) {
                 obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-        }
-                function getAvatarImageSuccess(imagePath1) {
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+            function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
-                function getAvatarImageError(err) {
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
                 console.log(err)
             }
 
-            function funcerror() {}
+            function funcerror() { }
             //END User image
-            });
+        });
 
         //////////////Profession
-            function readFromDB() {
-                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+        function readFromDB() {
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
-            function GETsuccessCB(data) {
-                console.log(data);
+        function GETsuccessCB(data) {
+            console.log(data);
             listP = data;
             //insert options to select
-                for (var i = 0; i < listP.length; i++) {
-                    var select = document.getElementById("selectProf");
-            var option = document.createElement("option");
-            option.text = listP[i].Name;
-            select.add(option);
+            for (var i = 0; i < listP.length; i++) {
+                var select = document.getElementById("selectProf");
+                var option = document.createElement("option");
+                option.text = listP[i].Name;
+                select.add(option);
+            }
         }
-}
-            function GETerrorCB(err) {
-                console.log(err);
+        function GETerrorCB(err) {
+            console.log(err);
         }
-////////////////////////
+        ////////////////////////
         ////////////img///////////////
 
-            function sub() {
-                return false;
+        function sub() {
+            return false;
         }
 
-   
+
         function saveTeacherDB() {
 
-                // בדיקה האם השדות מלאים
+            // בדיקה האם השדות מלאים
             FName = $("#fname").val();
             LName = $("#lname").val();
             Email = $("#email").val();
@@ -167,26 +162,25 @@
             Id = $("#idT").val();
             PhoneNum = $("#phone").val();
 
-            if (FName == "" || LName == "" || Id == "" || Email == "" || City =="" || PhoneNum =="" || PhoneNum == ""  )
-            {
+            if (FName == "" || LName == "" || Id == "" || Email == "" || City == "" || PhoneNum == "" || PhoneNum == "") {
                 Swal.fire({
                     icon: 'warning',
                     title: 'שדות חסרים',
                     text: 'אנא מלא/י את כל השדות😀',
                 })
-                    return false;
+                return false;
+            }
+            saveAll(teacherArr);
         }
-        saveAll(teacherArr);
-}
 
         //post
         var profession = "";
         teacherArr = [];
 
         function addSubj() //שהמשתמש לוחץ על הוספת מקצוע
-            {
-                profession = $("#selectProf").val();
-                if (profession == "1") { // אם לחץ על שם המקצוע (כלומר לא הוסיף כלום)
+        {
+            profession = $("#selectProf").val();
+            if (profession == "1") { // אם לחץ על שם המקצוע (כלומר לא הוסיף כלום)
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
@@ -196,48 +190,48 @@
                 })
             }
             else { //אם לחץ על אחר
-                    if (profession == "אחר") {
-                        var X = $("#txtbox").val();
-            profession = X;
+                if (profession == "אחר") {
+                    var X = $("#txtbox").val();
+                    profession = X;
+                }
+                checkSub();
+            }
         }
-        checkSub();
-}
-}
-            function checkSub() {
-                for (var i = 0; i < teacherArr.length; i++) {
-                    if (teacherArr[i] == profession) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה',
-                    text: 'הכנסת עכשיו את המקצוע הזה',
-                    confirmButtonText: 'אישור',
-                    showCloseButton: true
-                })
-                        return;
-        }
-}
-                Swal.fire({
+        function checkSub() {
+            for (var i = 0; i < teacherArr.length; i++) {
+                if (teacherArr[i] == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה',
+                        text: 'הכנסת עכשיו את המקצוע הזה',
+                        confirmButtonText: 'אישור',
+                        showCloseButton: true
+                    })
+                    return;
+                }
+            }
+            Swal.fire({
                 icon: 'success',
-            title: ' המקצוע נשמר בהצלחה 😀',
-            text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
-            confirmButtonText: 'אישור',
-            showCloseButton: true
-        })
-        teacherArr.push(profession);
-        //saveSubj(teacherArr);
+                title: ' המקצוע נשמר בהצלחה 😀',
+                text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
+                confirmButtonText: 'אישור',
+                showCloseButton: true
+            })
+            teacherArr.push(profession);
+            //saveSubj(teacherArr);
         }
 
         birthVal = "";
-        
+
         ////////save teacher with prof///////////
         function saveAll(teacherArr) {
 
             birthVal = $('#bday').val();
-                birthValArr = birthVal.split('/');
-                birthVal = `${birthValArr[2]}-${birthValArr[1]}-${birthValArr[0]}`
-                console.log(birthVal);
+            birthValArr = birthVal.split('/');
+            birthVal = `${birthValArr[2]}-${birthValArr[1]}-${birthValArr[0]}`
+            console.log(birthVal);
 
-                if (teacherArr == 0) {
+            if (teacherArr == 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה',
@@ -247,29 +241,29 @@
                 })
             }
             else {
-                    for (var i = 0; i < teacherArr.length; i++) {
-                TeacherObj =
-                {
-                    "FName": $("#fname").val(),
-                    "LName": $("#lname").val(),
-                    "Email": $("#email").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Id": $("#idT").val(),
-                    "Bday":birthVal,
-                    "PhoneNum": $("#phone").val(),
-                    "Profession": teacherArr[i],
-                    "Password": Math.random().toString(36).substring(7),
+                for (var i = 0; i < teacherArr.length; i++) {
+                    TeacherObj =
+                        {
+                            "FName": $("#fname").val(),
+                            "LName": $("#lname").val(),
+                            "Email": $("#email").val(),
+                            "City": $("#city").val(),
+                            "Street": $("#street").val(),
+                            "Id": $("#idT").val(),
+                            "Bday": birthVal,
+                            "PhoneNum": $("#phone").val(),
+                            "Profession": teacherArr[i],
+                            "Password": Math.random().toString(36).substring(7),
+                        }
+                    ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
                 }
-                        ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
+            }
         }
-}
-}
 
-count = 0;
-            function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
-                count += 1;
-                if (count == teacherArr.length) {
+        count = 0;
+        function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
+            count += 1;
+            if (count == teacherArr.length) {
                 Swal.fire({
                     icon: 'success',
                     text: 'המורה נוסף/ה למערכת בהצלחה😀',
@@ -278,10 +272,10 @@ count = 0;
             location.reload();
         }
 <<<<<<< HEAD
-            function POSTerror() {console.log(err)};
+        function POSTerror() { console.log(err) };
 
 =======
-        function POSTerror() { console.log(err) };
+            function POSTerror() { console.log(err) };
 >>>>>>> 6eadcdefe67afac5c7b0d8c85835de56483a0ac2
     </script>
 </head>

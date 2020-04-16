@@ -32,7 +32,7 @@
 
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
@@ -75,7 +75,7 @@
                         icon: 'error',
                         title: 'Oops...',
                         text: 'ישנם שדות חסרים, אנא מלא/י אותם',
-                       
+
                     })
                     return false;
                 }
@@ -147,7 +147,7 @@
 
             function showImages(data) {
                 imagePath = data;
-              
+
                 Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
             }
 
@@ -170,8 +170,8 @@
             });
 
             //User image
-    localAdmin = localStorage.getItem('user');
-    objAdmin = JSON.parse(localAdmin);
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {
@@ -186,7 +186,7 @@
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-             
+
 
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
@@ -213,14 +213,14 @@
                 'התמונה הועלתה בהצלחה!',
                 'success'
             )
-            
+
         }
         function POSTerrorImg(data) {
             console.log(data);
         }
 
 
-   </script>
+    </script>
 
 
 

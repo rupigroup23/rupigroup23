@@ -29,18 +29,15 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
 
-    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
-    <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--shir links-->
-    <!-- Include a required theme -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         var imagePath = '';
         var userEmail = '';
 
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;

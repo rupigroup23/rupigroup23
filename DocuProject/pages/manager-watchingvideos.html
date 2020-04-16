@@ -26,89 +26,85 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
-    <!--shir links-->
-    <!-- Include a required theme -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
-    <!-- more -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<script src="js/manager/watchingvideos.js"></script>-->
     <script>
         var imagePath1 = '';
-var userEmail1 = '';
+        var userEmail1 = '';
 
-$(document).ready(function () {
+        $(document).ready(function () {
 
-    //Menus
-    localN = localStorage.getItem('myName');
-    console.log('local: ', JSON.parse(localN));
-    myNameObj = JSON.parse(localStorage["myName"]);
-    document.getElementById("myNameN1").innerHTML = myNameObj.name;
-    document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //Menus
+            localN = localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-    local = localStorage.getItem('thisTask');
-    console.log('local: ', JSON.parse(local));
-    TaskObj = JSON.parse(localStorage["thisTask"]);
-    console.log(TaskObj);
+            local = localStorage.getItem('thisTask');
+            console.log('local: ', JSON.parse(local));
+            TaskObj = JSON.parse(localStorage["thisTask"]);
+            console.log(TaskObj);
 
-    Showorientation();//סרגל השתלשלות
+            Showorientation();//סרגל השתלשלות
 
-    //User image
-    localAdmin = localStorage.getItem('user');
-    objAdmin = JSON.parse(localAdmin);
-    showDetalis(objAdmin);
+            //User image
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
 
-    function showDetalis(objAdmin) {
-        Id = objAdmin.Id;
-        var url = "../api/Docu/GetDetails/" + Id;
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
 
-        //ID = objAdmin.Id;
-        //var url = "../api/Docu/GetDetails/" + ID;
-        ajaxCall("GET", url, "", funcsuccess, funcerror);
-    }
-    function funcsuccess(data) {
-        obj = data;
-        userEmail1 = obj[0].Email;
-        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-    }
-    function getAvatarImageSuccess(imagePath1) {
+                //ID = objAdmin.Id;
+                //var url = "../api/Docu/GetDetails/" + ID;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+            function getAvatarImageSuccess(imagePath1) {
 
-        src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-    }
-    function getAvatarImageError(err) {
-        console.log(err)
-    }
-    function funcerror() { }
-    //END- User image
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror() { }
+            //END- User image
 
-});
+        });
 
 
-//סרגל השתלשלות
-let orientationSTR = "";
-function Showorientation() {
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
-    orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
-    orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
-    document.getElementById("orientation").innerHTML = orientationSTR;
-    document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-}
+        //סרגל השתלשלות
+        let orientationSTR = "";
+        function Showorientation() {
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
+            document.getElementById("orientation").innerHTML = orientationSTR;
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+        }
 
-//Bring the details up
-function getDatelis() {
-    //date = diffDays(TaskObj.Task.Date);
-    date = "4/30/2020";
-    document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-    document.getElementById("date").innerHTML = date;
-}
+        //Bring the details up
+        function getDatelis() {
+            //date = diffDays(TaskObj.Task.Date);
+            date = "4/30/2020";
+            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
+            document.getElementById("date").innerHTML = date;
+        }
     </script>
 </head>
 <body id="page-top">

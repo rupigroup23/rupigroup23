@@ -26,7 +26,7 @@
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="../Scripts/allTask.js"></script>
 
-    <!-- our links -->
+    <!-- Our links -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -45,7 +45,7 @@
 
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
@@ -53,8 +53,8 @@
 
             //localstorage for the images
             //User image
-    localAdmin = localStorage.getItem('user');
-    objAdmin = JSON.parse(localAdmin);
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
             //localstorage for the orientation

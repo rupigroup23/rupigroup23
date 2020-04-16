@@ -29,20 +29,20 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!--<script src="js/manager/teacher-Management.js"></script>-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<script>
-    var imagePath1 = '';
-    var userEmail1 = '';
+    <script>
+        var imagePath1 = '';
+        var userEmail1 = '';
 
-    $(document).ready(function ()
-    {
+        $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
@@ -51,48 +51,48 @@
 
             getTeachers();
             $('#saveBTN').click(saveTeacherDB);
-                   $('#upload').click(uploadTeachers);
+            $('#upload').click(uploadTeachers);
 
 
             //User image
-    localAdmin = localStorage.getItem('user');
-    objAdmin = JSON.parse(localAdmin);
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
-    });
-    
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
+        });
 
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
+        function showDetalis(objAdmin) {
+            Id = objAdmin.Id;
+            var url = "../api/Docu/GetDetails/" + Id;
 
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
+            //ID = objAdmin.Id;
+            //var url = "../api/Docu/GetDetails/" + ID;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
 
 
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
-            }
-            function getAvatarImageSuccess(imagePath1) {
+        }
+        function getAvatarImageSuccess(imagePath1) {
 
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
 
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
 
-            function funcerror() { }
-           function sub() { 
-        return false;
+        function funcerror() { }
+        function sub() {
+            return false;
         }
         function getTeachers(data) {
 
@@ -229,47 +229,43 @@
             return null;
         }
 
-            /////////////////////
+        /////////////////////
 
-            function saveTeacherDB()
+        function saveTeacherDB() {
+            let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
-                let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-                {
-                    "FName": $("#fname").val(),
-                    "LName": $("#lname").val(),
-                    "PhoneNum": $("#number").val(),
-                    "Email": $("#mail").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Id": $("#id").val(),
-                    "Bday": $("#bday").val(),
-                    "Profession": $("#prof").val(),
-                    "Password": $("#password").val()
-                }
-                console.log(teacher); // האיבר המעודכן
-
-                console.log(id);
-                url = "../api/Docu/updateTeacher/" + id1;
-                ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+                "FName": $("#fname").val(),
+                "LName": $("#lname").val(),
+                "PhoneNum": $("#number").val(),
+                "Email": $("#mail").val(),
+                "City": $("#city").val(),
+                "Street": $("#street").val(),
+                "Id": $("#id").val(),
+                "Bday": $("#bday").val(),
+                "Profession": $("#prof").val(),
+                "Password": $("#password").val()
             }
+            console.log(teacher); // האיבר המעודכן
 
-            function updateDsuccess(data)
+            console.log(id);
+            url = "../api/Docu/updateTeacher/" + id1;
+            ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+        }
 
-            {
-                teacherN = data;
-                console.log(data);
-                swal("העריכה נשמרה", "", "success");
-                tbl.clear();
-                redrawTBL(tbl, data);
-                $("#editDiv").hide();
-            }
+        function updateDsuccess(data) {
+            teacherN = data;
+            console.log(data);
+            swal("העריכה נשמרה", "", "success");
+            tbl.clear();
+            redrawTBL(tbl, data);
+            $("#editDiv").hide();
+        }
 
-            function updateDerror(err)
-                {
-                console.log(err);
-    }
+        function updateDerror(err) {
+            console.log(err);
+        }
 
-         teachersArr = new Array();
+        teachersArr = new Array();
         $(function () {
 
             $("#load").bind("click", function () {
@@ -319,7 +315,7 @@
         }
 
         function POSTsuccess_() {
-         swal("מורים נוספו למערכת בהצלחה", "על מנת לצפות ברשימת המורים, גש/י למורים", "success")
+            swal("מורים נוספו למערכת בהצלחה", "על מנת לצפות ברשימת המורים, גש/י למורים", "success")
 
         }
         function POSTerror_(err) { console.log(err) }
@@ -327,7 +323,7 @@
 
 
 
-            //////////////////
+                //////////////////
 
     </script>
 
