@@ -38,21 +38,12 @@
     <script src="js/myName.js"></script>
     <script>
         $(document).ready(function () {
-            //Menus
-            //local = localStorage.getItem('myName');
-            //console.log('local: ', JSON.parse(local));
-            //myNameObj1 = JSON.parse(localStorage["myName"]);
-            ////name= myNameObj1.firstName + " " + myNameObj1.lastName;
-            //document.getElementById("myNameN1").innerHTML = 'שיר מלכה';
-            //document.getElementById("myNameN2").innerHTML = 'שיר מלכה';;
-            //savelocal();
 
             getNumOfClass();
             //login
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             console.log(objAdmin);
-            getNumOfClass();
 
             ///////////////////User image
             localAdmin = localStorage.getItem('user');

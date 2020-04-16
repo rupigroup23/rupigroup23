@@ -94,7 +94,7 @@
 
         //add all subjects from the table (DB)
         function readFromDB() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+            ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
@@ -188,7 +188,7 @@
                 })
             }
             else {
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+                ajaxCall("POST", "../api/Teacher/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
             }
         }
         function POST1success() {
@@ -200,8 +200,9 @@
         }
         function POST1error(err) { console.log(err) };
 
-        function readClassSUbjFromDB() {
-            var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
+        function readClassSUbjFromDB()
+        {
+            var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
         ProfARR = [];

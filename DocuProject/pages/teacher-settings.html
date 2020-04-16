@@ -81,7 +81,7 @@
                 //Ajax upload
                 $.ajax({
                     type: "POST",
-                    url: "../Api/Docu/uploadimage",
+                    url: "../Api/Teacher/uploadimage",
                     contentType: false,
                     processData: false,
                     data: data,
@@ -105,8 +105,9 @@
             });
 
             function readFromDB() {
-                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+                ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
             }
+
             function GETsuccessCB(data) {
                 ProfARR = []; //מערך המקצועות מהדאטא בייס
             }
@@ -255,7 +256,7 @@
             function showImages(data) {
                 imagePath = data;
 
-                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+                Swal.fire("","התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
             }
 
             function error(data) {
@@ -265,8 +266,8 @@
 
             function POSTsuccessImg() {
                 Swal.fire(
-                    'Good job!',
                     'התמונה הועלתה בהצלחה!',
+                    'לחץ להמשך',
                     'success'
                 )
 
@@ -592,15 +593,15 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
                 </div>
             </div>
         </div>

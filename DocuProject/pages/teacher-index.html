@@ -43,7 +43,7 @@
             local = localStorage.getItem('user');
             objTeacher = JSON.parse(local);
             console.log(objTeacher);
-                             showDetalis(objTeacher);
+            showDetalis(objTeacher);
 
 
             studentObj = "";
@@ -99,7 +99,7 @@
             function getNumOfClass()
             {
             console.log();
-            var url = "../api/Docu/getNumClass";
+            var url = "../api/Teacher/getNumClass";
             ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
         }
 
@@ -131,10 +131,7 @@
             function getAvatarImageError(err) {
                 console.log(err)
         }
-
         //////////pic/////
-
-
         function GETsuccessCB(data) {
 
             console.log(data);

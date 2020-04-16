@@ -54,7 +54,7 @@
             }
             else { //if its a teacher
                 localStorage.setItem('user', JSON.stringify(user));
-                ajaxCall("POST", "../api/Docu/checkUsersTeacher", JSON.stringify(user), POSTsuccess_Check2, POSTerror_Check2);
+                ajaxCall("POST", "../api/Teacher/checkUsersTeacher", JSON.stringify(user), POSTsuccess_Check2, POSTerror_Check2);
             }
 
         }
