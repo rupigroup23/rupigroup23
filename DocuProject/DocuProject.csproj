@@ -184,6 +184,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="manager-createNewTask.html" />
     <Content Include="pages\404.html" />
     <Content Include="pages\account.html" />
     <Content Include="pages\blank.html" />
@@ -205,6 +206,7 @@
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
+    <Content Include="pages\manager-createNewTask - Copy.html" />
     <Content Include="pages\manager-EDIT_PresentationAssignment.html" />
     <Content Include="pages\לא למחוק.html" />
     <Content Include="pages\manager-SORT1-2tasks.html" />
