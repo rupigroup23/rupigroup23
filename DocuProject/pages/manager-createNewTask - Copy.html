@@ -1,0 +1,700 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Askbootstrap">
+    <meta name="author" content="Askbootstrap">
+
+    <!-- page name -->
+    <title>'דוקו'</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/osahan.css" rel="stylesheet">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- ajaxCalls -->
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/allTask.js"></script>
+
+    <!-- our links -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script>
+        //user img
+        var imagePath1 = '';
+        var userEmail1 = '';
+        //files
+        var taskPath = '';
+        var taskId = 0;
+
+        $(document).ready(function () {
+            //Menus
+            localN= localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
+            //localstorage for the images
+            local1 = localStorage.getItem('admin');
+            objAdmin = JSON.parse(local1);
+            showDetalis(objAdmin);
+
+            //localstorage for the orientation
+            local = localStorage.getItem('forNewTask');
+            console.log('local: ', JSON.parse(local));
+            newTaskObj = JSON.parse(localStorage["forNewTask"]);
+            Showorientation();
+
+            //view the options
+            $('#uploadFile').click(UploadFile);
+            $('#uploadtxtbox').click(UploadTxt);
+
+            //$('#saveTask').attr("disabled", true);
+
+            $('#saveTask').click(saveTask);
+
+            ///upload files
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+                console.log('clicked')
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+                console.log(data);
+                console.log(files);
+
+                // Add the uploaded file to the form data collection
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedTasks", files[f]);
+                    }
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/DocuUpload/uploadtask",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showTasks,
+                    error: error
+                });
+
+                return false;
+            });
+            function showTasks(data) {
+                //$('#saveTask').attr("disabled", false);
+                taskPath = data;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הקובץ נטען בהצלחה',
+                    confirmButtonColor: '#990099',
+                })
+                //Swal.fire("הקובץ סיים להיטען, מלא את פרטי המטלה ולחץ פרסום'")
+            }
+            function error(data) {
+                console.log(data);
+            }
+        });
+
+        //User image
+        function showDetalis(objAdmin) {
+            Id = objAdmin.Id;
+            var url = "../api/Docu/GetDetails/" + Id;
+
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+
+
+            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+        }
+        function getAvatarImageSuccess(imagePath1) {
+
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+        function funcerror() { }
+
+        //show items
+        function UploadFile() {
+            //radio
+            radioFile = document.getElementById("uploadFile");
+            radioTxt = document.getElementById("uploadtxtbox");
+            //
+            var file = document.getElementById("showUpload"); //קובץ
+            var txtbox = document.getElementById("showTxtbox"); //תיבת טקסט
+
+            if (radioFile.checked) {
+                if (file.style.display === "none") {
+                    file.style.display = "block";
+                    txtbox.style.display = "none";
+                }
+                else {
+                    file.style.display = "none";
+                }
+            }
+            if (radioTxt.checked) {
+                if (txtbox.style.display === "none") {
+                    txtbox.style.display = "block";
+                    file.style.display = "none";
+                }
+                else {
+                    txtbox.style.display = "none";
+                }
+            }
+        }
+        function UploadTxt() {
+            //radio
+            radioFile = document.getElementById("uploadFile");
+            radioTxt = document.getElementById("uploadtxtbox");
+            //
+            var file = document.getElementById("showUpload"); //קובץ
+            var txtbox = document.getElementById("showTxtbox"); //תיבת טקסט
+
+            if (radioFile.checked) {
+                if (file.style.display === "none") {
+                    file.style.display = "block";
+                    txtbox.style.display = "none";
+                }
+                else {
+                    file.style.display = "none";
+                }
+            }
+            if (radioTxt.checked) {
+                if (txtbox.style.display === "none") {
+                    txtbox.style.display = "block";
+                    file.style.display = "none";
+                }
+                else {
+                    txtbox.style.display = "none";
+                }
+            }
+        }
+
+        //סרגל השתלשלות
+        let orientationSTR1 = "";
+        function Showorientation() {
+            orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + newTaskObj.ClassName + "' " + newTaskObj.ClassNum + "</a></li>";
+            orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' >" + newTaskObj.Profession + "</a></li>";
+            orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+            orientationSTR1 += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-createNewTask.html'>הקמת מטלה חדשה</a></li>";
+            document.getElementById("orientation").innerHTML = orientationSTR1;
+            var idTask = document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num;
+
+        }
+
+        //check details and post
+        var assignation = "";
+        var description = "";
+
+        function saveTask() {
+            //check details
+            Topic = $("#topic").val();
+            DateT = $("#dateInput").val();
+            if (Topic == "" || DateT == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שדות חסרים...',
+                    text: 'יש למלא את כל השדות 😓',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+
+                })
+                return false;
+            }
+            var radiosStaffing = document.getElementsByName('staffing');
+            var radiosContent = document.getElementsByName('taskcontent');
+            countStaf = "";
+            for (var i = 0; i < radiosStaffing.length; i++) {
+                if (radiosStaffing[i].checked) {
+                    assignation = radiosStaffing[i].value;
+                    console.log(radiosStaffing[i].value);
+                    countStaf++;
+                }
+            }
+            if (countStaf == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא הכנסת אופציית שיבוץ 😓',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+                })
+            }
+            ////////////
+            countCont = "";
+            for (var i = 0; i < radiosContent.length; i++) {
+                if (radiosContent[i].checked) {
+                    description = radiosContent[i].value;
+                    //console.log(radiosContent[i].value);
+                    countCont++;
+                }
+            }
+            if (countCont == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת אופציית העלה 😓',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+                })
+            }
+
+            if (radiosContent[0].checked == true) {
+                /*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
+            }
+            if (radiosContent[1].checked == true) {
+                var taskStr = $("#taskcontent-txtbox").val();
+            }
+
+            TaskObj =
+                {
+                    "taskId": taskId,
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum,
+                    "Profession": newTaskObj.Profession,
+                    "Topic": $("#topic").val(),
+                    "DateT": $("#dateInput").val(),
+                    "Assignation": assignation,
+                    "Description": taskStr,
+                }
+
+            console.log(TaskObj)
+            //taskArr.push(TaskObj);
+
+            ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
+
+        }
+
+        function POSTsuccess(data) {
+            Swal.fire({
+                icon: 'success',
+                title: 'הצלחת',
+                text: 'המטלה נוצרה בהצלחה! 😀',
+            })
+            taskId++;
+
+        }
+        function POSTerror() {
+            alert("ops");
+        }
+
+
+
+        // שלב2- העלאת התמונה מהתוכנה לדטא
+        //$('#uploadTask').on('click', function () {
+        //    var taskStr = `http://localhost:44328/${taskPath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+        //    //var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
+        //    UploadTaskObj = {
+        //        "Id": IDtask,
+        //        "Task": taskStr
+        //    }
+        //    ajaxCall('POST', '../api/DocuUpload/uploadUrlTask', JSON.stringify(UploadTaskObj), POSTsuccessTask, POSTerrorTask);
+
+
+        //});
+        function POSTsuccessTask() {
+            Swal.fire(
+                //'Good job!',
+                'הקובץ הועלה בהצלחה!',
+                'success'
+            )
+
+        }
+
+
+        function POSTerrorTask(data) {
+            console.log(data);
+
+        }
+
+
+
+
+    </script>
+
+</head>
+<body id="page-top">
+    <!-- top bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
+        &nbsp;&nbsp;
+        <br />
+        <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button> &nbsp;&nbsp;
+        <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+        </form>
+        <!-- Navbar -->
+        <ul class="navbar-nav ml-auto osahan-right-navbar">
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-facebook-f" title="פייסבוק"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.instagram.com/mindcet/channel/">
+                    <i class="fa fa-instagram" title="אינסטגרם"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.mindcet.org/">
+                    <i class="fa fa-external-link" title="אתר אינטרנט"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+            </li>
+            <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
+                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <span id="myNameN1"> </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
+                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- orientation bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
+        <ol class="breadcrumb" id="orientation">
+        </ol>
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <!-- Left menu -->
+        <ul class="sidebar navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="manager-index.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>בית</span>
+                </a>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 id="myNameN2" class="nav-item"></h6>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>יצירה</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
+                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
+                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ניהול</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
+                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
+                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
+                </div>
+            </li>
+            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
+            <li class="nav-item">
+                <a class="nav-link" href="manager-index.html">
+                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                    <i class="fas fa-fw fa-users"></i>
+                    <!--&#127891;--> כיתות
+                </a>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6>פרטיות</h6>
+                <ul>
+                    <li>
+                        <a href="manager-settings.html">
+                            <i class="fa fa-gear" style="font-size:24px"></i>
+                            הגדרות
+                        </a>
+                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fa fa-sign-out" style="font-size:24px"></i>
+                            יציאה מהמערכת
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- END Left menu -->
+        <!-- Page content -->
+        <div id="content-wrapper">
+            <div class="container-fluid pb-0">
+                <div class="top-mobile-search">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="mobile-search">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search for..." class="form-control">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="video-block section-padding">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>הקמת מטלה חדשה</h6>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="osahan-form">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-12 col-xs-3 text2">
+                                    <div class="row text2">
+                                        <span style="border-bottom: 1px solid #990099">
+                                            מטלה מספר &nbsp;
+                                        </span>
+                                        <div id="numTasks" style="border-bottom: 1px solid #990099">
+
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-sm-6 col-xs-3 text2">
+                                    <div class="row">
+                                        <span>
+                                            נושא המטלה:&nbsp;
+                                        </span>
+                                        <input id="topic" type="text" class="textSquareTEXT" placeholder="שם הנושא" required />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-xs-3">
+                                    <div class="row">
+                                        <span class="text2">
+                                            מועד הגשה:&nbsp;
+                                        </span>
+                                        <input class="term" type="date" id="dateInput" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="row">
+                                        <!-- אלגוריתם -->
+                                        <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-12">
+                                            <section>
+                                                <input type="radio" id="random" name="staffing" value="רנדומלי">
+                                                <label class="checkboxTasks" for="random" checked="checked">
+                                                    רנדומלי
+                                                </label>
+                                                <br>
+                                                <input type="radio" id="gd" name="staffing" value="מרחק גיאוגרפי">
+                                                <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
+                                                <br>
+                                                <input type="radio" id="sw" name="staffing" value="חזקים-חלשים">
+                                                <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
+                                                <br>
+                                                <input id="checkboxTasks" name="staffing" type="radio" value="מין">
+                                                <label for="checkboxTasks" class="create-text">מין</label>
+                                                <div class="checkboxTasks-disclosure">
+                                                    <section>
+                                                        <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="boys">רוב בנים</label>
+                                                        <br>
+                                                        <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="girls">רוב בנות</label>
+                                                        <br>
+                                                        <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
+                                                        <label class="checkboxTasks" for="one">מין אחד</label>
+                                                        <br>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <!-- כפתורים -->
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-sm-6 mb-3">
+                                                    <!-- לשים קישור -->
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>
+                                                            הפעל אלגוריתם צוות
+                                                        </buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6 col-sm-6 mb-3">
+                                                    <!-- לשים קישור -->
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom>
+                                                            ניהול צוותים
+                                                        </buttom>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <hr class="mt-0">
+                            <!-- תוכן ההודעה -->
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 create-text">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-sm-12">
+                                        </div>
+                                        <!--<div class="col-lg-5 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
+                                                    </buttom>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <buttom>
+                                                        <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
+                                                    </buttom>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <h3 class="text2">תוכן המטלה </h3>
+                                            <div create-text">אנא בחר/י אופציית העלאה:</div>
+
+                                            <section>
+                                                <input id="uploadFile" name="taskcontent" type="radio" value="קובץ">
+                                                <label for="uploadFile" class="create-text">קובץ</label>
+
+                                                &nbsp;
+                                                <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
+                                                <label for="showTxtbox" class="create-text">תיבת טקסט</label>
+                                            </section>
+                                        </div>
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div class="row" id="showUpload" style="display:none">
+
+                                                <div class="col-lg-8 col-sm-12">
+                                                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                </div>
+
+                                            </div>
+                                            <div class="row" id="showTxtbox" style="display:none">
+                                                <div class="col-xl-5 col-sm-6 mb-3">
+                                                    <textarea class="comment-box" id="taskcontent-txtbox" rows="3" cols="40"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="col-xl-12 col-sm-6 mb-3">
+                                                <!-- saveTask -->
+                                                <button id="saveTask" class="btn btn-outline-primary btn-block btn-lg">
+                                                    פרסום מטלה
+                                                </button>
+                                                <a class="btn btn-outline-primary btn-block btn-lg" href="manager-tasks.html">
+                                                    <buttom>
+                                                        חזרה לדף המטלות
+                                                    </buttom>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        let currDate =
+            new Date().toLocaleDateString('he-IL');
+        let inputDate = new Date();
+        let bday = new Date();
+
+        document.querySelector('#dateInput').valueAsDate = inputDate;
+    </script>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/custom.js"></script>
+</body>
+</html>
+S
