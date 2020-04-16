@@ -208,8 +208,8 @@
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
-    <Content Include="pages\manager-createNewClass - Copy - Copy.html" />
-    <Content Include="pages\manager-createNewClass - Copy.html" />
+    <Content Include="pages\shirNoy-createNewClass.html" />
+    <Content Include="pages\shir-createNewClass.html" />
     <Content Include="pages\teacher-EDIT_PresentationAssignment.html" />
     <Content Include="pages\manager-EDIT_PresentationAssignment.html" />
     <Content Include="pages\manager-PresentationAssignment.html" />

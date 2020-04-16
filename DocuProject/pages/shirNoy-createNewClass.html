@@ -188,7 +188,6 @@
         function save_uploadStudents() {
             numOfStudents = studentsArr.length;
             Swal.fire({
-                title: 'הצלחת!',
                 text: 'התלמידים שויכו לכיתה בהצלחה',
                 icon: 'success',
                 confirmButtonColor: '#990099',
@@ -262,6 +261,7 @@
                     return;
                 }
             }
+            var SUB = "";
             Swal.fire({
                 icon: 'success',
                 title: ' המקצוע נשמר 😀',
@@ -270,14 +270,22 @@
                 showCloseButton: true
             }).then((result) => {
                 if (result.value) {
+                    for (var i = 0; i < ClassSubArr.length; i++) {
+                         SUB += ClassSubArr[i].Profession;
+                        let answers = JSON.stringify(SUB)
+
+                    }
+                    //const answers = JSON.stringify(result.value)
                     Swal.fire({
-                        text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמירה',
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
+                      title: 'All done!',
+                      html: `
+                        Your answers:
+                        <pre><code>${answers}</code></pre>
+                      `,
+                      confirmButtonText: 'Lovely!'
                     })
-                }
-            })
+                  }
+                })
             ClassSubArr.push(ClassObj);
         }
 
@@ -661,23 +669,6 @@
                                     <input type="text" id="txtbox" class="create-txt" placeholder="שם המקצוע" style="display:none;"/>
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
-                                    <div class="row">
-                                        <button onclick="Newprof()" class="upload-btn" style="width: 170px; height: 35px;">
-                                            הוספת מקצוע
-                                        </button>
-                                    </div>
-                                    <div class="row">
-                                        <div id="ShowNewprof" style="display:none">
-                                            <input type="text" id="NewProfession" class="create-txt" placeholder="שם המקצוע" />
-                                            <input type="button" id="NewProfBTN" value="הוספה" class="upload-btn" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <button id="addProff" class="upload-btn" style="width: 170px; height: 35px;">
-                                            שמירת מקצועות
-                                        </button>
-                                    </div>
-                                    <br />
                                     <div class="row">
                                         <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
                                             <buttom>
