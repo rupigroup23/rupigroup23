@@ -24,7 +24,8 @@ namespace DocuProject.Models
         public string getAvatarImage(string  Id)
         {
             DBservices dbs = new DBservices();
-            return dbs.getAvatarImage(Id);
+            return dbs.getAvatarImage(Id,"admin");
         }
+
     }
 }

@@ -23,8 +23,8 @@ $(document).ready(function () {
     $('#apply').click(filingSubm);
 
     //User image
-    local = localStorage.getItem('admin');
-    objAdmin = JSON.parse(local);
+    localAdmin = localStorage.getItem('user');
+    objAdmin = JSON.parse(localAdmin);
     showDetalis(objAdmin);
     function showDetalis(objAdmin) {
         Id = objAdmin.Id;

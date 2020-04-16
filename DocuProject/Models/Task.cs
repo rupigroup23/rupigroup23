@@ -69,6 +69,36 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             return dbs.getSpecificTask( class1,  numClass,  sub,  topic);
         }
+        //public DataTable GetDetailsT(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        //{
+        //    DBservices dbs = new DBservices();
+        //    dbs = dbs.Get_DetailsT(ID);
+        //    return dbs.dt;//מעביר רק את הטבלה 
+        //}
+        //public DataTable PutT(Task task)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        //{
+        //    DBservices dbs = new DBservices();
+        //    dbs = dbs.Get_DetailsT(task.Id);
+        //    dbs.dt = checkTblT(task, task.Id, dbs.dt);
+        //    dbs.update1();
+        //    return dbs.dt;//מעביר רק את הטבלה 
+        //}
+        //public DataTable checkTblT(Task task, int id, DataTable dt)
+        //{
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+        //        {
+        //            dr["ClassName"] = task.ClassName;
+        //            dr["ClassNum"] = task.ClassNum;
+        //            dr["Profession"] = task.Profession;
+        //            dr["Deadline"] = task.Deadline;
+        //            dr["Topic"] = task.Topic;
+        //            dr["Assignation"] = task.Assignation;
+        //            dr["Description_"] = task.Description;
+        //        }
+        //    }
+        //    return dt;
+        //}
 
     }
 }

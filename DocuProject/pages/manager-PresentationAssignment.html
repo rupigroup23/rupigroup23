@@ -27,16 +27,149 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="../Scripts/allTask.js"></script>
-    <!--shir links-->
-    <!-- Include a required theme -->
-    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">-->
-    <!--<script src="sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
-    <!-- more -->
-    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="js/manager/PresentationAssignment.js"></script>
+    <script>
+        //user img
+        var imagePath1 = '';
+        var userEmail1 = '';
+
+        var taskPath = '';
+
+        var className = "";
+        var classNum = "";
+        var subj = "";
+        var topic = "";
+
+        $(document).ready(function () {
+            //Menus
+            localN = localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+
+            //localstorage for the orientation
+            local = localStorage.getItem('thisTask');
+            TaskObj = JSON.parse(localStorage["thisTask"]);
+            //TaskObj11 = JSON.parse(localStorage["thisTask"]);
+
+            className = TaskObj.ClassName;
+            classNum = TaskObj.ClassNum;
+            subj = TaskObj.Profession;
+            topic = TaskObj.Task.Topic;
+
+            Showorientation();
+
+            getDatelis(); //Bring the details up
+
+
+            //let class1 = TaskObj11.ClassName;
+            //let numClass = TaskObj11.ClassNum;
+            //let sub = TaskObj11.Profession
+            //var topic = TaskObj11.Task.Topic
+
+            ajaxCall('get', '../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
+
+            function Success(data) {
+                taskPath = data;
+                strcheck = taskPath.search("http://proj.ruppin.ac.il");
+                if (strcheck == 0) {
+                    $('#downloadFile').attr("disabled", false);
+                    $('#showTxt').attr("disabled", true);
+
+                }
+                if (strcheck == -1) {
+                    $('#showTxt').attr("disabled", false);
+                    $('#downloadFile').attr("disabled", true);
+                }
+            }
+            function Error(err) {
+                console.log(err)
+            }
+
+            $('#showTxt').click(Showtxt);
+
+
+            $('#downloadFile').click(function () {
+                window.location.replace(taskPath);
+            });
+
+            //User image
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
+
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+
+
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            }
+            function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror(err) { console.log(err) }
+            //END- User image
+            function getSpecificTaskSuccess(data) {
+                $('#addpic').attr("disabled", false);
+                taskPath = data;
+
+            }
+            function getSpecificTaskError(err) { console.log(err) }
+
+        });
+
+        function Showtxt() {
+            txt = document.getElementById("showtxtbox");
+            if (txt.style.display === "none") {
+                txt.style.display = "block";
+            } else {
+                txt.style.display = "none";
+            }
+
+            //valuTxt
+            document.getElementById("valuTxt").innerHTML = taskPath;
+
+        }
+
+        //סרגל השתלשלות
+        let orientationSTR = "";
+        function Showorientation() {
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + className + "' " + classNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + subj + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-PresentationAssignment.html'>הצגה ועריכה</a></li>";
+            document.getElementById("orientation").innerHTML = orientationSTR;
+        }
+
+        //Bring the details up
+        function getDatelis() {
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+            //date = diffDays(TaskObj.Task.Date);
+            date = "4/30/2020";
+            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
+            document.getElementById("date").innerHTML = date;
+        }
+    </script>
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -94,14 +227,14 @@
         <!-- Sidebar -->
         <!-- Left menu -->
         <ul class="sidebar navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item"></h6>
+                <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -109,10 +242,10 @@
                     <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
                     <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
-                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -123,7 +256,6 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
-                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
@@ -224,11 +356,11 @@
                                         </div>
                                         <div class="col-lg-9 col-sm-12">
                                             <!--לשים במקום המרכאות את הניתוב של המטלה-->
-                                            <button id="addPic" class="showTask-btn">
+                                            <button id="downloadFile" class="showTask-btn">
                                                 הורדת המטלה
                                                 <!--(קובץ חיצוני)-->
                                             </button>
-                                            <button onclick="Items()" id="addPic" class="showTask-btn">
+                                            <button id="showTxt" class="showTask-btn">
                                                 הצג מטלה
                                                 <!--(טקסט)-->
                                             </button>
@@ -240,10 +372,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12 col-sm-12">
-                                            <div class="col-lg-3 col-sm-6" id="showItems" style="display:none">
-                                                <div class="textSquareGRAY" style="height: 200px; width: 860px">
-                                                    המטלההההה
-                                                </div>
+                                            <div class="col-lg-12 col-sm-12" id="showtxtbox" style="display:none">
+                                                <textarea id="valuTxt" class="comment-box"  rows="4" cols="70" readonly></textarea>
+
                                             </div>
                                         </div>
                                     </div>

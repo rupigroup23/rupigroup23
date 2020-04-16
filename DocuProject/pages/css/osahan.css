@@ -25,8 +25,14 @@ Version: 1.0
 .comment-box {
     padding: 0.8rem 1rem;
     border-radius: 30px;
+    /*float: left;*/
+    height: auto;
+    width: 100%;
 }
 
+/*.col-lg-5 {
+    max-width: 100%;
+}*/
 /*תפריט למעלה*/
 .navbar-light .navbar-nav .nav-link {
     color: #990099;

@@ -42,20 +42,32 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
 
             showDetalis(objAdmin);
             getTachears();
+            getSubjects(); 
+            $('#selectProf').change(function () {
+                var value = $(this).val();
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
+                }
+                else {
+                    X.style.display = "none";
+                }
+            });
 
-            $('#saveClass').click(saveClassDB);
-            $('#upload').click(uploadStudents);
-            $('#addProff').click(saveProfClassDB);
-            $('#NewProfBTN').click(addProf);
+            $('#addSubjTeach').click(addSubj);
+
+            //$('#saveClass').click(saveClassDB);
+            //$('#upload').click(save_uploadStudents);
+            //$('#addProff').click(saveProfClassDB);
+            //$('#NewProfBTN').click(addProf);
         });
-
+        //admin
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
@@ -78,6 +90,7 @@
         }
 
         //get teacher
+        arrCoach = [];
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
@@ -86,14 +99,48 @@
             listT = data;
             //insert options to select
             for (var i = 0; i < listT.length; i++) {
-                var select = document.getElementById("teacherName");
+                var selecTacher = document.getElementById("teacherName");
+                var selectCoach = document.getElementById("coachName");
 
                 var option = document.createElement("option");
                 option.text = listT[i].FName + " " + listT[i].LName;
+                selectCoach.add(option);
+
+                var option = document.createElement("option");
+                option.text = listT[i].FName + " " + listT[i].LName;
+                selecTacher.add(option);   
+            }
+            for (var j = 0; j < listT.length; j++) {
+               strCoach = {
+                    'name': listT[j].FName + " " + listT[j].LName,
+                    'id':listT[j].Id
+                }
+                arrCoach.push(strCoach);
+            }
+         
+        }
+        function GETerrorT(err) { console.log(err) }
+
+        //get subjects
+        function getSubjects() {
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessS, GETerrorS);
+        }
+        function GETsuccessS(data) {
+            listP = data;
+            //insert options to select
+            for (var i = 0; i < listP.length; i++) {
+                var select = document.getElementById("selectProf");
+                var option = document.createElement("option");
+                option.text = listP[i].Name;
                 select.add(option);
             }
         }
-        function GETerrorT(err) { console.log(err) }
+        function GETerrorS(err) {
+            console.log(err);
+        }
+
+        //details
+        var numOfStudents = "";
 
         //Excel
         studentsArr = new Array();
@@ -122,6 +169,7 @@
                                     student.Password = Math.random().toString(36).substring(7);
                                     studentsArr.push(student);
                                     console.log(studentsArr[0]);
+                                    console.log(studentsArr);
                                     console.log(studentsArr.length);
                                 }
                             }
@@ -137,134 +185,254 @@
                 }
             });
         });
-        function uploadStudents() {
-            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        function save_uploadStudents() {
+            numOfStudents = studentsArr.length;
+            Swal.fire({
+                title: 'הצלחת!',
+                text: 'התלמידים שויכו לכיתה בהצלחה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
         }
-        function POSTsuccess(data) {
-            console.log(data)
-            swal("התלמידים שויכו לכיתה בהצלחה", "", "success")
-        }
-        function POSTerror(err) { console.log(err) }
 
         //proff
+        var profession = "";
         subjArr = [];
         ClassSubArr = [];
-
-        function addProfession() {
-            var num = 5;
-            for (var i = 1; i < num; i++) {
-                var col1 = "customCheck";
-                if ($("#" + col1 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col1 + i + "").val());
-                }
-                var col2 = "zcustomCheck";
-                if ($("#" + col2 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col2 + i + "").val());
-                }
-                var col3 = "czcustomCheck";
-                if ($("#" + col3 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col3 + i + "").val());
-                }
-                var col4 = "scustomCheck";
-                if ($("#" + col4 + i + "").is(':checked')) {
-                    subjArr.push($("#" + col4 + i + "").val());
-                }
-            }
-        }
-
-        function saveProfClassDB() {
-            addProfession();
-            size = subjArr.length;
-            Newf = $("#NewProfession").val();
-            subjArr.push(Newf);
-            if (size >= 1) {
-                for (j in subjArr) {
-                    ClassSubObj =
-                        {
-                            "Name": $("#classSelect").val(),
-                            "Number": $("#classNum").val(),
-                            "ClassType": $("#classType").val(),
-                            "Profession": subjArr[j],
-                        }
-                    ClassSubArr.push(ClassSubObj);
-                    console.log(ClassSubArr);
-                }
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+        function addSubj() // שמירת נתוני המורה בדאטה
+        {
+            profession = $("#selectProf").val();
+            coach = $("#coachName").val();
+            if (profession == "1") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת מקצוע 😓',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
             }
             else {
-                alert("אנא הכנס/י מקצועות הנלמדים בכיתה זו")
-            }
-        }
-        function POST1success() {
-            swal("המקצועות שויכו לכיתה בהצלחה", "", "success")
-        }
-        function POST1error(err) { console.log(err) };
-
-        function addProf() {
-            Year = $("#Year").val();
-            NumOfStudents = $("#NumOfs").val();
-
-            if (Year == "" || NumOfStudents == "") {
-                swal("ישנם שדות חסרים", "אנא מלא/י את כל השדות", "warning");
-                return false;
-            }
-
-            Prof1 = $("#NewProfession").val();
-            //מדביק בטבלת מקצועות לכיתה
-            proffObj =
-                {
-                    "Name": Prof1,
+                if (profession == "אחר") {
+                    var X = $("#txtbox").val();
+                    profession = X;
                 }
-            console.log(proffObj);
+                checkSub();
+            }
+        }
 
-            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccess, POSTerror);
-
-            //ClassSubObj1 = {
-            //    "Name": $("#classSelect").val() ,
-            //    "Number": $("#classNum").val(),
-            //    "ClassType": $("#classType").val(),
-            //    "Profession": Prof1,
+        function checkSub() {
+            //for (var i = 0; i < ProfARR.length; i++) {
+            //    if (ProfARR[i] == profession) {
+            //        Swal.fire({
+            //            icon: 'error',
+            //            title: 'שגיאה...',
+            //            text: 'המקצוע כבר קיים',
+            //            confirmButtonText: 'אוקי',
+            //            showCloseButton: true
+            //        })
+            //        return;
+            //    }
             //}
-            //console.log(ClassSubObj1);
-
-            //ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubObj1), POST2success, POST2error);
-        }
-        function POSTsuccess() {
-            swal("מקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-
-        function POSTerror() { }
-        function POST2success() {
-            swal("המקצוע נוסף למערכת בהצלחה", "", "success")
-        }
-        function POST2error(err) { console.log(err) };
-
-        function saveClassDB() {
-            classObj =
+            //אין כזה מקצוע
+            for (var i = 0; i < arrCoach.length; i++) {
+                if (coach == arrCoach[i].name) {
+                    idC = arrCoach[i].id;
+                }
+            }
+            ClassObj =
                 {
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
-                    "Number": $("#classNum").val(),
-                    "Year": $("#Year").val(),
-                    "TeacherName": $("#teacherName").val(),
-                    "ClassType": $("#classType").val()
-
+                    "ClassType": $("#classType").val(),
+                    "Profession": profession,
+                    "Teacher_name": coach,
+                    "Id_teacher": idC,
                 }
-            //Class
-            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+            for (var i = 0; i < ClassSubArr.length; i++) {
+                if (ClassSubArr[i].Profession == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'הכנסת עכשיו את המקצוע הזה',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                    return;
+                }
+            }
+            Swal.fire({
+                icon: 'success',
+                title: ' המקצוע נשמר 😀',
+                text: 'עד עכשיו הוספת את המקצועות:',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמירה',
+                        icon: 'success',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                }
+            })
+            ClassSubArr.push(ClassObj);
         }
+
+
+
+        //function addProfession() {
+        //    var num = 5;
+        //    for (var i = 1; i < num; i++) {
+        //        var col1 = "customCheck";
+        //        if ($("#" + col1 + i + "").is(':checked')) {
+        //            subjArr.push($("#" + col1 + i + "").val());
+        //        }
+        //        var col2 = "zcustomCheck";
+        //        if ($("#" + col2 + i + "").is(':checked')) {
+        //            subjArr.push($("#" + col2 + i + "").val());
+        //        }
+        //        var col3 = "czcustomCheck";
+        //        if ($("#" + col3 + i + "").is(':checked')) {
+        //            subjArr.push($("#" + col3 + i + "").val());
+        //        }
+        //        var col4 = "scustomCheck";
+        //        if ($("#" + col4 + i + "").is(':checked')) {
+        //            subjArr.push($("#" + col4 + i + "").val());
+        //        }
+        //    }
+        //}
+
+        //function saveProfClassDB() {
+        //    addProfession();
+        //    size = subjArr.length;
+        //    //Newf = $("#NewProfession").val();
+        //    //subjArr.push(Newf);
+        //    if (size >= 1) {
+        //        for (j in subjArr) {
+        //            ClassSubObj =
+        //                {
+        //                    "Name": $("#classSelect").val(),
+        //                    "Number": $("#classNum").val(),
+        //                    "ClassType": $("#classType").val(),
+        //                    "Profession": subjArr[j],
+        //                }
+        //            ClassSubArr.push(ClassSubObj);
+        //        }
+        //        console.log(ClassSubArr);
+        //        Swal.fire({
+        //            title: 'הצלחת!',
+        //            text: 'המקצועות שויכו לכיתה בהצלחה',
+        //            icon: 'success',
+        //            confirmButtonColor: '#990099',
+        //            confirmButtonText: 'אישור',
+        //        })
+        //    }
+        //    else {
+        //        Swal.fire({
+        //            text: 'אנא הכנס/י מקצועות הנלמדים בכיתה זו',
+        //            icon: 'error',
+        //            confirmButtonColor: '#990099',
+        //            confirmButtonText: 'אישור',
+        //        })
+        //    }
+        //}
+
+        //function addProf() {
+        //    Prof1 = $("#NewProfession").val();
+
+        //    subjArr.push(Prof1)
+        //    console.log(subjArr);
+        //    Swal.fire({
+        //        title: 'הצלחת!',
+        //        text: 'המקצועות שויכו לכיתה בהצלחה',
+        //        icon: 'success',
+        //        confirmButtonColor: '#990099',
+        //        confirmButtonText: 'אישור',
+        //    })
+
+        //}
+
+        //function saveClassDB() {
+        //    if (year == "" || numOfStudents == 0) {
+        //        Swal.fire({
+        //            title: 'שדות חסרים',
+        //            text: 'אנא מלא/י את כל השדות',
+        //            icon: 'warning',
+        //            confirmButtonColor: '#990099',
+        //            confirmButtonText: 'אישור',
+        //        })
+        //        return false;
+        //    }
+        //    if (ClassSubArr.length == 0) {
+        //        Swal.fire({
+        //            text: 'לחצו על שמירת מקצועות',
+        //            icon: 'warning',
+        //            confirmButtonColor: '#990099',
+        //            confirmButtonText: 'אישור',
+        //        })
+        //        return false;
+        //    }
+        //    classObj =
+        //        {
+        //            "Name": $("#classSelect").val(),
+        //            "Number": $("#classNum").val(),
+        //            "Year": $("#Year").val(),
+        //            "numOfStudents": numOfStudents,
+        //            "TeacherName": $("#teacherName").val(),
+        //            "ClassType": $("#classType").val()
+        //        }
+        //    console.log(classObj);
+        //    //Profession
+        //    //ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(proffObj), POSTsuccessP, POSTerrorP);
+        //    //ClassSubjects // לא מוסיף
+        //    for (var i = 0; i < ClassSubArr.length; i++) {
+        //        ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr[i]), POST1success, POST1error);
+        //    }
+        //    ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+
+        //    //Student
+        //    ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccess, POSTerror);
+        //    //Class
+        //    ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCB, POSTerrorCB);
+        //}
+        //ClassSubjects
+        function POST1success() {
+            console.log("ClassSubjects good");
+        }
+        function POST1error(err) { console.log(err) };
+        //Student
+        function POSTsuccess(data) {
+            console.log(data);
+        }
+        function POSTerror(err) { console.log(err) }
+        //Class
         function POSTsuccessCB() {
-            swal("הכיתה נוספה למערכת", "לחץ להמשך", "success")
+            Swal.fire({
+                text: 'מקצועות שויכו לכיתה בהצלחה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
             // לאחר לחיצה מאפס לחצנים
-            $("#classSelect option:first").attr('selected', 'selected');
-            $("#classNum option:first").attr('selected', 'selected');
-            $("#Year").val("");
-            $("#NumOfs").val("");
-            $("#teacherName option:first").attr('selected', 'selected');
-            $("#classType option:first").attr('selected', 'selected');
+            //$("#classSelect option:first").attr('selected', 'selected');
+            //$("#classNum option:first").attr('selected', 'selected');
+            //$("#Year").val("");
+            //$("#NumOfs").val("");
+            //$("#teacherName option:first").attr('selected', 'selected');
+            //$("#classType option:first").attr('selected', 'selected');
             /////////////
         }
         function POSTerrorCB(err) { console.log(err) };
+        //Profession
+        function POSTsuccessP() {
+            console.log("Profession good");
+        }
+        function POSTerrorP() {
+            console.log(err)
+        }
     </script>
 </head>
 <body id="page-top">
@@ -330,7 +498,7 @@
                     <span>בית</span>
                 </a>
             </li>
-            <li class="nav-item  channel-sidebar-list">
+            <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
             <li class="nav-item active dropdown">
@@ -471,114 +639,26 @@
                                 </div>
                             </div>
                             <hr class="mt-0">
+                            <div class="row">
+                                <h6 class="text2">
+                                    &nbsp; 
+                                    שיוך מקצועות:
+                                </h6>
+                            </div>
                             <div class="row text2">
-                                <div class="col-lg-2 col-sm-12 text2">
-                                    <h6 class="text2">שיוך מקצועות:</h6>
-                                </div>
                                 <div class="col-lg-8 col-sm-8">
-                                    <div class="row category-checkbox">
-                                        <!-- checkbox 1col -->
-                                        <div class="col-lg-3 col-xs-4 col-4">
-                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                חובה:
-                                            </span>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" value="מתמטיקה">
-                                                <label class="custom-control-label create-text" for="customCheck1">מתמטיקה</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2" value="תנך">
-                                                <label class="custom-control-label create-text" for="customCheck2">תנ"ך</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck3" value="היסטוריה">
-                                                <label class="custom-control-label create-text" for="customCheck3">היסטוריה</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck4" value="ספרות">
-                                                <label class="custom-control-label create-text" for="customCheck4">ספרות </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck5" value="לשון">
-                                                <label class="custom-control-label create-text" for="customCheck5">לשון </label>
-                                            </div>
-                                        </div>
-                                        <!-- checkbox 2col -->
-                                        <div id="2col" class="col-lg-3 col-xs-4 col-4">
-                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                שפות:
-                                            </span>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck1" value="אנגלית">
-                                                <label class="custom-control-label create-text" for="zcustomCheck1">אנגלית </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck2" value="ערבית">
-                                                <label class="custom-control-label create-text" for="zcustomCheck2">ערבית </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck3" value="צרפתית">
-                                                <label class="custom-control-label create-text" for="zcustomCheck3">צרפתית  </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="zcustomCheck4" value="ספרדתית">
-                                                <label class="custom-control-label create-text" for="zcustomCheck4">ספרדית </label>
-                                            </div>
-
-                                        </div>
-                                        <!-- checkbox 3col -->
-                                        <div id="3col" class="col-lg-3 col-xs-4 col-4">
-                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                מדעים:
-                                            </span>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck1" value="ביולוגיה">
-                                                <label class="custom-control-label create-text" for="czcustomCheck1">ביולוגיה </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck2" value="כימיה">
-                                                <label class="custom-control-label create-text" for="czcustomCheck2">כימיה </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck3" value="פיזיקה">
-                                                <label class="custom-control-label create-text" for="czcustomCheck3">פיזיקה </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck4" value="גיאוגרפיה">
-                                                <label class="custom-control-label create-text" for="czcustomCheck4">גיאוגרפיה</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="czcustomCheck5" value="טכנולוגיה">
-                                                <label class="custom-control-label create-text" for="czcustomCheck5">טכנולוגיה </label>
-                                            </div>
-                                        </div>
-                                        <!-- checkbox 1col -->
-                                        <div id="4col" class="col-lg-3 col-xs-4 col-4">
-                                            <span class="create-text" style="font-size: 23px; border-bottom: 1px solid black">
-                                                שונות:
-                                            </span>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="scustomCheck1" value="חינוך גופני">
-                                                <label class="custom-control-label create-text" for="scustomCheck1">חינוך גופני </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="scustomCheck2" value="תרבות">
-                                                <label class="custom-control-label create-text" for="scustomCheck2">תרבות </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="scustomCheck3" value="חברה">
-                                                <label class="custom-control-label create-text" for="scustomCheck3">חברה </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="scustomCheck4" value="מורשת ישראל">
-                                                <label class="custom-control-label create-text" for="scustomCheck4">מורשת ישראל </label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="scustomCheck5" value="יצירה ואומנות">
-                                                <label class="custom-control-label create-text" for="scustomCheck5">יצירה ואומנות </label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <!-- להכניס לפה -->
+                                    <select id="selectProf" class="create-select">
+                                        <option value="1">מקצוע</option>
+                                    </select>
+                                    <select id="coachName" class="create-select">
+                                        <option value="1"> מורה מלמד</option>
+                                    </select>
+                                    <button id="addSubjTeach" class="create-select" style="width: auto;">
+                                        הוספה
+                                    </button>
+                                    <!--<input type="text" id="NewProfession" class="create-txt" placeholder="שם המקצוע" />-->
+                                    <input type="text" id="txtbox" class="create-txt" placeholder="שם המקצוע" style="display:none;"/>
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
                                     <div class="row">

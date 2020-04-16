@@ -28,13 +28,14 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- noy links -->
+    <!-- Our links -->
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -43,9 +44,10 @@
         var userEmail1 = '';
         $(document).ready(function () {
             //Menus
-            localN= localStorage.getItem('myName');
+            localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
+
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
@@ -61,40 +63,38 @@
             $('#form1').submit(sub); //FORM
 
             //User image
-    local = localStorage.getItem('admin');
-    objAdmin = JSON.parse(local);
-    showDetalis(objAdmin);
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
 
-    function showDetalis(objAdmin) {
-        Id = objAdmin.Id;
-        var url = "../api/Docu/GetDetails/" + Id;
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
 
-        //ID = objAdmin.Id;
-        //var url = "../api/Docu/GetDetails/" + ID;
-        ajaxCall("GET", url, "", funcsuccess, funcerror);
-    }
-    function funcsuccess(data) {
-        obj = data;
-        userEmail1 = obj[0].Email;
-        ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
-    }
-    function getAvatarImageSuccess(imagePath1) {
-        src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-        let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+            }
+            function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-        $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-    }
-    function getAvatarImageError(err) {
-        console.log(err)
-    }
-    function funcerror() { }
-    //END User image
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror() { }
+            //END User image
 
         });
 
-        function sub() { 
-        return false;
+        function sub() {
+            return false;
         }
         //shir//
         orientationSTR = "";
@@ -106,11 +106,9 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-Student-ClassroomManagement.html'>ניהול תלמידים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
 
-            document.getElementById("classNum").innerHTML =thisclass;
+            document.getElementById("classNum").innerHTML = thisclass;
         }
-        //shir END//
 
-        ////////////////////////NOY//////////////////////
         function showStudentsData(obj) {
 
             local = localStorage.getItem('studentObj');
@@ -119,9 +117,9 @@
 
             obj2 =
                 {
-                "ClassName": obj.ClassName,
-                "ClassNum": obj.ClassNum
-            }
+                    "ClassName": obj.ClassName,
+                    "ClassNum": obj.ClassNum
+                }
             console.log(obj2);
 
             url = "../api/Docu/GetStudents";
@@ -138,11 +136,10 @@
                     pageLength: 5,
                     columns: [
                         {
-                            render: function (data, type, row, meta)
-                            {
+                            render: function (data, type, row, meta) {
                                 let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<button type='button' class = 'editBtn btn btn-success' " + rowID + "> עריכה </button>";
-                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='"+row.id+"' > מחיקה </button>";
+                                deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='" + row.id + "' > מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
@@ -167,12 +164,11 @@
         }
         function GETerrorS() { }
 
-        //////////////////////////////////
         $(document).on("click", ".deleteBtn", function () {
 
             mode = "delete";
             //markSelected(this);
-             rowID = this.getAttribute('data-RowId');
+            rowID = this.getAttribute('data-RowId');
 
             swal({
                 title: "האם את/ה בטוח?",
@@ -192,8 +188,7 @@
             var url = "../api/Docu/" + rowID;
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
         }
-        function DeleteSuccess(data)
-        {
+        function DeleteSuccess(data) {
             swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
             console.log(data);
             redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
@@ -203,19 +198,17 @@
         function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
         {
             tbl.clear();
-            for (var i = 0; i < data.length; i++)
-            {
+            for (var i = 0; i < data.length; i++) {
                 tbl.row.add(data[i]);
             }
             tbl.draw();
         }
-        ///////////////////////////
 
         $(document).on("click", ".editBtn", function () {
-        //markSelected(this);
-        $("#editDiv").show();
-        $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
-        populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
+            //markSelected(this);
+            $("#editDiv").show();
+            $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
+            populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
 
         function populateFields(rowID) {
@@ -238,14 +231,12 @@
             $("#password").val(student.Password_);
         }
 
-        $(document).on("click", "#cancelSaveBTN", function ()
-        {
+        $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
-                    $("#editDiv").hide();
+            $("#editDiv").hide();
         });
 
-        function getStudebts(RowID) 
-        { 
+        function getStudebts(RowID) {
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -254,10 +245,7 @@
             return null;
         }
 
-        /////////////////////
-        
-        function saveStudent()
-        {
+        function saveStudent() {
             let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
                 "FName": $("#fname").val(),
@@ -279,22 +267,17 @@
             ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
         }
 
-        function updateDsuccess(data)
-
-        {
+        function updateDsuccess(data) {
             console.log(data);
             swal("העריכה נשמרה", "", "success");
             tbl.clear();
-            redrawTBL(tbl, data); 
+            redrawTBL(tbl, data);
             $("#editDiv").hide();
         }
 
-        function updateDerror(err)
-            {
+        function updateDerror(err) {
             console.log(err);
         }
-
-        //////////////////
 
     </script>
 </head>
@@ -355,14 +338,14 @@
         <!-- Sidebar -->
         <!-- Left menu -->
         <ul class="sidebar navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item"></h6>
+                <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -370,10 +353,10 @@
                     <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
                     <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
-                    <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -384,7 +367,6 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
-                    <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
@@ -439,7 +421,6 @@
                 </div>
                 <hr class="mt-0">
                 <form>
-                    <!--<div id="StudentDiv">בלהלהל</div>-->
                     <table id="StudentTable" class="StudentsTable" style="width:100%">
                         <thead>
                             <tr>
@@ -467,8 +448,6 @@
                                 <label for="name">שם פרטי</label>
                                 <input type="text" class="form-control" id="fname" required>
                             </div>
-
-
                             <div class="form-group col-sm-3">
                                 <label for="model"><span class="red-star"> </span>שם משפחה</label>
                                 <input type="text" class="form-control" id="lname" required>
