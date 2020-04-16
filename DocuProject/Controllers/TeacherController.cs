@@ -75,6 +75,5 @@ namespace DocuProject.Controllers
             ImgTeacher i = new ImgTeacher();
             return i.getAvatarImage_(Id);
         }
-
     }
 }

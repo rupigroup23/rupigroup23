@@ -34,10 +34,7 @@
     <script>
 
         $(document).ready(function () {
-            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
-
-            
-
+            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס          
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
 
@@ -63,12 +60,12 @@
  ////pic//////////
         function showDetalis(objTeacher)
         {
-                   Id = objTeacher.Id;
+                Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
 
-        function funcsuccess(data)
+function funcsuccess(data)
         {
         obj = data;
                 userEmail1 = obj[0].Email;
