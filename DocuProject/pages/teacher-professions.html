@@ -34,7 +34,10 @@
     <script>
 
         $(document).ready(function () {
-            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס          
+            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
+
+
+
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
 
@@ -57,24 +60,21 @@
                 }
             });
 
- ////pic//////////
-        function showDetalis(objTeacher)
-        {
+            ////pic//////////
+            function showDetalis(objTeacher) {
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
+            }
 
-function funcsuccess(data)
-        {
-        obj = data;
+            function funcsuccess(data) {
+                obj = data;
                 userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
-        }
-            function funcerror() {}
-        
-                   function getAvatarImageSuccess(imagePath1)
-            {
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+            function funcerror() { }
+
+            function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -84,14 +84,14 @@ function funcsuccess(data)
 
             function getAvatarImageError(err) {
                 console.log(err)
-        }
+            }
 
-        //////////pic/////
+            //////////pic/////
         });
 
         //add all subjects from the table (DB)
         function readFromDB() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+            ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
@@ -185,7 +185,7 @@ function funcsuccess(data)
                 })
             }
             else {
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+                ajaxCall("POST", "../api/Teacher/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
             }
         }
         function POST1success() {
@@ -198,7 +198,7 @@ function funcsuccess(data)
         function POST1error(err) { console.log(err) };
 
         function readClassSUbjFromDB() {
-            var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
+            var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
         ProfARR = [];

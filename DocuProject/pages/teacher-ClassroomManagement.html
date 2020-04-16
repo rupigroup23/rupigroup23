@@ -44,10 +44,9 @@
         var userEmail1 = '';
         $(document).ready(function () {
 
-            
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
-                        showDetalis(objTeacher)
+            showDetalis(objTeacher)
 
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
@@ -57,7 +56,6 @@
             Showorientation(); //shir
 
             showStudentsData();
-            $('#saveBTN').click(saveStudent);
             $('#form1').submit(sub); //FORM
 
             //User image
@@ -66,9 +64,9 @@
             showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {
-      Id = objTeacher.Id;
-               var url = "../api/Teacher/GetDetailsT/" + Id;
-               ajaxCall("GET", url, "", funcsuccess, funcerror);
+                Id = objTeacher.Id;
+                var url = "../api/Teacher/GetDetailsT/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
                 obj = data;
@@ -121,7 +119,7 @@
                 }
             console.log(obj2);
 
-            url = "../api/Docu/GetStudents";
+            url = "../api/Teacher/GetStudents";
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
@@ -163,126 +161,7 @@
         }
         function GETerrorS() { }
 
-        //////////////////////////////////
-        $(document).on("click", ".deleteBtn", function () {
 
-            mode = "delete";
-            //markSelected(this);
-            rowID = this.getAttribute('data-RowId');
-
-            swal({
-                title: "האם את/ה בטוח?",
-                text: "במידה והפעולה תאושר,התלמיד/ה יימחק מהמערכת",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true
-            })
-                .then(function (willDelete) {
-                    if (willDelete)
-                        deleteStudent(rowID);
-                    else swal("הפעולה בוטלה");
-                });
-        });
-
-        function deleteStudent(rowID) {
-            var url = "../api/Docu/" + rowID;
-            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
-        }
-        function DeleteSuccess(data) {
-            swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
-            console.log(data);
-            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
-        }
-        function DeleteError(err) { console.log(err) }
-
-        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
-        {
-            tbl.clear();
-            for (var i = 0; i < data.length; i++) {
-                tbl.row.add(data[i]);
-            }
-            tbl.draw();
-        }
-        ///////////////////////////
-
-        $(document).on("click", ".editBtn", function () {
-            //markSelected(this);
-            $("#editDiv").show();
-            $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
-            populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
-        });
-
-        function populateFields(rowID) {
-
-            id1 = rowID
-            console.log(id1);
-            student = getStudebts(id1);
-            console.log(student);
-
-            $("#fname").val(student.FName);
-            $("#lname").val(student.LName);
-            $("#number").val(student.PhoneNum);
-            $("#mail").val(student.Email);
-            $("#city").val(student.City);
-            $("#street").val(student.Street);
-            $("#id").val(student.Id_);
-            $("#bday").val(student.Bday);
-            $("#class").val(student.ClassName);
-            $("#classNum").val(student.ClassNum);
-            $("#password").val(student.Password_);
-        }
-
-        $(document).on("click", "#cancelSaveBTN", function () {
-            swal("הפעולה בוטלה", "", "error");
-            $("#editDiv").hide();
-        });
-
-        function getStudebts(RowID) {
-            console.log(studentsArr);
-            for (i in studentsArr) {
-                if (studentsArr[i].id == RowID)
-                    return studentsArr[i];
-            }
-            return null;
-        }
-
-        /////////////////////
-
-        function saveStudent() {
-            let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-            {
-                "FName": $("#fname").val(),
-                "LName": $("#lname").val(),
-                "PhoneNum": $("#number").val(),
-                "Email": $("#mail").val(),
-                "City": $("#city").val(),
-                "Address": $("#street").val(),
-                "Id": $("#id").val(),
-                "Bday": $("#bday").val(),
-                "ClassName": $("#class").val(),
-                "ClassNum": $("#classNum").val(),
-                "Password": $("#password").val()
-            }
-            console.log(student); // האיבר המעודכן
-
-            console.log(id);
-            url = "../api/Docu/updateStudent/" + id1;
-            ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
-        }
-
-        function updateDsuccess(data) {
-            console.log(data);
-            swal("העריכה נשמרה", "", "success");
-            tbl.clear();
-            redrawTBL(tbl, data);
-            $("#editDiv").hide();
-        }
-
-        function updateDerror(err) {
-            console.log(err);
-        }
-
-            //////////////////
 
     </script>
 </head>
@@ -513,8 +392,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- Bootstrap core JavaScript-->
     <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
