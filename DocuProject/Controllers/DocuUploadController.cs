@@ -46,12 +46,12 @@ namespace DocuProject.Controllers
         [HttpPost] //שלב1- העלת קובץ לתוכנה
         [Route("Api/DocuUpload/uploadtask")]
         public HttpResponseMessage Post()
-        {
+        {  
             List<string> taskLinks = new List<string>();
             var httpContext = HttpContext.Current;
 
             // Check for any uploaded file  
-            if (httpContext.Request.Files.Count > 0)
+                if (httpContext.Request.Files.Count > 0)
             {
                 //Loop through uploaded files  
                 for (int i = 0; i < httpContext.Request.Files.Count; i++)
