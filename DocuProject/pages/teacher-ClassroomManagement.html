@@ -43,7 +43,11 @@
         var imagePath1 = '';
         var userEmail1 = '';
         $(document).ready(function () {
+<<<<<<< HEAD
+            
+=======
 
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
             showDetalis(objTeacher)
@@ -64,9 +68,15 @@
             showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {
+<<<<<<< HEAD
+              Id = objTeacher.Id;
+               var url = "../api/Teacher/GetDetailsT/" + Id;
+               ajaxCall("GET", url, "", funcsuccess, funcerror);
+=======
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             }
             function funcsuccess(data) {
                 obj = data;

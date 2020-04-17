@@ -1,10 +1,11 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace DocuProject.Models
-{
+{ 
     public class ImgTeacher
     {
             string email;
@@ -27,8 +28,6 @@ namespace DocuProject.Models
                 return dbs.getAvatarImage(Id,"teacher");
             }
 
-
-
     }
-    
+
 }

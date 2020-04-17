@@ -51,7 +51,6 @@ namespace DocuProject.Controllers
             Class C = new Class();
             C.insert(classObj);
         }
-        //shir
         [HttpPost] /// דף כיתה
         [Route("api/Docu/postClassSub")]
         public void Post([FromBody] List<ClassSubjects> classSUbObj)
@@ -59,7 +58,6 @@ namespace DocuProject.Controllers
             ClassSubjects C = new ClassSubjects();
             C.insertClassSub(classSUbObj);
         }
-        //shirend
 
         [HttpPost] /// דף מורה
         [Route("api/Docu/postTeach")]
@@ -77,6 +75,13 @@ namespace DocuProject.Controllers
             return P.Read();
         }
 
+        [HttpGet] /// דף מורה - שדה מקצוע
+        [Route("api/Docu/GetClasses")]
+        public List<Class> GetClasses()
+        {
+            Class P = new Class();
+            return P.ReadClass();
+        }
         [HttpPost] /// דף מורה 
         [Route("api/Docu/addProff")]
         public void Post([FromBody] Profession proffObj)
@@ -116,13 +121,7 @@ namespace DocuProject.Controllers
             return A.CheckUser(admin);
         }
 
-        [HttpPost] /// דף כניסה- במידה ומורה
-        [Route("api/Docu/checkUsersTeacher")]
-        public Teacher Post2([FromBody] Teacher teacher) // מקבלת מערך של אובייקטים- מה שהכנתי
-        {
-            Teacher T = new Teacher();
-            return T.CheckUser2(teacher);
-        }
+
 
         [HttpGet]
         [Route("api/Docu/getNumClass")]
