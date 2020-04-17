@@ -40,11 +40,13 @@
         var imagePath1 = '';
         var userEmail1 = '';
         //files
+        var videoPath = '';
         var taskPath = '';
         var taskId = 0;
 
         $(document).ready(function () {
             //Menus
+
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
@@ -84,7 +86,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "Shir"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -114,7 +116,40 @@
             function error(data) {
                 console.log(data);
             }
+
+            $('#uploadVideo').on("click", function () {
+                var data = new FormData();
+                var files = $("#chooseVideo").get(0).files;
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedTasks", files[f]);
+                    }
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/DocuUpload/uploadtask",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showVideoSuccess,
+                    error: showVideoError
+                });
+            })
         });
+
+        function showVideoSuccess(data) {
+            videoPath = data;
+            Swal.fire({
+                icon: 'success',
+                title: 'הקובץ נטען בהצלחה',
+                confirmButtonColor: '#990099',
+            })
+
+
+        }
+        function showVideoError(err) { console.log(err) }
 
         //User image
         function showDetalis(objAdmin) {
@@ -277,22 +312,19 @@
             if (radiosContent[1].checked == true) {
                 var taskStr = $("#taskcontent-txtbox").val();
             }
-
+            console.log(videoPath)
             TaskObj =
                 {
-                    "taskId": taskId,
-                    "ClassName": newTaskObj.ClassName,
-                    "ClassNum": newTaskObj.ClassNum,
-                    "Profession": newTaskObj.Profession,
-                    "Topic": $("#topic").val(),
-                    "DateT": $("#dateInput").val(),
-                    "Assignation": assignation,
-                    "Description": taskStr,
+                "Video":videoPath[0],
+                "Deadline": $("#dateInput").val(),
+                "Topic": $("#topic").val(),
+                "Assignation": assignation,
+                "Description": taskStr,
+                "ClassName": newTaskObj.ClassName,
+                "ClassNum": newTaskObj.ClassNum,
+                "Profession": newTaskObj.Profession
                 }
-
             console.log(TaskObj)
-            //taskArr.push(TaskObj);
-
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
 
         }
@@ -356,8 +388,7 @@
         </button> &nbsp;&nbsp;
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
-        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-        </form>
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search"></form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
@@ -394,8 +425,7 @@
     </nav>
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb" id="orientation">
-        </ol>
+        <ol class="breadcrumb" id="orientation"></ol>
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -619,6 +649,12 @@
                                                 <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
                                                 <label for="showTxtbox" class="create-text">תיבת טקסט</label>
                                             </section>
+                                            <section>
+                                                <label>וידאו</label>
+                                                <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
+                                                <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
+                                            </section>
+
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row" id="showUpload" style="display:none">
@@ -632,8 +668,9 @@
                                             <div class="col-xl-5 col-sm-12 mb-3" style="max-width:100%">
                                                 <div class="row" id="showTxtbox" style="display:none">
                                                     <textarea class="comment-box" id="taskcontent-txtbox" rows="3" cols="40"></textarea>
-                                                </div>                                            </div>
-                                            
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="col-xl-12 col-sm-6 mb-3">
@@ -697,5 +734,7 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+
 </body>
 </html>

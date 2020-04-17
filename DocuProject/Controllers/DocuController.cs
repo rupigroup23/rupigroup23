@@ -317,6 +317,18 @@ namespace DocuProject.Controllers
             return T.PutT(id, teacher);
         }
 
+        [HttpGet]
+        [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{Topic}/{Deadline}")]
+        public List<Task> getVideos (string ClassName , string ClassNum , string Professtion , string Topic , string Deadline)
+        {
+            Task t = new Task();
+            List<Task> videos = t.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
+            return videos;
+
+
+
+        }
+
 
 
         //[HttpPut]

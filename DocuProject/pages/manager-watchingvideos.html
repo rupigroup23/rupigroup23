@@ -46,7 +46,6 @@
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
-            console.log(TaskObj);
 
             Showorientation();//סרגל השתלשלות
 
@@ -74,7 +73,22 @@
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
+                //הבאת סרטונים מהדאטה בייס//
+
+                taskObject = {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                    "Profession": TaskObj.Profession,
+                    "Topic": TaskObj.Task.Topic,
+                    "Deadline": TaskObj.Task.Date
+                }
+                ajaxCall("GET", "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + TaskObj.Task.Date, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
+
+            //הבאת סרטונים מהדאטה בייס//
+
             }
+
             function getAvatarImageError(err) {
                 console.log(err)
             }
@@ -82,6 +96,51 @@
             //END- User image
 
         });
+
+        function getVideoSuccessCB(listOfVideo) {
+            //הכנסה דינמית לDOM
+            for (let i in listOfVideo) {
+                let videoPath = `../${listOfVideo[i].Video}`
+                console.log(videoPath)
+                let str = '';
+                str += `<div class="col-xl-3 col-sm-6 mb-3">
+                                        <div class="video-card">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href='${videoPath}'>
+                                                    <i class="fas fa-play-circle"></i>
+                                                </a>
+                                                <iframe class="img-videoWatch" src='${videoPath}'></iframe>
+                                                <!--<div class="time">3:50</div>-->
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a class="create-text" href="teacher-feedbacks.html">
+                                                        חברי הצוות:
+                                                    </a> <br />
+                                                    <a class=" statuses-text" href="teacher-feedbacks.html">
+                                                    </a>
+                                                </div>
+                                                <div class="video-page text-success">
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                </div>
+                                                <div class="video-view">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                $('#videosDiv').append(str);
+            }
+        }
+        function getVideoErrorCB(err) { console.log(err) }
 
 
         //סרגל השתלשלות
@@ -117,8 +176,7 @@
         </button> &nbsp;&nbsp;
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
-        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-        </form>
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search"></form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
@@ -156,8 +214,7 @@
 
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb" id="orientation">
-        </ol>
+        <ol class="breadcrumb" id="orientation"></ol>
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -243,7 +300,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-title">
-                                <div class="btn-group float-right right-action">
+                                
                                     <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </a>
@@ -252,491 +309,64 @@
                                         <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>&nbsp;זמן העלאה</a>
                                         <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
                                     </div>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
-                                    </iframe>
-                                    <!--<div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            שיר מלכה, נוי מור יוסף ורביד אלבז
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/0Vy2Je0hLLc">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>-->
-                                    <div class="time">3:50</div>
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            מיה מלכה, איה יצחקי ומאי שלומזון
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/aHKtdgt0yK0&t=215s">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>-->
-                                    <div class="time">3:50</div>
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            אורי לוי, שיר פרץ ושובל סיטון
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/Z9iFyMNgR0U">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            אלמוג לוי, חגי והדר שיפטן
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/aHKtdgt0yK0">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            אופיר בן בסט, אלון ארונס וליעד אנקורי
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/Lx-2TL8RMVI">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            נופר בן בסט, רביב אלון, עידן קחטן
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/cqr-Jx31js0">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            דינה פישקין, רוני כהן ואורי חיון
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            מיכל מלכה, אורית שלומזון ויעל יצחקי
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            עין יה גורה, ניצה ברקוביץ ויצחק יניב
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            לי נקים, עדי ימין ומאיה בלאט
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            שיר מלכה, נוי מור יוסף ורביד אלבז
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="video-card">
-                                <div class="video-card-image">
-                                    <a class="play-icon" href="teacher-feedbacks.html">
-                                        <i class="fas fa-play-circle"></i>
-                                    </a>
-                                    <iframe class="img-videoWatch" src="https://www.youtube.com/embed/MEbza_hAOx4">
-                                    </iframe>
-                                    <!--<a href="teacher-feedbacks.html">
-                                        <img class="img-fluid" src="img/v1.png" alt="">
-                                    </a>
-                                    <div class="time">3:50</div>-->
-                                </div>
-                                <div class="video-card-body">
-                                    <div class="video-title">
-                                        <a class="create-text" href="teacher-feedbacks.html">
-                                            חברי הצוות:
-                                        </a> <br />
-                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                            שיר מלכה, נוי מור יוסף ורביד אלבז
-                                        </a>
-                                    </div>
-                                    <div class="video-page text-success">
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                        <a href="teacher-feedbacks.html">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                        </a>
-                                    </div>
-                                    <div class="video-view">
-                                        1.8M צפיות &nbsp;<i class="fas fa-calendar-alt"></i> 11 שעות עברו
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center pagination-sm mb-0">
-                            <!--<li class="page-item disabled">
-                                <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
-                            </li>-->
-                            <li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
-                            <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
-                            <li class="page-item">
-                                <a href="teacher-watchingvideos2.html" class="page-link">הבא</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div id="videosDiv">
+                        <!--<div class="col-xl-3 col-sm-6 mb-3">
+                            <div class="video-card">
+                                <div class="video-card-image">
+                                    <a class="play-icon" href="teacher-feedbacks.html">
+                                        <i class="fas fa-play-circle"></i>
+                                    </a>
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/watch?v=xUPMcmns3DE"></iframe>
+                                    <div class="time">3:50</div>
+                                </div>
+                                <div class="video-card-body">
+                                    <div class="video-title">
+                                        <a class="create-text" href="teacher-feedbacks.html">
+                                            חברי הצוות:
+                                        </a> <br />
+                                        <a class=" statuses-text" href="teacher-feedbacks.html">
+                                        </a>
+                                    </div>
+                                    <div class="video-page text-success">
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                    </div>
+                                    <div class="video-view">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center pagination-sm mb-0">
+                        <!--<li class="page-item disabled">
+                            <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
+                        </li>-->
+                        <li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
+                        <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
+                        <li class="page-item">
+                            <a href="teacher-watchingvideos2.html" class="page-link">הבא</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <!-- /.container-fluid -->
         </div>
+        <!-- /.container-fluid -->
     </div>
+    </div>
+
 
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
