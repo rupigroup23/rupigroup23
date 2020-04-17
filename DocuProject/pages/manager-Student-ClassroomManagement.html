@@ -25,9 +25,6 @@
 
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- links of Facebook, instedram and links -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <!-- Our links -->
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -444,60 +441,63 @@
                 <div id="editDiv" style="display:none">
                     <form id="form1">
                         <div class="form-group row">
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="name">שם פרטי</label>
                                 <input type="text" class="form-control" id="fname" required>
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="model"><span class="red-star"> </span>שם משפחה</label>
                                 <input type="text" class="form-control" id="lname" required>
                             </div>
-
-
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="year"><span class="red-star"> </span>מספר נייד</label>
                                 <input type="text" class="form-control" id="number" required>
 
                             </div>
 
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>איימל</label>
                                 <input type="text" class="form-control" id="mail" required />
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>עיר</label>
                                 <input type="text" class="form-control" id="city" required />
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>רחוב</label>
                                 <input type="text" class="form-control" id="street" required />
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>תעודת זהות</label>
                                 <input type="number" class="form-control" id="id" required />
                             </div>
 
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>תאריך לידה</label>
                                 <input type="date" class="form-control" id="bday" required />
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>כיתה</label>
                                 <input type="text" class="form-control" id="class" required />
                             </div>
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>מספר כיתה</label>
                                 <input type="number" class="form-control" id="classNum" required />
                             </div>
 
-                            <div class="form-group col-sm-3">
+                            <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
                                 <input type="text" class="form-control" id="password" required />
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg" id="saveBTN">שמירה</button>
-                        <button type="submit" class="btn btn-primary btn-lg" id="cancelSaveBTN">ביטול</button>
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-6">
+                                <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
+                            </div>
+                            <div class="col-lg-2 col-sm-6">
+                                <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
+                            </div>
+                        </div>
 
                     </form>
 

@@ -59,7 +59,7 @@ namespace DocuProject.Controllers
             C.insertClassSub(classSUbObj);
         }
 
-        [HttpPost] /// דף מורה
+        [HttpPost] 
         [Route("api/Docu/postTeach")]
         public void Post([FromBody] Teacher TeacherObj)
         {
@@ -82,7 +82,7 @@ namespace DocuProject.Controllers
             Class P = new Class();
             return P.ReadClass();
         }
-        [HttpPost] /// דף מורה 
+        [HttpPost] 
         [Route("api/Docu/addProff")]
         public void Post([FromBody] Profession proffObj)
         {

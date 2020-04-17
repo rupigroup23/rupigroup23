@@ -300,13 +300,12 @@
         function POSTsuccess(data) {
             Swal.fire({
                 icon: 'success',
-                title: 'הצלחת',
-                text: 'המטלה נוצרה בהצלחה! 😀',
+                title: 'המטלה נוצרה בהצלחה! 😀',
                 confirmButtonText: 'שמור',
                 confirmButtonColor: '#990099',
             })
             taskId++;
-
+            location.reload();
         }
         function POSTerror() {
             alert("ops");
@@ -488,10 +487,10 @@
                             <div class="row">
                                 <div class="col-lg-3 col-sm-12 col-xs-3 text2">
                                     <div class="row text2">
-                                        <span style="border-bottom: 1px solid #990099">
+                                        <span>
                                             מטלה מספר &nbsp;
                                         </span>
-                                        <div id="numTasks" style="border-bottom: 1px solid #990099">
+                                        <div id="numTasks">
 
                                             <!-- להוסיף מספר -->
                                         </div>
