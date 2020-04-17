@@ -363,7 +363,7 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select distinct FName,Lname from Teacher__"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select distinct FName,Lname,Id_ from Teacher__"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
             // get a reader
@@ -375,7 +375,7 @@ public class DBservices
                 Teacher T = new Teacher();
                 T.FName = (string)dr["FName"];
                 T.LName = (string)dr["LName"];
-
+                T.Id = (int)dr["Id_"];
                 listProfession.Add(T);
             }
 
@@ -392,6 +392,48 @@ public class DBservices
             }
         }
         return listProfession; // מחזיר מערך 
+
+    }
+
+    // read class
+    public List<Class> getFromDBClass()
+    {
+        List<Class> listClass = new List<Class>();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select distinct Name_, Number, year_, teacherName, classType from Class_"; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                Class C = new Class();
+                C.Name = (string)dr["Name_"];
+                C.Number = (int)dr["Number"];
+                C.Year = (string)dr["year_"];
+                C.TeacherName = (string)dr["teacherName"];
+                C.ClassType = (string)dr["classType"];
+                listClass.Add(C);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listClass; // מחזיר מערך 
 
     }
 

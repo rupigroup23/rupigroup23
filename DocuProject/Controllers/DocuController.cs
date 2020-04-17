@@ -75,6 +75,13 @@ namespace DocuProject.Controllers
             return P.Read();
         }
 
+        [HttpGet] /// דף מורה - שדה מקצוע
+        [Route("api/Docu/GetClasses")]
+        public List<Class> GetClasses()
+        {
+            Class P = new Class();
+            return P.ReadClass();
+        }
         [HttpPost] /// דף מורה 
         [Route("api/Docu/addProff")]
         public void Post([FromBody] Profession proffObj)

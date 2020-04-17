@@ -66,8 +66,6 @@
             $('#addSubjTeach').click(addSubj);
             $('#saveClass').click(saveClassDB);
             $('#upload').click(save_uploadStudents);
-            //$('#addProff').click(saveProfClassDB);
-            //$('#NewProfBTN').click(addProf);
         });
         //admin
         function showDetalis(objAdmin) {
@@ -118,8 +116,7 @@
                     'id':listT[j].Id
                 }
                 arrCoach.push(strCoach);
-            }
-         
+            } 
         }
         function GETerrorT(err) { console.log(err) }
 
@@ -158,15 +155,55 @@
             console.log(err);
         }
 
+        //get Classes and checks
+        function getClasses() {
+            ajaxCall("GET", "../api/Docu/GetClasses", "", GETsuccessC, GETerrorC);
+        }
+        function GETsuccessC(data) {
+            listCl = data;
+            var cntrClass=0
+            for (var i = 0; i < listCl.length; i++) {
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName && $("#classType").val() == listCl[i].ClassType) {
+                    Swal.fire({
+                        title: 'הכיתה כבר קיימת',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                    cntrClass++;
+                }
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#classType").val() == listCl[i].ClassType) {
+                    Swal.fire({
+                        title: 'הכיתה כבר קיימת',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                    cntrClass++;
+                }
+            }
+            if (cntrClass == 0) {
+                var proff = document.getElementById("showProff");
+                if (proff.style.display === "none") {
+                    proff.style.display = "block";
+                }
+                $('#continue').attr("disabled", true);
+            }
+                    
+        }
+        function GETerrorC(err) {
+            console.log(err);
+        }
         //details
         var numOfStudents = "";
         function checkDetails() {
             name = $("#classSelect").val();
             num = $("#classNum").val();
             year = $("#Year").val();
-            ClassType= $("#classType").val();
+            ClassType = $("#classType").val();
+            teacher = $("#teacherName").val();
 
-            if (year == "" || name == "" || num == "" || ClassType == "")
+            if (year == "" || name == "" || num == "" || ClassType == ""|| teacher == "")
             { //numOfStudents == 0
                 Swal.fire({
                     title: 'שדות חסרים',
@@ -177,13 +214,9 @@
                 })
                 return false;
             }
-            else {
-                var proff = document.getElementById("showProff");
-                if (proff.style.display === "none") {
-                    proff.style.display = "block";
-                }
-            }
-            
+            else {        
+                getClasses();  
+            }   
         }
 
         //Excel
@@ -244,17 +277,20 @@
 
         //proff
         var profession = "";
+        var coach = "";
+        var teacherId = "";
+
         subjArr = [];
         ClassSubArr = [];
         function addSubj() // שמירת נתוני המורה בדאטה
         {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
-            if (profession == "1") {
+            if (profession == "1" || coach == "1" ) {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
-                    text: 'לא בחרת מקצוע 😓',
+                    text: 'לא בחרת מקצוע/מורה 😓',
                     confirmButtonText: 'אוקי',
                     confirmButtonColor: '#990099',
                 })
@@ -264,10 +300,10 @@
                     var X = $("#txtbox").val();
                     checkNewProff(X);
                     profession = X;
-
                 }
                 checkSubCoach();
             }
+
         }
         //save new proff - post: Profession
         function checkNewProff(prof) {
@@ -278,16 +314,20 @@
                 }  
             }
             if (cntr == 0) {
+                newProf = {
+                    'Prof': prof,
+                }
                 //obj for Profession table
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(prof), POSTsuccessP, POSTerrorP);
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
             }
             
         }
-
+      
         function checkSubCoach() {    
             name = $("#classSelect").val();
             num = $("#classNum").val();
-            getClassSUbjFromDB(name, num);    
+            getClassSUbjFromDB(name, num);
+            
             for (var i = 0; i < csDBAaa.length; i++) {
                 if (csDBAaa[i] == profession) {
                     Swal.fire({
@@ -303,7 +343,7 @@
             //אין כזה מקצוע
             for (var i = 0; i < arrCoach.length; i++) {
                 if (coach == arrCoach[i].name) {
-                    idC = arrCoach[i].id;
+                    teacherId = arrCoach[i].id;
                 }
             }
             //obj for ClassSubjects table
@@ -314,7 +354,7 @@
                     "ClassType": $("#classType").val(),
                     "Profession": profession,
                     "Teacher_name": coach,
-                    "Id_teacher": idC,
+                    "Id_teacher": teacherId,
                 }
             for (var i = 0; i < ClassSubArr.length; i++) {
                 if (ClassSubArr[i].Profession == profession) {
@@ -361,6 +401,7 @@
                 })
                 return false;
             }
+            $('#addSubjTeach').attr("disabled", true);
 
             //obj for Class table
             classObj =
@@ -372,8 +413,6 @@
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
                 }
-            console.log(classObj);
-
             //POSTS
             //ClassSubjects table --> ClassTeachObj
             ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POSTsuccessCT, POSTerrorCT);
@@ -383,6 +422,8 @@
 
             //Class table --> classObj
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessC, POSTerrorC);
+
+            $('#saveClass').attr("disabled", true);
         }
 
         //ClassSubjects table --> ClassTeachObj
@@ -510,7 +551,6 @@
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
                     <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
@@ -655,11 +695,9 @@
                                     </div>
                                     <div class="col-lg-2 col-sm-2">
                                         <div class="row">
-                                            <a id="saveClass" class="btn btn-outline-primary btn-block btn-lg" hi>
-                                                <buttom>
-                                                    שמירה
-                                                </buttom>
-                                            </a>
+                                            <button id="saveClass" class="btn btn-outline-primary btn-block btn-lg">
+                                                שמירה
+                                            </button>       
                                         </div>
                                     </div>
                                 </div>
