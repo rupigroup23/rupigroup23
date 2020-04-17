@@ -102,8 +102,8 @@
         //Bring the details up
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-            //diffDays = diffDays(TaskObj.Task.Date);
-            diffDays = diffDays("4/30/2020");
+            diffDays = diffDays(TaskObj.Task.Date);
+            //diffDays = diffDays("4/30/2020");
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("restDate").innerHTML = diffDays;
         }

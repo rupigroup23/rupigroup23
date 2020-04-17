@@ -29,7 +29,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--<script src="js/manager/watchingvideos.js"></script>-->
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
@@ -96,7 +95,6 @@
             //END- User image
 
         });
-
         function getVideoSuccessCB(listOfVideo) {
             //הכנסה דינמית לDOM
             for (let i in listOfVideo) {
@@ -159,8 +157,8 @@
 
         //Bring the details up
         function getDatelis() {
-            //date = diffDays(TaskObj.Task.Date);
-            date = "4/30/2020";
+            date = diffDays(TaskObj.Task.Date);
+            //date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }
@@ -288,11 +286,19 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-10">
-                        <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-Video_Assignment.html">
-                            <buttom>
-                                צפייה במטלה
-                            </buttom>
-                        </a>
+                        <div class="row">
+                            <a class="btn btn-outline-primary btn-block btn-lg" href="manager-PresentationAssignment.html">
+                                <buttom>
+                                    צפיה במטלה
+                                </buttom>
+                            </a>
+                            <a class="create-select" href="manager-Benny-watchingvideos.html">
+                                <buttom>
+                                    הגנות
+                                </buttom>
+                            </a>
+                        </div>
+                       
                     </div>
                 </div>
                 <br /><hr class="mt-0">
@@ -364,7 +370,6 @@
             </div>
         </div>
         <!-- /.container-fluid -->
-    </div>
     </div>
 
 

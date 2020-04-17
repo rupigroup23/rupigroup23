@@ -46,7 +46,6 @@
 
         $(document).ready(function () {
             //Menus
-
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
@@ -54,7 +53,6 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the images
-            //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
@@ -70,8 +68,9 @@
             $('#uploadtxtbox').click(UploadTxt);
 
             //$('#saveTask').attr("disabled", true);
-
             $('#saveTask').click(saveTask);
+
+            $('#HAGANOT').click(HAGANOT);
 
             ///upload files
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
@@ -86,7 +85,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -117,6 +116,7 @@
                 console.log(data);
             }
 
+            ///upload video
             $('#uploadVideo').on("click", function () {
                 var data = new FormData();
                 var files = $("#chooseVideo").get(0).files;
@@ -124,7 +124,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
                 //Ajax upload
                 $.ajax({
@@ -139,6 +139,16 @@
             })
         });
 
+        function HAGANOT() {
+            var hag = document.getElementById("HAGANOT1");
+            if (hag.style.display === "none") {
+                hag.style.display = "block";
+            }
+            else {
+                hag.style.display = "none";
+            }
+            
+        }
         function showVideoSuccess(data) {
             videoPath = data;
             Swal.fire({
@@ -309,6 +319,10 @@
                 /*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
                 var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
             }
+            //if (radiosContent[0].checked == true) {
+            //    /var taskStr = `http:/ / localhost: 44328 / ${ taskPath } `/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
+            //        var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
+            //}
             if (radiosContent[1].checked == true) {
                 var taskStr = $("#taskcontent-txtbox").val();
             }
@@ -649,7 +663,10 @@
                                                 <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
                                                 <label for="showTxtbox" class="create-text">תיבת טקסט</label>
                                             </section>
-                                            <section>
+                                            <button id="HAGANOT" class="upload-btn">
+                                                הגנות
+                                            </button>
+                                            <section id="HAGANOT1" style="display:none"> 
                                                 <label>וידאו</label>
                                                 <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
                                                 <input type="button" id="uploadVideo" value="טען" class="upload-btn" />

@@ -42,6 +42,8 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+            $('#form1').submit(sub);
+
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
@@ -50,7 +52,6 @@
             getTachears();
             getSubjects();
             $('#continue').click(checkDetails);
-
 
             $('#selectProf').change(function () {
                 var value = $(this).val();
@@ -67,6 +68,11 @@
             $('#saveClass').click(saveClassDB);
             $('#upload').click(save_uploadStudents);
         });
+
+        function sub() {
+            return false;
+        }
+
         //admin
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
@@ -181,6 +187,17 @@
                     })
                     cntrClass++;
                 }
+                //first option
+                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" || $("#classType").val() == "1"|| $("#classType").val() == "1") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'לא בחרת כיתה/שנה/מחנך/סוג כיתה 😓',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                    cntrClass++;
+            }
             }
             if (cntrClass == 0) {
                 var proff = document.getElementById("showProff");
@@ -196,11 +213,11 @@
 
                 $('#continue').attr("disabled", true);
             }
-
         }
         function GETerrorC(err) {
             console.log(err);
         }
+
         //details
         var numOfStudents = "";
         function checkDetails() {
@@ -599,90 +616,93 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
-                            <div class="row text2">
-                                <div class="col-lg-3 col-sm-12 text2">
-                                    בחירת כיתה:
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-12 text2">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <select id="classSelect" class="create-select" style="width: 160px;">
-                                                        <option value="">כיתה:</option>
-                                                        <option>ז</option>
-                                                        <option>ח</option>
-                                                        <option>ט</option>
-                                                    </select>
-                                                    <input type="text" id="classNum" class="create-txt" placeholder="מספר" style="width: 25%;" />
+                            <form id="form1">
+                                <div class="row text2">
+                                    <div class="col-lg-3 col-sm-12 text2">
+                                        בחירת כיתה:
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 text2">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <select id="classSelect" class="create-select" style="width: 160px;">
+                                                            <option value="1">כיתה:</option>
+                                                            <option>ז</option>
+                                                            <option>ח</option>
+                                                            <option>ט</option>
+                                                        </select>
+                                                        <input type="text" id="classNum" class="create-txt" placeholder="מספר" style="width: 25%;" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12 text2">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <select id="Year" class="create-select" style="width: 160px;">
+                                                            <option value="1">שנה עברית:</option>
+                                                            <!--<option>תשפ"א</option>-->
+                                                            <option>תש"ף</option>
+                                                            <option>תשע"ט</option>
+                                                            <option>תשע"ח</option>
+                                                        </select>
+                                                        <!--<input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />-->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-sm-12 text2">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <select id="Year" class="create-select" style="width: 160px;">
-                                                        <option value="">שנה עברית:</option>
-                                                        <!--<option>תשפ"א</option>-->
-                                                        <option>תש"ף</option>
-                                                        <option>תשע"ט</option>
-                                                        <option>תשע"ח</option>
+                                    </div>
+                                    <div class="vl" style="padding-right: 15px;"></div>
+                                    <div class="col-lg-3 col-sm-12 text2">
+                                        מילוי פרטי הכיתה:
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-6 text2">
+                                                <div class="form-group">
+                                                    <select id="teacherName" class="create-select">
+                                                        <option value="1"> שם המחנך</option>
                                                     </select>
-                                                    <!--<input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />-->
+                                                    <!-- למשוך את המורים מטבלת מורים -->
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-6 text2">
+                                                <div class="form-group">
+                                                    <select id="classType" class="create-select">
+                                                        <option value="1">סוג כיתה</option>
+                                                        <option style="color: #990099">רגילה </option>
+                                                        <option style="color: #990099">מדעית</option>
+                                                        <option style="color: #990099">ספורט </option>
+                                                        <option style="color: #990099">מב"ר </option>
+                                                        <option style="color: #990099">אומץ </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="vl" style="padding-right: 15px;"></div>
-                                <div class="col-lg-3 col-sm-12 text2">
-                                    מילוי פרטי הכיתה:
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-6 text2">
+                                    <div class="vl" style="padding-right: 15px;"></div>
+                                    <div class="col-lg-4 col-sm-12 text2">
+                                        העלאת קובץ תלמידים:
+                                        <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+                                        <br />
+                                        <div class="col-lg-12 col-sm-4 text2">
                                             <div class="form-group">
-                                                <select id="teacherName" class="create-select">
-                                                    <option value="1"> שם המחנך</option>
-                                                </select>
-                                                <!-- למשוך את המורים מטבלת מורים -->
+                                                <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-sm-6 text2">
+                                        <div class="col-lg-12 col-sm-4 text2">
                                             <div class="form-group">
-                                                <select id="classType" class="create-select">
-                                                    <option>סוג כיתה</option>
-                                                    <option style="color: #990099">רגילה </option>
-                                                    <option style="color: #990099">מדעית</option>
-                                                    <option style="color: #990099">ספורט </option>
-                                                    <option style="color: #990099">מב"ר </option>
-                                                    <option style="color: #990099">אומץ </option>
-                                                </select>
+                                                &nbsp;&nbsp; <input type="button" id="load" value="טען" class="upload-btn" />
+                                                &nbsp;<input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="vl" style="padding-right: 15px;"></div>
-                                <div class="col-lg-4 col-sm-12 text2">
-                                    העלאת קובץ תלמידים:
-                                    <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-                                    <br />
-                                    <div class="col-lg-12 col-sm-4 text2">
-                                        <div class="form-group">
-                                            <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                        </div>
+                                    <div class="vl" style="padding-right: 15px;"></div>
+                                    <div class="col-lg-1 col-sm-12 text2">
+                                        <input type="button" id="continue" value="המשך" class="upload-btn" style="margin: 60px 15px;" />
                                     </div>
-                                    <div class="col-lg-12 col-sm-4 text2">
-                                        <div class="form-group">
-                                            &nbsp;&nbsp; <input type="button" id="load" value="טען" class="upload-btn" />
-                                            &nbsp;<input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vl" style="padding-right: 15px;"></div>
-                                <div class="col-lg-1 col-sm-12 text2">
-                                    <input type="button" id="continue" value="המשך" class="upload-btn" style="margin: 60px 15px;" />
-                                </div>
 
-                            </div>
+
+                                </div>
+                            </form>
                             <hr class="mt-0">
                             <div id="showProff" class="col-lg-12 col-sm-4 text2" style="display:none">
                                 <div class="row">
@@ -715,7 +735,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
