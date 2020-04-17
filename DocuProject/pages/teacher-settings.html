@@ -38,14 +38,13 @@
         var imagePath = '';
         var userEmail = '';
 
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
             $('#form').submit(sub); //FORM
             readFromDB(); //profession
             local = localStorage.getItem('user');
             objTeacher = JSON.parse(local);
             showDetalis(objTeacher);
-            $('#saveDetails').click(saveDetails_); 
+            $('#saveDetails').click(saveDetails_);
             pass = objTeacher.Password;
             $("#addsub").click(addSubj);
 
@@ -142,7 +141,7 @@
                 return false;
             }
             function showDetalis(objTeacher) {
-                 Id = objTeacher.Id;
+                Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -173,9 +172,8 @@
             };
             function funcerror() { }
 
-            
-            function getAvatarImageSuccess(imagePath1)
-            {
+
+            function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -256,7 +254,11 @@
             function showImages(data) {
                 imagePath = data;
 
+<<<<<<< HEAD
                 Swal.fire("","התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+=======
+                Swal.fire("", "התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             }
 
             function error(data) {
@@ -516,9 +518,7 @@
                             </div>
                         </div>
                         <br />
-                        <div class="col-lg-12 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
-                        </div>
+                       
                     </div>
                 </form>
             </div>

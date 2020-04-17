@@ -36,7 +36,7 @@
         $(document).ready(function () {
             readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
 
-            
+
 
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
@@ -60,24 +60,21 @@
                 }
             });
 
- ////pic//////////
-        function showDetalis(objTeacher)
-        {
-                   Id = objTeacher.Id;
+            ////pic//////////
+            function showDetalis(objTeacher) {
+                Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
+            }
 
-        function funcsuccess(data)
-        {
-        obj = data;
+            function funcsuccess(data) {
+                obj = data;
                 userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
-        }
-            function funcerror() {}
-        
-                   function getAvatarImageSuccess(imagePath1)
-            {
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+            function funcerror() { }
+
+            function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -87,9 +84,9 @@
 
             function getAvatarImageError(err) {
                 console.log(err)
-        }
+            }
 
-        //////////pic/////
+            //////////pic/////
         });
 
         //add all subjects from the table (DB)
@@ -200,8 +197,12 @@
         }
         function POST1error(err) { console.log(err) };
 
+<<<<<<< HEAD
         function readClassSUbjFromDB()
         {
+=======
+        function readClassSUbjFromDB() {
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }

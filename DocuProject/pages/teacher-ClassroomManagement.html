@@ -43,10 +43,14 @@
         var imagePath1 = '';
         var userEmail1 = '';
         $(document).ready(function () {
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
-                        showDetalis(objTeacher)
+            showDetalis(objTeacher)
 
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
@@ -64,9 +68,15 @@
             showDetalis(objAdmin);
 
             function showDetalis(objAdmin) {
+<<<<<<< HEAD
               Id = objTeacher.Id;
                var url = "../api/Teacher/GetDetailsT/" + Id;
                ajaxCall("GET", url, "", funcsuccess, funcerror);
+=======
+                Id = objTeacher.Id;
+                var url = "../api/Teacher/GetDetailsT/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             }
             function funcsuccess(data) {
                 obj = data;
@@ -392,8 +402,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- Bootstrap core JavaScript-->
     <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

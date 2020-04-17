@@ -17,6 +17,8 @@ namespace DocuProject.Models
         string number; //מספר כיתה למשל 2
         string classType; //סוג כיתה למשל רגילה
         string profession; //מקצוע למשל מתמטיקה
+        string id_teacher; //מקצוע למשל מתמטיקה
+        string teacher_name; //מקצוע למשל מתמטיקה
 
         public ClassSubjects() { }
 
@@ -24,6 +26,8 @@ namespace DocuProject.Models
         public string Number { get => number; set => number = value; }
         public string ClassType { get => classType; set => classType = value; }
         public string Profession { get => profession; set => profession = value; }
+        public string Id_teacher { get => id_teacher; set => id_teacher = value; }
+        public string Teacher_name { get => teacher_name; set => teacher_name = value; }
 
         public int insertClassSub(List<ClassSubjects> classSUbObj)
         {

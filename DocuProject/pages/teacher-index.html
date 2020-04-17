@@ -39,7 +39,6 @@
         $(document).ready(function () {
             getNumOfClass();
 
-
             local = localStorage.getItem('user');
             objTeacher = JSON.parse(local);
             console.log(objTeacher);
@@ -94,43 +93,42 @@
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
-                    });
-            //////////////select/////////////////
-            function getNumOfClass()
-            {
+        });
+        //////////////select/////////////////
+        function getNumOfClass() {
             console.log();
             var url = "../api/Teacher/getNumClass";
             ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
         }
 
         ////pic//////////
-        function showDetalis(objTeacher)
-        {
-                   Id = objTeacher.Id;
-                var url = "../api/Teacher/GetDetailsT/" + Id;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
+        function showDetalis(objTeacher) {
+            Id = objTeacher.Id;
+            var url = "../api/Teacher/GetDetailsT/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
 
-        function funcsuccess(data)
-        {
-        obj = data;
-                userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
-            function funcerror() {}
-        
-                   function getAvatarImageSuccess(imagePath1)
-            {
+        function funcerror() { }
 
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+        function getAvatarImageSuccess(imagePath1) {
 
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            function getAvatarImageError(err) {
-                console.log(err)
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
         }
+<<<<<<< HEAD
+=======
+
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+>>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
         //////////pic/////
         function GETsuccessCB(data) {
 
@@ -162,9 +160,9 @@
             }
         }
 
-        
+
         function GETerrorCB() { };
-                        //////////////select/////////////////
+                            //////////////select/////////////////
 
     </script>
 </head>
@@ -309,13 +307,13 @@
                                         <option>בחירת כיתה</option>
                                     </select>
                                     <!--<a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-    </a>
-    <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז1</a>
-        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז2</a>
-        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז3</a>
-    </div>-->
+                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז1</a>
+                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז2</a>
+                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז3</a>
+                                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
