@@ -37,11 +37,28 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+            //get Student
+            getStudent();
+            
             var imagePath = '';
             var userEmail = '';
 
             $('#imageUplaodDiv').hide();
             $('#form2').submit(function (e) {  
+                //checking
+                let idVal = $("#idT").val();
+                for (var i = 0; i < listSt.length; i++) {
+                    if (listSt[i].Id == idVal) {                  
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'התלמיד כבר קיים במערכת 😓',
+                            confirmButtonText: 'אוקי',
+                            confirmButtonColor: '#990099',
+                        })
+                        return false;
+                    }  
+                }
                 e.preventDefault();
                 pass = Math.random().toString(36).substring(7);
 
@@ -49,7 +66,6 @@
                 let lnameVal = document.getElementById("lname").value;
                 let emailVal = document.getElementById("email").value;
                 let addressVal = document.getElementById("street").value;
-                let idVal = document.getElementById("idT").value;
                 let birthVal = document.getElementById("birth").value;
 
                 console.log(birthVal);
@@ -93,14 +109,12 @@
                     console.log(StudentObj);
                     ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
 
-                    document.getElementById("form2").reset(); //מנקה את הפקדים
+                    //document.getElementById("form2").reset(); //מנקה את הפקדים
                     return false;
             });
-
             function POSTerror(err) {
                 console.log(err)
             }
-
             function POSTsuccess() {
                  Swal.fire(
                     {
@@ -111,7 +125,6 @@
                     })
                 $('#imageUplaodDiv').show();
             }
-
 
             //שלב1 -העלאת התמונה לתוכנה
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
@@ -124,7 +137,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedImage", files[f]);
                     }
-                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -140,8 +153,6 @@
 
                 return false;
             });
-
-
 
             function showImages(data) {
                 imagePath = data;
@@ -173,16 +184,11 @@
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
-
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
@@ -198,11 +204,9 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
-
             function funcerror() { }
         });
         function POSTsuccessImg() {
@@ -217,6 +221,20 @@
         function POSTerrorImg(data) {
             console.log(data);
         }
+
+        //get student
+        function getStudent() {
+            ajaxCall("GET", "../api/Docu/GetST", "", GETsuccessS, GETerrorS);
+        }
+        function GETsuccessS(data) {
+            listSt = data;
+            alert("shir");
+        }
+        function GETerrorS(err) {
+            alert("NOT");
+            console.log(err)
+        }
+
     </script>
 
 

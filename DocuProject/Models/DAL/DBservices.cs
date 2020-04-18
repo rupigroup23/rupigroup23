@@ -395,6 +395,44 @@ public class DBservices
 
     }
 
+
+    public List<Student> getFromDBST() 
+    {
+        List<Student> listStudent = new List<Student>();
+        SqlConnection con = null;
+
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+
+                Student St = new Student();
+                St.Id = (int)dr["Id_"];
+                listStudent.Add(St);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listStudent; // מחזיר מערך 
+
+    }
     // read class
     public List<Class> getFromDBClass()
     {
