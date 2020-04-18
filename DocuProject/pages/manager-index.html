@@ -44,7 +44,7 @@
             objAdmin = JSON.parse(local);
             console.log(objAdmin);
 
-            ///////////////////User image
+            //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
@@ -66,16 +66,13 @@
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-
             }
             function getAvatarImageError(err) {
                 console.log(err)
             }
             function funcerror() { }
-            ////////////////////////////END User image
-
+            //END User image
 
             //login
             localUser = localStorage.getItem('user');
@@ -87,7 +84,6 @@
                 if (open) {
                     if ($("#class1").val() == "בחירת כיתה")
                         return false;
-
                     window.location.href = "manager-professions.html";
                     studentObj =
                         {
@@ -129,8 +125,6 @@
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
-
-
         });
         function getNumOfClass() {
             console.log();
@@ -165,7 +159,6 @@
                 }
 
             }
-
         };
         function GETerrorCB() { };
     </script>

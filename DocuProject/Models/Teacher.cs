@@ -45,7 +45,7 @@ namespace DocuProject.Models
         public List<Teacher> Read()
         {
             DBservices dbs = new DBservices();
-            return dbs.getFromDBT();
+            return dbs.getFromDBT(); 
         }
 
         public int insertT2(List<Teacher> teachersArr)

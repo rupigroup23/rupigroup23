@@ -46,7 +46,7 @@
             $('#form1').submit(sub);
 
             //professions
-            readFromDB(); 
+            readFromDB();         
             $('#addsub').click(addSubj); 
             $('#selectProf').change(function () {
                 var value = $(this).val();
@@ -61,7 +61,7 @@
 
             //$('#upload').click(uploadTeachers);
             //$('#saveprof').click(saveSubj);     
-
+            getTachears();
             $('#addTeacher').click(saveTeacherDB); //Save the teacher in the table
 
             //User image
@@ -158,7 +158,16 @@
             teacherArr.push(profession);
             //saveSubj(teacherArr);
         }
-       
+
+        //get teacher
+        function getTachears() {
+            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+        }
+        function GETsuccessT(data) {
+            listT = data; 
+        }
+        function GETerrorT(err) { console.log(err) }
+
         //Teacher table
         var profession = "";
         var birthVal = "";
@@ -184,6 +193,18 @@
 
                 })
                 return false;
+            }
+            for (var i = 0; i < listT.length; i++) {
+                if (listT[i].Id == Id) {                  
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'המורה כבר קיים במערכת 😓',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                    return false;
+                }  
             }
             saveAll(teacherArr);
         }

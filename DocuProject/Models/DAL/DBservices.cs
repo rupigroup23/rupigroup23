@@ -395,6 +395,44 @@ public class DBservices
 
     }
 
+
+    public List<Student> getFromDBST() 
+    {
+        List<Student> listStudent = new List<Student>();
+        SqlConnection con = null;
+
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+
+                Student St = new Student();
+                St.Id = (int)dr["Id_"];
+                listStudent.Add(St);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listStudent; // מחזיר מערך 
+
+    }
     // read class
     public List<Class> getFromDBClass()
     {
@@ -1105,9 +1143,9 @@ public class DBservices
     {
         string selectSTR = "";
         string imagePath = "";
-        SqlConnection con = null; //שורה קבועה
+        SqlConnection con = null;
         try
-        {   //שורה 
+        {   
             if (str == "admin" )
             {
                 selectSTR = "select Image_ from Admin_ where Id_='" + Id + "'";
@@ -1306,7 +1344,7 @@ public class DBservices
         }
     }
 
-    public List <Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+    public List<Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
     {
         List<Task> videoList = new List<Task>();
         string p = Professtion;
@@ -1342,6 +1380,7 @@ public class DBservices
             }
         }
     }
+
 
 
 

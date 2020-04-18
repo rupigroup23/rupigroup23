@@ -105,7 +105,7 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             T.insertT2(teachersArr);
         }
-        [HttpGet]  /// דף כיתה 
+        [HttpGet] 
         [Route("api/Docu/GetT")]
         public List<Teacher> GetT()
         {
@@ -113,6 +113,13 @@ namespace DocuProject.Controllers
             return T.Read();
         }
 
+        [HttpGet]
+        [Route("api/Docu/GetST")]
+        public List<Student> GetST()
+        {
+            Student S = new Student();
+            return S.ReadSt();
+        }
         [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Docu/checkUsers")]
         public Admin Post([FromBody] Admin admin) // מקבלת מערך של אובייקטים- מה שהכנתי
@@ -321,7 +328,7 @@ namespace DocuProject.Controllers
 
         [HttpGet]
         [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{Topic}/{Deadline}")]
-        public List<Task> getVideos (string ClassName , string ClassNum , string Professtion , string Topic , string Deadline)
+        public List<Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
         {
             Task t = new Task();
             List<Task> videos = t.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);

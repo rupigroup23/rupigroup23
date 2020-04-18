@@ -29,6 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<script src="js/manager/watchingvideos.js"></script>-->
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
@@ -84,7 +85,7 @@
                 }
                 ajaxCall("GET", "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + TaskObj.Task.Date, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
 
-            //הבאת סרטונים מהדאטה בייס//
+                //הבאת סרטונים מהדאטה בייס//
 
             }
 
@@ -95,6 +96,7 @@
             //END- User image
 
         });
+
         function getVideoSuccessCB(listOfVideo) {
             //הכנסה דינמית לDOM
             for (let i in listOfVideo) {
@@ -102,39 +104,39 @@
                 console.log(videoPath)
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                        <div class="video-card">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href='${videoPath}'>
-                                                    <i class="fas fa-play-circle"></i>
-                                                </a>
-                                                <iframe class="img-videoWatch" src='${videoPath}'></iframe>
-                                                <!--<div class="time">3:50</div>-->
+                                            <div class="video-card">
+                                                <div class="video-card-image">
+                                                    <a class="play-icon" href='${videoPath}'>
+                                                        <i class="fas fa-play-circle"></i>
+                                                    </a>
+                                                    <iframe class="img-videoWatch" src='${videoPath}'></iframe>
+                                                    <!--<div class="time">3:50</div>-->
+                                                </div>
+                                                <div class="video-card-body">
+                                                    <div class="video-title">
+                                                        <a class="create-text" href="teacher-feedbacks.html">
+                                                            חברי הצוות:
+                                                        </a> <br />
+                                                        <a class=" statuses-text" href="teacher-feedbacks.html">
+                                                        </a>
+                                                    </div>
+                                                    <div class="video-page text-success">
+                                                        <a href="teacher-feedbacks.html">
+                                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                                        </a>
+                                                        <a href="teacher-feedbacks.html">
+                                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                                        </a>
+                                                        <a href="teacher-feedbacks.html">
+                                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                                        </a>
+                                                    </div>
+                                                    <div class="video-view">
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a class="create-text" href="teacher-feedbacks.html">
-                                                        חברי הצוות:
-                                                    </a> <br />
-                                                    <a class=" statuses-text" href="teacher-feedbacks.html">
-                                                    </a>
-                                                </div>
-                                                <div class="video-page text-success">
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                </div>
-                                                <div class="video-view">
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
+                                        </div>`;
                 $('#videosDiv').append(str);
             }
         }
@@ -157,8 +159,8 @@
 
         //Bring the details up
         function getDatelis() {
-            date = diffDays(TaskObj.Task.Date);
-            //date = "4/30/2020";
+            //date = diffDays(TaskObj.Task.Date);
+            date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }
@@ -286,19 +288,11 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-10">
-                        <div class="row">
-                            <a class="btn btn-outline-primary btn-block btn-lg" href="manager-PresentationAssignment.html">
-                                <buttom>
-                                    צפיה במטלה
-                                </buttom>
-                            </a>
-                            <a class="create-select" href="manager-Benny-watchingvideos.html">
-                                <buttom>
-                                    הגנות
-                                </buttom>
-                            </a>
-                        </div>
-                       
+                        <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-Video_Assignment.html">
+                            <buttom>
+                                צפייה במטלה
+                            </buttom>
+                        </a>
                     </div>
                 </div>
                 <br /><hr class="mt-0">
@@ -306,15 +300,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="main-title">
-                                
-                                    <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#"><i class="fas fa-video"></i>&nbsp;מספר צפיות</a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>&nbsp;זמן העלאה</a>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
-                                    </div>
+
+                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-video"></i>&nbsp;מספר צפיות</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>&nbsp;זמן העלאה</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -370,6 +364,7 @@
             </div>
         </div>
         <!-- /.container-fluid -->
+    </div>
     </div>
 
 

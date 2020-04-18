@@ -38,7 +38,12 @@ namespace DocuProject.Models
         public string ClassName { get => className; set => className = value; }
         public int ClassNum { get => classNum; set => classNum = value; }
         public string Password { get => password; set => password = value; }
-        
+
+        public List<Student> ReadSt()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getFromDBST();
+        }
 
         public int insertS(List<Student> stdentsArr) 
         {
