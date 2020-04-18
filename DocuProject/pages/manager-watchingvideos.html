@@ -67,6 +67,7 @@
                 userEmail1 = obj[0].Email;
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
+            urlVideo = "";
             function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -75,20 +76,22 @@
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
                 //הבאת סרטונים מהדאטה בייס//
+                date = TaskObj.Task.Date;
+                dateArr = date.split('/');
+                dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
                 taskObject = {
                     "ClassName": TaskObj.ClassName,
                     "ClassNum": TaskObj.ClassNum,
                     "Profession": TaskObj.Profession,
                     "Topic": TaskObj.Task.Topic,
-                    "Deadline": TaskObj.Task.Date
+                    "Deadline": dateVal
                 }
-                ajaxCall("GET", "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + TaskObj.Task.Date, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
 
+                urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
+                ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
-
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
@@ -104,39 +107,39 @@
                 console.log(videoPath)
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                            <div class="video-card">
-                                                <div class="video-card-image">
-                                                    <a class="play-icon" href='${videoPath}'>
-                                                        <i class="fas fa-play-circle"></i>
+                                        <div class="video-card">
+                                            <div class="video-card-image">
+                                                <video width="200" height="150" controls>
+                                                    <source src='${videoPath}'>
+                                                    Sorry, your browser doesn't support embedded videos.
+                                                </video>
+                                                <!--<div class="time">3:50</div>-->
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a class="create-text" href="teacher-feedbacks.html">
+                                                        חברי הצוות:
+                                                    </a> <br />
+                                                    <a class=" statuses-text" href="teacher-feedbacks.html">
                                                     </a>
-                                                    <iframe class="img-videoWatch" src='${videoPath}'></iframe>
-                                                    <!--<div class="time">3:50</div>-->
                                                 </div>
-                                                <div class="video-card-body">
-                                                    <div class="video-title">
-                                                        <a class="create-text" href="teacher-feedbacks.html">
-                                                            חברי הצוות:
-                                                        </a> <br />
-                                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                                        </a>
-                                                    </div>
-                                                    <div class="video-page text-success">
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                    </div>
-                                                    <div class="video-view">
-
-                                                    </div>
+                                                <div class="video-page text-success">
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                </div>
+                                                <div class="video-view">
+                                                    
                                                 </div>
                                             </div>
-                                        </div>`;
+                                        </div>
+                                    </div>`;
                 $('#videosDiv').append(str);
             }
         }
@@ -159,8 +162,8 @@
 
         //Bring the details up
         function getDatelis() {
-            //date = diffDays(TaskObj.Task.Date);
-            date = "4/30/2020";
+            date = diffDays(TaskObj.Task.Date);
+            //date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }

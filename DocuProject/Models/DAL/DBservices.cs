@@ -635,7 +635,6 @@ public class DBservices
             DataSet ds = new DataSet();
             da.Fill(ds);
             dt = ds.Tables[0];
-
         }
 
         catch (Exception ex)
@@ -891,16 +890,16 @@ public class DBservices
     private String BuildInsertCommand_S(Student StudentObj) // שלב 1 - נעביר את כל המערך לדטה בייס
                                                             //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
     { ////עובר שורה שורה 
-        string[] arr;
-        string bday = StudentObj.Bday.ToString();
-        arr = bday.Split('/');
-        string newBday = arr[1] + '-' + arr[0] + '-' + arr[2];
+        //string[] arr;
+        //string bday = StudentObj.Bday.ToString();
+        //arr = bday.Split('/');
+        //string newBday = arr[1] + '-' + arr[0] + '-' + arr[2];
         String command;
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, newBday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password); // לפי האובייקט במחלקה
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 

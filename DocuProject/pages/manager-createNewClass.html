@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -331,7 +330,7 @@
         }
        //save new proff - post: Profession
         function checkNewProff(prof) {
-            cntr = 0;
+              cntr = 0;
             for (var i = 0; i < listP.length; i++) {
                 if (listP[i].Name == prof) {
                     cntr++;
@@ -339,12 +338,12 @@
             }
             if (cntr == 0) {
                 newProf = {
-                    'Prof': prof,
+                    'Name': prof,
                 }
                 //obj for Profession table
                 ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-            }
 
+            }
         }
 
         function checkSubCoach() {

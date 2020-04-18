@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- js links -->
-    <!--<script src="js\manager\saveProfClass.js"></script>-->
     <script src="js/showItem.js"></script>
     <script src="js/myName.js"></script>
     <script>
@@ -343,7 +342,7 @@
                     'Name': prof,
                 }
                 //obj for Profession table
-                                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
 
             }
         }

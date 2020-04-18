@@ -67,8 +67,6 @@
             $('#uploadFile').click(UploadFile);
             $('#uploadtxtbox').click(UploadTxt);
 
-            //$('#saveTask').attr("disabled", true);
-
             $('#saveTask').click(saveTask);
 
             ///upload files
@@ -84,7 +82,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "Shir"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -123,7 +121,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
                 //Ajax upload
                 $.ajax({
@@ -240,14 +238,14 @@
             orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
             orientationSTR1 += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-createNewTask.html'>הקמת מטלה חדשה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR1;
-            var idTask = document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num;
+            document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num;
 
         }
 
         //check details and post
         var assignation = "";
         var description = "";
-
+        var videoPath = "";
         function saveTask() {
             //check details
             Topic = $("#topic").val();
@@ -323,8 +321,6 @@
                 }
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
-
-            //taskArr.push(TaskObj);
         }
 
         function POSTsuccess(data) {
@@ -343,7 +339,7 @@
 
 
 
-
+        //לא רלוונטי
         function POSTsuccessTask() {
             Swal.fire(
                 //'Good job!',
@@ -353,14 +349,11 @@
 
         }
 
-
+        //לא רלוונטי
         function POSTerrorTask(data) {
             console.log(data);
 
         }
-
-
-
 
     </script>
 

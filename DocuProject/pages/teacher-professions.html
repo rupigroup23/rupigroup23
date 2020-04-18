@@ -197,12 +197,8 @@
         }
         function POST1error(err) { console.log(err) };
 
-<<<<<<< HEAD
-        function readClassSUbjFromDB()
-        {
-=======
+
         function readClassSUbjFromDB() {
->>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
             var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }

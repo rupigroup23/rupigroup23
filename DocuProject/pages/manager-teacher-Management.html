@@ -49,6 +49,7 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             getTeachers();
+            //buttom save and cancel
             $('#saveBTN').click(saveTeacherDB);
             $('#upload').click(uploadTeachers);
 
@@ -64,31 +65,28 @@
             var url = "../api/Docu/GetDetails/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
-
 
             ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
         }
         function getAvatarImageSuccess(imagePath1) {
-
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
         }
-
         function getAvatarImageError(err) {
             console.log(err)
         }
-
         function funcerror() { }
+
         function sub() {
             return false;
         }
+
         function getTeachers(data) {
             var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
@@ -130,7 +128,6 @@
                 alert(err);
             }
         }
-
         function GETerror(err) { console.log(err) }
 
         ////////////////////DELETE//////////////
@@ -213,6 +210,7 @@
             $("#editDiv").hide();
         });
 
+        //לא אמור להיות פה? 
         function getStudebts(RowID) {
             console.log(studentsArr);
             for (i in studentsArr) {

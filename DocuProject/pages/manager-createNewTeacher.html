@@ -97,6 +97,30 @@
             return false;
         }
 
+        //save new proff - post: Profession
+        function checkNewProff(prof) {
+              cntr = 0;
+            for (var i = 0; i < listP.length; i++) {
+                if (listP[i].Name == prof) {
+                    cntr++;
+                }
+            }
+            if (cntr == 0) {
+                newProf = {
+                    'Name': prof,
+                }
+                //obj for Profession table
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+
+            }
+        }
+            //Profession function checkNewProff
+        function POSTsuccessP() {
+            console.log("Profession good");
+        }
+        function POSTerrorP() {
+            console.log(err)
+        }
         //Profession table
         function readFromDB() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
@@ -130,6 +154,7 @@
             else { //אם לחץ על אחר
                 if (profession == "אחר") {
                     var X = $("#txtbox").val();
+                    checkNewProff(X);
                     profession = X;
                 }
                 checkSub();
@@ -243,7 +268,7 @@
                 }
             }
         }
-        function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
+        function POSTsuccess() { 
             count += 1;
             if (count == teacherArr.length) {
                 Swal.fire({
