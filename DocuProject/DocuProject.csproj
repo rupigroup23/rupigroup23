@@ -232,7 +232,7 @@
     <Content Include="pages\manager-createNewProfession.html" />
     <Content Include="pages\manager-createNewStudent.html" />
     <Content Include="pages\manager-createNewTask.html" />
-    <Content Include="pages\manager-MAN_createNewTeacher.html" />
+    <Content Include="pages\manager-Benny-watchingvideos.html" />
     <Content Include="pages\css\osahan.css" />
     <Content Include="pages\css\tablestyle.css" />
     <Content Include="pages\img\404.png" />

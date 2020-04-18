@@ -375,8 +375,7 @@ public class DBservices
                 Teacher T = new Teacher();
                 T.FName = (string)dr["FName"];
                 T.LName = (string)dr["LName"];
-                T.Id = T.Id = (int)dr["Id_"];
-
+                T.Id = (int)dr["Id_"];
                 listProfession.Add(T);
             }
 
@@ -393,6 +392,48 @@ public class DBservices
             }
         }
         return listProfession; // מחזיר מערך 
+
+    }
+
+    // read class
+    public List<Class> getFromDBClass()
+    {
+        List<Class> listClass = new List<Class>();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select distinct Name_, Number, year_, teacherName, classType from Class_"; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                Class C = new Class();
+                C.Name = (string)dr["Name_"];
+                C.Number = (int)dr["Number"];
+                C.Year = (string)dr["year_"];
+                C.TeacherName = (string)dr["teacherName"];
+                C.ClassType = (string)dr["classType"];
+                listClass.Add(C);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listClass; // מחזיר מערך 
 
     }
 
@@ -879,8 +920,8 @@ public class DBservices
         // use a string builder to create the dynamic string
 
         
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description,taskObj.Video); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_,video)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -1262,6 +1303,43 @@ public class DBservices
             return 0;
             // write to log
             throw (ex);
+        }
+    }
+
+    public List <Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+    {
+        List<Task> videoList = new List<Task>();
+        string p = Professtion;
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT video from Task where ClassName='" + ClassName + "' and ClassNum ='" + ClassNum + "' and Profession = '" + p + "' and Topic='" + Topic + "' and Deadline='" + Deadline + "'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                // שומרת את הנתונים מהדטה בייס לתוך אובייקט שיצרתי
+                Task v = new Task();
+                v.Video = (string)dr["video"];
+                videoList.Add(v);
+            }
+            return videoList;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
         }
     }
 

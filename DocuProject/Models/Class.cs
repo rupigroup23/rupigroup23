@@ -19,7 +19,6 @@ namespace DocuProject.Models
         string year; // שנה עברית
         int numOfStudents;
         string teacherName;
-
         string classType;
  
         public Class () { }
@@ -45,6 +44,11 @@ namespace DocuProject.Models
             dbs = dbs.Get_Nums();
             return dbs.dt;//מעביר רק את הטבלה 
         }
- 
+
+        public List<Class> ReadClass()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getFromDBClass();
+        }
     }
 }

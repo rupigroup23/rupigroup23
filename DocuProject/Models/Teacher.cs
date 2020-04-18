@@ -10,7 +10,6 @@ namespace DocuProject.Models
 {
     public class Teacher
     {
-
         string fName;
         string lName;
         string email;

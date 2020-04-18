@@ -14,6 +14,7 @@ namespace DocuProject.Models
         string className;
         string classNum;
         string profession;
+        string video;
 
         public Task() { }
 
@@ -24,6 +25,7 @@ namespace DocuProject.Models
         public string ClassName { get => className; set => className = value; }
         public string ClassNum { get => classNum; set => classNum = value; }
         public string Profession { get => profession; set => profession = value; }
+        public string Video { get => video; set => video = value; }
 
         public int insertTask1(Task taskObj)
         {
@@ -69,6 +71,15 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             return dbs.getSpecificTask( class1,  numClass,  sub,  topic);
         }
+
+        public List <Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getVideos( ClassName,  ClassNum,  Professtion,  Topic, Deadline);
+        }
+
+
+
         //public DataTable GetDetailsT(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         //{
         //    DBservices dbs = new DBservices();

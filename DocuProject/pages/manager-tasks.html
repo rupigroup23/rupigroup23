@@ -20,24 +20,30 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- noy links -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+=======
+    <!-- Our links -->
     <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<<<<<<< HEAD
 
+=======
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     <!-- links of Facebook, instegram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- js links -->
     <script src="js/myName.js"></script>
-
-    <!--<script src="js/manager/tasks.js"></script>-->
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
@@ -139,7 +145,7 @@
                 "Task": {
                     "Num": idT,
                     "Topic": listCS[idT - 1].Topic,
-                    "Date": listCS[idT - 1].Deadline,
+                    "Date": dateVal,
                 }
             }
             console.log(thisTask);
@@ -166,6 +172,9 @@
                 $('#oldTask').click(Items);
 
                 for (var i = 0; i < listCS.length; i++) {
+                    date = listCS[i].Deadline;
+                    date1 = date.split('-');
+                    dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
@@ -175,12 +184,12 @@
                     tasksSTR += "</div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
-                    tasksSTR += listCS[i].Topic; //0
+                    tasksSTR += listCS[i].Topic; 
                     tasksSTR += "</h3></div></div>";
-                    tasksSTR += "<div class='row'><div class='text2'>תאריך: </div><div class='text2'>";
-                    tasksSTR += "<h3 class='textSquareGRA' style='width: 120 %'>";
-                    tasksSTR += listCS[i].Deadline; //0
-                    tasksSTR += "</h3></div></div> ";
+                    tasksSTR += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
+                    tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";   
+                    tasksSTR += dateVal; //0
+                    tasksSTR += "</span></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
                     tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
@@ -229,6 +238,9 @@
 
         lastSTR = "";
         function showLastTask(LastNum) {
+            date = listCS[LastNum-1].Deadline;
+            date1 = date.split('-');
+            dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
             lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
             lastSTR += "</div>";
             lastSTR += "<div class='channels-card' style='height: 75%;'>";
@@ -242,8 +254,8 @@
             lastSTR += listCS[LastNum - 1].Topic;
             lastSTR += "</h3></div></div><div class='row'>";
             lastSTR += "<div class='text2'> &nbsp; תאריך:"
-            lastSTR += "</div><div class='text2'><h3 class='textSquareGRAY' style='width: 120 %'>"
-            lastSTR += listCS[LastNum - 1].Deadline;
+            lastSTR += "</div><div class='text2' style='color: black';'><h3 class='textSquareGRAY' style='width: 120%'>"
+            lastSTR += dateVal;
             lastSTR += "</h3> </div></div></div>";
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
@@ -295,7 +307,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
                     <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
-                    <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
@@ -320,8 +332,11 @@
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
+<<<<<<< HEAD
                 <h6 id="myNameN2" class="nav-item"></h6>
 
+=======
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
             <li class="nav-item dropdown">
@@ -334,10 +349,13 @@
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
                     <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                     <a class="dropdown-item" href="manager-createNewTask.html">✎ הקמת מטלה חדשה</a>
+<<<<<<< HEAD
                     <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
                     <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
+=======
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -348,8 +366,11 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
+<<<<<<< HEAD
                     <a class="dropdown-item" href="#">📝 ניהול מטלות</a>
 
+=======
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                 </div>
             </li>
             <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
@@ -404,9 +425,13 @@
                                         הקמת מטלה חדשה
                                     </buttom>
                                 </a>
+<<<<<<< HEAD
                                 <button id="deleteProf" class="btn btn-outline-primary btn-block btn-lg text2">
+=======
+                                <!--<button id="delete" class="btn btn-outline-primary btn-block btn-lg text2">
+>>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                                     מחיקת המקצוע
-                                </button>
+                                </button>-->
                                 <button id="oldTask" class="btn btn-outline-primary btn-block btn-lg text2">
                                     מטלות ישנות
                                 </button>
