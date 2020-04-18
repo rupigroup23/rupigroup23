@@ -72,10 +72,10 @@ namespace DocuProject.Models
             return dbs.getSpecificTask( class1,  numClass,  sub,  topic);
         }
 
-        public List <Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+        public List<Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
         {
             DBservices dbs = new DBservices();
-            return dbs.getVideos( ClassName,  ClassNum,  Professtion,  Topic, Deadline);
+            return dbs.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
         }
 
 

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -49,7 +50,7 @@
             objAdmin = JSON.parse(localAdmin);
 
             showDetalis(objAdmin);
-
+            getTachears();
             getSubjects();
             $('#continue').click(checkDetails);
 
@@ -188,7 +189,7 @@
                     cntrClass++;
                 }
                 //first option
-                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" || $("#classType").val() == "1"|| $("#classType").val() == "1") {
+                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" || $("#classType").val() == "1" || $("#classType").val() == "1") {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
@@ -197,7 +198,7 @@
                         confirmButtonColor: '#990099',
                     })
                     cntrClass++;
-            }
+                }
             }
             if (cntrClass == 0) {
                 var proff = document.getElementById("showProff");
@@ -309,7 +310,7 @@
         {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
-            if (profession == "1" || coach == "1" ) {
+            if (profession == "1" || coach == "1") {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
@@ -328,7 +329,7 @@
             }
 
         }
-        //save new proff - post: Profession
+       //save new proff - post: Profession
         function checkNewProff(prof) {
             cntr = 0;
             for (var i = 0; i < listP.length; i++) {
