@@ -72,7 +72,7 @@
             $('#saveTask').click(saveTask);
 
             ///upload files
-            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת הקובץ לתוכנה
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
@@ -101,13 +101,16 @@
                 return false;
             });
             function showTasks(data) {
-                //$('#saveTask').attr("disabled", false);
-                taskPath = data;
-                Swal.fire({
-                    icon: 'success',
-                    title: 'הקובץ נטען בהצלחה',
-                    confirmButtonColor: '#990099',
-                })
+
+                    //$('#saveTask').attr("disabled", false);
+                    taskPath = data;
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'הקובץ נטען בהצלחה',
+                        confirmButtonColor: '#990099',
+                    })
+                
+ 
                 //Swal.fire("הקובץ סיים להיטען, מלא את פרטי המטלה ולחץ פרסום'")
             }
             function error(data) {
@@ -623,7 +626,7 @@
 
                                                 <div class="col-lg-8 col-sm-12">
                                                     <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען קובץ" class="upload-btn" />
                                                 </div>
 
                                             </div>

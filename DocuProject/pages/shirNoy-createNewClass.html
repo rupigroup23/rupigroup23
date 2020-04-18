@@ -34,13 +34,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
+
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //myNameObj = JSON.parse(localStorage["myName"]);
+            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //User image
             localAdmin = localStorage.getItem('user');

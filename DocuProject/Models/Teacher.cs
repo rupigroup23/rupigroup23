@@ -20,8 +20,8 @@ namespace DocuProject.Models
         DateTime bday;
         string phoneNum;
         string profession;
-        string password; //??
-
+        string password;
+        string ClassroomTeacher;
         public Teacher() { }
 
         public string FName { get => fName; set => fName = value; }
@@ -34,6 +34,7 @@ namespace DocuProject.Models
         public string PhoneNum { get => phoneNum; set => phoneNum = value; }
         public string Profession { get => profession; set => profession = value; }
         public string Password { get => password; set => password = value; }
+        public string ClassroomTeacher1 { get => ClassroomTeacher; set => ClassroomTeacher = value; }
 
         public int insertT(Teacher TeacherObj) 
         {

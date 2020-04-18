@@ -363,7 +363,7 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select distinct FName,Lname from Teacher__"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select distinct FName,Lname,Id_ from Teacher__"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
             // get a reader
@@ -375,6 +375,7 @@ public class DBservices
                 Teacher T = new Teacher();
                 T.FName = (string)dr["FName"];
                 T.LName = (string)dr["LName"];
+                T.Id = T.Id = (int)dr["Id_"];
 
                 listProfession.Add(T);
             }

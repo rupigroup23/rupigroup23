@@ -302,6 +302,8 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.deleteT(rowID);
         }
+
+
         [HttpPut] //teacher
         [Route("api/Docu/updateTeacher/{id}")]
         public DataTable PutT(int id, [FromBody] Teacher teacher)
@@ -318,6 +320,14 @@ namespace DocuProject.Controllers
         //{
         //    Task T = new Task();
         //    return T.PutT(task);
+        //}
+
+        //[HttpPost] /// דף מטלה ראשי
+        //[Route("api/Docu/deleteProf")]
+        //public DataTable Delete_P(int rowID) //מורה 
+        //{
+        //    ClassSubjects C= new ClassSubjects();
+        //    return C.deleteP(rowID);
         //}
 
     }

@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- noy links -->
     <!-- Include a required theme -->
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css" />
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
@@ -30,7 +29,6 @@
     <script src="../Scripts/ajaxCalls.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         var imagePath = '';
         var userEmail = '';
@@ -170,10 +168,11 @@
                 $('#phone').val(obj[0].PhoneNum);
 
                 userEmail = obj[0].Email;
-                Prof = obj[0].Profession;
-                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-                ProfDB = obj[0].Profession;
-                str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
+                ClassroomTeacher = obj[0].ClassroomTeacher;
+                // = obj[0].Profession;
+                //str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+                //ProfDB = obj[0].Profession;
+                str = '<div class="create-text">' + ClassroomTeacher + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
 
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
@@ -524,7 +523,7 @@
                         <div class="col-lg-3 col-sm-6">
 
                             <div class="col-lg-12 col-sm-6">
-                                <h6 class="create-text" for="city">מקצועות לימוד:</h6>
+                                <h6 class="create-text" for="city">מחנך כיתה:</h6>
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <!--<div class="create-text">
                                         <h6 style="font-size: 23px"></h6>
@@ -535,9 +534,7 @@
                             </div>
                         </div>
                         <br />
-                        <div class="col-lg-12 col-sm-6">
-                            <button class="create-btn" style="padding-right: 65px;">מקצוע חדש</button>
-                        </div>
+              
                     </div>
                 </form>
             </div>
