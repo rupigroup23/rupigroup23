@@ -46,6 +46,7 @@
 
         $(document).ready(function () {
             //Menus
+
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
@@ -53,6 +54,7 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the images
+            //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
@@ -68,12 +70,11 @@
             $('#uploadtxtbox').click(UploadTxt);
 
             //$('#saveTask').attr("disabled", true);
+
             $('#saveTask').click(saveTask);
 
-            $('#HAGANOT').click(HAGANOT);
-
             ///upload files
-            $('#upload').on('click', function () { // טעינת הקובץ לתוכנה
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
@@ -85,7 +86,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -102,18 +103,6 @@
                 return false;
             });
             function showTasks(data) {
-<<<<<<< HEAD
-
-                    //$('#saveTask').attr("disabled", false);
-                    taskPath = data;
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'הקובץ נטען בהצלחה',
-                        confirmButtonColor: '#990099',
-                    })
-                
- 
-=======
                 //$('#saveTask').attr("disabled", false);
                 taskPath = data;
                 Swal.fire({
@@ -122,14 +111,12 @@
                     confirmButtonText: 'אישור',
                     confirmButtonColor: '#990099',
                 })
->>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                 //Swal.fire("הקובץ סיים להיטען, מלא את פרטי המטלה ולחץ פרסום'")
             }
             function error(data) {
                 console.log(data);
             }
 
-            ///upload video
             $('#uploadVideo').on("click", function () {
                 var data = new FormData();
                 var files = $("#chooseVideo").get(0).files;
@@ -137,7 +124,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
                 //Ajax upload
                 $.ajax({
@@ -152,16 +139,6 @@
             })
         });
 
-        function HAGANOT() {
-            var hag = document.getElementById("HAGANOT1");
-            if (hag.style.display === "none") {
-                hag.style.display = "block";
-            }
-            else {
-                hag.style.display = "none";
-            }
-            
-        }
         function showVideoSuccess(data) {
             videoPath = data;
             Swal.fire({
@@ -194,7 +171,7 @@
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            $("#avatarImage").attr("src", '../' + arr[1] / imagePath1 /); //בשרת אנחנו מכניסים במקום הניתוב את ה src
         }
         function getAvatarImageError(err) {
             console.log(err)
@@ -210,7 +187,9 @@
             var file = document.getElementById("showUpload"); //קובץ
             var txtbox = document.getElementById("showTxtbox"); //תיבת טקסט
 
-            if (radioFile.checked) {
+            if (radioFile.checked)
+            {
+                
                 if (file.style.display === "none") {
                     file.style.display = "block";
                     txtbox.style.display = "none";
@@ -329,27 +308,23 @@
             }
 
             if (radiosContent[0].checked == true) {
-                /*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
-                var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
-            }
-            //if (radiosContent[0].checked == true) {
-            //    /var taskStr = `http:/ / localhost: 44328 / ${ taskPath } `/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
-            //        var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
-            //}
+                /var taskStr = `http:/ / localhost: 44328 / ${ taskPath } `/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                    var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
+                }
             if (radiosContent[1].checked == true) {
                 var taskStr = $("#taskcontent-txtbox").val();
             }
             console.log(videoPath)
             TaskObj =
                 {
-                "Video":videoPath[0],
-                "Deadline": $("#dateInput").val(),
-                "Topic": $("#topic").val(),
-                "Assignation": assignation,
-                "Description": taskStr,
-                "ClassName": newTaskObj.ClassName,
-                "ClassNum": newTaskObj.ClassNum,
-                "Profession": newTaskObj.Profession
+                    "Video": videoPath[0],
+                    "Deadline": $("#dateInput").val(),
+                    "Topic": $("#topic").val(),
+                    "Assignation": assignation,
+                    "Description": taskStr,
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum,
+                    "Profession": newTaskObj.Profession
                 }
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
@@ -359,12 +334,13 @@
         function POSTsuccess(data) {
             Swal.fire({
                 icon: 'success',
-                title: 'המטלה נוצרה בהצלחה! 😀',
+                title: 'הצלחת',
+                text: 'המטלה נוצרה בהצלחה! 😀',
                 confirmButtonText: 'שמור',
                 confirmButtonColor: '#990099',
             })
             taskId++;
-            location.reload();
+
         }
         function POSTerror() {
             alert("ops");
@@ -544,10 +520,10 @@
                             <div class="row">
                                 <div class="col-lg-3 col-sm-12 col-xs-3 text2">
                                     <div class="row text2">
-                                        <span>
+                                        <span style="border-bottom: 1px solid #990099">
                                             מטלה מספר &nbsp;
                                         </span>
-                                        <div id="numTasks">
+                                        <div id="numTasks" style="border-bottom: 1px solid #990099">
 
                                             <!-- להוסיף מספר -->
                                         </div>
@@ -672,14 +648,10 @@
                                                 <input id="uploadFile" name="taskcontent" type="radio" value="קובץ">
                                                 <label for="uploadFile" class="create-text">קובץ</label>
 
-                                                &nbsp;
                                                 <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
                                                 <label for="showTxtbox" class="create-text">תיבת טקסט</label>
                                             </section>
-                                            <button id="HAGANOT" class="upload-btn">
-                                                הגנות
-                                            </button>
-                                            <section id="HAGANOT1" style="display:none"> 
+                                            <section>
                                                 <label>וידאו</label>
                                                 <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
                                                 <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
@@ -691,7 +663,7 @@
 
                                                 <div class="col-lg-8 col-sm-12">
                                                     <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען קובץ" class="upload-btn" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
                                                 </div>
 
                                             </div>
