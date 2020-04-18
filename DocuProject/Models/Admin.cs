@@ -39,7 +39,7 @@ namespace DocuProject.Models
             return dbs.check_User(admin);
 
         }
-            public DataTable GetDetails(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+            public DataTable GetDetails(int ID)
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Details(ID,"admin");

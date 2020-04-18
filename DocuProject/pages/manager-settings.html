@@ -41,11 +41,14 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+            //Form
+            $('#form').submit(sub); 
+            $('#saveDetails').click(saveDetails_); 
 
-            $('#form').submit(sub); //FORM
-            $('#saveDetails').click(saveDetails_); //FORM
-            readFromDB(); //profession
+            //profession
+            readFromDB(); 
 
+            //admin
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
@@ -72,6 +75,7 @@
                     }
                 }
             });
+
             //שלב1 -העלאת התמונה לתוכנה
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
@@ -83,7 +87,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedImage", files[f]);
                     }
-                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
                 //Ajax upload
                 $.ajax({
@@ -120,8 +124,7 @@
             function GETsuccessCB(data) {
                 console.log(data);
                 listP = data;
-
-                //insert options to select
+               //insert options to select
                 for (var i = 0; i < listP.length; i++) {
                     var select = document.getElementById("selectProf");
                     var option = document.createElement("option");
@@ -139,7 +142,6 @@
                     ProfARR[i] = listP[i].Profession;
                 }
             }
-
             function GETerrorCB(err) {
                 console.log(err);
             }
@@ -147,17 +149,16 @@
             function sub() {
                 return false;
             }
+
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
-
+            function funcerror() { }
             function funcsuccess(data) {
-                obj = data;
+                obj = data; 
+
                 //date
                 birthVal = obj[0].Bday;
                 birthValArr = birthVal.split('T00:00:00');
@@ -175,26 +176,22 @@
                 $('#bday').val(birthVal);
 
                 userEmail = obj[0].Email;
+
                 ClassroomTeacher = obj[0].ClassroomTeacher;
-   
                 str = '<div class="create-text">' + ClassroomTeacher + '<h6 style="font-size: 23px"></h6>';
+
                 document.getElementById('profCard').innerHTML = str;
 
+                //pic
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
             };
-            function funcerror() { }
-
 
             function saveDetails_() {
-
                 if ($("#selectProf").val() == '1')
                     prof = obj[0].Profession;
                 else
                     prof = $("#selectProf").val();
-
-
-                let admin = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                let admin =
                 {
                     "Fname": $("#fname").val(),
                     "Lname": $("#lname").val(),
@@ -228,7 +225,6 @@
             var profession = "";
             ClassSubArr = [];
             ProfARR = [];
-
 
             function addSubj() {
                 profession = $("#selectProf").val();
@@ -267,7 +263,6 @@
                     'התמונה הועלתה בהצלחה!',
                     'success'
                 )
-
             }
 
 
@@ -276,13 +271,11 @@
             }
 
             function getAvatarImageSuccess(imagePath) {
-
                 src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }

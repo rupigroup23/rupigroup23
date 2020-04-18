@@ -333,9 +333,6 @@ namespace DocuProject.Controllers
             Task t = new Task();
             List<Task> videos = t.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
             return videos;
-
-
-
         }
 
 

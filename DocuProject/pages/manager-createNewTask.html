@@ -40,7 +40,6 @@
         var imagePath1 = '';
         var userEmail1 = '';
         //files
-        var videoPath = '';
         var taskPath = '';
         var taskId = 0;
 
@@ -53,6 +52,7 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the images
+            //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
@@ -68,12 +68,11 @@
             $('#uploadtxtbox').click(UploadTxt);
 
             //$('#saveTask').attr("disabled", true);
+
             $('#saveTask').click(saveTask);
 
-            $('#HAGANOT').click(HAGANOT);
-
             ///upload files
-            $('#upload').on('click', function () { // טעינת הקובץ לתוכנה
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
@@ -85,7 +84,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "Shir"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
 
                 //Ajax upload
@@ -102,18 +101,6 @@
                 return false;
             });
             function showTasks(data) {
-<<<<<<< HEAD
-
-                    //$('#saveTask').attr("disabled", false);
-                    taskPath = data;
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'הקובץ נטען בהצלחה',
-                        confirmButtonColor: '#990099',
-                    })
-                
- 
-=======
                 //$('#saveTask').attr("disabled", false);
                 taskPath = data;
                 Swal.fire({
@@ -122,14 +109,13 @@
                     confirmButtonText: 'אישור',
                     confirmButtonColor: '#990099',
                 })
->>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
                 //Swal.fire("הקובץ סיים להיטען, מלא את פרטי המטלה ולחץ פרסום'")
             }
             function error(data) {
                 console.log(data);
             }
 
-            ///upload video
+            //upload Vidoe
             $('#uploadVideo').on("click", function () {
                 var data = new FormData();
                 var files = $("#chooseVideo").get(0).files;
@@ -137,7 +123,7 @@
                     for (f = 0; f < files.length; f++) {
                         data.append("UploadedTasks", files[f]);
                     }
-                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
                 }
                 //Ajax upload
                 $.ajax({
@@ -150,29 +136,16 @@
                     error: showVideoError
                 });
             })
+             function showVideoSuccess(data) {
+                videoPath = data;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הקובץ נטען בהצלחה',
+                    confirmButtonColor: '#990099',
+                })
+             }
+             function showVideoError(err) { console.log(err) }
         });
-
-        function HAGANOT() {
-            var hag = document.getElementById("HAGANOT1");
-            if (hag.style.display === "none") {
-                hag.style.display = "block";
-            }
-            else {
-                hag.style.display = "none";
-            }
-            
-        }
-        function showVideoSuccess(data) {
-            videoPath = data;
-            Swal.fire({
-                icon: 'success',
-                title: 'הקובץ נטען בהצלחה',
-                confirmButtonColor: '#990099',
-            })
-
-
-        }
-        function showVideoError(err) { console.log(err) }
 
         //User image
         function showDetalis(objAdmin) {
@@ -332,14 +305,11 @@
                 /*var taskStr = `http://localhost:44328/${taskPath}`*/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
                 var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
             }
-            //if (radiosContent[0].checked == true) {
-            //    /var taskStr = `http:/ / localhost: 44328 / ${ taskPath } `/ // להחליף בין הניתובים לפני שמעלים לשרת!!!
-            //        var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${taskPath}`;
-            //}
+            console.log(videoPath)
+
             if (radiosContent[1].checked == true) {
                 var taskStr = $("#taskcontent-txtbox").val();
             }
-            console.log(videoPath)
             TaskObj =
                 {
                 "Video":videoPath[0],
@@ -354,6 +324,7 @@
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
 
+            //taskArr.push(TaskObj);
         }
 
         function POSTsuccess(data) {
@@ -372,18 +343,7 @@
 
 
 
-        // שלב2- העלאת התמונה מהתוכנה לדטא
-        //$('#uploadTask').on('click', function () {
-        //    var taskStr = `http://localhost:44328/${taskPath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
-        //    //var taskStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
-        //    UploadTaskObj = {
-        //        "Id": IDtask,
-        //        "Task": taskStr
-        //    }
-        //    ajaxCall('POST', '../api/DocuUpload/uploadUrlTask', JSON.stringify(UploadTaskObj), POSTsuccessTask, POSTerrorTask);
 
-
-        //});
         function POSTsuccessTask() {
             Swal.fire(
                 //'Good job!',
@@ -415,7 +375,8 @@
         </button> &nbsp;&nbsp;
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
-        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search"></form>
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+        </form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
@@ -452,7 +413,8 @@
     </nav>
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb" id="orientation"></ol>
+        <ol class="breadcrumb" id="orientation">
+        </ol>
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -676,22 +638,19 @@
                                                 <input id="uploadtxtbox" name="taskcontent" type="radio" value="תיבת טקסט">
                                                 <label for="showTxtbox" class="create-text">תיבת טקסט</label>
                                             </section>
-                                            <button id="HAGANOT" class="upload-btn">
-                                                הגנות
-                                            </button>
-                                            <section id="HAGANOT1" style="display:none"> 
-                                                <label>וידאו</label>
-                                                <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
-                                                <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
-                                            </section>
 
+                                            <div class="row">
+                                                    <label>וידאו</label>
+                                                    <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
+                                                    <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
+                                            </div>
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row" id="showUpload" style="display:none">
 
                                                 <div class="col-lg-8 col-sm-12">
                                                     <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען קובץ" class="upload-btn" />
+                                                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
                                                 </div>
 
                                             </div>
@@ -764,7 +723,5 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-
 </body>
 </html>

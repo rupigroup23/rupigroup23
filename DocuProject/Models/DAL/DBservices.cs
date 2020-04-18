@@ -1143,9 +1143,9 @@ public class DBservices
     {
         string selectSTR = "";
         string imagePath = "";
-        SqlConnection con = null; //שורה קבועה
+        SqlConnection con = null;
         try
-        {   //שורה 
+        {   
             if (str == "admin" )
             {
                 selectSTR = "select Image_ from Admin_ where Id_='" + Id + "'";
