@@ -340,10 +340,11 @@
             }
             if (cntr == 0) {
                 newProf = {
-                    'Prof': prof,
+                    'Name': prof,
                 }
                 //obj for Profession table
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+                                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+
             }
         }
         function POSTsuccessP() {

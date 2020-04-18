@@ -55,12 +55,12 @@
 
             $('#selectProf').change(function () {
                 var value = $(this).val();
-                var X = document.getElementById("txtbox");
+                var newProf = document.getElementById("txtbox");
                 if (value == "אחר") {
-                    X.style.display = "block";
+                    newProf.style.display = "block";
                 }
                 else {
-                    X.style.display = "none";
+                    newProf.style.display = "none";
                 }
             });
 
@@ -68,6 +68,7 @@
             $('#saveClass').click(saveClassDB);
             $('#upload').click(save_uploadStudents);
         });
+
         //admin
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
@@ -310,16 +311,17 @@
         function checkNewProff(prof) {
             cntr = 0;
             for (var i = 0; i < listP.length; i++) {
-                if (listP[i].Name == prof) {
+                if (listP[i].Name == prof)
+                {
                    cntr++;
                 }  
             }
             if (cntr == 0) {
-                newProf = {
-                    'Prof': prof,
+                newProfOBJ = {
+                    'Name': prof,
                 }
                 //obj for Profession table
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+                //ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProfOBJ), POSTsuccessP, POSTerrorP);
             }
             
         }
@@ -391,7 +393,6 @@
                 })
             ClassSubArr.push(ClassTeachObj);
         }
-
         function saveClassDB() { 
             if (ClassSubArr.length == 0) {
                 Swal.fire({
@@ -424,6 +425,8 @@
             //Class table --> classObj
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessC, POSTerrorC);
 
+            ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProfOBJ), POSTsuccessP, POSTerrorP);
+
             $('#saveClass').attr("disabled", true);
         }
 
@@ -445,14 +448,7 @@
                 confirmButtonColor: '#990099',
                 confirmButtonText: 'אישור',
             })
-            // לאחר לחיצה מאפס לחצנים
-            //$("#classSelect option:first").attr('selected', 'selected');
-            //$("#classNum option:first").attr('selected', 'selected');
-            //$("#Year").val("");
-            //$("#NumOfs").val("");
-            //$("#teacherName option:first").attr('selected', 'selected');
-            //$("#classType option:first").attr('selected', 'selected');
-            /////////////
+   
         }
         function POSTerrorC(err) { console.log(err) };
         //Profession function checkNewProff

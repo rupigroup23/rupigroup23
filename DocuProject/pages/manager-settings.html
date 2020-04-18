@@ -58,6 +58,7 @@
             $("#changePass").click(function () {
                 if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
                     pass = $('#pass2').val();
+                    //saveDetails(pass);
                     swal("סיסמא שונתה בהצלחה", "", "success");
                 }
                 else {
@@ -157,21 +158,25 @@
 
             function funcsuccess(data) {
                 obj = data;
-
+                //date
+                birthVal = obj[0].Bday;
+                birthValArr = birthVal.split('T00:00:00');
+                birthVal = birthValArr[0];
+                //
                 $('#fname').val(obj[0].FName);
                 $('#lname').val(obj[0].LName);
                 $('#Id').val(obj[0].Id_);
                 $('#mail').val(obj[0].Email);
                 $('#city').val(obj[0].City);
                 $('#street').val(obj[0].Street);
-                $('#bday').val(obj[0].Bday);
+               
                 $('#phone').val(obj[0].PhoneNum);
+                $('#selectProf').val(obj[0].Profession);
+                $('#bday').val(birthVal);
 
                 userEmail = obj[0].Email;
                 ClassroomTeacher = obj[0].ClassroomTeacher;
-                // = obj[0].Profession;
-                //str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-                //ProfDB = obj[0].Profession;
+   
                 str = '<div class="create-text">' + ClassroomTeacher + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
 
@@ -202,9 +207,6 @@
                     "Profession": prof,
                     "Password": pass
                 }
-
-
-
                 console.log(admin);
 
                 url = "../api/Docu/updatetAdmin";
@@ -523,21 +525,15 @@
                         <div class="col-lg-3 col-sm-6">
 
                             <div class="col-lg-12 col-sm-6">
-<<<<<<< HEAD
                                 <h6 class="create-text" for="city">מחנך כיתה:</h6>
-=======
-                                <h6 class="create-text" for="city">מחנך:</h6>
->>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
+
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <h6 style="font-size: 23px"></h6>
                                 </div>
                             </div>
                         </div>
                         <br />
-<<<<<<< HEAD
-              
-=======
->>>>>>> fa8fb00fd2e0256cca727a7e74239ca72de1f7c0
+
                     </div>
                 </form>
             </div>

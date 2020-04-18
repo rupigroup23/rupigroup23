@@ -159,6 +159,8 @@
             //console.log(data);
             redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
             swal("המורה נמחק/ה בהצלחה!", "", "success");
+                        location.reload();
+
         }
         function DeleteError(err) { console.log(err) }
 
@@ -242,6 +244,7 @@
             console.log(id);
             url = "../api/Docu/updateTeacher/" + id1;
             ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+            location.reload();
         }
 
         function updateDsuccess(data) {

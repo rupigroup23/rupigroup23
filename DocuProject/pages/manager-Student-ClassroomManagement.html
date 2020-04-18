@@ -43,10 +43,10 @@
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
+            //myNameObj = JSON.parse(localStorage["myName"]);
 
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
@@ -103,7 +103,7 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-Student-ClassroomManagement.html'>ניהול תלמידים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
 
-            document.getElementById("classNum").innerHTML = thisclass;
+            document.getElementById("classNumber").innerHTML = thisclass;
         }
 
         function showStudentsData(obj) {
@@ -189,6 +189,7 @@
             swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
             console.log(data);
             redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+            location.reload();
         }
         function DeleteError(err) { console.log(err) }
 
@@ -224,7 +225,7 @@
             $("#id").val(student.Id_);
             $("#bday").val(student.Bday);
             $("#class").val(student.ClassName);
-            $("#classNum").val(student.ClassNum);
+            $("#classNumber").val(student.ClassNum);
             $("#password").val(student.Password_);
         }
 
@@ -234,6 +235,7 @@
         });
 
         function getStudebts(RowID) {
+
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -255,7 +257,7 @@
                 "Id": $("#id").val(),
                 "Bday": $("#bday").val(),
                 "ClassName": $("#class").val(),
-                "ClassNum": $("#classNum").val(),
+                "ClassNum": $("#classNumber").val(),
                 "Password": $("#password").val()
             }
             console.log(student); // האיבר המעודכן
@@ -263,9 +265,12 @@
             console.log(id);
             url = "../api/Docu/updateStudent/" + id1;
             ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
+
+            location.reload();
         }
 
         function updateDsuccess(data) {
+
             console.log(data);
             swal("העריכה נשמרה", "", "success");
             tbl.clear();
@@ -483,7 +488,7 @@
                             </div>
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>מספר כיתה</label>
-                                <input type="number" class="form-control" id="classNum" required />
+                                <input type="number" class="form-control" id="classNumber" required />
                             </div>
 
                             <div class="form-group col-sm-3 create-text">
