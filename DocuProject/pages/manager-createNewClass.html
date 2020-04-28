@@ -55,6 +55,7 @@
 
             $('#selectProf').change(function () {
                 var value = $(this).val();
+                getCoachs(value);
                 var X = document.getElementById("txtbox");
                 if (value == "אחר") {
                     X.style.display = "block";
@@ -106,11 +107,6 @@
             //insert options to select
             for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("teacherName");
-                var selectCoach = document.getElementById("coachName");
-
-                var option = document.createElement("option");
-                option.text = listT[i].FName + " " + listT[i].LName;
-                selectCoach.add(option);
 
                 var option = document.createElement("option");
                 option.text = listT[i].FName + " " + listT[i].LName;
@@ -126,6 +122,32 @@
         }
         function GETerrorT(err) { console.log(err) }
 
+        $('#selectProf').change(function () {
+                var value = $(this).val();
+                getCoachs(value);
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
+                }
+                else {
+                    X.style.display = "none";
+                }
+        });
+
+
+        function getCoachs(prof) {
+            var selectCoach = document.getElementById("coachName");
+               while (selectCoach.options.length > 0) {
+                selectCoach.remove(0);
+                }
+            for (var i = 0; i < listT.length; i++) {
+                if (prof == listT[i].Profession) {
+                    var option = document.createElement("option");
+                    option.text = listT[i].FName + " " + listT[i].LName;
+                    selectCoach.add(option);
+                }
+            }
+        }
         //get subjects
         function getSubjects() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessS, GETerrorS);
