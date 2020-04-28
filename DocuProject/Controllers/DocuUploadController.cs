@@ -47,43 +47,37 @@ namespace DocuProject.Controllers
         [Route("Api/DocuUpload/uploadtask")]
         public HttpResponseMessage Post()
         {  
-            List<string> taskLinks = new List<string>();
-            var httpContext = HttpContext.Current;
+            List<string> taskLinks = new List<string>(); // יוצרים רשימה שמחזיקה את הניתובים
+            var httpContext = HttpContext.Current; // יוצרים איבר שמחזיק את הבקשה 
 
             // Check for any uploaded file  
-                if (httpContext.Request.Files.Count > 0)
+                if (httpContext.Request.Files.Count > 0) // בודקת אם הגיע הקובץ בכלל לקונטרולר,יכולים להגיע כמה קבצים 
             {
                 //Loop through uploaded files  
-                for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                for (int i = 0; i < httpContext.Request.Files.Count; i++) // במידה ושלחו כמה קבצים 
                 {
-                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i]; // יוצרים קובץ ומכניסים אליו את הקובץ הראשון במערך 
 
                     // this is an example of how you can extract addional values from the Ajax call
-                    string name = httpContext.Request.Form["name"];
+                    string name = httpContext.Request.Form["name"]; // מי העלה את הקובץ
 
-                    if (httpPostedFile != null)
+                    if (httpPostedFile != null) // בודקים אם הקובץ נכנס
                     {
                         // Construct file save path  
                         //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
-                        string fname = httpPostedFile.FileName.Split('\\').Last(); // שומר את השם של התמונה
-                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ישמור את התמונה בתוך התיקיה אפלודפיילס שיצרנו
+                        string fname = httpPostedFile.FileName.Split('\\').Last(); // שומר את השם של הקובץ
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ישמור את הקובץ בתוך התיקיה אפלודפיילס שיצרנו
                         // Save the uploaded file  
-                        httpPostedFile.SaveAs(fileSavePath);
-                        taskLinks.Add("uploadedFiles/" + fname);
+                        httpPostedFile.SaveAs(fileSavePath); // שומר בתקיה
+                        taskLinks.Add("uploadedFiles/" + fname); // מכניס את הניתוב לרשימת לינקים שיצרנו בהתחלה,
                     }
                 }
             }
 
             // Return status code  
-            return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
+            return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, 
         }
 
-        //[HttpPost] ///  שלב 2- הכנסה של הקובץ לדטא 
-        //[Route("api/DocuUpload/uploadUrlTask")]
-        //public void Post([FromBody] UploadTask UploadTaskObj)
-        //{
-        //    UploadTask file = new UploadTask();
-        //    file.insertFile(UploadTaskObj);
-        //}
+      
     }
 }

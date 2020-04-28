@@ -58,7 +58,7 @@
             showDetalis(objAdmin);
 
             //localstorage for the orientation
-            local = localStorage.getItem('forNewTask');
+            local = localStorage.getItem('forNewTask'); 
             console.log('local: ', JSON.parse(local));
             newTaskObj = JSON.parse(localStorage["forNewTask"]);
             Showorientation();
@@ -70,7 +70,7 @@
             $('#saveTask').click(saveTask);
 
             ///upload files
-            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת הקובץ לתוכנה
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;

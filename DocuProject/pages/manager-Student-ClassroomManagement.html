@@ -105,7 +105,7 @@
         }
 
         function showStudentsData(obj) {
-            local = localStorage.getItem('studentObj');
+            local = localStorage.getItem('studentObj'); // מביא את כל התלמידים שלומדים בז2
             obj = JSON.parse(local);
             console.log(obj);
             obj2 =
@@ -119,7 +119,7 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
-            studentsArr = studentsData;
+            studentsArr = studentsData; /// מיותר
 
             console.log(studentsData)
             students = studentsData;

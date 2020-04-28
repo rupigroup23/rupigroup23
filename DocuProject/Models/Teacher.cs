@@ -42,19 +42,19 @@ namespace DocuProject.Models
             return numAffected; //מחזיר את מספר השורות
         }
 
-        public List<Teacher> Read()
+        public List<Teacher> Read() // 
         {
             DBservices dbs = new DBservices();
             return dbs.getFromDBT(); 
         }
 
-        public int insertT2(List<Teacher> teachersArr)
+        public int insertT2(List<Teacher> teachersArr) // שייך לאקסל
         {
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertT2(teachersArr);
             return numAffected; //מחזיר את מספר השורות
         }
-          public DataTable GetTechers()
+          public DataTable GetTechers() // מקבל את כל המורים בצורה של דטא טייבל
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Techers();
@@ -73,14 +73,14 @@ namespace DocuProject.Models
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Techers();
-            dbs.dt = checkTbl(id, teacher, dbs.dt);
+            dbs.dt = checkTbl(id, teacher, dbs.dt); //חוזר לכאן טבלה אחרי העידכונים עדיין לא בדאטהבייס
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable checkTbl(int id, Teacher teacher, DataTable dt)
+        public DataTable checkTbl(int id, Teacher teacher, DataTable dt) // פונקציית עזר של PUtT
         {
-            foreach (DataRow dr in dt.Rows)
+            foreach (DataRow dr in dt.Rows) //עובר על כל הטבלה שורה שורה
             {
                 if (id == Convert.ToInt32(dr["id"]))
                 {
@@ -98,7 +98,7 @@ namespace DocuProject.Models
             }
             return dt;
         }
-        public Teacher CheckUser2(Teacher teacher)
+        public Teacher CheckUser2(Teacher teacher) // קשור ללוג אין בדפים של המורה
         {
             DBservices dbs = new DBservices();
             return dbs.check_User2(teacher);
@@ -107,7 +107,7 @@ namespace DocuProject.Models
 
         public DataTable GetDetails(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
-            DBservices dbs = new DBservices();
+            DBservices dbs = new DBservices(); // מביאה את המורה הספציפי בצורה של דטא טייבל
             dbs = dbs.Get_Details(ID,"teacher");
             return dbs.dt;//מעביר רק את הטבלה 
         }
