@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -49,20 +50,14 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             getTeachers();
-<<<<<<< HEAD
-=======
             //buttom save and cancel
             $('#saveBTN').click(saveTeacherDB);
             $('#upload').click(uploadTeachers);
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
 
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
-             $('#saveBTN').click(saveTeacherDB);
-            $('#upload').click(uploadTeachers);
         });
 
         function sub() {
@@ -77,14 +72,10 @@
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
             ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
         }
-                function funcerror() { }
+        function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -94,17 +85,8 @@
         function getAvatarImageError(err) {
             console.log(err)
         }
-<<<<<<< HEAD
 
         //img
-=======
-        function funcerror() { }
-
-        function sub() {
-            return false;
-        }
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
-
         function getTeachers(data) {
             var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
@@ -112,20 +94,35 @@
         techersArr = [];
         function GETsuccess(data) {
             techersArr = data;
+            for (var i = 0; i < techersArr.length; i++) {
+                bd = techersArr[i].Bday;
+                bd1 = bd.split('-');
+                day = bd1[2].split('T');
+                dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
+                data[i].Bday = dateIL
+            }
             try {
                 tbl = $('#teachersTable').DataTable({
+                    responsive: true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
+                    },
                     data: data,
                     pageLength: 5,
                     columns: [
                         {
                             render: function (data, type, row, meta) {
                                 let rowID = "data-RowId='" + row.id + "'";
-                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-success' style='margin-right: 0%'  " + rowID + ">";
-                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-danger' style='margin-right: 0%'  " + rowID + ">";
+                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
+                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
+
+                                //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
+                                //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
                         { data: "id" },
+                        { data: "Profession" },
                         { data: "FName" },
                         { data: "LName" },
                         { data: "Email" },
@@ -133,8 +130,7 @@
                         { data: "Street" },
                         { data: "Id_" },
                         { data: "Bday" },
-                        { data: "PhoneNum" },
-                        { data: "Profession" },
+                        { data: "PhoneNum" },                        
                         { data: "Password_" },
                     ],
                 });
@@ -168,18 +164,15 @@
             ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
         }
         function DeleteSuccess(data) {
-            redrawTBL(tbl, data); 
+            redrawTBL(tbl, data);
             swal("המורה נמחק/ה בהצלחה!", "", "success");
             location.reload();
 
         }
         function DeleteError(err) { console.log(err) }
 
-<<<<<<< HEAD
-        function redrawTBL(tbl, data) 
-=======
+
         function redrawTBL(tbl, data) // לרענן את הטבלה לאחר שבוצועו שינויים.
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
         {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -224,15 +217,10 @@
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
             $("#editDiv").hide();
-        }); // כפתור ביטול של העריכה 
+        }); // כפתור ביטול של העריכה
 
-<<<<<<< HEAD
-        function getStudebts(RowID)
-        {
-=======
-        //לא אמור להיות פה? 
+
         function getStudebts(RowID) {
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -323,18 +311,17 @@
                 }
             });
         });
-        function uploadTeachers()
-        { //EXCEL
+        function uploadTeachers() { //EXCEL
             ajaxCall("POST", "../api/Docu/postTeach2", JSON.stringify(teachersArr), POSTsuccess_, POSTerror_);
         }
 
         function POSTsuccess_() {
-             Swal.fire(
-                    {
-                        text: 'מורים נוספו למערכת בהצלחה',
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
+            Swal.fire(
+                {
+                    text: 'מורים נוספו למערכת בהצלחה',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
                 })
             //location.reload() כדאי להוסיף אחרי שהעלאת הקובץ הסתיימה בהצלחה הפקודה הזאת עושה רענן לעמוד ובעצם מרעננת את הטבלה
 
@@ -487,7 +474,7 @@
                             <div class="col-lg-8 col-sm-12">
                                 <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
                                 &nbsp;&nbsp;<input type="button" id="load" value="טען" class="upload-btn" />
-                                &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none"/>
+                                &nbsp;&nbsp; <input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
                             </div>
                         </div>
                     </div>
@@ -505,6 +492,7 @@
                                 <tr>
                                     <th></th>
                                     <th></th>
+                                    <th>מקצוע</th>
                                     <th>שם פרטי</th>
                                     <th>שם משפחה</th>
                                     <th>אימייל</th>
@@ -513,7 +501,7 @@
                                     <th>ת"ז</th>
                                     <th>תאריך לידה</th>
                                     <th>מספר נייד</th>
-                                    <th>מקצוע</th>
+
                                     <th>סיסמא ראשונית</th>
                                 </tr>
                             </thead>

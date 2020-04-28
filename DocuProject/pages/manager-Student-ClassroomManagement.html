@@ -123,8 +123,22 @@
 
             console.log(studentsData)
             students = studentsData;
+            for (var i = 0; i < studentsArr.length; i++) {
+                bd = studentsArr[i].Bday;
+                bd1 = bd.split('-');
+                day = bd1[2].split('T');
+                dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
+                studentsArr[i].Bday = dateIL
+            }
+
+
             try {
                 tbl = $('#StudentTable').DataTable({
+
+                            responsive: true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
+                    },
                     data: students,
                     pageLength: 5,
                     columns: [
@@ -139,6 +153,7 @@
                         { data: "id" },
                         { data: "FName" },
                         { data: "LName" },
+                        { data: "Gender" },
                         { data: "PhoneNum" },
                         { data: "Email" },
                         { data: "City" },
@@ -148,6 +163,9 @@
                         { data: "ClassName" },
                         { data: "ClassNum" },
                         { data: "Password_" },
+
+                        
+
                     ],
                 });
             }
@@ -427,6 +445,7 @@
                                 <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
+                                <th>מגדר</th>
                                 <th>מספר נייד</th>
                                 <th>איימל</th>
                                 <th>עיר</th>
@@ -436,6 +455,8 @@
                                 <th>כיתה</th>
                                 <th>מס' כיתה</th>
                                 <th>סיסמא ראשונית</th>
+
+
                             </tr>
                         </thead>
                     </table>
