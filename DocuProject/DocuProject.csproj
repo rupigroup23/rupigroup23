@@ -212,6 +212,12 @@
     <Content Include="pages\manager-createNewTeacher.html" />
     <Content Include="pages\shirNoy-createNewClass.html" />
     <Content Include="pages\shir-createNewClass.html" />
+    <Content Include="pages\student-PresentationAssignment.html" />
+    <Content Include="pages\student-index.html" />
+    <Content Include="pages\student-feedbacks.html" />
+    <Content Include="pages\student-tasks.html" />
+    <Content Include="pages\student-watchingvideos.html" />
+    <Content Include="pages\student-settings.html" />
     <Content Include="pages\teacher-EDIT_PresentationAssignment.html" />
     <Content Include="pages\manager-EDIT_PresentationAssignment.html" />
     <Content Include="pages\manager-PresentationAssignment.html" />
@@ -397,6 +403,9 @@
     <Content Include="pages\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="pages\vendor\jquery\jquery.min.map" />
     <Content Include="pages\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="fonts\OS_Luizi Round-FFC.otf" />
+    <Content Include="fonts\os_luizi_round-ffc-web.woff" />
+    <Content Include="fonts\os_luizi_round-ffc-web.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

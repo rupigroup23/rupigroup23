@@ -21,46 +21,33 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
 
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <!-- noy links -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <!-- links of Facebook, instedram and links -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- js links -->
-    <script src="js/showItem.js"></script>
-    <script src="js/myName.js"></script>
     <script>
-        var imagePath1 = '';
-        var userEmail1 = '';
+
         $(document).ready(function () {
-            //Menus
-            localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
-            savelocal1(myNameObj.name);
+            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
 
-            getSubjcts(); 
-            getTachears();
 
-            local = localStorage.getItem('studentObj');
-            console.log('local: ', JSON.parse(local));
-            classObj = JSON.parse(localStorage["studentObj"]);
-            Showorientation();
 
+            local = localStorage.getItem('user'); //local teacher
+            objTeacher = JSON.parse(local);
+
+            classObj = JSON.parse(localStorage["studentObj"]); //local class
+            console.log(classObj);
             readClassSUbjFromDB();
-            $('#addSubj').click(addSubj);
+            Showorientation();
             $('#saveSubj').click(saveSubj);
+            $('#addSubj').click(addSubj);
+            showDetalis(objTeacher)
 
             $('#selectProf').change(function () {
                 var value = $(this).val();
@@ -73,41 +60,38 @@
                 }
             });
 
-            //User image
-            localAdmin = localStorage.getItem('user');
-            objAdmin = JSON.parse(localAdmin);
-            showDetalis(objAdmin);
-
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
+            ////pic//////////
+            function showDetalis(objTeacher) {
+                Id = objTeacher.Id;
+                var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
+
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
+            function funcerror() { }
+
             function getAvatarImageSuccess(imagePath1) {
+
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
+
             function getAvatarImageError(err) {
                 console.log(err)
             }
-            function funcerror() { }
-            //END User image
+
+            //////////pic/////
         });
 
-        //get subjects from the DB
-        function getSubjcts() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+        //add all subjects from the table (DB)
+        function readFromDB() {
+            ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
@@ -124,111 +108,49 @@
             console.log(err);
         }
 
-
-        //get teacher from the BD
-        arrCoach = [];
-        function getTachears() {
-            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-        }
-        function GETsuccessT(data) {
-            console.log(data);
-            listT = data;
-            //insert options to select
-            for (var i = 0; i < listT.length; i++) {
-                var selecTacher = document.getElementById("coachName");
-
-                var option = document.createElement("option");
-                option.text = listT[i].FName + " " + listT[i].LName;
-                selecTacher.add(option);
-            }
-            for (var j = 0; j < listT.length; j++) {
-                strCoach = {
-                    'name': listT[j].FName + " " + listT[j].LName,
-                    'id': listT[j].Id
-                }
-                arrCoach.push(strCoach);
-            }
-        }
-        function GETerrorT(err) { console.log(err) }
-
-        //get lists of prof-class
-        csDBAaa = [];
-        function getClassSUbjFromDB(name, num) {
-            var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
-            console.log(apiProf);
-            ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
-        }
-        function GETsuccessCT1(data) {
-            listCT = data;
-            for (var i = 0; i < listCT.length; i++) {
-                csDBAaa[i] = listCT[i].Profession;
-            }
-        }
-        function GETerrorCT1(err) {
-            console.log(err);
-        }
-
         var profession = "";
-         var profession = "";
-        var coach = "";
-        var teacher_Id = "";
         ClassSubArr = [];
         function addSubj() // שמירת נתוני המורה בדאטה
         {
             profession = $("#selectProf").val();
-            coach = $("#coachName").val();
-           
-           if (profession == "1" || coach == "1" ) {
+            if (profession == "1") {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
-                    text: 'לא בחרת מקצוע/מורה 😓',
+                    text: 'לא בחרת מקצוע 😓',
                     confirmButtonText: 'אוקי',
-                    confirmButtonColor: '#990099',
+                    showCloseButton: true
                 })
             }
             else {
                 if (profession == "אחר") {
                     var X = $("#txtbox").val();
-                    checkNewProff(X);
                     profession = X;
                 }
-                checkSubCoach();
+                checkSub();
             }
         }
 
-        function checkSubCoach() {
-            name = classObj.ClassName;
-            num = classObj.ClassNum;
-            getClassSUbjFromDB(name, num);
-
-            for (var i = 0; i < csDBAaa.length; i++) {
-                if (csDBAaa[i] == profession) {
+        function checkSub() {
+            for (var i = 0; i < ProfARR.length; i++) {
+                if (ProfARR[i] == profession) {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
                         text: 'המקצוע כבר קיים',
                         confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
+                        showCloseButton: true
                     })
                     return;
                 }
             }
             //אין כזה מקצוע
-            for (var i = 0; i < arrCoach.length; i++) {
-                if (coach == arrCoach[i].name) {
-                    teacher_Id = arrCoach[i].id;
-                }
-            }
-            //obj for ClassSubjects table
-            ClassTeachObj =
+            ClassSubObj =
                 {
-                    "Name": name,
-                    "Number": num,
-                    "ClassType": $("#classType").val(),
+                    "Name": classObj.ClassName,
+                    "Number": classObj.ClassNum,
+                    "ClassType": 'רגילה',
                     "Profession": profession,
-                    "Teacher_name": coach,
-                    "Id_teacher": teacher_Id,
                 }
             for (var i = 0; i < ClassSubArr.length; i++) {
                 if (ClassSubArr[i].Profession == profession) {
@@ -236,60 +158,48 @@
                         icon: 'error',
                         title: 'שגיאה...',
                         text: 'הכנסת עכשיו את המקצוע הזה',
-                        confirmButtonText: 'אישור',
-                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
                     })
                     return;
                 }
             }
-            var answers = "";
             Swal.fire({
                 icon: 'success',
-                title: ' ההוספה נשמרה בהצלחה 😀',
-                confirmButtonText: 'אישור',
-                confirmButtonColor: '#990099',
-            }).then((result) => {
-                if (result.value) {
-                    for (var i = 0; i < ClassSubArr.length; i++) {
-                        answers += (i + 1) + ". " + ClassSubArr[i].Profession + " - " + ClassSubArr[i].Teacher_name + "</br>";
-                    }
-                    //let answers = JSON.stringify(SUB)
-                    Swal.fire({
-                        title: 'עד עכשיו הוספת:',
-                        html: answers,
-                        confirmButtonText: 'אישור',
-                        confirmButtonColor: '#990099',
-                    })
-                }
+                title: ' המקצוע נשמר 😀',
+                text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
             })
-            ClassSubArr.push(ClassTeachObj);
+            ClassSubArr.push(ClassSubObj);
         }
-        
+
         function saveSubj() {
             if (ClassSubArr == 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
                     text: 'לא בחרת מקצועות 😓',
-                    confirmButtonText: 'אישור',
-                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
                 })
             }
             else {
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+                ajaxCall("POST", "../api/Teacher/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
             }
         }
         function POST1success() {
             Swal.fire({
                 icon: 'success',
-                title: 'המקצועות נוספו לכיתה 😀',
+                title: 'הצלחת',
+                text: 'המקצועות נוספו לכיתה 😀',
             })
-            location.reload();
         }
         function POST1error(err) { console.log(err) };
 
+
         function readClassSUbjFromDB() {
-            var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
+            var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
         ProfARR = [];
@@ -306,7 +216,7 @@
                 ProgSTR += "<div class='channels-card'>";
                 ProgSTR += " <div id='prof" + i + "' class='testProf'>";
                 ProgSTR += ProfARR[i];
-                ProgSTR += "<br /><a href='manager-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
+                ProgSTR += "<br /><h3 class='taskNum' style='text-align: right'>מורה:</h3><a href='student-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
                 ProgSTR += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
                 ProgSTR += "</div></div></div>";
                 document.getElementById("professions").innerHTML = ProgSTR;
@@ -329,41 +239,21 @@
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
         }
 
-        //save new proff - post: Profession
-        function checkNewProff(prof) {
-            cntr = 0;
-            for (var i = 0; i < listP.length; i++) {
-                if (listP[i].Name == prof) {
-                    cntr++;
-                }
-            }
-            if (cntr == 0) {
-                newProf = {
-                    'Name': prof,
-                }
-                //obj for Profession table
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-
-            }
-        }
-        function POSTsuccessP() {
-            console.log("Profession good");
-        }
-        function POSTerrorP() {
-            console.log(err)
-        }
 
         //סרגל השתלשלות
         orientationSTR = "";
         function Showorientation() {
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-professions.html'>מקצועות</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
+
+
     </script>
 </head>
+
+
 <body id="page-top">
     <!-- top bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -372,7 +262,7 @@
         <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button> &nbsp;&nbsp;
-        <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+        <a class="navbar-brand mr-1" href="student-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
         </form>
@@ -401,9 +291,8 @@
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
-                    <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <a class="dropdown-item" href="student-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
@@ -420,50 +309,27 @@
         <!-- Left menu -->
         <!-- Sidebar -->
         <ul class="sidebar navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="manager-index.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
+                <h6 class="nav-item">תלמיד</h6>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>יצירה</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
-                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
-                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>ניהול</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
-                </div>
-            </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
-                <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    מקצועות
                 </a>
             </li>
+
             <li class="nav-item channel-sidebar-list">
                 <h6>פרטיות</h6>
                 <ul>
                     <li>
-                        <a href="manager-settings.html">
+                        <a href="student-settings.html">
                             <i class="fa fa-gear" style="font-size:24px"></i>
                             הגדרות
                         </a>
@@ -496,39 +362,11 @@
 
                 <div class="video-block section-padding">
                     <div class="row">
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <a class="btn btn-outline-primary btn-block btn-lg" href="manager-Student-ClassroomManagement.html">
-                                <buttom>
-                                    ניהול תלמידים
-                                </buttom>
-                            </a>
-                        </div>
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <button onclick="Items()" class="btn btn-outline-primary btn-block btn-lg">
-                                הוספת מקצוע חדש לכיתה
-                            </button>
-                        </div>
-                        <div class="col-xl-6 col-sm-6 mb-3">
-                            <!--NewProfession-->
-                            <div id="showItems" style="display:none">
-                                <select id="selectProf" class="create-select">
-                                    <option value="1">שם המקצוע</option>
-                                </select>
-                                <select id="coachName" class="create-select">
-                                    <option value="1"> מורה מלמד</option>
-                                </select>
-                                <button id="addSubj" class="create-btn" style="width: auto;">
-                                    הוספה
-                                </button>
-                                <button id="saveSubj" class="create-btn" style="width: auto;">
-                                    שמירה
-                                </button>
-                                <div class="profession-txtbox-disclosure">
-                                    <textarea class="comment-box" id="txtbox" rows="1" cols="15" style="display:none"></textarea>
-                                </div>
-                            </div>
-                        </div>
+                        <h1 class="text2" style="font-size: 45px;margin-right: auto;margin-left: auto;">
+                            ברוכים הבאים
+                        </h1>
                     </div>
+                    <br />
                     <hr class="mt-0">
                     <div class="row">
                         <div class="col-md-10">

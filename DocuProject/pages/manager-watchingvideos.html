@@ -35,7 +35,6 @@
         var userEmail1 = '';
 
         $(document).ready(function () {
-
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -69,7 +68,6 @@
             }
             urlVideo = "";
             function getAvatarImageSuccess(imagePath1) {
-
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
