@@ -69,7 +69,7 @@
             //let numClass = TaskObj11.ClassNum;
             //let sub = TaskObj11.Profession
             //var topic = TaskObj11.Task.Topic
-
+            console.log('../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic);
             ajaxCall('get', '../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
             function Success(data) {
@@ -126,6 +126,7 @@
             }
             function funcerror(err) { console.log(err) }
             //END- User image
+            //לא רלוונטי
             function getSpecificTaskSuccess(data) {
                 $('#addpic').attr("disabled", false);
                 taskPath = data;

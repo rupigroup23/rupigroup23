@@ -36,7 +36,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- js links -->
-    <!--<script src="js\manager\saveProfClass.js"></script>-->
     <script src="js/showItem.js"></script>
     <script src="js/myName.js"></script>
     <script>
@@ -311,7 +310,7 @@
             for (var i = 0; i < ProfARR.length; i++) {
                 ProgSTR += " <div class='col-xl-3 col-sm-6 mb-3'>";
                 ProgSTR += "<div class='channels-card'>";
-                ProgSTR += " <div id='prof" + i + "' class='create-text' style='color: black; font-size: 35px'>";
+                ProgSTR += " <div id='prof" + i + "' class='testProf'>";
                 ProgSTR += ProfARR[i];
                 ProgSTR += "<br /><a href='manager-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
                 ProgSTR += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
@@ -348,8 +347,13 @@
                 newProf = {
                     'Name': prof,
                 }
+<<<<<<< HEAD
                 //add a new prof 
                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+=======
+                //obj for Profession table
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
 
             }
         }
@@ -511,7 +515,7 @@
                             </a>
                         </div>
                         <div class="col-xl-3 col-sm-6 mb-3">
-                            <button onclick="Items()" class="btn btn-outline-primary btn-block btn-lg text2">
+                            <button onclick="Items()" class="btn btn-outline-primary btn-block btn-lg">
                                 הוספת מקצוע חדש לכיתה
                             </button>
                         </div>
@@ -524,10 +528,10 @@
                                 <select id="coachName" class="create-select">
                                     <option value="1"> מורה מלמד</option>
                                 </select>
-                                <button id="addSubj" class="create-select" style="width: auto;">
+                                <button id="addSubj" class="create-btn" style="width: auto;">
                                     הוספה
                                 </button>
-                                <button id="saveSubj" class="create-select" style="width: auto;">
+                                <button id="saveSubj" class="create-btn" style="width: auto;">
                                     שמירה
                                 </button>
                                 <div class="profession-txtbox-disclosure">

@@ -43,17 +43,16 @@
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
-            //myNameObj = JSON.parse(localStorage["myName"]);
-
-            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
 
             console.log(classObj);
-            Showorientation(); //shir
+            Showorientation();
 
             showStudentsData();
             $('#saveBTN').click(saveStudent);
@@ -93,7 +92,6 @@
         function sub() {
             return false;
         }
-        //shir//
         orientationSTR = "";
         function Showorientation() {
             thisclass = classObj.ClassName + "' " + classObj.ClassNum;
@@ -107,11 +105,9 @@
         }
 
         function showStudentsData(obj) {
-
-            local = localStorage.getItem('studentObj');
+            local = localStorage.getItem('studentObj'); // מביא את כל התלמידים שלומדים בז2
             obj = JSON.parse(local);
             console.log(obj);
-
             obj2 =
                 {
                     "ClassName": obj.ClassName,
@@ -123,7 +119,7 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
-            studentsArr = studentsData;
+            studentsArr = studentsData; /// מיותר
 
             console.log(studentsData)
             students = studentsData;

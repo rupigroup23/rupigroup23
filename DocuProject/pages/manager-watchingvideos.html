@@ -35,7 +35,6 @@
         var userEmail1 = '';
 
         $(document).ready(function () {
-
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -69,18 +68,21 @@
             }
             urlVideo = "";
             function getAvatarImageSuccess(imagePath1) {
-
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
+<<<<<<< HEAD
                // סידור פורמט תאריך
+=======
+                //הבאת סרטונים מהדאטה בייס//
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
                 date = TaskObj.Task.Date;
                 dateArr = date.split('/');
                 dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
-                taskObject = {
+                taskObject = { // מגיע מהלוקל סטורג'
                     "ClassName": TaskObj.ClassName,
                     "ClassNum": TaskObj.ClassNum,
                     "Profession": TaskObj.Profession,
@@ -88,7 +90,11 @@
                     "Deadline": dateVal
                 }
 
+<<<<<<< HEAD
                  urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
+=======
+                urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
                 ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
             }
@@ -104,43 +110,44 @@
             //הכנסה דינמית לDOM
             for (let i in listOfVideo) {
                 let videoPath = `../${listOfVideo[i].Video}`
-                console.log(videoPath)
+               
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                            <div class="video-card">
-                                                <div class="video-card-image">
-                                                    <a class="play-icon" href='${videoPath}'>
-                                                        <i class="fas fa-play-circle"></i>
+                                        <div class="video-card">
+                                            <div class="video-card-image">
+                                                <video width="200" height="150" controls>
+                                                    <source src='${videoPath}' type="video/avi">
+                                                    <source src='${videoPath}' type="video/mp4">
+                                                    Sorry, your browser doesn't support embedded videos.
+                                                </video>
+                                                <!--<div class="time">3:50</div>-->
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a class="create-text" href="teacher-feedbacks.html">
+                                                        חברי הצוות:
+                                                    </a> <br />
+                                                    <a class=" statuses-text" href="teacher-feedbacks.html">
                                                     </a>
-                                                    <iframe class="img-videoWatch" src='${videoPath}'></iframe>
-                                                    <!--<div class="time">3:50</div>-->
                                                 </div>
-                                                <div class="video-card-body">
-                                                    <div class="video-title">
-                                                        <a class="create-text" href="teacher-feedbacks.html">
-                                                            חברי הצוות:
-                                                        </a> <br />
-                                                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                                                        </a>
-                                                    </div>
-                                                    <div class="video-page text-success">
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                        <a href="teacher-feedbacks.html">
-                                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                                        </a>
-                                                    </div>
-                                                    <div class="video-view">
-
-                                                    </div>
+                                                <div class="video-page text-success">
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                    <a href="teacher-feedbacks.html">
+                                                        <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                                    </a>
+                                                </div>
+                                                <div class="video-view">
+                                                    
                                                 </div>
                                             </div>
-                                        </div>`;
-                $('#videosDiv').append(str);
+                                        </div>
+                                    </div>`;
+                $('#videosDiv').append(str); // מצרף
             }
         }
         function getVideoErrorCB(err) { console.log(err) }

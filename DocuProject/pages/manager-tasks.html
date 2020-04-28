@@ -164,10 +164,10 @@
                     dateVal = `${date1[2]}/${date1[1]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
-                    tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
+                    tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
                     tasksSTR += "מטלה מספר ";
                     tasksSTR += Tnum;  //1
-                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
+                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
                     tasksSTR += "</div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
@@ -180,7 +180,7 @@
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
                     tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
                     tasksSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSTR += "</div></div></div></div>";
 
@@ -231,9 +231,9 @@
             lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
             lastSTR += "</div>";
             lastSTR += "<div class='channels-card' style='height: 75%;'>";
-            lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align:right'>מטלה מספר ";
+            lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align:right'>מטלה מספר ";
             lastSTR += LastNum;
-            lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style = 'text-align:left'>"
+            lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style = 'text-align:left'>"
             lastSTR += "</div></div>";
             lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
             lastSTR += "<div class='text2'>&nbsp;    נושא: ";
@@ -247,7 +247,7 @@
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
             lastSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
             lastSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
             lastSTR += "</div></div></div></div></div>";
 

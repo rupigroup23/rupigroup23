@@ -30,9 +30,6 @@ Version: 1.0
     width: 100%;
 }
 
-/*.col-lg-5 {
-    max-width: 100%;
-}*/
 /*תפריט למעלה*/
 .navbar-light .navbar-nav .nav-link {
     color: #990099;
@@ -65,18 +62,15 @@ Version: 1.0
     }
 
 /*pictures*/
-/*���� ���� ����� ����*/
-
-
 .imgLogo {
     height: 30%;
     width: 30%;
 }
+/*לוגו של דוקו*/
 .imgMenu {
     height: 60px;
     width: 115px;
 }
-/*��� ��������*/
 .img-button {
     margin-right: 60%;
     height: 30%;
@@ -88,12 +82,12 @@ Version: 1.0
 }
 
 .img-videoWatch {
-    /*222 � 139*/
     width: 222px;
     height:139px;
 }
 /*pictures END*/
-/*orientation bar ���� �������*/
+
+/*orientation Right bar*/
 .breadcrumb {
     width: 100%;
     background-color: #e9ecef;
@@ -112,74 +106,80 @@ Version: 1.0
 ul.a {
     list-style-type: circle;
 }
-/*orientation bar ���� ������� END*/
-/*�� �����*/
+/*orientation bar END*/
+
+/*קו מפריד*/
 .vl {
     border-right: 1px solid rgba(0,0,0,.1);
     padding-right: 35px;
 }
-    /*select from index page*/
-    .choose {
+
+/*dropBox from index page*/
+.choose, .taskNum {
     color: #990099;
-    border-color: WHITE;
+    border-color: white;
     font-size: 17px;
-    font-family: OS Luizi Round_FFC;
 }
+
 /*Texts*/
-/*���� ���� �������*/
+/*create-txt - black text small*/
+/*כותרות סגולות*/
+.text2, .testSudent {
+    color: #990099;
+}
+/*כיתוב שחור*/
+.testProf, .create-text, .checkboxTasks, statuses-text, .squareTEXT, .squaretxtStudent {
+    color: black;
+}
+/*font size*/
 .text2 {
     font-size: 23px;
-    font-family: OS Luizi Round_FFC;
-    color: #990099;
 }
-/*����� ����...*/
-.create-text, .checkboxTasks {
-    /*font-size: 25px;*/
+.testSudent, .create-text, .checkboxTasks, .textSquareGRAY, .textSquareTEXT, .term, .squareTEXT {
     font-size: 20px;
-    font-family: OS Luizi Round_FFC;
-    color: black;
+}
+.testProf {
+    font-size: 35px;
+}
+/*PresentationAss page*/
+.statuses-text, .squaretxtStudent {
+    font-size: 15px;
+}
+
+/*לא צריך*/
+.create-text, .checkboxTasks {
     font-weight: 100;
 }
-/*����� ���� ���� ����, ��� ����, ����� �����*/
-.textSquareGRAY {
+/* textSquareTEXT ? רקע אפור*/
+.textSquareGRAY, .squareTEXT, .squaretxtStudent {
     background-color: #eceff0;
+}
+/*Tasks page*/
+.textSquareGRAY {
     border-color: #990099;
-    border-radius: 2px;
     height: 40px;
-    /*width: 120%;*/
     width: 250px;
-    font-size: 20px;
-    font-family: OS Luizi Round_FFC;
     text-align-last: right;
     padding-right: 10%;
     padding-top: 5px;
     direction: rtl;
 }
-/*���� ���-  ���� ��� ���� ��� �����*/
-.statuses-text {
-    font-size: 15px;
-    font-family: OS Luizi Round_FFC;
-    color: black;
+/*border*/
+.textSquareGRAY, .textSquareTEXT, .term, .squareTEXT {
+    border-radius: 5px;
 }
-/* ���� ���� ������ ����*/
+    
+/*createNewStudent page*/
 .textSquareTEXT, .term {
-    font-family: OS Luizi Round_FFC;
-    background-color: #eceff0;
     border: 1px solid #990099;
-    border-radius: 5px;
     color: #757575;
-    font-size: 20px;
 }
-/*����� ����� ���� ����, ��� ����, ��� ����� ���� ���� */
+/*PresentationAss*/
 .squareTEXT {
-    font-family: OS Luizi Round_FFC;
-    background-color: #eceff0;
     border: 1px solid #eceff0;
-    border-radius: 5px;
-    color: black;
-    font-size: 20px;
 }
 /*Texts END*/
+
 /*video-slider*/
 .video-slider-right-list {
     background: #fff none repeat scroll 0 0;
@@ -235,7 +235,11 @@ ul.a {
 
 
 /*buttons*/
-/*������� ����*/
+/*.create-select - dropbox with bg purple*/
+/*create-txt - input text with bg purple*/
+/*.create-btn - כפתור טען*/
+
+
 .btnButton {
     padding: 15px 50px;
     border-color: #990099;
@@ -244,37 +248,27 @@ ul.a {
     font-size: 30px;
     font-family: OS Luizi Round_FFC;
 }
-/**/
-.create-btn, .create-select, .create-date, .create-txt {
+/*bg purple*/
+.create-btn, .create-select, .create-date, .create-txt, .upload-btn, .showTask-btn, .statuses_btn {
     background-color: #E6D0DE;
+}
+
+.create-btn, .create-select, .create-date, .create-txt, .upload-btn, .showTask-btn {
     border: 1px solid #990099;
     border-radius: 5px;
+    text-align-last: right;
+    font-size: 20px;
+    direction: rtl;
+    padding-right: 2px;
+}
+
+.create-btn, .create-select, .create-date, .create-txt {
     height: 35px;
     width: 170px;
-    /*font-size: 23px;*/
-    font-size: 18px;
-    font-family: OS Luizi Round_FFC;
-    text-align-last: right;
-    /*padding-right: 39px;*/
-    padding-right: 2px;
-    direction: rtl;
 }
 
-/*����� ���� ����� ��� ������*/
-.upload-btn, .showTask-btn {
-    background-color: #E6D0DE;
-    border: 1px solid #990099;
-    border-radius: 5px;
-    font-size: 20px;
-    font-family: OS Luizi Round_FFC;
-    text-align-last: right;
-    /*padding-right: 39px;*/
-    padding-right: 2px;
-    direction: rtl;
-}
 
 .statuses_btn {
-    background-color: #E6D0DE;
     border-color: #990099;
     border-radius: 2px;
     height: 50px;
@@ -339,13 +333,14 @@ a {
         position: relative;
         min-height: 100%;
     }
- body {
-     background-color: #fafafa;
-     color: #888;
-     font-size: 13px;
-      direction: rtl;
-     height: 100%;
-     font-family: 'Noto Sans', sans-serif;
+body {
+    font-family: OS Luizi Round_FFC;
+    background-color: #fafafa;
+    color: #888;
+    font-size: 13px;
+    direction: rtl;
+    height: 100%;
+    /*font-family: 'Noto Sans', sans-serif;*/
 }
 div {
     direction: rtl;
@@ -747,6 +742,7 @@ div {
  .osahan-right-navbar {
      margin: 0 7px 0 0;
 }
+ /*pic*/
  .user-dropdown-link img {
      border-radius: 50px;
      height: 50px;

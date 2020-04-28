@@ -45,21 +45,21 @@ namespace DocuProject.Models
             return dbs.getFromDBST();
         }
 
-        public int insertS(List<Student> stdentsArr) 
+        public int insertS(List<Student> stdentsArr) //אקסל
         {
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertS(stdentsArr);
             return numAffected; //מחזיר את מספר השורות
         }
 
-        internal DataTable GetStudents()
+        internal DataTable GetStudents() // מביאים תלמידים לפי כיתה ומס כיתה
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(ClassName, ClassNum);
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable deleteS(int id)
+        public DataTable deleteS(int id) 
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(ClassName, ClassNum);
@@ -74,11 +74,11 @@ namespace DocuProject.Models
             return numAffected; //מחזיר את מספר השורות
         }
 
-        public DataTable PutS(int id, Student student)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        public DataTable PutS(int id, Student student)// לעדכן תלמיד ספציפי בטבלה של הדטא טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_Students(student.className, student.ClassNum);
-            dbs.dt = checkTbl(id, student, dbs.dt);
+            dbs = dbs.Get_Students(student.className, student.ClassNum); //להביא את כל הסטודנטים בכיתה ז2
+            dbs.dt = checkTbl(id, student, dbs.dt); // רוצים לעדכן סטודנט אחד ולכן נשתמש בפונקציה הזו 
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
@@ -103,7 +103,7 @@ namespace DocuProject.Models
                     dr["Password_"] = student.Password;
                 }
             }
-            return dt;
+            return dt; // מחזיק עכשיו טבלה חדשה שיש בה שינוי
         }
     }
 }

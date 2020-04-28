@@ -49,6 +49,12 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             getTeachers();
+<<<<<<< HEAD
+=======
+            //buttom save and cancel
+            $('#saveBTN').click(saveTeacherDB);
+            $('#upload').click(uploadTeachers);
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
 
             //User image
             localAdmin = localStorage.getItem('user');
@@ -71,23 +77,33 @@
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
             ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
         }
                 function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
-
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
         }
-
         function getAvatarImageError(err) {
             console.log(err)
         }
+<<<<<<< HEAD
 
         //img
+=======
+        function funcerror() { }
+
+        function sub() {
+            return false;
+        }
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
 
         function getTeachers(data) {
             var url = "../api/Docu/getTeachers";
@@ -127,7 +143,6 @@
                 alert(err);
             }
         }
-
         function GETerror(err) { console.log(err) }
 
         ////////////////////DELETE//////////////
@@ -148,6 +163,7 @@
                 });
         });
 
+
         function deleteTecher(rowID) {
             ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
         }
@@ -159,7 +175,11 @@
         }
         function DeleteError(err) { console.log(err) }
 
+<<<<<<< HEAD
         function redrawTBL(tbl, data) 
+=======
+        function redrawTBL(tbl, data) // לרענן את הטבלה לאחר שבוצועו שינויים.
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
         {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -204,10 +224,15 @@
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
             $("#editDiv").hide();
-        });
+        }); // כפתור ביטול של העריכה 
 
+<<<<<<< HEAD
         function getStudebts(RowID)
         {
+=======
+        //לא אמור להיות פה? 
+        function getStudebts(RowID) {
+>>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -311,6 +336,7 @@
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                 })
+            //location.reload() כדאי להוסיף אחרי שהעלאת הקובץ הסתיימה בהצלחה הפקודה הזאת עושה רענן לעמוד ובעצם מרעננת את הטבלה
 
 
         }

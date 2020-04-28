@@ -45,14 +45,10 @@
     <!--<script src="js/manager/tasks.js"></script>-->
     <script>
         var imagePath1 = '';
-        var userEmail1 = '';
-
-<<<<<<< HEAD
-        
+        var userEmail1 = '';        
 
         ////////// שמתי פה את כל הקוד של התמונה מוכן//////
 
-=======
         $(document).ready(function () {
             ////Menus
             //localN = localStorage.getItem('myName');
@@ -61,7 +57,6 @@
             //document.getElementById("myNameN1").innerHTML = myNameObj.name;
             //document.getElementById("myNameN2").innerHTML = myNameObj.name;
             //savelocal1(myNameObj.name);
->>>>>>> 9d885828c94965c4e721898c7648ff138c8bc166
 
             local = localStorage.getItem('thisProfObj');
             console.log('local: ', JSON.parse(local));
@@ -196,7 +191,7 @@ function funcsuccess(data)
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
                     tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSTR += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+                    tasksSTR += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
                     tasksSTR += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSTR += "</div></div></div></div>";
 
@@ -230,7 +225,7 @@ function funcsuccess(data)
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
             lastSTR += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-            lastSTR += "<a href='teacher-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
+            lastSTR += "<a href='teacher-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
             lastSTR += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
             lastSTR += "</div></div></div></div></div>";
 
