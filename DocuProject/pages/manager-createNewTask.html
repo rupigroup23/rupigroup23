@@ -73,7 +73,7 @@
             $('#saveTask').click(saveTask);
 
             ///upload files
-            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת הקובץ ושמירה בתייקית אפלוד
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
@@ -101,8 +101,9 @@
 
                 return false;
             });
+
+
             function showTasks(data) {
-                //$('#saveTask').attr("disabled", false);
                 taskPath = data;
                 Swal.fire({
                     icon: 'success',
@@ -158,8 +159,6 @@
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
-
-
             ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
         }
@@ -173,6 +172,7 @@
         function getAvatarImageError(err) {
             console.log(err)
         }
+        ///
         function funcerror() { }
 
         //show items
@@ -248,7 +248,7 @@
         //check details and post
         var assignation = "";
         var description = "";
-
+        videoPath = "";
         function saveTask() {
             //check details
             Topic = $("#topic").val();
@@ -325,7 +325,6 @@
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
 
-            //taskArr.push(TaskObj);
         }
 
         function POSTsuccess(data) {
@@ -341,9 +340,7 @@
         function POSTerror() {
             alert("ops");
         }
-
-
-
+        /////
 
         function POSTsuccessTask() {
             Swal.fire(
@@ -351,17 +348,11 @@
                 'הקובץ הועלה בהצלחה!',
                 'success'
             )
-
         }
-
-
         function POSTerrorTask(data) {
             console.log(data);
 
         }
-
-
-
 
     </script>
 

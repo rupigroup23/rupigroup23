@@ -43,7 +43,7 @@ namespace DocuProject.Controllers
         {
         }
 
-        [HttpPost] //שלב1- העלת קובץ לתוכנה
+        [HttpPost] //שלב1- העלת קובץ ושמירה בתיקייה
         [Route("Api/DocuUpload/uploadtask")]
         public HttpResponseMessage Post()
         {  

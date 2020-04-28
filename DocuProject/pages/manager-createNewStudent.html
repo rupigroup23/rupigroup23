@@ -39,16 +39,16 @@
 
             //get Student
             getStudent();
-            
+
             var imagePath = '';
             var userEmail = '';
 
             $('#imageUplaodDiv').hide();
-            $('#form2').submit(function (e) {  
+            $('#form2').submit(function (e) {
                 //checking
                 let idVal = $("#idT").val();
                 for (var i = 0; i < listSt.length; i++) {
-                    if (listSt[i].Id == idVal) {                  
+                    if (listSt[i].Id == idVal) {
                         Swal.fire({
                             icon: 'error',
                             title: 'שגיאה...',
@@ -57,7 +57,7 @@
                             confirmButtonColor: '#990099',
                         })
                         return false;
-                    }  
+                    }
                 }
                 e.preventDefault();
                 pass = Math.random().toString(36).substring(7);
@@ -75,17 +75,17 @@
 
                 let phoneVal = document.getElementById("phone").value;
                 let classNumVal = document.getElementById("classNum").value;
-                let cityVal = $('#city').val(); 
-                let classVal = $('#class').val(); 
+                let cityVal = $('#city').val();
+                let classVal = $('#class').val();
 
                 if (fnameVal == "" || lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
-                     Swal.fire(
-                    {
-                        text: 'ישנם שדות חסרים',
-                        icon: 'error',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    Swal.fire(
+                        {
+                            text: 'ישנם שדות חסרים',
+                            icon: 'error',
+                            confirmButtonColor: '#990099',
+                            confirmButtonText: 'אישור',
+                        })
 
                     return false;
                 }
@@ -105,18 +105,18 @@
                         "Password": pass,
                     }
 
-                    userEmail = emailVal;
-                    console.log(StudentObj);
-                    ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
+                userEmail = emailVal;
+                console.log(StudentObj);
+                ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
 
-                    //document.getElementById("form2").reset(); //מנקה את הפקדים
-                    return false;
+                //document.getElementById("form2").reset(); //מנקה את הפקדים
+                return false;
             });
             function POSTerror(err) {
                 console.log(err)
             }
             function POSTsuccess() {
-                 Swal.fire(
+                Swal.fire(
                     {
                         text: 'התלמיד/ה נוספ/ה בהצלחה',
                         icon: 'success',
@@ -156,7 +156,7 @@
 
             function showImages(data) {
                 imagePath = data;
-                 Swal.fire(
+                Swal.fire(
                     {
                         text: 'התמונה סיימה להיטען, לחץ על המשך',
                         icon: 'success',
@@ -210,13 +210,13 @@
             function funcerror() { }
         });
         function POSTsuccessImg() {
-             Swal.fire(
-                    {
-                        text: 'התמונה הועלתה בהצלחה! ',
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-            })
+            Swal.fire(
+                {
+                    text: 'התמונה הועלתה בהצלחה! ',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
         }
         function POSTerrorImg(data) {
             console.log(data);

@@ -49,30 +49,32 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             getTeachers();
-            $('#saveBTN').click(saveTeacherDB);
-            $('#upload').click(uploadTeachers);
 
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
+             $('#saveBTN').click(saveTeacherDB);
+            $('#upload').click(uploadTeachers);
         });
 
+        function sub() {
+            return false;
+        }
+        //img
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
-
-
             ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
         }
+                function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
 
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -85,10 +87,8 @@
             console.log(err)
         }
 
-        function funcerror() { }
-        function sub() {
-            return false;
-        }
+        //img
+
         function getTeachers(data) {
             var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
@@ -106,9 +106,6 @@
                                 let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-success' style='margin-right: 0%'  " + rowID + ">";
                                 deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-danger' style='margin-right: 0%'  " + rowID + ">";
-
-                                //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
-                                //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
@@ -155,15 +152,14 @@
             ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
         }
         function DeleteSuccess(data) {
-            //console.log(data);
-            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+            redrawTBL(tbl, data); 
             swal("המורה נמחק/ה בהצלחה!", "", "success");
-                        location.reload();
+            location.reload();
 
         }
         function DeleteError(err) { console.log(err) }
 
-        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
+        function redrawTBL(tbl, data) 
         {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -172,17 +168,14 @@
             tbl.draw();
 
         }
-        ///////////////UPDATE///////////
+        ///UPDATE
         $(document).on("click", ".editBtn", function () {
-            //markSelected(this);
             $("#editDiv").show();
             $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
             populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
 
-
         function populateFields(rowID) {
-
             id1 = rowID
             console.log(id1);
             teacher = getTeachers_(id1);
@@ -199,7 +192,7 @@
             $("#password").val(teacher.Password_);
         }
 
-        function getTeachers_(RowID) {
+        function getTeachers_(RowID) { // check in the new data
             console.log(techersArr);
             for (i in techersArr) {
                 if (techersArr[i].id == RowID)
@@ -213,7 +206,8 @@
             $("#editDiv").hide();
         });
 
-        function getStudebts(RowID) {
+        function getStudebts(RowID)
+        {
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -221,8 +215,6 @@
             }
             return null;
         }
-
-        /////////////////////
 
         function saveTeacherDB() {
             let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
@@ -261,7 +253,6 @@
 
         teachersArr = new Array();
         $(function () {
-
             $("#load").bind("click", function () {
                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
                 if (regex.test($("#fileUpload").val().toLowerCase())) {
@@ -307,7 +298,8 @@
                 }
             });
         });
-        function uploadTeachers() { //EXCEL
+        function uploadTeachers()
+        { //EXCEL
             ajaxCall("POST", "../api/Docu/postTeach2", JSON.stringify(teachersArr), POSTsuccess_, POSTerror_);
         }
 

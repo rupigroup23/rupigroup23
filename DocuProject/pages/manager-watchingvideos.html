@@ -67,6 +67,7 @@
                 userEmail1 = obj[0].Email;
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
+            urlVideo = "";
             function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -74,21 +75,23 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
-                //הבאת סרטונים מהדאטה בייס//
+               // סידור פורמט תאריך
+                date = TaskObj.Task.Date;
+                dateArr = date.split('/');
+                dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
                 taskObject = {
                     "ClassName": TaskObj.ClassName,
                     "ClassNum": TaskObj.ClassNum,
                     "Profession": TaskObj.Profession,
                     "Topic": TaskObj.Task.Topic,
-                    "Deadline": TaskObj.Task.Date
+                    "Deadline": dateVal
                 }
-                ajaxCall("GET", "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + TaskObj.Task.Date, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
 
+                 urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
+                ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
-
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
@@ -159,8 +162,8 @@
 
         //Bring the details up
         function getDatelis() {
-            //date = diffDays(TaskObj.Task.Date);
-            date = "4/30/2020";
+            date = diffDays(TaskObj.Task.Date);
+            //date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }

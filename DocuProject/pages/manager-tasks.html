@@ -49,14 +49,12 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
             savelocal1(myNameObj.name);
 
-            local = localStorage.getItem('thisProfObj');
-            console.log('local: ', JSON.parse(local));
+            local = localStorage.getItem('thisProfObj'); // the proff choose
             ProfObj = JSON.parse(localStorage["thisProfObj"]);
-            console.log(ProfObj);
+            console.log(ProfObj); 
 
             Showorientation();
             readTaskFromDB();
-            //$('#oldTask').click(oldTask);
             $('#newTask').click(forCreateTask);
 
             //User image
@@ -67,9 +65,6 @@
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
@@ -91,7 +86,7 @@
             //END- User image
         });
 
-        function forCreateTask() {
+        function forCreateTask() { // save to local the num of task and class details
             if (listCS.length == 0) {
                 idT = 1;
             }
@@ -125,7 +120,7 @@
         }
 
         task = "";
-        //שומר את הערכים
+        //save tha last task
         function savelocal(thisTask) {
             idT = thisTask.id; //2
             task = listCS[idT - 1].Topic; //מרובע
@@ -166,7 +161,7 @@
                 for (var i = 0; i < listCS.length; i++) {
                     date = listCS[i].Deadline;
                     date1 = date.split('-');
-                    dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+                    dateVal = `${date1[2]}/${date1[1]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";

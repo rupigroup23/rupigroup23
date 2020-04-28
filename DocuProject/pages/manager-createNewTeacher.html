@@ -46,8 +46,8 @@
             $('#form1').submit(sub);
 
             //professions
-            readFromDB();         
-            $('#addsub').click(addSubj); 
+            readFromDB();
+            $('#addsub').click(addSubj);
             $('#selectProf').change(function () {
                 var value = $(this).val();
                 var X = document.getElementById("txtbox");
@@ -60,7 +60,7 @@
             });
 
             //$('#upload').click(uploadTeachers);
-            //$('#saveprof').click(saveSubj);     
+            //$('#saveprof').click(saveSubj);
             getTachears();
             $('#addTeacher').click(saveTeacherDB); //Save the teacher in the table
 
@@ -69,10 +69,10 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin); //מפגר לשים את זה ככה
             function showDetalis(objAdmin) {
-                    Id = objAdmin.Id;
-                    var url = "../api/Docu/GetDetails/" + Id;
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
 
-                    ajaxCall("GET", url, "", funcsuccess, funcerror);
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
                 obj = data;
@@ -93,10 +93,34 @@
             //END User image
         });
 
-         function sub() {
+        function sub() {
             return false;
         }
 
+        //save new proff - post: Profession
+        function checkNewProff(prof) {
+            cntr = 0;
+            for (var i = 0; i < listP.length; i++) {
+                if (listP[i].Name == prof) {
+                    cntr++;
+                }
+            }
+            if (cntr == 0) {
+                newProf = {
+                    'Name': prof,
+                }
+                //obj for Profession table
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+
+            }
+        }
+        //Profession function checkNewProff
+        function POSTsuccessP() {
+            console.log("Profession good");
+        }
+        function POSTerrorP() {
+            console.log(err)
+        }
         //Profession table
         function readFromDB() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
@@ -130,6 +154,7 @@
             else { //אם לחץ על אחר
                 if (profession == "אחר") {
                     var X = $("#txtbox").val();
+                    checkNewProff(X);
                     profession = X;
                 }
                 checkSub();
@@ -164,7 +189,7 @@
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
         function GETsuccessT(data) {
-            listT = data; 
+            listT = data;
         }
         function GETerrorT(err) { console.log(err) }
 
@@ -174,6 +199,7 @@
         teacherArr = [];
         count = 0;
 
+        // ולדציה
         function saveTeacherDB() {
             FName = $("#fname").val();
             LName = $("#lname").val();
@@ -195,7 +221,7 @@
                 return false;
             }
             for (var i = 0; i < listT.length; i++) {
-                if (listT[i].Id == Id) {                  
+                if (listT[i].Id == Id) {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
@@ -204,7 +230,7 @@
                         confirmButtonColor: '#990099',
                     })
                     return false;
-                }  
+                }
             }
             saveAll(teacherArr);
         }
@@ -243,7 +269,7 @@
                 }
             }
         }
-        function POSTsuccess() { /// לנקות לחצנים לאחר שמירה
+        function POSTsuccess() {
             count += 1;
             if (count == teacherArr.length) {
                 Swal.fire({
@@ -439,7 +465,7 @@
                                                 </button>
                                                 <br />
                                                 <div class="profession-txtbox-disclosure">
-                                                    <textarea class="comment-box" id="txtbox" rows="1" cols="15"style="display:none"></textarea>
+                                                    <textarea class="comment-box" id="txtbox" rows="1" cols="15" style="display:none"></textarea>
                                                 </div>
                                             </div>
                                         </div>
