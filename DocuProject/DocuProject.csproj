@@ -210,8 +210,7 @@
     <Content Include="pages\js\manager\tasks.js" />
     <Content Include="pages\manager-ABCprofessions.html" />
     <Content Include="pages\manager-createNewTeacher.html" />
-    <Content Include="pages\shirNoy-createNewClass.html" />
-    <Content Include="pages\shir-createNewClass.html" />
+    <Content Include="pages\student-Classroom.html" />
     <Content Include="pages\student-PresentationAssignment.html" />
     <Content Include="pages\student-index.html" />
     <Content Include="pages\student-feedbacks.html" />

@@ -1,8 +1,19 @@
 ﻿body {
 }
 
+.btn-outline-light {
+    color: #f8f9fa;
+    background-color: transparent;
+    background-image: none;
+    border-color: #ffffff;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
 table.StudentsTable {
-    font-family: OS Luizi Round_FFC;
     border: 1px solid #FFFFFF;
     background-color: #FFFFFF;
     width: 100%;
@@ -70,3 +81,52 @@ table.StudentsTable {
                 padding: 2px 8px;
                 border-radius: 5px;
             }
+
+
+#desktop-table {
+    display: none;
+}
+
+#mobile-list {
+    display: block;
+}
+
+    #mobile-list ul {
+        position: relative;
+        margin-right: 20px;
+    }
+
+    #mobile-list ul {
+        list-style-type: none;
+    }
+
+        #mobile-list ul li {
+            font-weight: bold;
+        }
+
+            #mobile-list ul li ul li {
+                font-weight: normal;
+            }
+
+#desktop-table table, th, td {
+    border: 1px #000 solid;
+}
+
+#desktop-table th {
+    background-color: #ccc;
+}
+
+#desktop-table th, td {
+    padding: 3px;
+}
+
+@media screen and (min-width: 600px) {
+
+    #desktop-table {
+        display: block;
+    }
+
+    #mobile-list {
+        display: none;
+    }
+}

@@ -58,8 +58,11 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
-        });
+            //table respon
 
+
+        });
+ 
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
@@ -94,16 +97,27 @@
         techersArr = [];
         function GETsuccess(data) {
             techersArr = data;
+            for (var i = 0; i < techersArr.length; i++) {
+                bd = techersArr[i].Bday;
+                bd1 = bd.split('-');
+                day = bd1[2].split('T');
+                dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
+                data[i].Bday = dateIL
+            }
             try {
                 tbl = $('#teachersTable').DataTable({
+                    responsive: true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
+                    },
                     data: data,
                     pageLength: 5,
                     columns: [
                         {
                             render: function (data, type, row, meta) {
                                 let rowID = "data-RowId='" + row.id + "'";
-                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-success' style='margin-right: 0%'  " + rowID + ">";
-                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-danger' style='margin-right: 0%'  " + rowID + ">";
+                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
+                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
 
                                 //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
                                 //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";

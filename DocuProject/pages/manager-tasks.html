@@ -136,7 +136,7 @@
                 "Task": {
                     "Num": idT,
                     "Topic": listCS[idT - 1].Topic,
-                    "Date": dateVal,
+                    "Date": dateIL,
                 }
             }
             console.log(thisTask);
@@ -166,6 +166,7 @@
                     date = listCS[i].Deadline;
                     date1 = date.split('-');
                     dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+                    dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
@@ -179,7 +180,7 @@
                     tasksSTR += "</h3></div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";   
-                    tasksSTR += dateVal; //0
+                    tasksSTR += dateIL; //0
                     tasksSTR += "</span></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
@@ -232,6 +233,8 @@
             date = listCS[LastNum-1].Deadline;
             date1 = date.split('-');
             dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+            dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
+
             lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
             lastSTR += "</div>";
             lastSTR += "<div class='channels-card' style='height: 75%;'>";
@@ -246,7 +249,7 @@
             lastSTR += "</h3></div></div><div class='row'>";
             lastSTR += "<div class='text2'> &nbsp; תאריך:"
             lastSTR += "</div><div class='text2' style='color: black';'><h3 class='textSquareGRAY' style='width: 120%'>"
-            lastSTR += dateVal;
+            lastSTR += dateIL;
             lastSTR += "</h3> </div></div></div>";
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
