@@ -1,0 +1,584 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Askbootstrap">
+    <meta name="author" content="Askbootstrap">
+    <title>'דוקו'</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/osahan.css" rel="stylesheet">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- noy links -->
+    <!-- Include a required theme -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+
+    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--shir links-->
+    <!-- Include a required theme -->
+
+    <script>
+        var imagePath = '';
+        var userEmail = '';
+
+        $(document).ready(function () {
+            $('#form').submit(sub); //FORM
+            readFromDB(); //profession
+            local = localStorage.getItem('user');
+            objTeacher = JSON.parse(local);
+            showDetalis(objTeacher);
+            $('#saveDetails').click(saveDetails_);
+            pass = objTeacher.Password;
+            $("#addsub").click(addSubj);
+
+            $("#changePass").click(function () {
+                if ($('#pass1').val() == objTeacher.Password && $('#pass2').val() == $('#pass3').val()) {
+                    pass = $('#pass2').val();
+                    swal("סיסמא שונתה בהצלחה", "", "success");
+                }
+                else {
+                    if ($('#pass1').val() != objTeacher.Password) {
+                        swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
+                        return false;
+                    }
+                    if ($('#pass2').val() != $('#pass3').val()) {
+                        swal("אין אימות נתונים", "סיסמא בשנית לא תואמת לסיסמא שהוזנה", "warning");
+                        return false;
+                    }
+                }
+            });
+            //שלב1 -העלאת התמונה לתוכנה
+            $('#upload').on('click', function () { // טעינת התמונה לתוכנה
+                console.log('clicked')
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+
+                // Add the uploaded file to the form data collection
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedImage", files[f]);
+                    }
+                    data.append("name", "Ravid"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/Teacher/uploadimage",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showImages,
+                    error: error
+                });
+
+                return false;
+            });
+
+            // שלב2- העלאת התמונה מהתוכנה לדטא
+            $('#uploadIMG').on('click', function () {
+                var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                //var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
+                teacherImg =
+                    {
+                        "email": userEmail,
+                        "Img": imgStr
+                    }
+                ajaxCall('POST', '../api/Teacher/uploadUrlImg2', JSON.stringify(teacherImg), POSTsuccessImg, POSTerrorImg);
+            });
+
+            function readFromDB() {
+                ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
+            }
+
+            function GETsuccessCB(data) {
+                ProfARR = []; //מערך המקצועות מהדאטא בייס
+            }
+            function GETsuccessCB(data) {
+                console.log(data);
+                listP = data;
+
+                //insert options to select
+                for (var i = 0; i < listP.length; i++) {
+                    var select = document.getElementById("selectProf");
+                    var option = document.createElement("option");
+                    option.text = listP[i].Name;
+                    select.add(option);
+                }
+            }
+
+            function GETerrorCB(err) {
+                console.log(err);
+
+                listCS = data;
+
+                for (var i = 0; i < listP.length; i++) {
+                    ProfARR[i] = listP[i].Profession;
+                }
+            }
+
+            function GETerrorCB(err) {
+                console.log(err);
+            }
+
+            function sub() {
+                return false;
+            }
+            function showDetalis(objTeacher) {
+                Id = objTeacher.Id;
+                var url = "../api/Teacher/GetDetailsT/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
+
+            function funcsuccess(data) {
+
+                obj = data;
+
+                $('#fname').val(obj[0].FName);
+                $('#lname').val(obj[0].LName);
+                $('#Id').val(obj[0].Id_);
+                $('#mail').val(obj[0].Email);
+                $('#city').val(obj[0].City);
+                $('#street').val(obj[0].Street);
+                $('#bday').val(obj[0].Bday);
+                $('#phone').val(obj[0].PhoneNum);
+
+                userEmail = obj[0].Email;
+                Prof = obj[0].Profession;
+                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
+                ProfDB = obj[0].Profession;
+                str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
+                document.getElementById('profCard').innerHTML = str;
+
+
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+
+            };
+            function funcerror() { }
+
+
+            function getAvatarImageSuccess(imagePath1) {
+
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+
+            function saveDetails_() {
+
+                if ($("#selectProf").val() == '1')
+                    prof = obj[0].Profession;
+                else
+                    prof = $("#selectProf").val();
+
+
+                let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                {
+                    "Fname": $("#fname").val(),
+                    "Lname": $("#lname").val(),
+                    "Id": $("#Id").val(),
+                    "Email": $("#mail").val(),
+                    "City": $("#city").val(),
+                    "Street": $("#street").val(),
+                    "Bday": $("#bday").val(),
+                    "PhoneNum": $("#phone").val(),
+                    "Profession": prof,
+                    "Password": pass
+                }
+
+                console.log(teacher);
+
+                url = "../api/Teacher/updatetTeacher";
+                ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+            }
+
+            function updateDsuccess(data) {
+                console.log(data)
+                funcsuccess(data);
+                Swal.fire({
+                    icon: 'success',
+                    text: 'הפרטים שונו בהצלחה',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+            }
+            function updateDerror() { }
+            ///
+            var profession = "";
+            ClassSubArr = [];
+            ProfARR = [];
+
+
+            function addSubj() {
+                profession = $("#selectProf").val();
+                if (profession == "1") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'לא בחרת מקצוע 😓',
+                        confirmButtonText: 'אוקי',
+                        showCloseButton: true
+                    })
+                }
+                else {
+                    if (profession == "אחר") {
+                        var X = $("#txtbox").val();
+                        profession = X;
+                    }
+                    checkSub();
+                }
+            }
+            function updateDerror() { }
+
+            function showImages(data) {
+                imagePath = data;
+                Swal.fire("", "התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+            }
+
+            function error(data) {
+                console.log(data);
+            }
+
+
+            function POSTsuccessImg() {
+                Swal.fire(
+                    'התמונה הועלתה בהצלחה!',
+                    'לחץ להמשך',
+                    'success'
+                )
+
+            }
+
+
+            function POSTerrorImg(data) {
+                console.log(data);
+            }
+
+            //function getAvatarImageSuccess(imagePath) {
+
+            //    src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            //    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            //    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            //}
+
+            //function getAvatarImageError(err) {
+            //    console.log(err)
+            //}
+
+            function checkSub() {
+                //אם המקצוע קיים בדטא
+                obj[0].Profession
+                //for (var i = 0; i < ProfARR.length; i++) {
+                for (var i = 0; i < obj.length; i++) {
+
+                    if (obj[0].Profession == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע כבר קיים',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                //אין כזה מקצוע
+                for (var i = 0; i < ClassSubArr.length; i++) {
+
+                    if (ClassSubArr[i] == profession) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'המקצוע הוכנס כבר למערכת',
+                            confirmButtonText: 'אוקי',
+                            showCloseButton: true
+                        })
+                        return;
+                    }
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: ' המקצוע נשמר 😀',
+                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
+                    confirmButtonText: 'אוקי',
+                    showCloseButton: true
+                })
+                ClassSubArr.push(profession);
+            }
+
+
+
+
+        });
+
+    </script>
+
+</head>
+<body id="page-top">
+    <!-- top bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
+        &nbsp;&nbsp;
+        <br />
+        <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button> &nbsp;&nbsp;
+        <a class="navbar-brand mr-1" href="student-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+        </form>
+        <!-- Navbar -->
+        <ul class="navbar-nav ml-auto osahan-right-navbar">
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-facebook-f" title="פייסבוק"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.instagram.com/mindcet/channel/">
+                    <i class="fa fa-instagram" title="אינסטגרם"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.mindcet.org/">
+                    <i class="fa fa-external-link" title="אתר אינטרנט"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1" style="border-right:1px solid rgba(0,0,0,.1)">
+            </li>
+            <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
+                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <span id="myNameN1"> </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <a class="dropdown-item" href="student-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- orientation bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a style="color: black" href="student-index.html">בית</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="student-settings.html">הגדרות</a></li>
+        </ol>
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <!-- Left menu -->
+        <ul class="sidebar navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="student-index.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>בית</span>
+                </a>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 class="nav-item">תלמיד</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student-index.html">
+                    <i class="fas fa-fw fa-users"></i>
+                    מקצועות
+                </a>
+            </li>
+
+            <li class="nav-item channel-sidebar-list">
+                <h6>פרטיות</h6>
+                <ul>
+                    <li>
+                        <a href="student-settings.html">
+                            <i class="fa fa-gear" style="font-size:24px"></i>
+                            הגדרות
+                        </a>
+                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fa fa-sign-out" style="font-size:24px"></i>
+                            יציאה מהמערכת
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- END Left menu -->
+        <!-- Page content -->
+        <div id="content-wrapper">
+            <div class="container-fluid upload-details">
+                <form id="form">
+                    <!--  הוספתי ריד אונלי בכל הטקסטבוקסים חוץ מטלפון -->
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label create-text">שם פרטי: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">עיר: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">אימייל: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label create-text">שם משפחה: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">תאריך לידה: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" value="" type="date" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">פלאפון<span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="phone" value="" type="tel">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <label class="control-label create-text">תעודת זהות:<span class="required"></span></label><br />
+                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="text" readonly>
+                            <br />
+                            <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
+                            <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text" readonly>
+                            <br />
+                            <label class="control-label create-text">מחנך: <span class="required"></span></label> <br />
+                            <input id="teacher" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 vl">
+                            <div class="col-lg-12 col-sm-6">
+                                <h6 class="create-text">כיתה:</h6>
+                                <div id="profCard" class="channels-card text2" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                    <h6 class="text2" style="font-size: 20px"></h6>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-lg-12 col-sm-6">
+                                <h6 class="create-text">ממוצע ציונים:</h6>
+                                <div id="profCard" class="channels-card text2" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                    <h6 class="text2" style="font-size: 20px"></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr class="mt-0">
+                <div class="row">
+                    <div class="col-lg-7 col-sm-7">
+                        <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
+                        <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;" />
+                        &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                        &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                    </div>
+                    <div class="col-lg-5 col-sm-5">
+                        <input id="pw" name="pw" type="radio">
+                        <label for="pw" class="create-text">שינוי סיסמא</label>
+                        <div class="pw-disclosure">
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא נוכחית:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא חדשה:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא חדשה בשנית:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
+                                </div>
+                            </div>
+                            <button id="changePass" class="create-btn" style="padding-right: 65px;">
+                                שינוי סיסמא
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
+                    <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg text2" style="width:300px;">
+                        שמירה
+                    </button>
+                    <!--</a>-->
+                </div>
+            </div>
+            <!--/.container-fluid-->
+
+        </div>
+        <!--/.content-wrapper-->
+    </div>
+    <!-- /#wrapper
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+</body>
+</html>
