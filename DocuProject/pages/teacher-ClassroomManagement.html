@@ -132,6 +132,10 @@
             students = studentsData;
             try {
                 tbl = $('#StudentTable').DataTable({
+                    responsive: true,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
+                    },
                     data: students,
                     pageLength: 5,
                     columns: [
@@ -275,8 +279,7 @@
                             </div>
                             <div class="col-lg-1 col-sm-12 text2">
                                 <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                                    &nbsp;<i class="fas fa-file-excel"></i>
-                                    <!--&nbsp;<i class="fas fa-filter"></i>-->
+                                    <!--&nbsp;<i class="fas fa-file-excel"></i>-->
                                 </div>
                             </div>
                         </div>

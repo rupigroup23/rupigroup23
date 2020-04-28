@@ -95,17 +95,15 @@
         orientationSTR = "";
         function Showorientation() {
             thisclass = classObj.ClassName + "' " + classObj.ClassNum;
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + thisclass + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-Student-ClassroomManagement.html'>ניהול תלמידים</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + thisclass + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-Classroom.html'>רשימת כיתה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
 
             document.getElementById("classNum").innerHTML = thisclass;
         }
 
         function showStudentsData(obj) {
-            local = localStorage.getItem('studentObj'); // מביא את כל התלמידים שלומדים בז2
+            local = localStorage.getItem('studentObj');
             obj = JSON.parse(local);
             console.log(obj);
             obj2 =
@@ -119,70 +117,34 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
-            studentsArr = studentsData; /// מיותר
-
+            studentsArr = studentsData;
             console.log(studentsData)
             students = studentsData;
-<<<<<<< HEAD
             for (var i = 0; i < studentsArr.length; i++) {
-=======
-             for (var i = 0; i < studentsArr.length; i++) {
->>>>>>> ea58f8c7c286a6b6cf2b3ce58ada296359df5341
                 bd = studentsArr[i].Bday;
                 bd1 = bd.split('-');
                 day = bd1[2].split('T');
                 dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
-<<<<<<< HEAD
-                studentsArr[i].Bday = dateIL
-            }
-
-
-            try {
-                tbl = $('#StudentTable').DataTable({
-
-                            responsive: true,
-                    "language": {
-=======
                 students[i].Bday = dateIL
             }
+
             try {
                 tbl = $('#StudentTable').DataTable({
                     responsive: true,
                      "language": {
->>>>>>> ea58f8c7c286a6b6cf2b3ce58ada296359df5341
                         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
                     },
                     data: students,
                     pageLength: 5,
-                    columns: [
-                        {
-                            render: function (data, type, row, meta) {
-                                let rowID = "data-RowId='" + row.id + "'";
-                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-                                //deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'" + row.id + ">";
-                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-
-                                //editBtn = "<button type='button' class = 'editButtons editBtn btn btn-outline-light' " + rowID + "> עריכה </button>";
-
-                                return editBtn + " " + deleteBtn;
-                            }
-                        },
-                        { data: "id" },
+                    columns: [ 
                         { data: "FName" },
                         { data: "LName" },
-                        { data: "Gender" },
                         { data: "PhoneNum" },
                         { data: "Email" },
                         { data: "City" },
                         { data: "Street" },
                         { data: "Id_" },
                         { data: "Bday" },
-                        { data: "ClassName" },
-                        { data: "ClassNum" },
-                        { data: "Password_" },
-
-                        
-
                     ],
                 });
             }
@@ -192,78 +154,8 @@
         }
         function GETerrorS() { }
 
-        $(document).on("click", ".deleteBtn", function () {
 
-            mode = "delete";
-            //markSelected(this);
-            rowID = this.getAttribute('data-RowId');
-
-            swal({
-                title: "האם את/ה בטוח?",
-                text: "במידה והפעולה תאושר,התלמיד/ה יימחק מהמערכת",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true
-            })
-                .then(function (willDelete) {
-                    if (willDelete)
-                        deleteStudent(rowID);
-                    else swal("הפעולה בוטלה");
-                });
-        });
-
-        function deleteStudent(rowID) {
-            var url = "../api/Docu/" + rowID;
-            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
-        }
-        function DeleteSuccess(data) {
-            swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
-            console.log(data);
-            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
-            location.reload();
-        }
-        function DeleteError(err) { console.log(err) }
-
-        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
-        {
-            tbl.clear();
-            for (var i = 0; i < data.length; i++) {
-                tbl.row.add(data[i]);
-            }
-            tbl.draw();
-        }
-
-        $(document).on("click", ".editBtn", function () {
-            //markSelected(this);
-            $("#editDiv").show();
-            $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
-            populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
-        });
-
-        function populateFields(rowID) {
-
-            id1 = rowID
-            console.log(id1);
-            student = getStudebts(id1);
-            console.log(student);
-
-            $("#fname").val(student.FName);
-            $("#lname").val(student.LName);
-            $("#number").val(student.PhoneNum);
-            $("#mail").val(student.Email);
-            $("#city").val(student.City);
-            $("#street").val(student.Street);
-            $("#id").val(student.Id_);
-            $("#bday").val(student.Bday);
-            $("#class").val(student.ClassName);
-            $("#classNumber").val(student.ClassNum);
-            $("#password").val(student.Password_);
-        }
-
-        $(document).on("click", "#cancelSaveBTN", function () {
-            swal("הפעולה בוטלה", "", "error");
-            $("#editDiv").hide();
-        });
+ 
 
         function getStudebts(RowID) {
 
@@ -275,44 +167,8 @@
             return null;
         }
 
-        function saveStudent()
-        {
-            let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
-            {
-                "FName": $("#fname").val(),
-                "LName": $("#lname").val(),
-                "PhoneNum": $("#number").val(),
-                "Email": $("#mail").val(),
-                "City": $("#city").val(),
-                "Address": $("#street").val(),
-                "Id": $("#id").val(),
-                "Bday": $("#bday").val(),
-                "ClassName": $("#class").val(),
-                "ClassNum": $("#classNumber").val(),
-                "Password": $("#password").val()
-            }
-            console.log(student); // האיבר המעודכן
 
-            console.log(id);
-            url = "../api/Docu/updateStudent/" + id1;
-            ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
-
-            location.reload();
-        }
-
-        function updateDsuccess(data) {
-
-            console.log(data);
-            swal("העריכה נשמרה", "", "success");
-            tbl.clear();
-            redrawTBL(tbl, data);
-            $("#editDiv").hide();
-        }
-
-        function updateDerror(err) {
-            console.log(err);
-        }
-
+   
     </script>
 </head>
 <body id="page-top">
@@ -373,63 +229,44 @@
         <!-- Left menu -->
         <ul class="sidebar navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="manager-index.html">
+                <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
+                <h6 id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>יצירה</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
-                    <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
-                    <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>ניהול</span>
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
-                </div>
-            </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
-                <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
+                <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    <span>מקצועות</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student-Classroom.html">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>רשימת כיתה</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="manager-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student-index.html">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-login.html">
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
             </li>
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
-        <!--לעשות דאטא טייבל -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
                 <div class="row">
@@ -458,91 +295,19 @@
                     <table id="StudentTable" class="StudentsTable" style="width:100%">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
-                                <th>מגדר</th>
                                 <th>מספר נייד</th>
                                 <th>איימל</th>
                                 <th>עיר</th>
                                 <th>רחוב</th>
                                 <th>תעודת זהות</th>
                                 <th>תאריך לידה</th>
-                                <th>כיתה</th>
-                                <th>מס' כיתה</th>
-                                <th>סיסמא ראשונית</th>
-
-
                             </tr>
                         </thead>
                     </table>
                 </form>
-                <div id="editDiv" style="display:none">
-                    <form id="form1">
-                        <div class="form-group row">
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="name">שם פרטי</label>
-                                <input type="text" class="form-control" id="fname" required>
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="model"><span class="red-star"> </span>שם משפחה</label>
-                                <input type="text" class="form-control" id="lname" required>
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="year"><span class="red-star"> </span>מספר נייד</label>
-                                <input type="text" class="form-control" id="number" required>
-
-                            </div>
-
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>איימל</label>
-                                <input type="text" class="form-control" id="mail" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>עיר</label>
-                                <input type="text" class="form-control" id="city" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>רחוב</label>
-                                <input type="text" class="form-control" id="street" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>תעודת זהות</label>
-                                <input type="number" class="form-control" id="id" required />
-                            </div>
-
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>תאריך לידה</label>
-                                <input type="date" class="form-control" id="bday" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>כיתה</label>
-                                <input type="text" class="form-control" id="class" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>מספר כיתה</label>
-                                <input type="number" class="form-control" id="classNumber" required />
-                            </div>
-
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
-                                <input type="text" class="form-control" id="password" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-2 col-sm-6">
-                                <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
-                            </div>
-                            <div class="col-lg-2 col-sm-6">
-                                <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
-                            </div>
-                        </div>
-
-                    </form>
-
-
-                </div>
+                
             </div>
         </div>
     </div>

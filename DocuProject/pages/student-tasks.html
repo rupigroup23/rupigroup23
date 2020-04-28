@@ -145,7 +145,7 @@ function funcsuccess(data)
                 "Task": {
                     "Num": idT,
                     "Topic": listCS[idT - 1].Topic,
-                    "Date": listCS[idT - 1].Deadline,
+                    "Date": dateIL,
                 }
             }
             console.log(thisTask);
@@ -172,6 +172,10 @@ function funcsuccess(data)
                 $('#oldTask').click(Items);
 
                 for (var i = 0; i < listCS.length; i++) {
+                    date = listCS[i].Deadline;
+                    date1 = date.split('-');
+                    dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+                    dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
@@ -185,7 +189,7 @@ function funcsuccess(data)
                     tasksSTR += "</h3></div></div>";
                     tasksSTR += "<div class='row'><div class='testSudent'>תאריך: </div><div class='text2'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
-                    tasksSTR += listCS[i].Deadline; //0
+                    tasksSTR += dateIL //0
                     tasksSTR += "</h3></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
@@ -204,6 +208,10 @@ function funcsuccess(data)
 
         lastSTR = "";
         function showLastTask(LastNum) {
+            date = listCS[LastNum-1].Deadline;
+            date1 = date.split('-');
+            dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+            dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
             lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
             lastSTR += "</div>";
             lastSTR += "<div class='channels-card' style='height: 75%;'>";
@@ -218,7 +226,7 @@ function funcsuccess(data)
             lastSTR += "</h3></div></div><div class='row'>";
             lastSTR += "<div class='testSudent'> &nbsp; תאריך:"
             lastSTR += "</div><div class='text2' style='padding-right: 5%; width: 25%'><h3 class='textSquareGRAY' style='width: 200px;'>"
-            lastSTR += listCS[LastNum - 1].Deadline;
+            lastSTR += dateIL;
             lastSTR += "</h3> </div></div></div>";
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";

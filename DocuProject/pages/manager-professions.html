@@ -67,6 +67,8 @@
 
             $('#selectProf').change(function () {
                 var value = $(this).val();
+                getCoachs(value);
+
                 var X = document.getElementById("txtbox");
                 if (value == "אחר") {
                     X.style.display = "block";
@@ -105,7 +107,7 @@
             //END User image
         });
 
-        //get all subjects from the DB
+        //get subjects from the DB
         function getSubjcts() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
@@ -150,7 +152,33 @@
             }
         }
         function GETerrorT(err) { console.log(err) }
+        
+        $('#selectProf').change(function () {
+                var value = $(this).val();
+                getCoachs(value);
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
+                }
+                else {
+                    X.style.display = "none";
+                }
+        });
 
+
+        function getCoachs(prof) {
+            var selectCoach = document.getElementById("coachName");
+               while (selectCoach.options.length > 0) {
+                selectCoach.remove(0);
+                }
+            for (var i = 0; i < listT.length; i++) {
+                if (prof == listT[i].Profession) {
+                    var option = document.createElement("option");
+                    option.text = listT[i].FName + " " + listT[i].LName;
+                    selectCoach.add(option);
+                }
+            }
+        }
 
         //get lists of prof-class
         csDBAaa = [];
@@ -347,13 +375,9 @@
                 newProf = {
                     'Name': prof,
                 }
-<<<<<<< HEAD
-                //add a new prof 
-               ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-=======
+
                 //obj for Profession table
                 ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
 
             }
         }
@@ -462,29 +486,29 @@
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    <span>כיתות</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="manager-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-index.html">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-login.html">
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
+            </li>
+
+            
         </ul>
         <!-- END Left menu -->
         <div id="content-wrapper">
