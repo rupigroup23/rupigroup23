@@ -634,7 +634,7 @@ public class DBservices
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
             DataSet ds = new DataSet();
             da.Fill(ds);
-            dt = ds.Tables[0];
+            dt = ds.Tables[0]; // טבלה אחת 
         }
 
         catch (Exception ex)
@@ -937,12 +937,12 @@ public class DBservices
             throw (ex);
         }
 
-        finally
+        finally //עובר פה בכל מקרה 
         {
-            if (con != null)
+            if (con != null) //בודק האם התקשורת מול ה דאטהבייס פתוחה 
             {
                 // close the db connection
-                con.Close();
+                con.Close(); //אם כן סוגר אותה 
             }
         }
     }
@@ -1090,7 +1090,7 @@ public class DBservices
 
     public void update()
     {
-        da.Update(dt);
+        da.Update(dt); //אובייקט שמתקשר עם הדאטהבייס ויודע לעדכן את השינויים
     }
 
     public DBservices Get_Details(int ID, string str)

@@ -162,6 +162,7 @@
                 });
         });
 
+
         function deleteTecher(rowID) {
             ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
         }
@@ -174,7 +175,7 @@
         }
         function DeleteError(err) { console.log(err) }
 
-        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
+        function redrawTBL(tbl, data) // לרענן את הטבלה לאחר שבוצועו שינויים.
         {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -222,7 +223,7 @@
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
             $("#editDiv").hide();
-        });
+        }); // כפתור ביטול של העריכה 
 
         //לא אמור להיות פה? 
         function getStudebts(RowID) {
@@ -331,6 +332,7 @@
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                 })
+            //location.reload() כדאי להוסיף אחרי שהעלאת הקובץ הסתיימה בהצלחה הפקודה הזאת עושה רענן לעמוד ובעצם מרעננת את הטבלה
 
 
         }

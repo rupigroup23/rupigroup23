@@ -78,7 +78,7 @@
                 dateArr = date.split('/');
                 dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
-                taskObject = {
+                taskObject = { // מגיע מהלוקל סטורג'
                     "ClassName": TaskObj.ClassName,
                     "ClassNum": TaskObj.ClassNum,
                     "Profession": TaskObj.Profession,
@@ -102,13 +102,14 @@
             //הכנסה דינמית לDOM
             for (let i in listOfVideo) {
                 let videoPath = `../${listOfVideo[i].Video}`
-                console.log(videoPath)
+               
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
                                         <div class="video-card">
                                             <div class="video-card-image">
                                                 <video width="200" height="150" controls>
-                                                    <source src='${videoPath}'>
+                                                    <source src='${videoPath}' type="video/avi">
+                                                    <source src='${videoPath}' type="video/mp4">
                                                     Sorry, your browser doesn't support embedded videos.
                                                 </video>
                                                 <!--<div class="time">3:50</div>-->
@@ -138,7 +139,7 @@
                                             </div>
                                         </div>
                                     </div>`;
-                $('#videosDiv').append(str);
+                $('#videosDiv').append(str); // מצרף
             }
         }
         function getVideoErrorCB(err) { console.log(err) }
