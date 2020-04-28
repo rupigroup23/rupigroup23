@@ -76,7 +76,7 @@
                 }
             });
 
-            //שלב1 -העלאת התמונה לתוכנה
+            //שלב1 - טען קובץ, שמירה בתייקית אפלוד
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
                 var data = new FormData();
@@ -103,9 +103,9 @@
                 return false;
             });
 
-            // שלב2- העלאת התמונה מהתוכנה לדטא
+            // שלב2- שמירת נתיב התמונה בדאטהבייס לאותו משתמש- לפי איימל
             $('#uploadIMG').on('click', function () {
-                //var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
+                //var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הנתיבים לפני שמעלים לשרת!!!
                 var imgStr = `http://proj.ruppin.ac.il/igroup23/prod/${data}`;
                 AdminImage =
                     {
@@ -150,12 +150,25 @@
                 return false;
             }
 
+            ///get img
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcerror() { }
+
+            
+            function getAvatarImageSuccess(imagePath) {
+                src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            ////
             function funcsuccess(data) {
                 obj = data; 
 
@@ -169,8 +182,7 @@
                 $('#Id').val(obj[0].Id_);
                 $('#mail').val(obj[0].Email);
                 $('#city').val(obj[0].City);
-                $('#street').val(obj[0].Street);
-               
+                $('#street').val(obj[0].Street);              
                 $('#phone').val(obj[0].PhoneNum);
                 $('#selectProf').val(obj[0].Profession);
                 $('#bday').val(birthVal);
@@ -179,7 +191,6 @@
 
                 ClassroomTeacher = obj[0].ClassroomTeacher;
                 str = '<div class="create-text">' + ClassroomTeacher + '<h6 style="font-size: 23px"></h6>';
-
                 document.getElementById('profCard').innerHTML = str;
 
                 //pic
@@ -249,7 +260,6 @@
 
             function showImages(data) {
                 imagePath = data;
-
                 Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
             }
 
@@ -264,22 +274,9 @@
                     'success'
                 )
             }
-
-
             function POSTerrorImg(data) {
                 console.log(data);
             }
-
-            function getAvatarImageSuccess(imagePath) {
-                src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-
             function checkSub() {
                 //אם המקצוע קיים בדטא
                 obj[0].Profession
@@ -319,7 +316,6 @@
                 })
                 ClassSubArr.push(profession);
             }
-
 
         });
     </script>

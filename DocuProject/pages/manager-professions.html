@@ -39,10 +39,12 @@
     <script src="js/showItem.js"></script>
     <script src="js/myName.js"></script>
     <script>
+
         var imagePath1 = '';
         var userEmail1 = '';
+
         $(document).ready(function () {
-            //Menus
+            //Menus - name
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
@@ -50,15 +52,16 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
             savelocal1(myNameObj.name);
 
-            getSubjcts(); 
-            getTachears();
+            getSubjcts(); //all
+            getTachears(); 
 
+            //get class choose
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
             Showorientation();
 
-            readClassSUbjFromDB();
+            readClassSUbjFromDB(); //for this class
             $('#addSubj').click(addSubj);
             $('#saveSubj').click(saveSubj);
 
@@ -83,9 +86,6 @@
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
@@ -106,7 +106,6 @@
             function funcerror() { }
             //END User image
         });
-
 
         //get subjects from the DB
         function getSubjcts() {
@@ -136,7 +135,7 @@
         function GETsuccessT(data) {
             console.log(data);
             listT = data;
-            //insert options to select
+            //insert teachers options to select
             for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("coachName");
 
@@ -153,7 +152,6 @@
             }
         }
         function GETerrorT(err) { console.log(err) }
-
         
         $('#selectProf').change(function () {
                 var value = $(this).val();
@@ -184,7 +182,7 @@
 
         //get lists of prof-class
         csDBAaa = [];
-        function getClassSUbjFromDB(name, num) {
+        function getClassSUbjFromDB(name, num) { // to check if the prof was added before
             var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
             console.log(apiProf);
             ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
@@ -192,7 +190,7 @@
         function GETsuccessCT1(data) {
             listCT = data;
             for (var i = 0; i < listCT.length; i++) {
-                csDBAaa[i] = listCT[i].Profession;
+                csDBAaa[i] = listCT[i].Profession; 
             }
         }
         function GETerrorCT1(err) {
@@ -204,12 +202,12 @@
         var coach = "";
         var teacher_Id = "";
         ClassSubArr = [];
-        function addSubj() // שמירת נתוני המורה בדאטה
+        function addSubj() 
         {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
            
-           if (profession == "1" || coach == "1" ) {
+           if (profession == "1" || coach == "1" ) { // if there is no choice
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
@@ -218,12 +216,14 @@
                     confirmButtonColor: '#990099',
                 })
             }
-            else {
+            else { // add a new proff
                 if (profession == "אחר") {
                     var X = $("#txtbox").val();
                     checkNewProff(X);
                     profession = X;
-                }
+               }
+
+
                 checkSubCoach();
             }
         }
@@ -231,23 +231,24 @@
         function checkSubCoach() {
             name = classObj.ClassName;
             num = classObj.ClassNum;
-            getClassSUbjFromDB(name, num);
+            getClassSUbjFromDB(name, num); 
 
+            //check if the prof+teacher added before
             for (var i = 0; i < csDBAaa.length; i++) {
                 if (csDBAaa[i] == profession) {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
                         text: 'המקצוע כבר קיים',
-                        confirmButtonText: 'אוקי',
+                        confirmButtonText: 'אישור',
                         confirmButtonColor: '#990099',
                     })
                     return;
                 }
             }
-            //אין כזה מקצוע
+       
             for (var i = 0; i < arrCoach.length; i++) {
-                if (coach == arrCoach[i].name) {
+                if (coach == arrCoach[i].name) { //take the specific teacher id
                     teacher_Id = arrCoach[i].id;
                 }
             }
@@ -293,7 +294,7 @@
                     })
                 }
             })
-            ClassSubArr.push(ClassTeachObj);
+            ClassSubArr.push(ClassTeachObj); // save the new prof to array
         }
         
         function saveSubj() {
@@ -319,17 +320,19 @@
         }
         function POST1error(err) { console.log(err) };
 
-        function readClassSUbjFromDB() {
+        function readClassSUbjFromDB()
+        {
             var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
+
         ProfARR = [];
         ProgSTR = "";
         function GETsuccessCB2(data) {
             listCS = data;
 
             for (var i = 0; i < listCS.length; i++) {
-                ProfARR[i] = listCS[i].Profession;
+                ProfARR[i] = listCS[i].Profession; //only the proffesions
             }
             console.log(ProfARR);
             for (var i = 0; i < ProfARR.length; i++) {
@@ -347,20 +350,20 @@
             console.log(err);
         }
 
-        function savelocal(thisprof) {
-            id = thisprof.id; //1
-            profession = ProfARR[id]; //פיזיקה
+        function savelocal(thisprof) { //save the proff choose for local
+            id = thisprof.id; 
+            profession = ProfARR[id];
 
             thisProfObj = {
-                "ClassName": listCS[0].Name, //ח
-                "ClassNum": listCS[0].Number,//4
-                "Profession": profession, //פיזיקה
+                "ClassName": listCS[0].Name, 
+                "ClassNum": listCS[0].Number,
+                "Profession": profession, 
             }
             console.log(thisProfObj);
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
         }
 
-        //save new proff - post: Profession
+        //save new proff .if choose = 'אחר'
         function checkNewProff(prof) {
             cntr = 0;
             for (var i = 0; i < listP.length; i++) {
@@ -372,6 +375,7 @@
                 newProf = {
                     'Name': prof,
                 }
+
                 //obj for Profession table
                 ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
 

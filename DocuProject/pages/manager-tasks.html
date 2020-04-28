@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -48,14 +49,12 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
             savelocal1(myNameObj.name);
 
-            local = localStorage.getItem('thisProfObj');
-            console.log('local: ', JSON.parse(local));
+            local = localStorage.getItem('thisProfObj'); // the proff choose
             ProfObj = JSON.parse(localStorage["thisProfObj"]);
-            console.log(ProfObj);
+            console.log(ProfObj); 
 
             Showorientation();
             readTaskFromDB();
-            //$('#oldTask').click(oldTask);
             $('#newTask').click(forCreateTask);
 
             //User image
@@ -66,9 +65,6 @@
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
@@ -90,7 +86,7 @@
             //END- User image
         });
 
-        function forCreateTask() {
+        function forCreateTask() { // save to local the num of task and class details
             if (listCS.length == 0) {
                 idT = 1;
             }
@@ -124,7 +120,7 @@
         }
 
         task = "";
-        //שומר את הערכים
+        //save tha last task
         function savelocal(thisTask) {
             idT = thisTask.id; //2
             task = listCS[idT - 1].Topic; //מרובע
@@ -176,7 +172,7 @@
                     tasksSTR += "</div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
-                    tasksSTR += listCS[i].Topic; 
+                    tasksSTR += listCS[i].Topic;
                     tasksSTR += "</h3></div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";   
@@ -230,7 +226,7 @@
 
         lastSTR = "";
         function showLastTask(LastNum) {
-            date = listCS[LastNum-1].Deadline;
+            date = listCS[LastNum - 1].Deadline;
             date1 = date.split('-');
             dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
             dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`

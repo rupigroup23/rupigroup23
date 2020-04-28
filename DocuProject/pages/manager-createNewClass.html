@@ -183,7 +183,7 @@
             console.log(err);
         }
 
-        //get Classes and checks
+        //ולידציה- במידה והכיתה כבק קיימת
         function getClasses() {
             ajaxCall("GET", "../api/Docu/GetClasses", "", GETsuccessC, GETerrorC);
         }
@@ -350,7 +350,7 @@
             }
 
         }
-       //save new proff - post: Profession
+        //save new proff - post: Profession
         function checkNewProff(prof) {
               cntr = 0;
             for (var i = 0; i < listP.length; i++) {

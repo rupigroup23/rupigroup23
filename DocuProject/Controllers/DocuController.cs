@@ -200,7 +200,7 @@ namespace DocuProject.Controllers
                     // this is an example of how you can extract addional values from the Ajax call
                     string name = httpContext.Request.Form["name"];
 
-                    if (httpPostedFile != null)
+                    if (httpPostedFile != null) //אם קיים קובץ
                     {
                         // Construct file save path  
                         //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);

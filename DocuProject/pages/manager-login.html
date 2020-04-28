@@ -29,7 +29,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             $('#login').click(checkDetails);
         });
 
@@ -42,23 +43,18 @@
                     "Id": id,
                     "Password": password
                 }
-
             if (($('input[type=checkbox]').is(":checked"))) { //if its a admin
-
                 console.log(user);
                 localStorage.setItem('user', JSON.stringify(user));
                 ajaxCall("POST", "../api/Docu/checkUsers", JSON.stringify(user), POSTsuccess_Check, POSTerror_Check);
-
             }
             else { //if its a teacher
                 localStorage.setItem('user', JSON.stringify(user));
                 ajaxCall("POST", "../api/Teacher/checkUsersTeacher", JSON.stringify(user), POSTsuccess_Check2, POSTerror_Check2);
             }
-
         }
-
-        function POSTsuccess_Check(admin) {
-
+        function POSTsuccess_Check(admin)
+        {
             if (admin.Password !== null) {
                 window.location = "manager-index.html";
             }
@@ -67,15 +63,17 @@
                 swal("תעודת זהות/סיסמא לא נכונים", "", "warning")
             }
         }
-        function POSTerror_Check(err) {
+        function POSTerror_Check(err)
+        {
             console.log(err);
         }
 
         function POSTsuccess_Check2(teacher) {
 
-            if (teacher.Password !== null) {
+            if (teacher.Password !== null)
+            {
 
-                window.location = "teacher-index.html";
+               window.location = "teacher-index.html";
                 console.log(teacher)
             }
             else {
