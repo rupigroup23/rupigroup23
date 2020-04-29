@@ -770,8 +770,9 @@ public class DBservices
                 CS.Name = (string)dr["className"];
                 CS.Number = (string)dr["classNum"];
                 CS.Profession = (string)dr["Profession"];
-
-                listClassSubj.Add(CS);
+                CS.Teacher_name = (string)dr["Teacher_name"];
+                
+                      listClassSubj.Add(CS);
             }
 
         }
@@ -788,6 +789,53 @@ public class DBservices
         }
         return listClassSubj; // מחזיר מערך 
     }
+
+    public List<Group_Feedback> getDTFromDB(string name, int num, DateTime date)
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<Group_Feedback> listGroup_Feedback = new List<Group_Feedback>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM Group_Feedback
+                               where ClassName = '{name}' and ClassNum='{num}' and Deadline='{date}' ";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                Group_Feedback DT = new Group_Feedback();
+
+                DT.ClassName = (string)dr["ClassName"];
+                DT.ClassNum = (int)dr["ClassNum"];
+                DT.Proffesion = (string)dr["Proffesion"];
+                DT.Group_students = (string)dr["Group_students"]; 
+                DT.Status = (int)dr["Status"];
+                DT.Grade = (int)dr["Grade"];
+                DT.Feedback = (string)dr["Feedback"];
+
+                listGroup_Feedback.Add(DT);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listGroup_Feedback; // מחזיר מערך 
+    }
+
     public void Delete(string str ,int id) //כמו GET
     {
         string cStr = "";
@@ -898,10 +946,10 @@ public class DBservices
         String command;
 
         StringBuilder sb = new StringBuilder();
-        // use a string builder to create the dynamic string
+        // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}' ,'{11}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password, StudentObj.Gender); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_,Gender)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;

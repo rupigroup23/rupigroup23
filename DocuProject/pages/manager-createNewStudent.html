@@ -67,18 +67,19 @@
                 let emailVal = document.getElementById("email").value;
                 let addressVal = document.getElementById("street").value;
                 let birthVal = document.getElementById("birth").value;
+                let gender = document.getElementById("gender").value;
 
                 console.log(birthVal);
                 birthValArr = birthVal.split('-');
-                birthVal = `${birthValArr[1]}-${birthValArr[2]}-${birthValArr[0]}`
-                console.log(birthVal);
+                birthVal1 = `${birthValArr[0]}-${birthValArr[1]}-${birthValArr[2]}` //
+                console.log(birthVal1);
 
                 let phoneVal = document.getElementById("phone").value;
                 let classNumVal = document.getElementById("classNum").value;
                 let cityVal = $('#city').val();
                 let classVal = $('#class').val();
 
-                if (fnameVal == "" || lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
+                if (fnameVal == "" || gender == ""|| lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
                     Swal.fire(
                         {
                             text: 'ישנם שדות חסרים',
@@ -99,10 +100,11 @@
                         "Email": emailVal,
                         "City": cityVal,
                         "Id": idVal,
-                        "Bday": birthVal,
+                        "Bday": birthVal1,
                         "ClassName": classVal,
                         "ClassNum": classNumVal,
                         "Password": pass,
+                        "Gender": gender,
                     }
 
                 userEmail = emailVal;
@@ -110,7 +112,7 @@
                 ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
 
                 //document.getElementById("form2").reset(); //מנקה את הפקדים
-                return false;
+                //return false;
             });
             function POSTerror(err) {
                 console.log(err)
@@ -123,6 +125,8 @@
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                     })
+                $('#continue').attr("disabled", true);
+
                 $('#imageUplaodDiv').show();
             }
 
@@ -391,28 +395,34 @@
                                             <label class="create-text" for="lname"> שם משפחה:</label><br />
                                             <input class="create-txt" type="text" id="lname" name="lastname" />
                                             <br />
-                                            <label for="email" class="create-text">אימייל:</label><br />
-                                            <input class="create-txt" id="email" type="email" autocomplete="off" />
+                                            <label class="create-text" for="gender">מין:</label><br />
+                                            <select id="gender" class="create-select">
+                                                <option value="">בחר מין</option>
+                                                <option>זכר</option>
+                                                <option>נקבה</option>
+                                            </select>
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
+                                            <label for="email" class="create-text">אימייל:</label><br />
+                                            <input class="create-txt" id="email" type="email" autocomplete="off" />
+                                            <br />
                                             <label class="create-text" for="idT">תעודת זהות:</label><br />
                                             <input type="text" class="create-txt" id="idT" name="idTeacher" />
                                             <br />
-                                            <label class="create-text" for="lname"> תאריך לידה:</label><br />
-                                            <input class="create-txt" type="date" id="birth" name="lastname" placeholder="docu@docu.com" />
-                                            <br />
-                                            <label class="create-text" for="phone"> פלאפון:</label><br />
-                                            <input class="create-txt" type="tel" id="phone" name="phone" />
+                                            <label class="create-text" for="date"> תאריך לידה:</label><br />
+                                            <input class="create-txt" type="date" id="birth" name="date" />
+
                                         </div>
 
 
 
                                         <div class="col-lg-3 col-sm-6">
-                                            <!-- לעשות סקריפט של כל המדינות -->
+                                            <label class="create-text" for="phone"> פלאפון:</label><br />
+                                            <input class="create-txt" type="tel" id="phone" name="phone" />
+                                            <br />
                                             <label class="create-text" for="city">עיר:</label><br />
                                             <input type="text" class="create-txt" id="city" name="city">
                                             <br />
-                                            <!-- לעשות משלים -->
                                             <label class="create-text" for="street">רחוב:</label><br />
                                             <input type="text" class="create-txt" id="street" name="street">
                                             <br />

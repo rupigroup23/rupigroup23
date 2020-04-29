@@ -23,6 +23,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "theme-rtl", "..\..\..\Downl
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "52965"
+		SlnRelativePath = "..\..\..\Downloads\themeforest-2jDab7EJ-vidoe-video-streaming-website-html-template\template\theme-rtl\"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{C3B8BC84-37E3-499E-9343-EE07332A63C0} = {C3B8BC84-37E3-499E-9343-EE07332A63C0}
 	EndProjectSection
 EndProject
 Global

@@ -64,13 +64,7 @@
 
             getDatelis(); //Bring the details up
 
-
-            //let class1 = TaskObj11.ClassName;
-            //let numClass = TaskObj11.ClassNum;
-            //let sub = TaskObj11.Profession
-            //var topic = TaskObj11.Task.Topic
-            console.log('../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic);
-            ajaxCall('get', '../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
+            ajaxCall('get', '../api/Student/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
             function Success(data) {
                 taskPath = data;
@@ -88,10 +82,10 @@
             function Error(err) {
                 console.log(err)
             }
-
+            
+            
             $('#showTxt').click(Showtxt);
-            $('#showUpl').click(showUpl);
-
+            $('#showUpl').click(showUpl); 
 
             $('#downloadFile').click(function () {
                 window.location.replace(taskPath);
@@ -127,13 +121,7 @@
             }
             function funcerror(err) { console.log(err) }
             //END- User image
-            //לא רלוונטי
-            function getSpecificTaskSuccess(data) {
-                $('#addpic').attr("disabled", false);
-                taskPath = data;
 
-            }
-            function getSpecificTaskError(err) { console.log(err) }
 
         });
 
@@ -171,12 +159,80 @@
 
         //Bring the details up
         function getDatelis() {
+            getTeacher();
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             date = TaskObj.Task.Date;
-            //date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
+            diffDays1 = diffDays(TaskObj.Task.Date);
+            document.getElementById("restDate").innerHTML = diffDays1;
+            document.getElementById("teamNum").innerHTML = "1";
+                    //teamNum
+            getDataT();
+
         }
+
+        function diffDays(subm) {
+           var  today = new Date();
+           var  day = today.getDate();
+           var  month = today.getMonth() + 1;
+           var  year = today.getFullYear();
+          var  subm1 = subm.split('/');
+          var  dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
+            var submission = new Date(dateVal);
+            var date2 = new Date(month + '/' + day + '/' + year);
+            console.log(date2);
+            var diffDays = submission.getDate() - date2.getDate();
+            if (diffDays < 0) {
+                diffDays = "מועד ההגשה עבר";
+                return diffDays;
+            }
+            else {
+                return diffDays;
+            }
+                        console.log(diffDays);
+        }
+
+        function getTeacher() {
+
+            var apiProf = "../api/Student/GetClassSubj/" + className + "/" + classNum;
+            console.log(apiProf);
+            ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
+        }
+        var techerName = "";
+        function GETsuccessCT1(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Profession == subj) {
+                    techerName = data[i].Teacher_name;
+                }
+            }
+            document.getElementById("teacher").innerHTML = techerName;
+        }
+        function GETerrorCT1(err) {
+            alert("GetClassSubj");
+        }
+
+
+        var statusArr = ["סרטון הועלה ואושר לפרסום", "סרטון הועלה, מחכה לאישור", "טרם הועלה סרטון"];
+        function getDataT() {
+            var  subm1 = date.split('/');
+            var dateVal = `${subm1[2]}-${subm1[1]}-${subm1[0]}`;
+            var  dateVal1 = new Date(dateVal);
+            var apiT = "../api/Student/GetDataTask/" + className + "/" + classNum + "/" + dateVal1;
+            ajaxCall("GET", apiT, "", GETsuccess1, GETerror1);
+        }
+        function GETsuccess1(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Profession == subj) {
+                    console.log(data);
+                }
+            }
+            //document.getElementById("teacher").innerHTML = techerName;
+        }
+        function GETerror1(err) {
+            alert("GetDataTask");
+        }
+
     </script>
 </head>
 <body id="page-top">
@@ -312,7 +368,7 @@
                                                 <span class="testSudent">
                                                     מורה מלמד:&nbsp;
                                                 </span>
-                                                <div id="" class="squaretxtStudent">
+                                                <div id="teacher" class="squaretxtStudent">
                                                 </div>
                                             </div>
                                         </div>
@@ -332,14 +388,15 @@
                                                 <span class="testSudent">
                                                     מספר ימים להגשה:&nbsp;
                                                 </span>
-                                                <div id="" class="squaretxtStudent">
+                                                <div id="restDate" class="squaretxtStudent">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-3 col-xs-3 ">
-                                    <div class="testSudent"> הצוות שלי:</div>
+                                    <span class="testSudent">צוות מספר </span>
+                                    <span id="teamNum" class="testSudent" ></span>
                                     <br />
                                     <div class="channels-card create-text">
                                         <!-- סתם דוגמא -->

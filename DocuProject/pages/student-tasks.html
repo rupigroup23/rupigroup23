@@ -156,7 +156,7 @@ function funcsuccess(data)
         /////////////////////////
 
         function readTaskFromDB() {
-            var apiTasks = "../api/Docu/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
+            var apiTasks = "../api/Student/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
             ajaxCall("GET", apiTasks, "", GETsuccessT1, GETerrorT1);
         }
         tasksARR = [];
@@ -308,7 +308,12 @@ function funcsuccess(data)
                     מקצועות
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="student-Classroom.html">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>רשימת כיתה</span>
+                </a>
+            </li>
             <li class="nav-item channel-sidebar-list">
                 <h6>פרטיות</h6>
                 <ul>

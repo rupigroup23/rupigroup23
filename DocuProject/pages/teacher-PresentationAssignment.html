@@ -170,10 +170,12 @@ function funcsuccess(data)
         //Bring the details up
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-            //date = diffDays(TaskObj.Task.Date);
-            date = "4/30/2020";
+            date = TaskObj.Task.Date;
+            date1 = date.split('-');
+            dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+            dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-            document.getElementById("date").innerHTML = date;
+            document.getElementById("date").innerHTML = dateIL;
         }
     </script>
 </head>
