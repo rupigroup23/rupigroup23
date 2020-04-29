@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -40,21 +41,21 @@
 
         $(document).ready(function () {
             $('#form').submit(sub); //FORM
-            readFromDB(); //profession
-            local = localStorage.getItem('user');
-            objTeacher = JSON.parse(local);
-            showDetalis(objTeacher);
-            $('#saveDetails').click(saveDetails_);
-            pass = objTeacher.Password;
-            $("#addsub").click(addSubj);
+            local = localStorage.getItem('student'); //הסטודנט
+            studentObj = JSON.parse(local);
 
-            $("#changePass").click(function () {
-                if ($('#pass1').val() == objTeacher.Password && $('#pass2').val() == $('#pass3').val()) {
+            showDetalis(studentObj); 
+
+            $('#saveDetails').click(saveDetails_);
+            pass = studentObj.Password;
+
+            $("#changePass").click(function () { // שינוי סיסימא
+                if ($('#pass1').val() == studentObj.Password && $('#pass2').val() == $('#pass3').val()) {
                     pass = $('#pass2').val();
                     swal("סיסמא שונתה בהצלחה", "", "success");
                 }
                 else {
-                    if ($('#pass1').val() != objTeacher.Password) {
+                    if ($('#pass1').val() != studentObj.Password) {
                         swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
                         return false;
                     }
@@ -64,6 +65,10 @@
                     }
                 }
             });
+            function sub() {
+                return false;
+            }
+
             //שלב1 -העלאת התמונה לתוכנה
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
@@ -80,7 +85,7 @@
                 //Ajax upload
                 $.ajax({
                     type: "POST",
-                    url: "../Api/Teacher/uploadimage",
+                    url: "../Api/Student/uploadimage",
                     contentType: false,
                     processData: false,
                     data: data,
@@ -100,56 +105,44 @@
                         "email": userEmail,
                         "Img": imgStr
                     }
-                ajaxCall('POST', '../api/Teacher/uploadUrlImg2', JSON.stringify(teacherImg), POSTsuccessImg, POSTerrorImg);
+                ajaxCall('POST', '../api/Student/uploadUrlImg2', JSON.stringify(teacherImg), POSTsuccessImg, POSTerrorImg);
             });
-
-            function readFromDB() {
-                ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
+                  function POSTsuccessImg() {
+                Swal.fire(
+                    'התמונה הועלתה בהצלחה!',
+                    'לחץ להמשך',
+                    'success'
+                )
             }
-
-            function GETsuccessCB(data) {
-                ProfARR = []; //מערך המקצועות מהדאטא בייס
-            }
-            function GETsuccessCB(data) {
+            function POSTerrorImg(data) {
                 console.log(data);
-                listP = data;
-
-                //insert options to select
-                for (var i = 0; i < listP.length; i++) {
-                    var select = document.getElementById("selectProf");
-                    var option = document.createElement("option");
-                    option.text = listP[i].Name;
-                    select.add(option);
-                }
+            }
+            
+            function showImages(data) {
+                imagePath = data;
+                Swal.fire("", "התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
             }
 
-            function GETerrorCB(err) {
-                console.log(err);
-
-                listCS = data;
-
-                for (var i = 0; i < listP.length; i++) {
-                    ProfARR[i] = listP[i].Profession;
-                }
+            function error(data) {
+                console.log(data);
             }
+            /////////////
+ 
 
-            function GETerrorCB(err) {
-                console.log(err);
-            }
-
-            function sub() {
-                return false;
-            }
-            function showDetalis(objTeacher) {
-                Id = objTeacher.Id;
-                var url = "../api/Teacher/GetDetailsT/" + Id;
+            function showDetalis(studentObj) {
+                Id = studentObj.Id;
+                var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
+            obj = [];
             function funcsuccess(data) {
-
                 obj = data;
-
+                //date
+                birthVal = obj[0].Bday;
+                birthValArr = birthVal.split('T00:00:00');
+                birthVal = birthValArr[0];
+                //
                 $('#fname').val(obj[0].FName);
                 $('#lname').val(obj[0].LName);
                 $('#Id').val(obj[0].Id_);
@@ -158,21 +151,22 @@
                 $('#street').val(obj[0].Street);
                 $('#bday').val(obj[0].Bday);
                 $('#phone').val(obj[0].PhoneNum);
-
+                $('#gender').val(obj[0].Gender);
+                $('#bday').val(birthVal);
                 userEmail = obj[0].Email;
-                Prof = obj[0].Profession;
-                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-                ProfDB = obj[0].Profession;
-                str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
-                document.getElementById('profCard').innerHTML = str;
+                class_ = obj[0].ClassName + "'" +obj[0].ClassNum ;
+                str = '<div class="create-text">' + class_ + '<h6 style="font-size: 23px"></h6>';
+                document.getElementById('classCard').innerHTML = str;
 
-
-                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
-            };
+            //str = '<div class="create-text">' + classStudent. + '<h6 style="font-size: 23px"></h6>';
+            //document.getElementById('classCard').innerHTML = str;
+                
+             ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+       
             function funcerror() { }
 
-
+            //קבלת תמונה
             function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -187,30 +181,19 @@
 
             function saveDetails_() {
 
-                if ($("#selectProf").val() == '1')
-                    prof = obj[0].Profession;
-                else
-                    prof = $("#selectProf").val();
-
-
-                let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+                let student = 
                 {
-                    "Fname": $("#fname").val(),
-                    "Lname": $("#lname").val(),
-                    "Id": $("#Id").val(),
-                    "Email": $("#mail").val(),
-                    "City": $("#city").val(),
-                    "Street": $("#street").val(),
-                    "Bday": $("#bday").val(),
+                    "Id": obj[0].Id_,
                     "PhoneNum": $("#phone").val(),
-                    "Profession": prof,
-                    "Password": pass
+                    "Password": pass,
+                    "ClassName": obj[0].ClassName,
+                    "ClassNum": obj[0].ClassNum
                 }
 
-                console.log(teacher);
+                console.log(student);
 
-                url = "../api/Teacher/updatetTeacher";
-                ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+                url = "../api/Student/updateStudent";
+                ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
             }
 
             function updateDsuccess(data) {
@@ -224,112 +207,6 @@
                 })
             }
             function updateDerror() { }
-            ///
-            var profession = "";
-            ClassSubArr = [];
-            ProfARR = [];
-
-
-            function addSubj() {
-                profession = $("#selectProf").val();
-                if (profession == "1") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'לא בחרת מקצוע 😓',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                }
-                else {
-                    if (profession == "אחר") {
-                        var X = $("#txtbox").val();
-                        profession = X;
-                    }
-                    checkSub();
-                }
-            }
-            function updateDerror() { }
-
-            function showImages(data) {
-                imagePath = data;
-                Swal.fire("", "התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
-            }
-
-            function error(data) {
-                console.log(data);
-            }
-
-
-            function POSTsuccessImg() {
-                Swal.fire(
-                    'התמונה הועלתה בהצלחה!',
-                    'לחץ להמשך',
-                    'success'
-                )
-
-            }
-
-
-            function POSTerrorImg(data) {
-                console.log(data);
-            }
-
-            //function getAvatarImageSuccess(imagePath) {
-
-            //    src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            //    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-            //    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            //}
-
-            //function getAvatarImageError(err) {
-            //    console.log(err)
-            //}
-
-            function checkSub() {
-                //אם המקצוע קיים בדטא
-                obj[0].Profession
-                //for (var i = 0; i < ProfARR.length; i++) {
-                for (var i = 0; i < obj.length; i++) {
-
-                    if (obj[0].Profession == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע כבר קיים',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                //אין כזה מקצוע
-                for (var i = 0; i < ClassSubArr.length; i++) {
-
-                    if (ClassSubArr[i] == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע הוכנס כבר למערכת',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                Swal.fire({
-                    icon: 'success',
-                    title: ' המקצוע נשמר 😀',
-                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                    confirmButtonText: 'אוקי',
-                    showCloseButton: true
-                })
-                ClassSubArr.push(profession);
-            }
-
-
-
 
         });
 
@@ -476,6 +353,7 @@
 
                             <h6 class="create-text">כיתה:</h6>
                             <div id="profCard" class="channels-card text2" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                            <div id="classCard" class="channels-card text2" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                 <h6 class="text2" style="font-size: 20px"></h6>
                             </div>
                             <br />

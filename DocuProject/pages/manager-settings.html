@@ -232,30 +232,7 @@
                 })
             }
             function updateDerror() { }
-            ///
-            var profession = "";
-            ClassSubArr = [];
-            ProfARR = [];
 
-            function addSubj() {
-                profession = $("#selectProf").val();
-                if (profession == "1") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'לא בחרת מקצוע 😓',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                }
-                else {
-                    if (profession == "אחר") {
-                        var X = $("#txtbox").val();
-                        profession = X;
-                    }
-                    checkSub();
-                }
-            }
             function updateDerror() { }
 
             function showImages(data) {
@@ -277,45 +254,7 @@
             function POSTerrorImg(data) {
                 console.log(data);
             }
-            function checkSub() {
-                //אם המקצוע קיים בדטא
-                obj[0].Profession
-                for (var i = 0; i < obj.length; i++) {
 
-                    if (obj[0].Profession == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע כבר קיים',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                //אין כזה מקצוע
-                for (var i = 0; i < ClassSubArr.length; i++) {
-
-                    if (ClassSubArr[i] == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע הוכנס כבר למערכת',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                Swal.fire({
-                    icon: 'success',
-                    title: ' המקצוע נשמר 😀',
-                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                    confirmButtonText: 'אוקי',
-                    showCloseButton: true
-                })
-                ClassSubArr.push(profession);
-            }
 
         });
     </script>
@@ -488,18 +427,7 @@
                             <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
                             <br />
                             <div class="row">
-                                <div class="col-lg-4 col-sm-6">
-                                    <label class="create-text">מקצוע:</label><br />
-                                </div>
-
-                                <div class="row">
-                                    <select id="selectProf" class="create-select">
-                                        <option value="1">שם המקצוע</option>
-                                    </select>
-                                    <button id="addsub" class="create-select" style="width: auto;">
-                                        הוספה
-                                    </button>
-
+                                <div class="row">      
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>

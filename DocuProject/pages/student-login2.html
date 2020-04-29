@@ -37,19 +37,22 @@
         function checkDetails() {
             id = $('#id').val();
             password = $('#pass').val();
-            admin =
+
+            user =
                 {
                     "Id": id,
                     "Password": password
                 }
-            console.log(admin);
-            ajaxCall("POST", "../api/Docu/checkUsers", JSON.stringify(admin), POSTsuccess_Check, POSTerror_Check);
+            localStorage.setItem('user', JSON.stringify(user));
+            ajaxCall("POST", "../api/Student/checkUsers", JSON.stringify(user), POSTsuccess_Check, POSTerror_Check);
         }
 
-        function POSTsuccess_Check(admin) {
+        function POSTsuccess_Check(student) {
 
-            if (admin.Password !== null) {
-                window.location = "teacher-index.html";
+            localStorage.setItem('student', JSON.stringify(student));
+
+            if (student.Password !== null) {
+                window.location = "student-index.html";
             }
             else {
                 console.log("null")
@@ -60,8 +63,8 @@
             console.log(err);
         }
 
+           </script>
 
-    </script>
 
 </head>
 <body class="login-main-body">

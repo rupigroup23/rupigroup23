@@ -73,11 +73,7 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
-<<<<<<< HEAD
-               // סידור פורמט תאריך
-=======
                 //הבאת סרטונים מהדאטה בייס//
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
                 date = TaskObj.Task.Date;
                 dateArr = date.split('/');
                 dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
@@ -90,11 +86,8 @@
                     "Deadline": dateVal
                 }
 
-<<<<<<< HEAD
                  urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
-=======
-                urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
+
                 ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
             }
