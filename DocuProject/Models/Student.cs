@@ -105,5 +105,40 @@ namespace DocuProject.Models
             }
             return dt; // מחזיק עכשיו טבלה חדשה שיש בה שינוי
         }
+        public Student CheckUser(Student student) //כניסת תלמיד
+        {
+            DBservices dbs = new DBservices();
+            return dbs.check_Student(student);
+        }
+
+        public DataTable GetDetails(int ID)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Details(ID, "student");
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable Put_S(int id, Student student)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Details(id,"student");
+            dbs.dt = check_Tbl(id,student, dbs.dt); //חוזר לכאן טבלה אחרי העידכונים עדיין לא בדאטהבייס
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+
+        public DataTable check_Tbl(int id, Student student, DataTable dt) // פונקציית עזר של PUtT
+        {
+            foreach (DataRow dr in dt.Rows) //עובר על כל הטבלה שורה שורה
+            {
+                if (id == Convert.ToInt32(dr["Id_"]))
+                {
+                    dr["PhoneNum"] = student.PhoneNum;
+                    dr["Password_"] = student.Password;
+                }
+            }
+            return dt;
+        }
+
     }
 }

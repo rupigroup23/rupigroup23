@@ -38,6 +38,92 @@ namespace DocuProject.Controllers
         {
         }
 
+        [HttpPost] /// דף כניסה- במידה ומנהל
+        [Route("api/Student/checkUsers")]
+        public Student Post([FromBody] Student student) // מקבלת מערך של אובייקטים- מה שהכנתי
+        {
+            Student S = new Student();
+            return S.CheckUser(student);
+        }
+
+        [HttpGet] //דף הבית
+        [Route("api/Student/GetClassSubj/{name}/{num}")]
+        public List<ClassSubjects> GetCS(string name, string num)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS(name, num); // Read from Models/Counrty
+        }
+
+        //Setting
+        [HttpGet]
+        [Route("api/Student/GetDetailsS/{Id}")]
+        public DataTable GetDIS(int Id)
+        {
+            Student S = new Student();
+            return S.GetDetails(Id);
+        }
+
+        //pic
+        [HttpPost] //שלב1- העלת התמונה לתוכנה
+        [Route("api/Student/uploadimage")]
+        public HttpResponseMessage Post()
+        {
+            List<string> imageLinks = new List<string>();
+            var httpContext = HttpContext.Current;
+
+            // Check for any uploaded file  
+            if (httpContext.Request.Files.Count > 0)
+            {
+                //Loop through uploaded files  
+                for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                {
+                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+
+                    // this is an example of how you can extract addional values from the Ajax call
+                    string name = httpContext.Request.Form["name"];
+
+                    if (httpPostedFile != null)
+                    {
+                        // Construct file save path  
+                        //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
+                        string fname = httpPostedFile.FileName.Split('\\').Last(); // שומר את השם של התמונה
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ישמור את התמונה בתוך התיקיה אפלודפיילס שיצרנו
+                        // Save the uploaded file  
+                        httpPostedFile.SaveAs(fileSavePath);
+                        imageLinks.Add("uploadedFiles/" + fname);
+                    }
+                }
+            }
+
+            // Return status code  
+            return Request.CreateResponse(HttpStatusCode.Created, imageLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
+        }
+
+        [HttpPost] ///  שלב 2- הכנסה לדטא דף מורה
+        [Route("api/Student/uploadUrlImg2")]
+        public void Post([FromBody] ImgStudent img)
+        {
+            ImgStudent pic = new ImgStudent();
+            pic.insertPic(img);
+        }
+
+        [HttpGet] //get pic
+        [Route("api/Student/getavatar/{Id}")]
+        public string Get(string Id)
+        {
+            ImgStudent i = new ImgStudent();
+            return i.getAvatarImage(Id);
+        }
+
+        [HttpPut] //update setting
+        [Route("api/Student/updateStudent")]
+        public DataTable PutA([FromBody] Student student)
+        {
+            Student S = new Student();
+            return S.Put_S(student.Id, student);
+        }
+
+
     }
 
 }

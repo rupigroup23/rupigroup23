@@ -770,6 +770,7 @@ public class DBservices
                 CS.Name = (string)dr["className"];
                 CS.Number = (string)dr["classNum"];
                 CS.Profession = (string)dr["Profession"];
+                CS.Teacher_name = (string)dr["Teacher_name"];
 
                 listClassSubj.Add(CS);
             }
@@ -1110,13 +1111,20 @@ public class DBservices
                               Teacher__
                               where Id_='{ID}'";
             }
-            else
+            if (str == "admin")
             {
                 selectSTR = $@"select * from
                               Admin_
                               where Id_='{ID}'";
-
             }
+
+            else //student
+            { 
+                selectSTR = $@"select * from
+                              Student
+                              where Id_='{ID}'";
+        }
+
             da = new SqlDataAdapter(selectSTR, con);
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
 
@@ -1150,11 +1158,16 @@ public class DBservices
             {
                 selectSTR = "select Image_ from Admin_ where Id_='" + Id + "'";
             }
-            else
+            if (str == "teacher")
             {
                 selectSTR = "select Image_ from Teacher__ where Id_='" + Id + "'";
 
             }
+            else
+            {
+                selectSTR = "select Image_ from Student where Id_='" + Id + "'";
+            }
+
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file       
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             //קורא שורה סוגר וככה הלאה //שורה קבועה
@@ -1382,44 +1395,51 @@ public class DBservices
     }
 
 
+    public Student check_Student(Student studentInput)
+    {
+        Student S = new Student();
 
+        // שומרת את המשתנים שהוכנסו בפועל
+        int id_ = studentInput.Id;
+        string pass_ = studentInput.Password;
 
-    //public DBservices Get_DetailsT(int ID)
-    //{
-    //    Task T = new Task();
-    //    SqlConnection con = null;
-    //    try
-    //    {
-    //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM Student
+                               where Id_ = '{id_}' and Password_='{pass_}'";
 
-    //        String selectSTR = $@"select * from
-    //                          Task
-    //                          where Id='{ID}'";
-    //        da = new SqlDataAdapter(selectSTR, con);
-    //        SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
 
-    //        DataSet ds = new DataSet();
-    //        da.Fill(ds);
-    //        dt = ds.Tables[0];
-    //    }
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
 
-    //    catch (Exception ex)
-    //    {
-    //        throw (ex);
-    //    }
-    //    finally
-    //    {
-    //        if (con != null)
-    //        {
-    //            con.Close();
-    //        }
-    //    }
-    //    return this; // מחזיר איבר מסוג DB SERVICES
-    //}
-    //public void update1()
-    //{
-    //    da.Update(dt);
-    //}
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                // שומרת את הנתונים מהדטה בייס לתוך אובייקט שיצרתי
+                S.Id = (int)dr["Id_"];
+                S.Password = (string)dr["Password_"];
+                S.FName = (string)dr["FName"];
+                S.ClassName = (string)dr["ClassName"];
+                S.ClassNum = (int)dr["ClassNum"];
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return S;
+    }
+
 }
 
 

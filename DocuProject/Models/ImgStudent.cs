@@ -13,7 +13,6 @@ namespace DocuProject.Models
         public string Img { get => img; set => img = value; }
         public string Email { get => email; set => email = value; }
 
-
         public int insertPic(ImgStudent StudentImage) // הכנסת התמונה משלב2
         {
             DBservices dbs = new DBservices();
@@ -21,6 +20,12 @@ namespace DocuProject.Models
             return numAffected; //מחזיר את מספר השורות
         }
 
-       
+        public string getAvatarImage(string Id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getAvatarImage(Id, "student");
+        }
+
+
     }
 }

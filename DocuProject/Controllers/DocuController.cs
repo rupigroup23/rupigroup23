@@ -128,8 +128,6 @@ namespace DocuProject.Controllers
             return A.CheckUser(admin);
         }
 
-
-
         [HttpGet]
         [Route("api/Docu/getNumClass")]
         public DataTable GetClass()
