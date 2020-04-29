@@ -123,16 +123,12 @@
 
             console.log(studentsData)
             students = studentsData;
-<<<<<<< HEAD
-            for (var i = 0; i < studentsArr.length; i++) {
-=======
+
              for (var i = 0; i < studentsArr.length; i++) {
->>>>>>> ea58f8c7c286a6b6cf2b3ce58ada296359df5341
                 bd = studentsArr[i].Bday;
                 bd1 = bd.split('-');
                 day = bd1[2].split('T');
                 dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
-<<<<<<< HEAD
                 studentsArr[i].Bday = dateIL
             }
 
@@ -142,14 +138,12 @@
 
                             responsive: true,
                     "language": {
-=======
                 students[i].Bday = dateIL
             }
             try {
                 tbl = $('#StudentTable').DataTable({
                     responsive: true,
                      "language": {
->>>>>>> ea58f8c7c286a6b6cf2b3ce58ada296359df5341
                         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hebrew.json"
                     },
                     data: students,
