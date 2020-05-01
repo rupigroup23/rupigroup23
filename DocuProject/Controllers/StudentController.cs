@@ -38,6 +38,44 @@ namespace DocuProject.Controllers
         {
         }
 
+        [HttpPost] // ׳ ׳™׳”׳•׳ ׳×׳׳׳™׳“׳™׳ - ׳§׳‘׳׳× ׳˜׳‘׳׳× ׳×׳׳׳™׳“׳™׳
+        [Route("api/Student/GetStudents")]
+        public DataTable GetS([FromBody]Student studentObj)
+        {
+            return studentObj.GetStudents();
+        }
+
+        [HttpGet]
+        [Route("api/Student/GetTasks/{name}/{num}/{prof}")]
+        public List<Task> GetTask(string name, string num, string prof)
+        {
+            Task T = new Task();
+            return T.ReadTask(name, num, prof); // Read from Models/Counrty
+        }
+
+        [HttpGet]
+        [Route("api/Student/specifictask/{class1}/{numClass}/{sub}/{topic}")]
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        {
+            Task task = new Task();
+            return task.getSpecificTask(class1, numClass, sub, topic);
+        }
+        [HttpGet]
+        [Route("api/Student/GetClassSubj/{name}/{num}")]
+        public List<ClassSubjects> GetCS(string name, string num)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS(name, num); // Read from Models/Counrty
+        }
+
+        [HttpGet]
+        [Route("api/Student/GetGetDataTask/{name}/{num}/{date}")]
+        public List<Group_Feedback> GetDT(string name, int num, DateTime date)
+        {
+            Group_Feedback DT = new Group_Feedback();
+            return DT.ReadDT(name, num, date); // Read from Models/Counrty
+        }
+        //נוי
         [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Student/checkUsers")]
         public Student Post([FromBody] Student student) // מקבלת מערך של אובייקטים- מה שהכנתי
@@ -45,6 +83,7 @@ namespace DocuProject.Controllers
             Student S = new Student();
             return S.CheckUser(student);
         }
+
 
         [HttpGet] //דף הבית
         [Route("api/Student/GetClassSubj/{name}/{num}")]
@@ -99,6 +138,7 @@ namespace DocuProject.Controllers
             return Request.CreateResponse(HttpStatusCode.Created, imageLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
         }
 
+
         [HttpPost] ///  שלב 2- הכנסה לדטא דף מורה
         [Route("api/Student/uploadUrlImg2")]
         public void Post([FromBody] ImgStudent img)
@@ -106,6 +146,7 @@ namespace DocuProject.Controllers
             ImgStudent pic = new ImgStudent();
             pic.insertPic(img);
         }
+
 
         [HttpGet] //get pic
         [Route("api/Student/getavatar/{Id}")]
@@ -123,7 +164,7 @@ namespace DocuProject.Controllers
             return S.Put_S(student.Id, student);
         }
 
-
     }
 
 }
+      

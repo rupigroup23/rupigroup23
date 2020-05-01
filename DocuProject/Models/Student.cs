@@ -25,7 +25,9 @@ namespace DocuProject.Models
         string className;
         int classNum;
         string password;
-       
+        string gender;
+
+
         public int Id_row { get => id_row; set => id_row = value; }
         public string FName { get => fName; set => fName = value; }
         public string LName { get => lName; set => lName = value; }
@@ -38,6 +40,7 @@ namespace DocuProject.Models
         public string ClassName { get => className; set => className = value; }
         public int ClassNum { get => classNum; set => classNum = value; }
         public string Password { get => password; set => password = value; }
+        public string Gender { get => gender; set => gender = value; }
 
         public List<Student> ReadSt()
         {

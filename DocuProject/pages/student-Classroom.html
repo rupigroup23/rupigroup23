@@ -113,7 +113,7 @@
                 }
             console.log(obj2);
 
-            url = "../api/Docu/GetStudents";
+            url = "../api/Student/GetStudents";
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
