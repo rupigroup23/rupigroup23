@@ -60,8 +60,9 @@ namespace DocuProject.Controllers
             Task task = new Task();
             return task.getSpecificTask(class1, numClass, sub, topic);
         }
+
         [HttpGet]
-        [Route("api/Student/GetClassSubj/{name}/{num}")]
+        [Route("api/Student/GetClassSubj/{name}/{num}")] // מביא את המקצועות של הכיתה לדף הראשי
         public List<ClassSubjects> GetCS(string name, string num)
         {
             ClassSubjects CS = new ClassSubjects();
@@ -84,14 +85,6 @@ namespace DocuProject.Controllers
             return S.CheckUser(student);
         }
 
-
-        [HttpGet] //דף הבית
-        [Route("api/Student/GetClassSubj/{name}/{num}")]
-        public List<ClassSubjects> GetCS(string name, string num)
-        {
-            ClassSubjects CS = new ClassSubjects();
-            return CS.ReadCS(name, num); // Read from Models/Counrty
-        }
 
         //Setting
         [HttpGet]
