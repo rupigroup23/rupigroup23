@@ -21,6 +21,16 @@ Version: 1.0
 */
 /* Body */
 
+/*Entrance page-noy*/
+.imgEntrance:hover {
+    border: 3px solid #990099;
+    border-style: double;
+}
+
+.imgEntrance {
+    height: 300px;
+    width: 300px;
+}
 /*textarea like input field*/
 .comment-box {
     padding: 0.8rem 1rem;
