@@ -23,6 +23,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/allTask.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
@@ -30,6 +31,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <!--<script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>-->
+
     <script>
         //user img
         var imagePath1 = '';
@@ -44,16 +48,15 @@
 
         $(document).ready(function () {
             //Menus
-            localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //localN = localStorage.getItem('myName');
+            //console.log('local: ', JSON.parse(localN));
+            //myNameObj = JSON.parse(localStorage["myName"]);
+            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
             TaskObj = JSON.parse(localStorage["thisTask"]);
-            //TaskObj11 = JSON.parse(localStorage["thisTask"]);
 
             className = TaskObj.ClassName;
             classNum = TaskObj.ClassNum;
@@ -72,7 +75,6 @@
                 if (strcheck == 0) {
                     $('#downloadFile').attr("disabled", false);
                     $('#showTxt').attr("disabled", true);
-
                 }
                 if (strcheck == -1) {
                     $('#showTxt').attr("disabled", false);
@@ -82,48 +84,67 @@
             function Error(err) {
                 console.log(err)
             }
-            
-            
-            $('#showTxt').click(Showtxt);
-            $('#showUpl').click(showUpl); 
 
+            $('#showTxt').click(Showtxt);
+            $('#showUpl').click(showUpl);
+            $('#saveVideo').click(saveVideo);
+            $('#uploadVideo').click(uploadV);
             $('#downloadFile').click(function () {
                 window.location.replace(taskPath);
             });
-
+            
             //User image
-            localAdmin = localStorage.getItem('user');
-            objAdmin = JSON.parse(localAdmin);
-            showDetalis(objAdmin);
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
-
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
-
-
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
-            }
-            function getAvatarImageSuccess(imagePath1) {
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-            function funcerror(err) { console.log(err) }
+            localUSER = localStorage.getItem('student');
+            studentObj = JSON.parse(localUSER);
+            showDetalis(studentObj);
             //END- User image
-
-
         });
+        //User image
+        function showDetalis(objTeacher) {
+            Id = studentObj.Id;
+            var url = "../api/Student/GetDetailsS/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
+        function funcerror() { }
+        function getAvatarImageSuccess(imagePath1) {
+
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+        //
+
+        //delete?
+        function forCreateTask() {
+            if (listCS.length == 0) {
+                idT = 1;
+            }
+            else {
+                idT = Tnum;
+            }
+            forNewTask = {
+                "ClassName": ProfObj.ClassName, //ח
+                "ClassNum": ProfObj.ClassNum,//4
+                "Profession": ProfObj.Profession, //פיזיקה
+                "Task": {
+                    "Num": idT,
+                    "Topic": "",
+                    "Date": "",
+                }
+            }
+            console.log(forNewTask);
+
+            localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
+        }
 
         function Showtxt() {
             txt = document.getElementById("showtxtbox");
@@ -132,10 +153,8 @@
             } else {
                 txt.style.display = "none";
             }
-
             //valuTxt
             document.getElementById("valuTxt").innerHTML = taskPath;
-
         }
         function showUpl() {
             txt1 = document.getElementById("showUplbox");
@@ -157,32 +176,33 @@
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
+        var teamnum = "";
         //Bring the details up
         function getDatelis() {
-            getTeacher();
+            teamnum = "1"; //לסדר את זה עם האלגוריתם
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             date = TaskObj.Task.Date;
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
             diffDays1 = diffDays(TaskObj.Task.Date);
             document.getElementById("restDate").innerHTML = diffDays1;
-            document.getElementById("teamNum").innerHTML = "1";
-                    //teamNum
-            getDataT();
-
+            document.getElementById("restDate").style.color = "red"
+            document.getElementById("teamNum").innerHTML = teamnum;
+            getTeacher();
+            getDataT(); //bring data
         }
 
         function diffDays(subm) {
-           var  today = new Date();
-           var  day = today.getDate();
-           var  month = today.getMonth() + 1;
-           var  year = today.getFullYear();
-          var  subm1 = subm.split('/');
-          var  dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
+            var today = new Date();
+            var day = today.getDate();
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear();
+            var subm1 = subm.split('/');
+            var dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
             var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
-            var diffDays = submission.getDate() - date2.getDate();
+            var diffDays = date2.getDate() - submission.getDate();
             if (diffDays < 0) {
                 diffDays = "מועד ההגשה עבר";
                 return diffDays;
@@ -190,11 +210,10 @@
             else {
                 return diffDays;
             }
-                        console.log(diffDays);
+            console.log(diffDays);
         }
 
         function getTeacher() {
-
             var apiProf = "../api/Student/GetClassSubj/" + className + "/" + classNum;
             console.log(apiProf);
             ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
@@ -212,27 +231,147 @@
             alert("GetClassSubj");
         }
 
-
-        var statusArr = ["סרטון הועלה ואושר לפרסום", "סרטון הועלה, מחכה לאישור", "טרם הועלה סרטון"];
+        var statusArr = ["טרם הועלה סרטון", "סרטון הועלה ואושר לפרסום", "סרטון הועלה, מחכה לאישור"];
+        var status = "";
+        var strStatus = "";
         function getDataT() {
-            var  subm1 = date.split('/');
-            var dateVal = `${subm1[2]}-${subm1[1]}-${subm1[0]}`;
-            var  dateVal1 = new Date(dateVal);
-            var apiT = "../api/Student/GetDataTask/" + className + "/" + classNum + "/" + dateVal1;
-            ajaxCall("GET", apiT, "", GETsuccess1, GETerror1);
+            classData =
+                {
+                    "ClassName": className,
+                    "ClassNum": classNum,
+                    "Proffesion": subj
+                }
+
+            apiT = "../api/Student/GetTeamData";
+            ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
         }
+        var thisTeam;
+        var id; 
         function GETsuccess1(data) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].Profession == subj) {
-                    console.log(data);
+            details = data;
+            numT = TaskObj.Task.Num;
+            
+            for (var i = 0; i < details.length; i++) {
+                if (details[i].IdTask == numT && details[i].GroupNum == teamnum) {
+                    id = details[i].id
+                    thisTeam = details[i];
+                    status = getStatus(details[i].Status_);
+                    document.getElementById("statusID").innerHTML = status;
+                    //Grade
+                    if (details[i].Grade == 0) {
+                        gradeSTR = "טרם הועלה ציון";
+                        document.getElementById("gradeID").innerHTML = gradeSTR;
+                    }
+                    else {
+                        document.getElementById("gradeID").innerHTML = details[i].Grade;
+                    }
+                    //FeedbackComment
+                    if (details[i].Feedback) {
+                        document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
+                        document.getElementById("commentTeacher").style.color = "red";
+                    }
+                    else {
+                        document.getElementById("commentTeacher").innerHTML = details[i].Feedback;
+                    }
+                    //TeamName
+                    document.getElementById("teamNameID").innerHTML = details[i].Group_students;
                 }
             }
-            //document.getElementById("teacher").innerHTML = techerName;
         }
         function GETerror1(err) {
             alert("GetDataTask");
         }
 
+        function getStatus(status) {
+            if (status == -1) {
+                strStatus += "<span class='statuses-text' style='color:red; font-size: 19px;'>";
+                strStatus += statusArr[0];
+                strStatus += "</span>";
+                return strStatus;
+
+            }
+            else if (status == 0) {
+                strStatus += "<span class='statuses-text' style='color:#ee8d14; font-size: 19px;'>";
+                strStatus += statusArr[1];
+                strStatus += "</span>";
+                return strStatus;
+            }
+            else {
+                strStatus += "<span class='statuses-text' style='color:#1aaf10; font-size: 19px;'>";
+                strStatus += statusArr[2];
+                strStatus += "</span>";
+                return strStatus;
+            }
+        }
+
+        var videoPath = "";
+        //upload Vidoe
+        function uploadV() {
+            var fee = $("#chooseVideo").val();
+            if (fee == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'לא הועלה קובץ',
+                    confirmButtonColor: '#990099',
+                })
+            }
+            else {
+                var data = new FormData();
+                var files = $("#chooseVideo").get(0).files;
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedTasks", files[f]);
+                    }
+                    data.append("name", "Student"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+                console.log(data);
+                console.log(files);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הקובץ נטען בהצלחה',
+                    confirmButtonColor: '#990099',
+                })
+            // Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/DocuUpload/uploadtask",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showVideoSuccess,
+                    error: showVideoError
+                })
+            }
+        }
+
+        function showVideoSuccess(data) {
+            videoPath = data;
+        }
+        function showVideoError(err) { console.log(err) }
+        function saveVideo() {
+            thisTeam.Video = videoPath[0];
+            thisTeam.comment = $("#commentStudents").val();
+            // let dataVC = 
+            // {
+
+
+            //    "comment": $("#commentStudents").val(),
+            //     "Video": videoPath[0],
+            //}
+            //saveVideo
+            apiID = "../api/Student/updateStudent/" + id;
+            ajaxCall("PUT", apiID, JSON.stringify(thisTeam), updateDsuccess, updateDerror);
+        }
+
+        function updateDsuccess(data) {
+            console.log(data);
+            swal("העריכה נשמרה", "", "success");
+        }
+
+        function updateDerror(err) {
+            console.log(err);
+        }
+        
     </script>
 </head>
 <body id="page-top">
@@ -398,9 +537,7 @@
                                     <span class="testSudent">צוות מספר </span>
                                     <span id="teamNum" class="testSudent" ></span>
                                     <br />
-                                    <div class="channels-card create-text">
-                                        <!-- סתם דוגמא -->
-                                        שיר מלכה | נוי מור יוסף | רביד אלבז
+                                    <div id="teamNameID" class="channels-card create-text">
                                     </div>
                                 </div>
                             </div>
@@ -432,8 +569,9 @@
                                            <!-- תוכן המטלה -->
                                            <div class="row">
                                                <div class="col-lg-6 col-sm-12">
+                                                   <!--  valuTxt-->
                                                    <div class="col-lg-12 col-sm-12" id="showtxtbox" style="display:none">
-                                                       <textarea id="valuTxt" class="comment-box" rows="4" cols="70" readonly></textarea>
+                                                       <textarea id="valuTxt" class="comment-box" rows="4" cols="70" style="border: 1px solid #990099;border-radius: 30px;" readonly></textarea>
                                                    </div>
                                                </div>
                                                <div class="col-lg-6 col-sm-12">
@@ -444,8 +582,7 @@
                                                                    <span class="testSudent">
                                                                        מצב הגשה:&nbsp;
                                                                    </span>
-                                                                   <div id="" class="statuses-text" style="color:red; font-size: 19px;">
-                                                                       טרם הועלה סרטון
+                                                                   <div id="statusID" >
                                                                    </div>
                                                                </div>
                                                            </div>
@@ -454,8 +591,7 @@
                                                                    <span class="testSudent">
                                                                        ציון:&nbsp;
                                                                    </span>
-                                                                   <div id="" class="statuses-text" style="font-size: 19px;">
-                                                                       98
+                                                                   <div id="gradeID" class="statuses-text">
                                                                    </div>
                                                                </div>
                                                            </div>
@@ -468,8 +604,11 @@
                                                                    </h3>
                                                                </div>
                                                                <div class="row">
-                                                                   <input type="file" id="chooseVideo" name="video" accept="video/*" capture style="height: 50px;width: 125px; " multiple />
-                                                                   <input type="button" id="uploadVideo" value="טען" class="btn btn-light border-none" style="background-color: #d6d8d9;     border-color: #c6c8ca;" />
+                                                                   <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
+                                                                   <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
+
+                                                                   <!--<input type="file" id="chooseVideo" name="video" accept="video/*" capture style="height: 50px;width: 125px; " multiple />-->
+                                                                   <!--<input type="button" id="uploadVideo" value="טען" class="btn btn-light border-none" style="background-color: #d6d8d9;     border-color: #c6c8ca;" />-->
                                                                </div>
                                                            </div>
                                                            <div class="col-lg-6 col-sm-12 vl">
@@ -477,7 +616,7 @@
                                                                    <span class="testSudent">
                                                                        הערות מהמורה:
                                                                    </span>
-                                                                   <textarea id="valuTxt" class="comment-box" rows="1" cols="4" readonly></textarea>
+                                                                   <textarea id="commentTeacher" class="comment-box squaretxtStudent" rows="1" cols="4" readonly></textarea>
                                                                </div>
                                                            </div>
                                                        </div>
@@ -486,11 +625,11 @@
                                                                <span class="testSudent">
                                                                    הערות להגשה:
                                                                </span>
-                                                               <textarea id="valuTxt" class="comment-box" rows="1" cols="4" placeholder="יש להזין ההערות"></textarea>
+                                                               <textarea id="commentStudents" class="comment-box" rows="1" cols="4" placeholder="יש להזין ההערות"></textarea>
                                                            </div>
                                                            <div class="col-lg-3 col-sm-12">
                                                                <br />
-                                                               <button id="" class="showTask-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;">
+                                                               <button id="saveVideo" class="showTask-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;">
                                                                    העלאה
                                                                </button>
                                                            </div>

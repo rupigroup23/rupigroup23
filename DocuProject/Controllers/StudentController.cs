@@ -62,24 +62,67 @@ namespace DocuProject.Controllers
         }
 
         [HttpGet]
-        [Route("api/Student/GetClassSubj/{name}/{num}")] // îáéà àú äî÷öåòåú ùì äëéúä ìãó äøàùé
+        [Route("api/Student/GetClassSubj/{name}/{num}")] // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         public List<ClassSubjects> GetCS(string name, string num)
         {
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS(name, num); // Read from Models/Counrty
         }
 
-        [HttpGet]
-        [Route("api/Student/GetGetDataTask/{name}/{num}/{date}")]
-        public List<Group_Feedback> GetDT(string name, int num, DateTime date)
+        [HttpPost] // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        [Route("api/Student/GetTeamData")]
+        public DataTable GetTeamData([FromBody]Group_Feedback teamObj)
         {
-            Group_Feedback DT = new Group_Feedback();
-            return DT.ReadDT(name, num, date); // Read from Models/Counrty
+            return teamObj.GetTeamData();
         }
-        //ðåé
-        [HttpPost] /// ãó ëðéñä- áîéãä åîðäì
+
+        [HttpPut]
+        [Route("api/Student/updateStudent/{id}")]
+        public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
+        {
+            Group_Feedback VC = new Group_Feedback();
+            return VC.PutVC(id, videoTeam);
+        }
+
+        [HttpPost] //ï¿½ï¿½ï¿½1- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        [Route("Api/StudentUpload/uploadtask")]
+        public HttpResponseMessage Post()
+        {
+            List<string> taskLinks = new List<string>(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            var httpContext = HttpContext.Current; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+
+            // Check for any uploaded file  
+            if (httpContext.Request.Files.Count > 0) // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+            {
+                //Loop through uploaded files  
+                for (int i = 0; i < httpContext.Request.Files.Count; i++) // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+                {
+                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+
+                    // this is an example of how you can extract addional values from the Ajax call
+                    string name = httpContext.Request.Form["name"]; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+
+                    if (httpPostedFile != null) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                    {
+                        // Construct file save path  
+                        //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
+                        string fname = httpPostedFile.FileName.Split('\\').Last(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                        // Save the uploaded file  
+                        httpPostedFile.SaveAs(fileSavePath); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+                        taskLinks.Add("uploadedFiles/" + fname); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+                    }
+                }
+            }
+
+            // Return status code  
+            return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 
+        }
+
+        //ï¿½ï¿½ï¿½
+        [HttpPost] /// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½- ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         [Route("api/Student/checkUsers")]
-        public Student Post([FromBody] Student student) // î÷áìú îòøê ùì àåáéé÷èéí- îä ùäëðúé
+        public Student Post([FromBody] Student student) // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½- ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             Student S = new Student();
             return S.CheckUser(student);
@@ -95,44 +138,8 @@ namespace DocuProject.Controllers
             return S.GetDetails(Id);
         }
 
-        //pic
-        [HttpPost] //ùìá1- äòìú äúîåðä ìúåëðä
-        [Route("api/Student/uploadimage")]
-        public HttpResponseMessage Post()
-        {
-            List<string> imageLinks = new List<string>();
-            var httpContext = HttpContext.Current;
 
-            // Check for any uploaded file  
-            if (httpContext.Request.Files.Count > 0)
-            {
-                //Loop through uploaded files  
-                for (int i = 0; i < httpContext.Request.Files.Count; i++)
-                {
-                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
-
-                    // this is an example of how you can extract addional values from the Ajax call
-                    string name = httpContext.Request.Form["name"];
-
-                    if (httpPostedFile != null)
-                    {
-                        // Construct file save path  
-                        //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
-                        string fname = httpPostedFile.FileName.Split('\\').Last(); // ùåîø àú äùí ùì äúîåðä
-                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // éùîåø àú äúîåðä áúåê äúé÷éä àôìåãôééìñ ùéöøðå
-                        // Save the uploaded file  
-                        httpPostedFile.SaveAs(fileSavePath);
-                        imageLinks.Add("uploadedFiles/" + fname);
-                    }
-                }
-            }
-
-            // Return status code  
-            return Request.CreateResponse(HttpStatusCode.Created, imageLinks); // ùåìç àú äðéúåá áçæøä ìôåð÷öééú ääöìçä áãó äàéðã÷ñ, ìùìá 2
-        }
-
-
-        [HttpPost] ///  ùìá 2- äëðñä ìãèà ãó îåøä
+        [HttpPost] ///  ï¿½ï¿½ï¿½ 2- ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         [Route("api/Student/uploadUrlImg2")]
         public void Post([FromBody] ImgStudent img)
         {
@@ -158,7 +165,7 @@ namespace DocuProject.Controllers
             return S.Put_S(student.Id, student);
         }
 
-        [HttpPost] /// äòìàú ôéãá÷éí
+        [HttpPost] /// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         [Route("api/Student/PostFeedback")]
         public void Post([FromBody] Feedback feedbackObj)
         {
@@ -166,7 +173,7 @@ namespace DocuProject.Controllers
             F.insertFeed(feedbackObj);
         }
 
-        [HttpGet] /// ÷áìú ôéãá÷éí
+        [HttpGet] /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         [Route("api/student/getdata/{groupStudent}/{numOfTask}/{profession}")]
         public List<Feedback> getData(string groupStudent, string numOfTask , string profession)
         {
@@ -174,6 +181,7 @@ namespace DocuProject.Controllers
             return F.getData(groupStudent,  numOfTask,  profession);
         }
 
+        
     }
 
 }
