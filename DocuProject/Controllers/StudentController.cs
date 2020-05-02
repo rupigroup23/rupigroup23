@@ -60,21 +60,15 @@ namespace DocuProject.Controllers
             Task task = new Task();
             return task.getSpecificTask(class1, numClass, sub, topic);
         }
-        [HttpGet]
-        [Route("api/Student/GetClassSubj/{name}/{num}")]
-        public List<ClassSubjects> GetCS(string name, string num)
-        {
-            ClassSubjects CS = new ClassSubjects();
-            return CS.ReadCS(name, num); // Read from Models/Counrty
-        }
 
         [HttpGet]
-        [Route("api/Student/GetGetDataTask/{name}/{num}/{date}")]
-        public List<Group_Feedback> GetDT(string name, int num, DateTime date)
+        [Route("api/Student/GetDataTask/{name}/{num}/{IdTask}")]
+        public List<Group_Feedback> GetDT(string name, int num, int IdTask)
         {
             Group_Feedback DT = new Group_Feedback();
-            return DT.ReadDT(name, num, date); // Read from Models/Counrty
+            return DT.ReadDT(name, num, IdTask); // Read from Models/Counrty
         }
+        
         //נוי
         [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Student/checkUsers")]
