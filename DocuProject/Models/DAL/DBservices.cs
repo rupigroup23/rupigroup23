@@ -1471,6 +1471,7 @@ public class DBservices
                 S.Id = (int)dr["Id_"];
                 S.Password = (string)dr["Password_"];
                 S.FName = (string)dr["FName"];
+                S.LName = (string)dr["LName"];
                 S.ClassName = (string)dr["ClassName"];
                 S.ClassNum = (int)dr["ClassNum"];
             }
@@ -1488,6 +1489,105 @@ public class DBservices
         }
         return S;
     }
+
+    
+   //שמירת פידבקים////////////////////////////////
+    public int inserFeedback1(Feedback feedbackObj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = BuildInsertCommand_F(feedbackObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertCommand_F(Feedback feedbackObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                            //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { 
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string 
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents,  feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    public List<Feedback> getData (string groupStudent, string numOfTask , string Profession)
+    {
+        List <Feedback> listOfFeedback = new List<Feedback>();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask='" + numOfTask + "' and profession='" + Profession + "'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {
+                Feedback feedback = new Feedback();
+                feedback.Contents = (string)dr["contents"];
+                feedback.NameLike = (string)dr["nameLike"];
+                feedback.Video = (string)dr["video"];
+                feedback.UserName = (string)dr["UserName"];
+                listOfFeedback.Add(feedback);
+            }
+            return listOfFeedback;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
 
 }
 

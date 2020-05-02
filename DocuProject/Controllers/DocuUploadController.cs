@@ -44,7 +44,7 @@ namespace DocuProject.Controllers
         }
 
         [HttpPost] //שלב1- העלת קובץ ושמירה בתיקייה
-        [Route("Api/DocuUpload/uploadtask")]
+        [Route("Api/DocuUpload/uploadVideo")]
         public HttpResponseMessage Post()
         {  
             List<string> taskLinks = new List<string>(); // יוצרים רשימה שמחזיקה את הניתובים

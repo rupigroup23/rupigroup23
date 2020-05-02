@@ -148,6 +148,7 @@ namespace DocuProject.Controllers
             ImgStudent i = new ImgStudent();
             return i.getAvatarImage(Id);
         }
+      
 
         [HttpPut] //update setting
         [Route("api/Student/updateStudent")]
@@ -155,6 +156,22 @@ namespace DocuProject.Controllers
         {
             Student S = new Student();
             return S.Put_S(student.Id, student);
+        }
+
+        [HttpPost] /// העלאת פידבקים
+        [Route("api/Student/PostFeedback")]
+        public void Post([FromBody] Feedback feedbackObj)
+        {
+            Feedback F = new Feedback();
+            F.insertFeed(feedbackObj);
+        }
+
+        [HttpGet] /// קבלת פידבקים
+        [Route("api/student/getdata/{groupStudent}/{numOfTask}/{profession}")]
+        public List<Feedback> getData(string groupStudent, string numOfTask , string profession)
+        {
+            Feedback F = new Feedback();
+            return F.getData(groupStudent,  numOfTask,  profession);
         }
 
     }

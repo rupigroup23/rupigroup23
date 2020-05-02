@@ -26,7 +26,8 @@
     <IISExpressSSLPort>44328</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -199,6 +200,7 @@
     <Content Include="pages\blank.html" />
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
+    <Content Include="pages\css\feedbackStyle.css" />
     <Content Include="pages\css\upl.css" />
     <Content Include="pages\EntrancePage.html" />
     <Content Include="pages\img\student-start.png" />
