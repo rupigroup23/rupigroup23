@@ -200,8 +200,11 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\css\upl.css" />
+    <Content Include="pages\EntrancePage.html" />
+    <Content Include="pages\img\student-start.png" />
     <Content Include="pages\img\student.png" />
     <Content Include="pages\img\student2.png" />
+    <Content Include="pages\img\teacher.png" />
     <Content Include="pages\img\Untitled.png" />
     <Content Include="pages\img\תלמיד.png" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />

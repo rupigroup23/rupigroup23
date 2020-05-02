@@ -62,6 +62,14 @@ namespace DocuProject.Controllers
         }
 
         [HttpGet]
+        [Route("api/Student/GetClassSubj/{name}/{num}")] // מביא את המקצועות של הכיתה לדף הראשי
+        public List<ClassSubjects> GetCS(string name, string num)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS(name, num); // Read from Models/Counrty
+        }
+
+        [HttpGet]
         [Route("api/Student/GetDataTask/{name}/{num}/{IdTask}")]
         public List<Group_Feedback> GetDT(string name, int num, int IdTask)
         {
@@ -78,14 +86,6 @@ namespace DocuProject.Controllers
             return S.CheckUser(student);
         }
 
-
-        [HttpGet] //דף הבית
-        [Route("api/Student/GetClassSubj/{name}/{num}")]
-        public List<ClassSubjects> GetCS(string name, string num)
-        {
-            ClassSubjects CS = new ClassSubjects();
-            return CS.ReadCS(name, num); // Read from Models/Counrty
-        }
 
         //Setting
         [HttpGet]
