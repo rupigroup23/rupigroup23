@@ -652,6 +652,71 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
+    public DBservices Get_videoTeam(string ClassName, int ClassNum) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM GroupFeedback
+
+                               where ClassName = '{ClassName}' and ClassNum='{ClassNum}'";
+
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0]; // טבלה אחת 
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+
+    public DBservices Get_TeamData(string className, int classNum, string Proffesion) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM GroupFeedback
+                               where ClassName = '{className}' and ClassNum='{classNum}' and Proffesion='{Proffesion}'";
+
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0]; // טבלה אחת 
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+
     public int insertClassSub(List<ClassSubjects> classSUbObj)
     {
         SqlConnection con;
@@ -790,50 +855,6 @@ public class DBservices
         return listClassSubj; // מחזיר מערך 
     }
 
-    public List<Group_Feedback> getDTFromDB(string name, int num, int IdTask)
-    {
-        //יצירת רשימה לשמירת הנתונים
-        List<Group_Feedback> listGroupFeedback = new List<Group_Feedback>();
-        SqlConnection con = null; //שורה קבועה
-        try
-        {   //שורה קבועה
-            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = $@"SELECT *
-                               FROM GroupFeedback
-                               where ClassName = '{name}' and ClassNum='{num}' and IdTask='{IdTask}'";
-            //where ClassName = '{name}' and ClassNum = '{num}' and Deadline = '{dateT}'";
-            //שורה קבועה
-            SqlCommand cmd = new SqlCommand(selectSTR, con);
-            //קורא שורה סוגר וככה הלאה //שורה קבועה
-            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dr.Read())
-            {// Read till the end of the data into a row
-                Group_Feedback DT = new Group_Feedback();
-
-                DT.Proffesion = (string)dr["Proffesion"];
-                DT.GroupNum = (int)dr["GroupNum"];
-                DT.Group_students = (string)dr["Group_students"]; 
-                DT.Status = (int)dr["Status_"];
-                DT.Grade = (int)dr["Grade"];
-                DT.Feedback = (string)dr["Feedback"];
-
-                listGroupFeedback.Add(DT);
-            }
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-        return listGroupFeedback; // מחזיר מערך 
-    }
 
     public void Delete(string str ,int id) //כמו GET
     {
