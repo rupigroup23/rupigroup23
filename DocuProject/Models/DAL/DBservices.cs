@@ -652,7 +652,7 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
-    public DBservices Get_videoTeam(string ClassName, int ClassNum) // מחזיר איבר מסוג DBSERVICES
+    public DBservices Get_videoTeam(string ClassName, int ClassNum, string Proffesion) // מחזיר איבר מסוג DBSERVICES
     {
         SqlConnection con = null;
         string TBL = "";
@@ -661,8 +661,7 @@ public class DBservices
             con = connect("DBConnectionString");
             TBL = $@"SELECT *
                                FROM GroupFeedback
-
-                               where ClassName = '{ClassName}' and ClassNum='{ClassNum}'";
+                               where ClassName = '{ClassName}' and ClassNum='{ClassNum}' and Proffesion='{Proffesion}'";
 
             da = new SqlDataAdapter(TBL, con);
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
@@ -1159,7 +1158,7 @@ public class DBservices
 
     public void update()
     {
-        da.Update(dt); //אובייקט שמתקשר עם הדאטהבייס ויודע לעדכן את השינויים
+        da.Update(dt); 
     }
 
     public DBservices Get_Details(int ID, string str)

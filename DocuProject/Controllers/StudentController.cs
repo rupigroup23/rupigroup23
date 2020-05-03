@@ -77,7 +77,7 @@ namespace DocuProject.Controllers
         }
 
         [HttpPut]
-        [Route("api/Student/updateStudent/{id}")]
+        [Route("api/Student/updateVStudent/{id}")]
         public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
         {
             Group_Feedback VC = new Group_Feedback();

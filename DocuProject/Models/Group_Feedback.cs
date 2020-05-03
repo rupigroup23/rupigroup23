@@ -61,32 +61,32 @@ namespace DocuProject.Models
         public DataTable PutVC(int id, Group_Feedback videoTeam)// לעדכן תלמיד ספציפי בטבלה של הדטא טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_videoTeam(videoTeam.ClassName, videoTeam.ClassNum); //להביא את כל הסטודנטים בכיתה ז2
-            dbs.dt = checkTbl(id, videoTeam, dbs.dt); // רוצים לעדכן סטודנט אחד ולכן נשתמש בפונקציה הזו 
+            dbs = dbs.Get_videoTeam(videoTeam.ClassName, videoTeam.ClassNum, videoTeam.Proffesion); //להביא את כל הסטודנטים בכיתה ז2
+            dbs.dt = checkTbl1(id, videoTeam, dbs.dt); // רוצים לעדכן סטודנט אחד ולכן נשתמש בפונקציה הזו 
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable checkTbl(int id, Group_Feedback videoTeam, DataTable dt)
+        public DataTable checkTbl1(int id, Group_Feedback VT, DataTable dt)
         {
             foreach (DataRow dr in dt.Rows)
             {
                 ////////// שינוי בתוך הטבלה עצמה
                 if (id == Convert.ToInt32(dr["id"]))
                 {
-                    dr["ClassName"] = videoTeam.ClassName;
-                    dr["ClassNum"] = videoTeam.ClassNum;
-                    dr["Deadline"] = videoTeam.Deadline;
-                    dr["Feedback"] = videoTeam.Feedback;
-                    dr["Grade"] = videoTeam.Grade;
-                    dr["GroupNum"] = videoTeam.GroupNum;
-                    dr["Group_students"] = videoTeam.Group_students;
-                    dr["IdTask"] = videoTeam.IdTask;
-                    dr["IdTeacher"] = videoTeam.IdTeacher;
-                    dr["Proffesion"] = videoTeam.Proffesion;
-                    dr["Status_"] = videoTeam.Status;
-                    dr["Video"] = videoTeam.Video;
-                    dr["comment"] = videoTeam.Comment;
+                    dr["ClassName"] = VT.ClassName;
+                    dr["ClassNum"] = VT.ClassNum;
+                    dr["Proffesion"] = VT.Proffesion;
+                    //dr["Deadline"] = VT.Deadline;
+                    //dr["IdTask"] = VT.IdTask;
+                    //dr["IdTeacher"] = VT.IdTeacher;
+                    //dr["GroupNum"] = VT.GroupNum;
+                    //dr["Group_students"] = VT.Group_students;
+                    //dr["Grade"] = VT.Grade;
+                    //dr["Feedback"] = VT.Feedback;
+                    dr["Status_"] = VT.Status;
+                    dr["Video"] = VT.Video;
+                    dr["Comment"] = VT.Comment;
                 }
             }
             return dt; // מחזיק עכשיו טבלה חדשה שיש בה שינוי
