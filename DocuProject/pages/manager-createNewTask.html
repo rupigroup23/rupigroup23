@@ -128,7 +128,7 @@
                 //Ajax upload
                 $.ajax({
                     type: "POST",
-                    url: "../Api/DocuUpload/uploadtask",
+                    url: "../Api/DocuUpload/uploadVideo",
                     contentType: false,
                     processData: false,
                     data: data,
@@ -144,7 +144,36 @@
                     confirmButtonColor: '#990099',
                 })
             }
-            function showVideoError(err) { console.log(err) }
+            //function showVideoError(err) { console.log(err) }
+            //$('#uploadVideo').on("click", function () {
+            //    var data = new FormData();
+            //    var files = $("#chooseVideo").get(0).files;
+            //    if (files.length > 0) {
+            //        for (f = 0; f < files.length; f++) {
+            //            data.append("UploadedTasks", files[f]);
+            //        }
+            //        data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+            //    }
+            //    //Ajax upload
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "../Api/DocuUpload/uploadtask",
+            //        contentType: false,
+            //        processData: false,
+            //        data: data,
+            //        success: showVideoSuccess,
+            //        error: showVideoError
+            //    });
+            //})
+            //function showVideoSuccess(data) {
+            //    videoPath = data;
+            //    Swal.fire({
+            //        icon: 'success',
+            //        title: 'הקובץ נטען בהצלחה',
+            //        confirmButtonColor: '#990099',
+            //    })
+            //}
+            //function showVideoError(err) { console.log(err) }
         });
 
         //User image
@@ -630,11 +659,11 @@
                                                 <label for="showTxtbox" class="create-text">תיבת טקסט</label>
                                             </section>
 
-                                            <div class="row">
+                                            <!--<div class="row">
                                                 <label>וידאו</label>
                                                 <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 250px" multiple />
                                                 <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row" id="showUpload" style="display:none">

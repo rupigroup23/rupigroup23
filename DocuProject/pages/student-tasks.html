@@ -29,8 +29,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
-    <!--shir links-->
     <!-- Include a required theme -->
     <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
@@ -43,12 +41,9 @@
     <!-- js links -->
     <script src="js/myName.js"></script>
 
-    <!--<script src="js/manager/tasks.js"></script>-->
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
-
-        ////////// שמתי פה את כל הקוד של התמונה מוכן//////
 
         $(document).ready(function () {
             ////Menus
@@ -66,7 +61,6 @@
 
             Showorientation();
             readTaskFromDB();
-            //$('#oldTask').click(oldTask);
             $('#newTask').click(forCreateTask);
 
             //User image
@@ -74,30 +68,30 @@
             studentObj = JSON.parse(local);
             showDetalis(studentObj);
 
-        });
 
-
-        function showDetalis(objTeacher) {
-            Id = studentObj.Id;
-            var url = "../api/Student/GetDetailsS/" + Id;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        function showDetalis(objTeacher)
+        {
+               Id = studentObj.Id;
+                var url = "../api/Student/GetDetailsS/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-        function funcsuccess(data) {
-            obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        function funcsuccess(data)
+        {
+                obj = data;
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
         function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
         function getAvatarImageError(err) {
-            console.log(err)
-        }
+                console.log(err)
+            }
+
         function forCreateTask() {
             if (listCS.length == 0) {
                 idT = 1;
@@ -281,7 +275,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">

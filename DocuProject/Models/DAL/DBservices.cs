@@ -652,6 +652,70 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
+    public DBservices Get_videoTeam(string ClassName, int ClassNum, string Proffesion) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM GroupFeedback
+                               where ClassName = '{ClassName}' and ClassNum='{ClassNum}' and Proffesion='{Proffesion}'";
+
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0]; // טבלה אחת 
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+
+    public DBservices Get_TeamData(string className, int classNum, string Proffesion) // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string TBL = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            TBL = $@"SELECT *
+                               FROM GroupFeedback
+                               where ClassName = '{className}' and ClassNum='{classNum}' and Proffesion='{Proffesion}'";
+
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0]; // טבלה אחת 
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+
     public int insertClassSub(List<ClassSubjects> classSUbObj)
     {
         SqlConnection con;
@@ -772,8 +836,6 @@ public class DBservices
                 CS.Profession = (string)dr["Profession"];
                 CS.Teacher_name = (string)dr["Teacher_name"];
                 
-                      listClassSubj.Add(CS);
-
                 listClassSubj.Add(CS);
            }
 
@@ -792,51 +854,6 @@ public class DBservices
         return listClassSubj; // מחזיר מערך 
     }
 
-    public List<Group_Feedback> getDTFromDB(string name, int num, DateTime date)
-    {
-        //יצירת רשימה לשמירת הנתונים
-        List<Group_Feedback> listGroup_Feedback = new List<Group_Feedback>();
-        SqlConnection con = null; //שורה קבועה
-        try
-        {   //שורה קבועה
-            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = $@"SELECT *
-                               FROM Group_Feedback
-                               where ClassName = '{name}' and ClassNum='{num}' and Deadline='{date}' ";
-            //שורה קבועה
-            SqlCommand cmd = new SqlCommand(selectSTR, con);
-            //קורא שורה סוגר וככה הלאה //שורה קבועה
-            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dr.Read())
-            {// Read till the end of the data into a row
-                Group_Feedback DT = new Group_Feedback();
-
-                DT.ClassName = (string)dr["ClassName"];
-                DT.ClassNum = (int)dr["ClassNum"];
-                DT.Proffesion = (string)dr["Proffesion"];
-                DT.Group_students = (string)dr["Group_students"]; 
-                DT.Status = (int)dr["Status"];
-                DT.Grade = (int)dr["Grade"];
-                DT.Feedback = (string)dr["Feedback"];
-
-                listGroup_Feedback.Add(DT);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-        return listGroup_Feedback; // מחזיר מערך 
-    }
 
     public void Delete(string str ,int id) //כמו GET
     {
@@ -1141,7 +1158,7 @@ public class DBservices
 
     public void update()
     {
-        da.Update(dt); //אובייקט שמתקשר עם הדאטהבייס ויודע לעדכן את השינויים
+        da.Update(dt); 
     }
 
     public DBservices Get_Details(int ID, string str)
@@ -1471,6 +1488,7 @@ public class DBservices
                 S.Id = (int)dr["Id_"];
                 S.Password = (string)dr["Password_"];
                 S.FName = (string)dr["FName"];
+                S.LName = (string)dr["LName"];
                 S.ClassName = (string)dr["ClassName"];
                 S.ClassNum = (int)dr["ClassNum"];
             }
@@ -1488,6 +1506,105 @@ public class DBservices
         }
         return S;
     }
+
+    
+   //שמירת פידבקים////////////////////////////////
+    public int inserFeedback1(Feedback feedbackObj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = BuildInsertCommand_F(feedbackObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertCommand_F(Feedback feedbackObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                            //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { 
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string 
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents,  feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    public List<Feedback> getData (string groupStudent, string numOfTask , string Profession)
+    {
+        List <Feedback> listOfFeedback = new List<Feedback>();
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask='" + numOfTask + "' and profession='" + Profession + "'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {
+                Feedback feedback = new Feedback();
+                feedback.Contents = (string)dr["contents"];
+                feedback.NameLike = (string)dr["nameLike"];
+                feedback.Video = (string)dr["video"];
+                feedback.UserName = (string)dr["UserName"];
+                listOfFeedback.Add(feedback);
+            }
+            return listOfFeedback;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
 
 }
 

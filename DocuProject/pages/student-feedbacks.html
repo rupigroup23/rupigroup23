@@ -26,60 +26,192 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link href="css/feedbackStyle.css" rel="stylesheet" />
 
     <script>
+        var likeBtn = 'false';
         var imagePath1 = '';
         var userEmail1 = '';
 
         $(document).ready(function () {
+            $('#load').prop("disabled", true);
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
             Showorientation();//סרגל השתלשלות
-      
 
+            $('#likeBtn').click(function () { //
+                likeBtn = 'true';
+            })
+
+            $('#chooseVideo').change(function () {
+                $("#load").prop("disabled", false);
+            })
+
+            $('#upload').click(saveFeedback); // שמירת הפידבקים
 
             // פרטי התלמיד
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
-            
+            console.log(studentObj.FName + ' ' + studentObj.LName);
 
-     
-        //pic
-        function showDetalis(studentObj) {
+            //pic
+            function showDetalis(studentObj) {
+                Id = studentObj.Id;
+                var url = "../api/Student/GetDetailsS/" + Id;
+                ajaxCall("GET", url, "", funcsuccess, funcerror);
+            }
 
-            Id = studentObj.Id;
-            var url = "../api/Student/GetDetailsS/" + Id;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
+            function funcsuccess(data) {
+                obj = data;
+                userEmail1 = obj[0].Email;
 
-        function funcsuccess(data) {
-            obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-        }
-        function funcerror() { }
+                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
-        function getAvatarImageSuccess(imagePath1) {
+            }
+            function funcerror() { }
 
-            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
+            function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
+                let obj = {
+                    "groupStudent":'רביד נוי ושיר' , 
+                    "numOfTask": TaskObj.Task.Num,
+                    "Profession":TaskObj.Profession
+                }
+                console.log(obj)
+                ajaxCall('GET', '../api/Student/getdata/' + obj.groupStudent + '/' + obj.numOfTask + '/' + obj.Profession, '', getDataSuccess, getDataError);
+            }
+
+            function getDataSuccess(data) {
+                let str = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;"><div class="owl-item cloned" style="width: 104.74px;" >';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].NameLike == "true") {
+                        str += '<div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></a></div></div>'
+                    }
+                }
+                str +='</div></div></div>'
+                $('#divLike').html(str);
+            }
+            function getDataError(err) {
+                console.log(err);
+            }
+
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            //upload Vidoe
+            $('#load').on("click", function () { // טעינה
+                var data = new FormData();
+                var files = $("#chooseVideo").get(0).files; // בחירת קובץ
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedTasks", files[f]);
+                    }
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/DocuUpload/uploadVideo",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: showVideoSuccess,
+                    error: showVideoError
                 });
-            //////////pic/////
+            })
+            function showVideoSuccess(data) {
+                videoPath = data;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הסרטון נטען בהצלחה',
+                    confirmButtonColor: '#990099',
+                })
+            }
+            function showVideoError(err) { console.log(err) }
+
+        });
+
+
+        //check details and post
+        var videoPath = "";
+        var contact = "";
+
+        function saveFeedback() {
+            //check details
+            con = $("#contact").val();
+            updateVid = videoPath[0];
+            if (likeBtn == 'false' || con == "" || updateVid == "") {
+                console.log('נכנס')
+                Swal.fire({
+                    title: 'רגע...',
+                    text: "אינך השתמשת בכל האופציות, האם ברצונך להמשיך?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'המשך בכל זאת'
+                }).then((result) => {
+                    if (result.value) {
+                        feedbackObj = {
+                            "NumOfTask": TaskObj.Task.Num,
+                            "Contents": $("#contact").val(),
+                            "NameLike": likeBtn,
+                            "Video": videoPath[0],
+                            "GroupStudent": "רביד נוי ושיר",
+                            "Profession": TaskObj.Profession,
+                            "UserName": studentObj.FName + ' ' + studentObj.LName
+                        }
+
+                        console.log(feedbackObj)
+                        ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
+                    }
+                })
+            } else {
+                if (result.value) {
+                    feedbackObj = {
+                        "NumOfTask": TaskObj.Task.Num,
+                        "Contents": $("#contact").val(),
+                        "NameLike": likeBtn,
+                        "Video": videoPath[0],
+                        "GroupStudent": "רביד נוי ושיר",
+                        "Profession": TaskObj.Profession,
+                        "UserName": studentObj.FName + ' ' + studentObj.LName
+                    }
+
+                    console.log(feedbackObj)
+                    ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
+                }
+
+            }
+        }
+
+        function POSTsuccess(data) {
+            Swal.fire({
+                icon: 'success',
+                title: 'הפידבקים נשמרו בהצלחה! 😀',
+                confirmButtonText: 'שמור',
+                confirmButtonColor: '#990099',
+            })
+
+            
+        }
+        function POSTerror() {
+            alert("ops");
+        }
 
         //סרגל השתלשלות
         let orientationSTR = "";
@@ -94,8 +226,6 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-feedbacks.html'>פידבקים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
-
-
     </script>
 
 
@@ -214,11 +344,11 @@
                                     <span class="testSudent">הוספת תגובה:</span>&nbsp;
                                     <!--<div class="video-page text-success">-->
                                     <div class="video-page text-success">
-                                        <a class="text-success" style="cursor: pointer;">
+                                        <a class="text-success" id="likeBtn" style="cursor: pointer;">
                                             <i class="fas fa-heart" id="like"></i>&nbsp;לייק&nbsp;&nbsp;
                                         </a>
-                                        <a class="text-success" style="cursor: pointer;" onclick="show1()">
-                                            <i class="fas fa-comment"></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
+                                        <a class="text-success"  style="cursor: pointer;" onclick="show1()">
+                                            <i class="fas fa-comment" ></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
                                         </a>
                                         <a class="text-success" style="cursor: pointer;" onclick="show2()">
                                             <i class="fas fa-arrow-circle-up"></i>&nbsp; העלאת תגובה בסרטון&nbsp;&nbsp;
@@ -229,83 +359,38 @@
                                             <div class="media">
                                                 <div class="media-body">
                                                     <div class="form-members-body">
-                                                        <textarea rows="1" placeholder="הוספת תגובה..." class="form-control"></textarea>
+                                                        <textarea rows="1" id="contact" placeholder="הוספת תגובה..." class="form-control"></textarea>
                                                     </div>
                                                     <div class="form-members-footer text-right mt-2">
 
-                                                        <button class="btn btn-outline-danger btn-sm upload-btn" type="button">ביטול</button> <button class="btn btn-danger btn-sm upload-btn" type="button">שמירה</button>
+                                                        <!--<button class="btn btn-outline-danger btn-sm upload-btn" type="button">ביטול</button>--> <!--<button class="btn btn-danger btn-sm upload-btn" type="button">שמירה</button>-->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-sm-6" id="showFile" style="display:none">
-                                        <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 40px;width: 240px" />
-                                        <input type="button" id="load" value="טען" class="upload-btn" style="margin-right: 25%;" />
-                                        <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+                                        <input type="file" id="chooseVideo" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 40px;width: 240px" />
+                                        <input type="button" id="load" value="טען" class="upload-btn" style="margin-left: 25%;" />
+                                        <!--<input type="button" id="upload" value="שמור נתונים" class="upload-btn" />-->
+                                    </div>
+                                    <div class="single-video-author box mb-3">
+                                        <input type="button" id="upload" value="שמירה" class="upload-btn" />
+
                                     </div>
                                 </div>
                                 <span class="testSudent">לייקים ותגובות:</span>
                                 <div class="single-video-info-content box mb-3">
-                                    <div class="owl-carousel owl-carousel-category">
-                                        <div class="item">
+                                    <div id="divLike" class="owl-carousel owl-carousel-category">
+                                        <!--<div class="item">
                                             <div class="category-item" style="padding: 0px 0px;">
                                                 <a href="#">
                                                     <i class="fas fa-heart"></i>
                                                     <h6 style="font-weight: bold;">אריאל</h6>
                                                 </a>
                                             </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">מיכל</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">שקד</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">ענת</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">בני</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">אלמוג</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="category-item" style="padding: 0px 0px;">
-                                                <a href="#">
-                                                    <i class="fas fa-heart"></i>
-                                                    <h6 style="font-weight: bold;">אופיר</h6>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        </div>-->
                                     </div>
-
                                 </div>
 
                                 <div class="video-slider-right-list">
@@ -450,7 +535,7 @@
                                             <div class="video-card-image">
                                                 <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
                                                 <a href="https://drive.google.com/open?id=1DiWRUFsFAz_C6aTy5Ib3j_yOMi3QHgmW">
-                                                    <img class="img-fluid" src="img/PIC1.JPG" alt="">
+                                                    <!--<img class="img-fluid" src="./img/PIC1.JPG" alt="">-->
                                                 </a>
                                                 <div class="time">3:50</div>
                                             </div>
