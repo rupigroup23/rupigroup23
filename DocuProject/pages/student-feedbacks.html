@@ -47,15 +47,17 @@
             Showorientation();//סרגל השתלשלות
 
             $('#likeBtn').click(function () { //
+                $('#like').css("color", "green");
+                $('#likeSpan').css("color", "green");
                 likeBtn = 'true';
+                
+                //(this).css("border-style", "dotted");
             })
-
             $('#chooseVideo').change(function () {
                 $("#load").prop("disabled", false);
             })
 
             $('#upload').click(saveFeedback); // שמירת הפידבקים
-
             // פרטי התלמיד
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
@@ -95,14 +97,26 @@
             }
 
             function getDataSuccess(data) {
-                let str = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;"><div class="owl-item cloned" style="width: 104.74px;" >';
+                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
+                let strContents = '';
+                let strVideo = '';
+                let videoPath='http://proj.ruppin.ac.il/igroup23/prod/'
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].NameLike == "true") {
-                        str += '<div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></a></div></div>'
+                        strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
+                    }
+                    if (data[i].Contents != '') {
+                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"><i class="fas fa-comment"></i>&nbsp;<h6 style=" font-weight: bold; color:#990099">'+data[i].UserName+':&nbsp;</h6><h6 style=" font-weight: normal;">'+data[i].Contents+'</h6></div></div></div>';
+                    }
+                    if (data[i].Video != '') {
+                        strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a></div></div></div >';
                     }
                 }
-                str +='</div></div></div>'
-                $('#divLike').html(str);
+                strLike +='</div></div>'
+                $('#divLike').html(strLike);
+                $('#comentDiv').html(strContents);
+                $('#videoDiv').html(strVideo);
+
             }
             function getDataError(err) {
                 console.log(err);
@@ -184,21 +198,18 @@
                     }
                 })
             } else {
-                if (result.value) {
-                    feedbackObj = {
-                        "NumOfTask": TaskObj.Task.Num,
-                        "Contents": $("#contact").val(),
-                        "NameLike": likeBtn,
-                        "Video": videoPath[0],
-                        "GroupStudent": "רביד נוי ושיר",
-                        "Profession": TaskObj.Profession,
-                        "UserName": studentObj.FName + ' ' + studentObj.LName
-                    }
-
-                    console.log(feedbackObj)
-                    ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
+                feedbackObj = {
+                    "NumOfTask": TaskObj.Task.Num,
+                    "Contents": $("#contact").val(),
+                    "NameLike": likeBtn,
+                    "Video": videoPath[0],
+                    "GroupStudent": "רביד נוי ושיר",
+                    "Profession": TaskObj.Profession,
+                    "UserName": studentObj.FName + ' ' + studentObj.LName
                 }
 
+                console.log(feedbackObj)
+                ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
         }
 
@@ -347,7 +358,7 @@
                                     <!--<div class="video-page text-success">-->
                                     <div class="video-page text-success">
                                         <a class="text-success" id="likeBtn" style="cursor: pointer;">
-                                            <i class="fas fa-heart" id="like"></i>&nbsp;לייק&nbsp;&nbsp;
+                                            <i class="fas fa-heart" id="like"></i><span id="likeSpan">&nbsp;לייק&nbsp;&nbsp;</span>
                                         </a>
                                         <a class="text-success"  style="cursor: pointer;" onclick="show1()">
                                             <i class="fas fa-comment" ></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
@@ -395,121 +406,7 @@
                                     </div>
                                 </div>
 
-                                <div class="video-slider-right-list">
-                                    <div class="video-card video-card-list">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        אריאל:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="video-card video-card-list active">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        בן:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        איזה כיף לראות את הסרטון. הצלחתן להעביר את המסר
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="video-card video-card-list">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        מיכל:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        ואו! כל הכבוד  על ההשקעה. למדתי המון
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="video-card video-card-list">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        אריאל:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="video-card video-card-list">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        אריאל:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="video-card video-card-list">
-                                        <div class="video-card-body">
-                                            <div class="video-title">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <div class="row testSudent" style="margin-right: 0px;">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    <h6 style=" font-weight: bold; color:#990099">
-                                                        מיכל:&nbsp;
-                                                    </h6>
-                                                    <h6 style=" font-weight: normal;">
-                                                        ואו! כל הכבוד  על ההשקעה. למדתי המון
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--<div class="single-video-info-content box mb-3">
-                                    <h6>Cast:</h6>
-                                    <p>Nathan Drake , Victor Sullivan , Sam Drake , Elena Fisher</p>
-                                    <h6>Category :</h6>
-                                    <p>Gaming , PS4 Exclusive , Gameplay , 1080p</p>
-                                    <h6>About :</h6>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved overVarious versions have evolved over the years, sometimes </p>
-                                    <h6>Tags :</h6>
-                                    <p class="tags mb-0">
-                                        <span><a href="#">Uncharted 4</a></span>
-                                        <span><a href="#">Playstation 4</a></span>
-                                        <span><a href="#">Gameplay</a></span>
-                                        <span><a href="#">1080P</a></span>
-                                        <span><a href="#">ps4Share</a></span>
-                                        <span><a href="#">+ 6</a></span>
-                                    </p>
-                                </div>-->
+                                <div id="comentDiv" class="video-slider-right-list"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -532,12 +429,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="video-card video-card-list">
+                                    <div id="videoDiv" class="col-md-12">
+                                        <!--<div class="video-card video-card-list">
                                             <div class="video-card-image">
                                                 <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
                                                 <a href="https://drive.google.com/open?id=1DiWRUFsFAz_C6aTy5Ib3j_yOMi3QHgmW">
-                                                    <!--<img class="img-fluid" src="./img/PIC1.JPG" alt="">-->
+                                                    <img class="img-fluid" src="./img/PIC1.JPG" alt="">
                                                 </a>
                                                 <div class="time">3:50</div>
                                             </div>
@@ -547,74 +444,7 @@
                                                 </div>
 
                                             </div>
-                                        </div>
-                                        <div class="video-card video-card-list">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
-                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
-                                                <div class="time">3:50</div>
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a href="#">אלמוג לוי</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="video-card video-card-list">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
-                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
-                                                <div class="time">3:50</div>
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a href="#">אופיר בן בסט</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="video-card video-card-list">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
-                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
-                                                <div class="time">3:50</div>
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a href="#">מאיה בלאט</a>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="video-card video-card-list">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
-                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
-                                                <div class="time">3:50</div>
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a href="#">מאי שלומזון</a>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                        <div class="video-card video-card-list">
-                                            <div class="video-card-image">
-                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
-                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
-                                                <div class="time">3:50</div>
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a href="#">איה יצחקי</a>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
