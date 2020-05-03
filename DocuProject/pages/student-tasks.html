@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -45,7 +46,7 @@
     <!--<script src="js/manager/tasks.js"></script>-->
     <script>
         var imagePath1 = '';
-        var userEmail1 = '';        
+        var userEmail1 = '';
 
         ////////// שמתי פה את כל הקוד של התמונה מוכן//////
 
@@ -69,37 +70,34 @@
             $('#newTask').click(forCreateTask);
 
             //User image
-            localAdmin = localStorage.getItem('user');
-            objAdmin = JSON.parse(localAdmin);
-            showDetalis(objAdmin);
+            local = localStorage.getItem('student');
+            studentObj = JSON.parse(local);
+            showDetalis(studentObj);
 
-            function showDetalis(objTeacher)
-        {
-                Id = objTeacher.Id;
-                var url = "../api/Teacher/GetDetailsT/" + Id;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-
-function funcsuccess(data)
-        {
-        obj = data;
-                userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
-        }
-            function getAvatarImageSuccess(imagePath1) {
-
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-            function funcerror() { }
-            //END- User image
         });
 
+
+        function showDetalis(objTeacher) {
+            Id = studentObj.Id;
+            var url = "../api/Student/GetDetailsS/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
+        function funcerror() { }
+        function getAvatarImageSuccess(imagePath1) {
+
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
         function forCreateTask() {
             if (listCS.length == 0) {
                 idT = 1;
@@ -175,7 +173,7 @@ function funcsuccess(data)
                     date = listCS[i].Deadline;
                     date1 = date.split('-');
                     dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
-                    dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
+                    dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
                     Tnum = i + 1;
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
@@ -208,10 +206,10 @@ function funcsuccess(data)
 
         lastSTR = "";
         function showLastTask(LastNum) {
-            date = listCS[LastNum-1].Deadline;
+            date = listCS[LastNum - 1].Deadline;
             date1 = date.split('-');
             dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
-            dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
+            dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
             lastSTR += "<div class='row text2' >&nbsp;מטלה אחרונה: ";
             lastSTR += "</div>";
             lastSTR += "<div class='channels-card' style='height: 75%;'>";
@@ -351,7 +349,7 @@ function funcsuccess(data)
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="row" padding-right: 5%>     
+                        <div class="row" padding-right: 5%>
                             <div id="lastTask" style="margin-right: auto;margin-left: auto;">
                             </div>
                         </div>

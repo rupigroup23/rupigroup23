@@ -83,7 +83,8 @@
 
         //סרגל השתלשלות
         let orientationSTR = "";
-        function Showorientation() {
+        function Showorientation()
+        {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>מקצועות</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + TaskObj.Profession + "</a></li>";
@@ -93,9 +94,6 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-feedbacks.html'>פידבקים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
-
-
- 
 
 
     </script>
