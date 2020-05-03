@@ -27,6 +27,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -51,10 +53,10 @@
             Showorientation();//סרגל השתלשלות
             getDatelis(); //Bring the details up
 
-            $('#apprVideo').click(approveVidow);
-            $('#score').click(giveScore);
-            $('#apply').click(filingSubm);
-
+            //$('#apprVideo').click(approveVidow);
+            //$('#score').click(giveScore);
+            $('#apply').click(filingSubm); 
+            getDataT();
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
@@ -102,10 +104,11 @@
         //Bring the details up
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-            diffDays = diffDays(TaskObj.Task.Date);
+            diffDays1 = diffDays(TaskObj.Task.Date);
             //diffDays = diffDays("4/30/2020");
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-            document.getElementById("restDate").innerHTML = diffDays;
+            document.getElementById("restDate").innerHTML = diffDays1;
+            document.getElementById("restDate").style.color = "red"
         }
 
         //Filing submissions
@@ -122,11 +125,13 @@
             var Allstatus = document.getElementById("show_num_sort");
 
             if (waitingToAppr.checked) {
+                getWaiting();   
                 if (Waiting.style.display === "none") {
                     Waiting.style.display = "block";
                     Allstatus.style.display = "block";
                     Approved.style.display = "none";
                     NotApproved.style.display = "none";
+                    
                 }
                 else {
                     Waiting.style.display = "none";
@@ -134,6 +139,7 @@
                 }
             }
             if (approved.checked) {
+                getApprove();
                 if (Approved.style.display === "none") {
                     Approved.style.display = "block";
                     Allstatus.style.display = "block";
@@ -146,6 +152,7 @@
                 }
             }
             if (notApproved.checked) {
+                getNotApproved();
                 if (NotApproved.style.display === "none") {
                     NotApproved.style.display = "block";
                     Allstatus.style.display = "block";
@@ -158,6 +165,7 @@
                 }
             }
             if (allstatus.checked) {
+                getAllTeamID();
                 if (NotApproved.style.display === "none" || Approved.style.display === "none" || Waiting.style.display === "none") {
                     NotApproved.style.display = "block";
                     Allstatus.style.display = "none";
@@ -176,44 +184,56 @@
 
         //The time difference
         function diffDays(subm) {
-            //submission = TaskObj.Task.Date;
-            var date = new Date();
-            var day = date.getDate();
-            var month = date.getMonth() + 1;
-            var year = date.getFullYear();
-
-            //var submission = new Date('4/30/2020');
-            var submission = new Date(subm);
+            var today = new Date();
+            var day = today.getDate();
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear();
+            var subm1 = subm.split('/');
+            var dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
+            var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
-            var diffDays = submission.getDate() - date2.getDate();
-            return diffDays;
+            console.log(date2);
+            var diffDays = date2.getDate() - submission.getDate();
+            if (diffDays < 0) {
+                diffDays = "מועד ההגשה עבר";
+                return diffDays;
+            }
+            else {
+                return diffDays;
+            }
+            console.log(diffDays);
         }
 
         //הכפתורים בכל צוות
-        function approveVidow() {
-            Swal.fire({
-                title: 'האם את/ה בטוח/ה?',
-                text: "אישורך יביא לפרסום הסרטון!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#990099',
-                //cancelButtonColor: '#d33',
-                confirmButtonText: 'אני בטוח/ה',
-                cancelButtonText: 'ביטול'
-            }).then((result) => {
-                if (result.value) {
-                    Swal.fire({
-                        title: 'הצלחת!',
-                        text: 'הסרטון התפרסם במועד ההגשה המתוכן',
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'הבנתי',
-                    })
-                }
-            })
+        var status = "";
+        function approveVidow(idApp) {
+                Swal.fire({
+                    title: 'האם את/ה בטוח/ה?',
+                    text: "אישורך יביא לפרסום הסרטון!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#990099',
+                    //cancelButtonColor: '#d33',
+                    confirmButtonText: 'אני בטוח/ה',
+                    cancelButtonText: 'ביטול'
+                }).then((result) => {
+                    if (result.value) {
+                        status = 2;
+                        Swal.fire({
+                            title: 'הצלחת!',
+                            text: 'הסרטון התפרסם במועד ההגשה המתוכן',
+                            icon: 'success',
+                            confirmButtonColor: '#990099',
+                            confirmButtonText: 'הבנתי',
+                        })
+                    }
+                })
+            
         }
 
-        function giveScore() {
+        var grade = "";
+        var feedback = "";
+        function giveScore(idSc) {
             (async () => {
                 const { value: formValues } = await Swal.fire({
                     title: 'ציון ומשוב',
@@ -229,9 +249,12 @@
                         return [
                             document.getElementById('swal-input1').value,
                             document.getElementById('swal-input2').value
+                            
                         ]
                     }
                 })
+                grade = document.getElementById('swal-input1').value;
+                feedback = document.getElementById('swal-input2').value;
                 if (formValues) {
                     Swal.fire({
                         text: JSON.stringify(formValues),
@@ -243,19 +266,212 @@
                         cancelButtonText: 'ביטול'
                     })
                 }
-
             })()
         }
 
+        var clip = "";
         function showVideo(btn) {
             id = btn.id;
-            console.log(id);
-            var x = document.getElementById("headerPopup" + id);
+            clip = "";
+            let videoPath = `../${allTeam[id].Video}`;
+            //if (videoPath) {
+            //    Swal.fire({
+            //        icon: 'error',
+            //        title: 'לא הועלה עדיין סרטון',
+            //        confirmButtonColor: '#990099',
+            //    })
+            //}
+            //else {
+                var x = document.getElementById("headerPopup" + id);
+            clip += `<video width="200" height="150" controls>
+                                                    <source src='${videoPath}' type="video/avi">
+                                                    <source src='${videoPath}' type="video/mp4">
+                                                    Sorry, your browser doesn't support embedded videos.
+                                                </video>`
+            $('#headerPopup' + id).append(clip);
+            console.log(videoPath);
             if (x.style.display === "none") {
                 x.style.display = "block";
             } else {
                 x.style.display = "none";
             }
+            //}
+            
+        }
+
+                function postFeedbackGrade() {
+
+        }
+
+        var classData;
+        var allTeam = [];
+        function getDataT() {
+            classData =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                    "Proffesion": TaskObj.Profession
+                }
+            apiT = "../api/Student/GetTeamData";
+            ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
+        }
+        var count = 0;
+        function GETsuccess1(data) {
+            details = data;
+            numT = TaskObj.Task.Num; 
+            for (var i = 0; i < details.length; i++) {
+                if (details[i].IdTask == numT) {
+                    count++;
+                    allTeam.push(details[i]);
+                }
+                document.getElementById("teamNum").innerHTML = count;
+            }
+            console.log(data);
+        }
+        function GETerror1(err) {
+            console.log(err);
+        }
+
+        var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
+        var waitingSTR = "";
+        function getWaiting() {
+            waitingSTR = "";
+            let str = '';
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 1) {
+                    waitingSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    waitingSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    waitingSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    waitingSTR += "<div class='row'> צוות מספר &nbsp;";
+                    waitingSTR += allTeam[i].GroupNum;
+                    waitingSTR += " </div></div><div class='row'>";
+                    waitingSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    waitingSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    waitingSTR += allTeam[i].Group_students;
+                    waitingSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    waitingSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#ee8d14; font-size: 22px;'>";
+                    waitingSTR += statusArr[1];
+                    waitingSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    waitingSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                    waitingSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
+                    waitingSTR += "</a>&nbsp;<a>";
+                    waitingSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    waitingSTR += "</a>&nbsp;";
+                    waitingSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    waitingSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("waitingID").innerHTML = waitingSTR;
+
+        }
+
+        var approveSTR = "";    
+        function getApprove() {
+            approveSTR = "";  
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 2) {
+                    approveSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    approveSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    approveSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    approveSTR += "<div class='row'> צוות מספר &nbsp;";
+                    approveSTR += allTeam[i].GroupNum;
+                    approveSTR += " </div></div><div class='row'>";
+                    approveSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    approveSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    approveSTR += allTeam[i].Group_students;
+                    approveSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    approveSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#1aaf10; font-size: 22px;'>";
+                    approveSTR += statusArr[2];
+                    approveSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    approveSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                    approveSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
+                    approveSTR += "</a>&nbsp;<a>";
+                    approveSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    approveSTR += "</a>&nbsp;";
+                    approveSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    approveSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("approveID").innerHTML = approveSTR;
+
+        }
+
+        var notApprovedSTR = "";    
+        function getNotApproved() {
+            notApprovedSTR = "";  
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 0) {
+                    notApprovedSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    notApprovedSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    notApprovedSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    notApprovedSTR += "<div class='row'> צוות מספר &nbsp;";
+                    notApprovedSTR += allTeam[i].GroupNum;
+                    notApprovedSTR += " </div></div><div class='row'>";
+                    notApprovedSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    notApprovedSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    notApprovedSTR += allTeam[i].Group_students;
+                    notApprovedSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    notApprovedSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:red; font-size: 22px;'>";
+                    notApprovedSTR += statusArr[0];
+                    notApprovedSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    notApprovedSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                    notApprovedSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
+                    notApprovedSTR += "</a>&nbsp;<a>";
+                    notApprovedSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    notApprovedSTR += "</a>&nbsp;";
+                    notApprovedSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    notApprovedSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("notApproved").innerHTML = notApprovedSTR;
+        }
+
+        allTeamSTR = "";
+        var color = "";
+        var status;
+        function getAllTeamID() {
+            allTeamSTR = "";
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 0) 
+                {
+                    color = "red";
+                    status = statusArr[0];
+                }
+                 if (allTeam[i].Status_ == 1) 
+                 {
+                     color = "#ee8d14";
+                    status = statusArr[1];
+
+                 }
+                 if (allTeam[i].Status_ == 2) 
+                 {
+                     color = "##1aaf10";
+                     status = statusArr[2];
+                }
+                console.log(color, status);
+                    allTeamSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    allTeamSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    allTeamSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    allTeamSTR += "<div class='row'> צוות מספר &nbsp;";
+                    allTeamSTR += allTeam[i].GroupNum;
+                    allTeamSTR += " </div></div><div class='row'>";
+                    allTeamSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    allTeamSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    allTeamSTR += allTeam[i].Group_students;
+                    allTeamSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    //allTeamSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:"+ color+"; font-size: 22px;'>";
+                    allTeamSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:"+ color+"; font-size: 22px;'>";
+                    allTeamSTR += status;
+                    allTeamSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    allTeamSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                    allTeamSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
+                    allTeamSTR += "</a>&nbsp;<a>";
+                    allTeamSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    allTeamSTR += "</a>&nbsp;";
+                    allTeamSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    allTeamSTR += " </div><br /></div></div></div></div>";
+            }
+            document.getElementById("allTeamID").innerHTML = allTeamSTR;
         }
 
 
@@ -426,7 +642,7 @@
                             <span>
                                 מספר צוותים:&nbsp;
                             </span>
-                            <div class="create-text" id="">
+                            <div class="create-text" id="teamNum">
                             </div>
                         </div>
                     </div>
@@ -475,487 +691,24 @@
                 </div>
                 <br />
                 <div class="row" id="show_num_sort" style="display:none">
-                    <div class="row">
-                        <br /><hr class="mt-0">
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <div class="row text2" style="color: black; font-size:17px; text-align:right;margin-right: 5%;">
-                                <h6>
-                                    מספר צוותים:
-                                </h6>
-                                <h6 id="">
-                                    &nbsp; 3
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="col-xl-9 col-sm-6 mb-3">
-                            <div class="btn-group float-right right-action">
-                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
-                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
-                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row" id="allTeamID">
+
                     </div>
                 </div>
                 <div class="row" id="showApproved" style="display:none">
-                    <div class="row">
-                        <!--סרטונים שטרם אושרו לפרסום-->
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            8
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">מיה מלכה, מאי שלומזון ואיה יצחקי</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#1aaf10; font-size: 22px;">
-                                        סרטון הועלה ואושר לפרסום
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img onclick="showVideo(this)" id="1" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup1" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
+                    <div class="row" id="approveID">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            1
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">עידן קחטן, אלון ארונס וליעד אנקור</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#1aaf10; font-size: 22px;">
-                                        סרטון הועלה ואושר לפרסום
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="2" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup2" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            5
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; "> ניצה יניב, אילנה ברקוביץ ואיציק הוכברג</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#1aaf10; font-size: 22px;">
-                                        סרטון הועלה ואושר לפרסום
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="3" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup3" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row" id="showWaiting" style="display:none">
-                    <div class="row">
-                        <!--סרטונים שטרם אושרו לפרסום-->
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            12
-                                            <!-- להוסיף מספר -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">שיר מלכה, נוי מור יוסף ורביד אלבד</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
-                                        סרטון הועלה, מחכה לאישור
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="4" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup4" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
+                    <div class="row" id="waitingID">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            3
-                                            <!-- להוסיף מספר -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">אורי לוי, שיר פרץ ושובל סיטון</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
-                                        סרטון הועלה, מחכה לאישור
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="5" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup5" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            7
-                                            <!-- להוסיף מספר -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">לי נקים, עדי ימין ומאיה בלאט</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14; font-size: 22px;">
-                                        סרטון הועלה, מחכה לאישור
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <!-- הקלף הטוב!! -->
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img id="apprVideo" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img id="score" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="6" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup6" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row" id="showNotApproved" style="display:none">
-                    <div class="row">
-                        <!--צוותים שלא העלו את המטלה-->
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            4
-                                            <!-- להוסיף מספר -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <!-- לעשות שליפה מטבלת צוותים -->
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">עומרי יצחקי, רוי שלומזון ובן מלכה</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14;">
-                                        <div class="statuses-text" style="color:red; font-size: 22px;">
-                                            טרם הועלה סרטון
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="7" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup7" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
+                   
+                    <div class="row" id="notApproved">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            2
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">אורן סרוסי, איתמן בן יהודה וגיא גולדרט</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14;">
-                                        <div class="statuses-text" style="color:red; font-size: 22px;">
-                                            טרם הועלה סרטון
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="8" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup8" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-sm-6 mb-3">
-                            <div class="channels-card" style="padding: 24px 25px;">
-                                <div class="text2" style="color: black; font-size:17px; text-align:right ">
-                                    <div class="row">
-                                        צוות מספר &nbsp;
-                                        <div id="">
-                                            6
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="channels-card" style="padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                        <div class="statuses-text">
-                                            <h6 style="font-size: 20px; ">דן לסר, שרון ביבי ועומר לרנר</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="statuses-text">
-                                        סטאטוס:
-                                        &nbsp;
-                                    </div>
-                                    <div class="statuses-text" style="color:#ee8d14;">
-                                        <div class="statuses-text" style="color:red; font-size: 22px;">
-                                            טרם הועלה סרטון
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-right: inherit; display: block;">
-                                    <div class="channels-card-image">
-                                        <a>
-                                            <img onclick="approveVidow()" class="img-fluid" src="img/approved1.png" alt="אישור הסרטון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <img onclick="giveScore()" class="img-fluid" src="img/ציון.png" alt="משוב וציון">
-                                        </a>&nbsp;
-                                        <a>
-                                            <!--<a id="headerVideoLink" onclick="showVideo()" style="border-color: white;">-->
-                                            <img onclick="showVideo(this)" id="9" class="img-fluid" src="img/WatchVideo.png" alt="צפיה בסרטון">
-                                        </a>&nbsp;
-                                        <div id="headerPopup9" style="display:none" class="mfp-hide embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                        </div>
-                                        <br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

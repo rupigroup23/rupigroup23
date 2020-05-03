@@ -335,8 +335,13 @@ namespace DocuProject.Controllers
 
 
         }
-
-
+        //submission page
+        [HttpPost] 
+        [Route("api/Docu/GetTeamData")]
+        public DataTable GetTeamData([FromBody]Group_Feedback teamObj)
+        {
+            return teamObj.GetTeamData();
+        }
 
         //[HttpPut]
         //[Route("api/Docu/updatetTask")]

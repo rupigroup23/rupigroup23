@@ -338,6 +338,7 @@
             if (radiosContent[1].checked == true) {
                 var taskStr = $("#taskcontent-txtbox").val();
             }
+            taskNum = newTaskObj.Task.Num + 1;
             TaskObj =
                 {
                     "Video": videoPath[0],
@@ -347,7 +348,8 @@
                     "Description": taskStr,
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
-                    "Profession": newTaskObj.Profession
+                    "Profession": newTaskObj.Profession,
+                    "TaskNum": taskNum,
                 }
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);

@@ -110,12 +110,10 @@
 
         function savelocal(thisprof) {
             id = thisprof.id; //1
-            profession = ProfARR[id]; //פיזיקה
-
             thisProfObj = {
-                "ClassName": listCS[0].Name, //ח
-                "ClassNum": listCS[0].Number,//4
-                "Profession": profession, //פיזיקה
+                "ClassName": listCS[id].Name, //ח
+                "ClassNum": listCS[id].Number,//4
+                "Profession":  listCS[id].Profession, //פיזיקה
             }
             console.log(thisProfObj);
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));

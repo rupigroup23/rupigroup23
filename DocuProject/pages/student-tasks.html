@@ -63,14 +63,14 @@
             $('#newTask').click(forCreateTask);
 
             //User image
-            local = localStorage.getItem('student');
-            studentObj = JSON.parse(local);
+            localSudent = localStorage.getItem('student');
+            studentObj = JSON.parse(localSudent);
             showDetalis(studentObj);
 
         });
 
 
-        function showDetalis(objTeacher)
+        function showDetalis(obj)
         {
                Id = studentObj.Id;
                 var url = "../api/Student/GetDetailsS/" + Id;

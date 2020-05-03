@@ -15,7 +15,7 @@ namespace DocuProject.Models
         string classNum;
         string profession;
         string video;
-
+        int taskNum;
         public Task() { }
 
         public string Deadline { get => deadline; set => deadline = value; }
@@ -26,6 +26,7 @@ namespace DocuProject.Models
         public string ClassNum { get => classNum; set => classNum = value; }
         public string Profession { get => profession; set => profession = value; }
         public string Video { get => video; set => video = value; }
+        public int TaskNum { get => taskNum; set => taskNum = value; }
 
         public int insertTask1(Task taskObj)
         {
