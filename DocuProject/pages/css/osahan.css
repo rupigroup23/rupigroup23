@@ -1199,12 +1199,13 @@ div {
 /* Video Card */
 .video-block .mb-3 {
     margin-bottom: 30px !important;
+    float: left;
 }
- .video-card-image {
-     border-radius: 2px;
-     box-shadow: 0 0 11px #ececec;
-     overflow: hidden;
-     position: relative;
+.video-card-image {
+    border-radius: 2px;
+    box-shadow: 0 0 11px #ececec;
+    overflow: hidden;
+    position: relative;
 }
  .time {
      background: #f5234a none repeat scroll 0 0;
@@ -1238,19 +1239,20 @@ div {
      top: 0;
      width: 40px;
 }
- .video-card:hover .play-icon {
-     background: #000 none repeat scroll 0 0;
-     border-radius: 2px;
-     bottom: 0;
-     color: #fff;
-     font-size: 35px;
-     left: 0;
-     opacity: 0.4;
-     position: absolute;
-     right: 0;
-     text-align: center;
-     top: 0;
-     transition-duration: 0.4s;
+.video-card:hover .play-icon {
+    background: #000 none repeat scroll 0 0;
+    border-radius: 2px;
+    bottom: 0;
+    color: #fff;
+    font-size: 35px;
+    left: 0;
+    opacity: 0.4;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    transition-duration: 0.4s;
+    float: left;
 }
  .video-title a {
      color: #000;
@@ -1263,11 +1265,12 @@ div {
  .video-page {
      font-size: 11px;
 }
- .video-view {
-     color: #acacac;
-     font-size: 10px;
-     font-weight: 500;
-     margin: 2px 0 0;
+.video-view {
+    color: #acacac;
+    font-size: 10px;
+    font-weight: 500;
+    margin: 2px 0 0;
+    float: left;
 }
  .video-card {
      background: #fff none repeat scroll 0 0;

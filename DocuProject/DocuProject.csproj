@@ -26,7 +26,8 @@
     <IISExpressSSLPort>44328</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -222,7 +223,6 @@
     <Content Include="pages\js\myName.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
-    <Content Include="pages\manager-ABCprofessions.html" />
     <Content Include="pages\manager-createNewTeacher.html" />
     <Content Include="pages\student-Classroom.html" />
     <Content Include="pages\student-PresentationAssignment.html" />

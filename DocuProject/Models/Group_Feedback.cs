@@ -20,12 +20,12 @@ namespace DocuProject.Models
         int idTask;
         int idTeacher;
         int groupNum;
-        string group_students;
         int grade;
         string feedback;
         int status;
         string video;
         string comment;
+        string group;
 
         public string ClassName { get => className; set => className = value; }
         public int ClassNum { get => classNum; set => classNum = value; }
@@ -34,13 +34,13 @@ namespace DocuProject.Models
         public int IdTask { get => idTask; set => idTask = value; }
         public int IdTeacher { get => idTeacher; set => idTeacher = value; }
         public int GroupNum { get => groupNum; set => groupNum = value; }
-        public string Group_students { get => group_students; set => group_students = value; }
         public int Grade { get => grade; set => grade = value; }
         public string Feedback { get => feedback; set => feedback = value; }
         public int Status { get => status; set => status = value; }
         public string Video { get => video; set => video = value; }
         public int IdRows { get => idRows; set => idRows = value; }
         public string Comment { get => comment; set => comment = value; }
+        public string Group { get => group; set => group = value; }
 
         public Group_Feedback() { }
 
@@ -92,6 +92,11 @@ namespace DocuProject.Models
             return dt; // מחזיק עכשיו טבלה חדשה שיש בה שינוי
         }
 
+        public List<Group_Feedback> getVideo(string ClassName, string ClassNum, string Professtion, int taskNum)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.get_Videos(ClassName, ClassNum, Professtion, taskNum);
+        }
     }
 
 }

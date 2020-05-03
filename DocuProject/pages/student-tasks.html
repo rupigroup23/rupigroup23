@@ -23,15 +23,14 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- noy links -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <script src="../Scripts/ajaxCalls.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>-->
     <!-- Include a required theme -->
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
-    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -45,7 +44,8 @@
         var imagePath1 = '';
         var userEmail1 = '';
 
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             ////Menus
             //localN = localStorage.getItem('myName');
             //console.log('local: ', JSON.parse(localN));
@@ -64,34 +64,32 @@
             $('#newTask').click(forCreateTask);
 
             //User image
-            local = localStorage.getItem('student');
-            studentObj = JSON.parse(local);
+            localStudent = localStorage.getItem('student');
+            studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
 
+        });
 
-        function showDetalis(objTeacher)
-        {
-               Id = studentObj.Id;
-                var url = "../api/Student/GetDetailsS/" + Id;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
+        function showDetalis(studentObj) {
+            Id = studentObj.Id;
+            var url = "../api/Student/GetDetailsS/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-        function funcsuccess(data)
-        {
-                obj = data;
-                userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
         function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
         function getAvatarImageError(err) {
-                console.log(err)
-            }
-
+            console.log(err)
+        }
         function forCreateTask() {
             if (listCS.length == 0) {
                 idT = 1;
@@ -153,7 +151,8 @@
         }
         tasksARR = [];
         tasksSTR = "";
-        function GETsuccessT1(data) {
+        function GETsuccessT1(data)
+        {
             listCS = data;
             console.log(listCS);
             if (listCS.length == 0) {

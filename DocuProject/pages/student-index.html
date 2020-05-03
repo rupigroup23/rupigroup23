@@ -108,20 +108,17 @@
             console.log(err);
         }
 
-        function savelocal(thisprof) {
+      function savelocal(thisprof) {
             id = thisprof.id; //1
-            profession = ProfARR[id]; //פיזיקה
-
+            //profession = ProfARR[id]; //פיזיקה
             thisProfObj = {
-                "ClassName": listCS[0].Name, //ח
-                "ClassNum": listCS[0].Number,//4
-                "Profession": profession, //פיזיקה
+                "ClassName": listCS[id].Name, //ח
+                "ClassNum": listCS[id].Number,//4
+                "Profession":  listCS[id].Profession, //פיזיקה
             }
             console.log(thisProfObj);
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
         }
-
-  
         function sortProf() {
             document.getElementById("professions").innerHTML = "";
             //מיון מערך
@@ -310,7 +307,7 @@
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
                                         <a class="dropdown-item" id="sorting"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                        <a class="dropdown-item" href="manager-professions.html"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                        <a class="dropdown-item" href="student-index.html"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                     </div>
                                 </div>
                             </div>

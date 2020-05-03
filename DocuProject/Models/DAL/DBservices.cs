@@ -1124,14 +1124,11 @@ public class DBservices
             while (dr.Read())
             {// Read till the end of the data into a row
                 Task T = new Task();
-
                 T.ClassName = (string)dr["className"];
                 T.ClassNum = (string)dr["classNum"];
                 T.Profession = (string)dr["Profession"];
                 T.Deadline = (string)dr["Deadline"];
                 T.Topic = (string)dr["Topic"];
-                //T.Assignation = (string)dr["Assignation"];
-                //T.Description = (string)dr["Description_ "];
 
                 listTasks.Add(T);
             }
@@ -1591,6 +1588,44 @@ public class DBservices
                 listOfFeedback.Add(feedback);
             }
             return listOfFeedback;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
+    public List<Group_Feedback> get_Videos(string ClassName, string ClassNum, string Professtion, int taskNum)
+    {
+        List<Group_Feedback> video_List = new List<Group_Feedback>();
+        string p = Professtion;
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "SELECT * from GroupFeedback where ClassName='" + ClassName + "' and ClassNum ='" + ClassNum + "' and Proffesion = '" + p + "' and IdTask='" + taskNum + "' ";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                // שומרת את הנתונים מהדטה בייס לתוך אובייקט שיצרתי
+                Group_Feedback G = new Group_Feedback();
+                G.Video = (string)dr["video"];
+                G.Group = (string)dr["Group_students"];
+                video_List.Add(G);
+            }
+            return video_List;
         }
         catch (Exception ex)
         {

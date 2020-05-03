@@ -155,7 +155,7 @@ namespace DocuProject.Controllers
             ImgStudent i = new ImgStudent();
             return i.getAvatarImage(Id);
         }
-      
+
 
         [HttpPut] //update setting
         [Route("api/Student/updateStudent")]
@@ -172,17 +172,27 @@ namespace DocuProject.Controllers
             Feedback F = new Feedback();
             F.insertFeed(feedbackObj);
         }
-
         [HttpGet] /// ���� �������
         [Route("api/student/getdata/{groupStudent}/{numOfTask}/{profession}")]
-        public List<Feedback> getData(string groupStudent, string numOfTask , string profession)
+        public List<Feedback> getData(string groupStudent, string numOfTask, string profession)
         {
             Feedback F = new Feedback();
-            return F.getData(groupStudent,  numOfTask,  profession);
+            return F.getData(groupStudent, numOfTask, profession);
+             }
+
+        [HttpGet]
+        [Route("api/student/getvideo/{ClassName}/{ClassNum}/{Professtion}/{takNum}")]
+        public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int takNum)
+        {
+            Group_Feedback G = new Group_Feedback();
+            List <Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, takNum);
+            return videos;
         }
 
-        
+
+
+
     }
 
 }
-      
+
