@@ -36,8 +36,19 @@
         var likeBtn = 'false';
         var imagePath1 = '';
         var userEmail1 = '';
+        var mainVideoPath = window.location.search.substring(1);
+        console.log(mainVideoPath)
 
-        $(document).ready(function () {
+            $(document).ready(function () {
+
+                var video = document.getElementById('mainVideo');
+                var source = document.createElement('source');
+                source.setAttribute('src', mainVideoPath);
+                console.log(source)
+                console.log(video)
+                document.getElementById('mainVideo').appendChild(source);
+
+
             $('#load').prop("disabled", true);
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
@@ -345,7 +356,11 @@
                         <div class="col-md-8">
                             <div class="single-video-left">
                                 <div class="single-video">
-                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    <video id="mainVideo" width="100%" height="315" controls>
+                                        <!--<source src="'mainVideoPath'" type="video/mp4">-->
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <!--<iframe width="100%" height="315" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
                                 </div>
                                 <!-- הסרטון הראשי -->
                                 <div class="single-video-title box mb-3">
