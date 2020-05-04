@@ -64,8 +64,9 @@
             $('#newTask').click(forCreateTask);
 
             //User image
-            localStudent = localStorage.getItem('student');
-            studentObj = JSON.parse(localStudent);
+
+            localSudent = localStorage.getItem('student');
+            studentObj = JSON.parse(localSudent);
             showDetalis(studentObj);
 
         });
@@ -74,7 +75,8 @@
             Id = studentObj.Id;
             var url = "../api/Student/GetDetailsS/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
+
+
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
