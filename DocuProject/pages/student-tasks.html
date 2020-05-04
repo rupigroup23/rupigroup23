@@ -44,8 +44,7 @@
         var imagePath1 = '';
         var userEmail1 = '';
 
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
             ////Menus
             //localN = localStorage.getItem('myName');
             //console.log('local: ', JSON.parse(localN));
@@ -64,9 +63,8 @@
             $('#newTask').click(forCreateTask);
 
             //User image
-
-            localSudent = localStorage.getItem('student');
-            studentObj = JSON.parse(localSudent);
+            localStudent = localStorage.getItem('student');
+            studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
 
         });
@@ -75,8 +73,7 @@
             Id = studentObj.Id;
             var url = "../api/Student/GetDetailsS/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
-
-
+        }
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
@@ -153,8 +150,7 @@
         }
         tasksARR = [];
         tasksSTR = "";
-        function GETsuccessT1(data)
-        {
+        function GETsuccessT1(data) {
             listCS = data;
             console.log(listCS);
             if (listCS.length == 0) {
