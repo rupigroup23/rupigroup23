@@ -348,8 +348,8 @@
                     "Description": taskStr,
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
-                    "Profession": newTaskObj.Profession,
-                    "TaskNum": taskNum,
+                "Profession": newTaskObj.Profession
+                    "TaskNum": taskNum
                 }
             console.log(TaskObj)
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);

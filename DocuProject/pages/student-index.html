@@ -38,13 +38,12 @@
             // פרטי התלמיד
             local = localStorage.getItem('student');
             studentObj = JSON.parse(local);
-
             readClassSUbjFromDB(studentObj); //מקצועות
-
-
             ////pic//////////
 
             showDetalis(studentObj);
+
+            $('#sorting').click(sortProf);
         });
 
             function showDetalis(studentObj)
@@ -85,8 +84,9 @@
             ajaxCall("GET", url, "", GETsuccessCB2, GETerrorCB2);
         }
 
-
+        listCS = [];
         ProgSTR = "";
+
         function GETsuccessCB2(data) {
            listCS = data;
             for (var i = 0; i < listCS.length; i++) {
@@ -108,7 +108,7 @@
             console.log(err);
         }
 
-        function savelocal(thisprof) {
+      function savelocal(thisprof) {
             id = thisprof.id; //1
             thisProfObj = {
                 "ClassName": listCS[id].Name, //ח
@@ -118,8 +118,46 @@
             console.log(thisProfObj);
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
         }
+        function sortProf() {
+            document.getElementById("professions").innerHTML = "";
+            //מיון מערך
+            ProfARR = [];
+            newArr = [];
 
+            for (var i = 0; i < listCS.length; i++) {
+                ProfARR[i] = listCS[i].Profession;
+                ProfARR.sort();
+            }
 
+            for (var i = 0; i < ProfARR.length; i++)
+            {
+                for (var j = 0; j < listCS.length; j++)
+                {
+                    if (ProfARR[i] == listCS[j].Profession)
+                    {
+                x =
+                    {
+                        'proff': ProfARR[i],
+                        'teacher': listCS[j].Teacher_name
+                    }
+                newArr.push(x);
+                    }
+                }
+
+            }
+            strNew = "";
+
+            for (var i = 0; i < newArr.length; i++) {
+                strNew += "<div class='col-xl-3 col-sm-6 mb-3'>";
+                strNew += "<div class='channels-card'>";
+                strNew += " <div id='prof" + i + "' class='testProf'>";
+                strNew += newArr[i].proff;
+                strNew += "<br /><h3 class='taskNum' style='text-align: right'>מורה: " + newArr[i].teacher + "</h3><a href='student-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
+                strNew += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
+                strNew += "</div></div></div>";
+            }
+                            document.getElementById("professions").innerHTML = strNew;
+        }
         //סרגל השתלשלות
         orientationSTR = "";
         function Showorientation() {
@@ -263,12 +301,12 @@
                             <div class="main-title">
                                 <div class="btn-group float-right right-action">
                                     <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        מיון <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
-                                        <a class="dropdown-item" href="manager-ABCprofessions.html" id="sorting"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                        <a class="dropdown-item" href="manager-professions.html"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                        <a class="dropdown-item" id="sorting"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
+                                        <a class="dropdown-item" href="student-index.html"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                     </div>
                                 </div>
                             </div>
