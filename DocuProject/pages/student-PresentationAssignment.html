@@ -179,7 +179,7 @@
         var teamnum = "";
         //Bring the details up
         function getDatelis() {
-            teamnum = "3"; //לסדר את זה עם האלגוריתם
+            teamnum = "2"; //לסדר את זה עם האלגוריתם
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             date = TaskObj.Task.Date;
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
@@ -266,8 +266,8 @@
                     else {
                         document.getElementById("gradeID").innerHTML = details[i].Grade;
                     }
-                    //FeedbackComment
-                    if (details[i].Feedback) {
+                    //FeedbackComment 
+                    if (details[i].Feedback == null || details[i].Feedback == "" ) {
                         document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
                     }
                     else {
@@ -352,6 +352,7 @@
         var strLink = "";
         var array = "";
         var path = "";
+        var tmp = 0;
         function checkVidoe(path, status1,comment) {
             console.log(path, status1);
             if (status1 == 1 || status1 == 2) {
@@ -359,14 +360,15 @@
                 if (path) {
                     array = path.split("/");
                     console.log(array[array.length - 1]);
-                    strLink += "<i class='fas fa-folder text2' ></i>";
                     strLink += array[1];
-                    strLink += "<i class='fas fa-times-circle' onclick='cancleVI()'></i>";
+                    strLink += "   <i class='fas fa-times-circle' onclick='cancleVI()'></i>";
                     document.getElementById("linkURL").innerHTML = strLink;
                     document.getElementById("commentStudents").style.color = "rgb(125, 127, 128)";
                     document.getElementById("commentStudents").innerHTML = comment;
                     status = getStatus(status1);
                     document.getElementById("statusID").innerHTML = status;
+                    $("#saveVideo").html("עדכון"); 
+                //saveVideo
                 }                    
             }
              else {
@@ -378,7 +380,9 @@
         function cancleVI() {
             videoPath[0] = "";
             thisTeam.Status_ = 0;
+            thisTeam.Comment = null;
             document.getElementById("linkURL").style.textDecoration = "line-through";
+
         }
 
         
@@ -387,15 +391,22 @@
         var dataPD;
         function saveVideo() {
             vid = videoPath[0];
-            com = $("#commentStudents").val();
-            status2 = thisTeam.Status_;
+            if (vid == null) {
+                thisTeam.Comment = null;
+                vid = array[1];
+            }
+            else {
+                thisTeam.Comment  = $("#commentStudents").val();
+            }
+            
+            
             dataPD =
                 {
                     "ClassName": thisTeam.ClassName,
                     "ClassNum": thisTeam.ClassNum,
                     "Proffesion": thisTeam.Proffesion,
-                    "Status": status2,
-                    "Comment": com,
+                    "Status": thisTeam.Status_,
+                    "Comment": thisTeam.Comment,
                     "Video": vid,
                 }
             console.log(dataPD);
@@ -407,7 +418,7 @@
             console.log(data);
             Swal.fire({
                 icon: 'success',
-                title: 'הסרטון הועלה בהצלחה',
+                title: 'הפעולה בוצעה הצלחה!',
                 confirmButtonColor: '#990099',
             })
 

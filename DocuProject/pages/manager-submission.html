@@ -38,57 +38,56 @@
 
         $(document).ready(function () {
             //Menus
-            localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //localN = localStorage.getItem('myName');
+            //console.log('local: ', JSON.parse(localN));
+            //myNameObj = JSON.parse(localStorage["myName"]);
+            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-
+            //localstorage for the orientation and data
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
-            Showorientation();//סרגל השתלשלות
-            getDatelis(); //Bring the details up
-
-            //$('#apprVideo').click(approveVidow);
-            //$('#score').click(giveScore);
-            $('#apply').click(filingSubm); 
-            getDataT();
+            Showorientation();//orientation
+            getDatelis(); //Bring the details from the local storage
+            getDataT(); //bring the details from GroupFeedback tabel
+            
+            $('#apply').click(filingSubm);  //סנן
+            
             //User image
-            localAdmin = localStorage.getItem('user');
-            objAdmin = JSON.parse(localAdmin);
-            showDetalis(objAdmin);
-            function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
-                ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-            }
-            function getAvatarImageSuccess(imagePath1) {
-
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-            function funcerror() { }
+            localUSER = localStorage.getItem('student');
+            studentObj = JSON.parse(localUSER);
+            showDetalis(studentObj);
             //END- User image
         });
 
-        //סרגל השתלשלות
+         //User image
+        function showDetalis(objTeacher) {
+            Id = studentObj.Id;
+            var url = "../api/Student/GetDetailsS/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
+        function funcerror() { }
+        function getAvatarImageSuccess(imagePath1) {
+
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+        }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+        //
+
+        //orientation
         orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
@@ -100,15 +99,197 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>הגשות</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
+        //
 
-        //Bring the details up
+        //Bring the details from the local storage
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             diffDays1 = diffDays(TaskObj.Task.Date);
-            //diffDays = diffDays("4/30/2020");
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("restDate").innerHTML = diffDays1;
             document.getElementById("restDate").style.color = "red"
+        }
+       
+        //bring the details from GroupFeedback tabel
+        //לראות אם לשנות לקונטרולר של הדוקו הרגיל 
+        var classData;
+        var allTeam = [];
+        var count = 0;
+        function getDataT() {
+            classData =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                    "Proffesion": TaskObj.Profession
+                }
+            apiT = "../api/Student/GetTeamData";
+            ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
+        }
+        function GETsuccess1(data) {
+            details = data;
+            numT = TaskObj.Task.Num; 
+            for (var i = 0; i < details.length; i++) {
+                if (details[i].IdTask == numT) {
+                    count++;
+                    allTeam.push(details[i]);
+                }
+                document.getElementById("teamNum").innerHTML = count;
+            }
+            console.log(data);
+        }
+        function GETerror1(err) {
+            console.log(err);
+        }
+        //
+        //View all details on the page
+        var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
+        var waitingSTR = "";
+        var approveSTR = "";  
+        var notApprovedSTR = "";
+        var allTeamSTR = "";
+        var color = "";
+        var status;
+        var imgScore = "";
+        var btnSorces = "";
+        var strAll = [];
+        function getWaiting() {
+            waitingSTR = "";
+            notApprovedSTR = "";  
+            allTeamSTR = "";
+            approveSTR = "";
+             imgScore = "";
+            for (var i = 0; i < allTeam.length; i++) {
+                
+                if (allTeam[i].Status_ == 1) {
+                    if (allTeam[i].Grade != 0 && (allTeam[i].Feedback != "" || allTeam[i].Feedback != null)){
+                        imgScore = "img/NEW.png";
+                         btnSorces = "ViewgiveScore(this)";
+                        }
+                    else {
+                        imgScore = "img/ציון.png";
+                        btnSorces = "giveScore(this)";
+                        }
+                    waitingSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    waitingSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    waitingSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    waitingSTR += "<div class='row'> צוות מספר &nbsp;";
+                    waitingSTR += allTeam[i].GroupNum;
+                    waitingSTR += " </div></div><div class='row'>";
+                    waitingSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    waitingSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    waitingSTR += allTeam[i].Group_students;
+                    waitingSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    waitingSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#ee8d14; font-size: 22px;'>";
+                    waitingSTR += statusArr[1];
+                    waitingSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    waitingSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                    waitingSTR += "</a>&nbsp;<a><img id='"+i+"'onclick='"+btnSorces+"' class='img-fluid' src='"+imgScore+"' alt='משוב וציון'>";
+                    waitingSTR += "</a>&nbsp;<a>";
+                    waitingSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    waitingSTR += "</a>&nbsp;";
+                    waitingSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    waitingSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("waitingID").innerHTML = waitingSTR;
+            strAll[1] = waitingSTR;
+        }        
+        function getApprove() {
+            approveSTR = "";  
+            notApprovedSTR = "";  
+            allTeamSTR = "";
+            waitingSTR = "";
+            imgScore = "";
+            btnSorces = "";
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 2) {
+                    if (allTeam[i].Grade != 0 && (allTeam[i].Feedback != "" || allTeam[i].Feedback != null)){
+                        imgScore = "img/NEW.png";
+                        btnSorces = "ViewgiveScore(this)";
+                        }
+                    else {
+                        imgScore = "img/ציון.png";
+                        btnSorces = "giveScore(this)";
+                    }
+                    approveSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    approveSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    approveSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    approveSTR += "<div class='row'> צוות מספר &nbsp;";
+                    approveSTR += allTeam[i].GroupNum;
+                    approveSTR += " </div></div><div class='row'>";
+                    approveSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    approveSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    approveSTR += allTeam[i].Group_students;
+                    approveSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    approveSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#1aaf10; font-size: 22px;'>";
+                    approveSTR += statusArr[2];
+                    approveSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    approveSTR += " <div class='channels-card-image'><a><img id='" + i + "'onclick='CancleapproveVidow(this)' class='img-fluid' src='img/cancleBtn.png' alt='ביטול הסרטון'>";
+                    approveSTR += "</a>&nbsp;<a><img id='"+i+"'onclick='"+btnSorces+"' class='img-fluid' src='"+imgScore+"' alt='משוב וציון'>";
+                    approveSTR += "</a>&nbsp;<a>";
+                    approveSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                    approveSTR += "</a>&nbsp;";
+                    approveSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    approveSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("approveID").innerHTML = approveSTR;
+            strAll[2] = approveSTR;
+
+        }             
+        function getNotApproved() {
+            notApprovedSTR = "";  
+            allTeamSTR = "";
+            approveSTR = "";
+            waitingSTR = "";
+            for (var i = 0; i < allTeam.length; i++) {
+                if (allTeam[i].Status_ == 0) {
+                    if (allTeam[i].Grade == 0 && allTeam[i].Feedback == null){
+                        imgScore = "img/ציון.png";
+                        btnSorces = "giveScore(this)";
+                        }
+                    else {
+                        imgScore = "img/NEW.png";
+                        btnSorces = "ViewgiveScore(this)";
+                        
+                    }
+                    notApprovedSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                    notApprovedSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                    notApprovedSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                    notApprovedSTR += "<div class='row'> צוות מספר &nbsp;";
+                    notApprovedSTR += allTeam[i].GroupNum;
+                    notApprovedSTR += " </div></div><div class='row'>";
+                    notApprovedSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                    notApprovedSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                    notApprovedSTR += allTeam[i].Group_students;
+                    notApprovedSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                    notApprovedSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:red; font-size: 22px;'>";
+                    notApprovedSTR += statusArr[0]; 
+                    notApprovedSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                    notApprovedSTR += " <div class='channels-card-image'><a><img id='"+i+"' class='img-fluid' src='img/NOTapproved1.png' alt='אישור הסרטון'>";
+                    notApprovedSTR += "</a>&nbsp;<a><img id='"+i+"'onclick='"+btnSorces+"' class='img-fluid' src='"+imgScore+"' alt='משוב וציון'>";
+
+                    notApprovedSTR += "</a>&nbsp;<a>";
+                    notApprovedSTR += "<img  id='"+i+"' class='img-fluid' src='img/NOTWatchVideo.png' alt='צפיה בסרטון'>";
+                    notApprovedSTR += "</a>&nbsp;";
+                    notApprovedSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                    notApprovedSTR += " </div><br /></div></div></div></div>";
+                }   
+            }
+            document.getElementById("notApproved").innerHTML = notApprovedSTR;
+            strAll[0] = notApprovedSTR;
+        }      
+        function getAllTeamID() {
+            notApprovedSTR = "";  
+            approveSTR = "";
+            waitingSTR = "";
+            imgScore = "";
+            btnSorces = "";
+            getWaiting();
+            getApprove();
+            getNotApproved();
+            document.getElementById("allTeamID").innerHTML = strAll;
+            
         }
 
         //Filing submissions
@@ -128,7 +309,7 @@
                 getWaiting();   
                 if (Waiting.style.display === "none") {
                     Waiting.style.display = "block";
-                    Allstatus.style.display = "block";
+                    Allstatus.style.display = "none";
                     Approved.style.display = "none";
                     NotApproved.style.display = "none";
                     
@@ -136,41 +317,47 @@
                 else {
                     Waiting.style.display = "none";
                     Allstatus.style.display = "none";
+                    Approved.style.display = "none";
+                    NotApproved.style.display = "none";
                 }
             }
             if (approved.checked) {
                 getApprove();
                 if (Approved.style.display === "none") {
                     Approved.style.display = "block";
-                    Allstatus.style.display = "block";
+                    Allstatus.style.display = "none";
                     Waiting.style.display = "none";
                     NotApproved.style.display = "none";
                 }
                 else {
                     Approved.style.display = "none";
                     Allstatus.style.display = "none";
+                    Waiting.style.display = "none";
+                    NotApproved.style.display = "none";
                 }
             }
             if (notApproved.checked) {
                 getNotApproved();
                 if (NotApproved.style.display === "none") {
                     NotApproved.style.display = "block";
-                    Allstatus.style.display = "block";
+                    Allstatus.style.display = "none";
                     Approved.style.display = "none";
                     Waiting.style.display = "none";
                 }
                 else {
                     NotApproved.style.display = "none";
                     Allstatus.style.display = "none";
+                    Approved.style.display = "none";
+                    Waiting.style.display = "none";
                 }
             }
             if (allstatus.checked) {
-                getAllTeamID();
                 if (NotApproved.style.display === "none" || Approved.style.display === "none" || Waiting.style.display === "none") {
-                    NotApproved.style.display = "block";
-                    Allstatus.style.display = "none";
-                    Approved.style.display = "block";
-                    Waiting.style.display = "block";
+                    Allstatus.style.display = "block";
+                    NotApproved.style.display = "none";
+                    Approved.style.display = "none";
+                    Waiting.style.display = "none";
+                    getAllTeamID();
                 }
                 else {
                     NotApproved.style.display = "none";
@@ -203,37 +390,97 @@
             }
             console.log(diffDays);
         }
-
+        //
+       
         //הכפתורים בכל צוות
         var status = "";
+        var idTeamfromDB = "";
+        var result;
         function approveVidow(idApp) {
-                Swal.fire({
-                    title: 'האם את/ה בטוח/ה?',
-                    text: "אישורך יביא לפרסום הסרטון!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#990099',
-                    //cancelButtonColor: '#d33',
-                    confirmButtonText: 'אני בטוח/ה',
-                    cancelButtonText: 'ביטול'
-                }).then((result) => {
-                    if (result.value) {
-                        status = 2;
-                        Swal.fire({
-                            title: 'הצלחת!',
-                            text: 'הסרטון התפרסם במועד ההגשה המתוכן',
-                            icon: 'success',
-                            confirmButtonColor: '#990099',
-                            confirmButtonText: 'הבנתי',
-                        })
+            idTeamfromDB = "";
+            Swal.fire({
+                title: 'האם את/ה בטוח/ה?',
+                text: "אישורך יביא לפרסום הסרטון!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#990099',
+                //cancelButtonColor: '#d33',
+                confirmButtonText: 'אני בטוח/ה',
+                cancelButtonText: 'ביטול'
+            }).then((result) => {              
+                if (result.value) {
+                    status = 2;
+                    Swal.fire({
+                        title: 'הצלחת!',
+                        text: 'הסרטון התפרסם במועד ההגשה המתוכן',
+                        icon: 'success',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'הבנתי',
+                    })
+                    idTeamfromDB = allTeam[idApp.id].id
+                    dataPD =
+                    {
+                        "ClassName": TaskObj.ClassName,
+                        "ClassNum": TaskObj.ClassNum,
+                        "Proffesion": TaskObj.Profession,
+                        "Status": status,
+                        "Grade": allTeam[idApp.id].Grade,
+                        "Feedback": allTeam[idApp.id].Feedback,
+                        "Video":allTeam[idApp.id].Video,
+                        "Comment": allTeam[idApp.id].Comment
                     }
-                })
-            
+                    apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
+                    console.log(dataPD);
+                    ajaxCall("PUT", apiID, JSON.stringify(dataPD), approveVidowsuccess, approveVidowerror);
+                }
+            })   
+        }
+        function CancleapproveVidow(idApp) {
+            idTeamfromDB = "";
+            Swal.fire({
+                title: 'האם את/ה בטוח/ה?',
+                text: "הסרטון לא יפורסם!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#990099',
+                //cancelButtonColor: '#d33',
+                confirmButtonText: 'אני בטוח/ה',
+                cancelButtonText: 'ביטול'
+            }).then((result) => {              
+                if (result.value) {
+                    status = 1;
+                    Swal.fire({
+                        title: 'הצלחת!',
+                        text: 'הסרטון לא יפורסם',
+                        icon: 'success',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'הבנתי',
+                    })
+                    idTeamfromDB = allTeam[idApp.id].id
+                    dataCancle =
+                    {
+                        "ClassName": TaskObj.ClassName,
+                        "ClassNum": TaskObj.ClassNum,
+                        "Proffesion": TaskObj.Profession,
+                        "Status": status,
+                        "Grade": allTeam[idApp.id].Grade,
+                        "Feedback": allTeam[idApp.id].Feedback,
+                        "Video":allTeam[idApp.id].Video,
+                        "Comment": allTeam[idApp.id].Comment
+                    }
+                    apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
+                    console.log(dataCancle);
+                    ajaxCall("PUT", apiID, JSON.stringify(dataCancle), cancleVidowsuccess, cancleVidowerror);
+                }
+            })   
         }
 
         var grade = "";
         var feedback = "";
         function giveScore(idSc) {
+            idTeamfromDB = "";
+            feedback = "";
+            grade = "";
             (async () => {
                 const { value: formValues } = await Swal.fire({
                     title: 'ציון ומשוב',
@@ -248,27 +495,110 @@
                     preConfirm: () => {
                         return [
                             document.getElementById('swal-input1').value,
-                            document.getElementById('swal-input2').value
-                            
+                            document.getElementById('swal-input2').value        
                         ]
                     }
                 })
-                grade = document.getElementById('swal-input1').value;
-                feedback = document.getElementById('swal-input2').value;
+                feedback = document.getElementById('swal-input1').value;
+                grade = document.getElementById('swal-input2').value;
+                idTeamfromDB = allTeam[idSc.id].id
+                dataPD1 =
+                    {
+                        "ClassName": TaskObj.ClassName,
+                        "ClassNum": TaskObj.ClassNum,
+                        "Proffesion": TaskObj.Profession,
+                        "Grade": grade,
+                        "Feedback": feedback,
+                        "Status": allTeam[idSc.id].Status_,
+                        "Video":allTeam[idSc.id].Video,
+                        "Comment":allTeam[idSc.id].Comment
+                    }
+                apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
+                console.log(dataPD1);
+                ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
                 if (formValues) {
                     Swal.fire({
+                        title: 'לעדכונך',
                         text: JSON.stringify(formValues),
                         icon: 'success',
-                        showCancelButton: true,
                         confirmButtonColor: '#990099',
                         //cancelButtonColor: '#d33',
-                        confirmButtonText: 'שמור',
-                        cancelButtonText: 'ביטול'
+                        confirmButtonText: 'המשך',             
                     })
                 }
             })()
+            
         }
 
+    //ViewgiveScore
+        var answers = "";
+        function ViewgiveScore(idSc1) {
+            idTeamfromDB = "";
+            feedback = "";
+            grade = "";
+            const ipGrade =  allTeam[idSc1.id].Grade;
+            const ipFeedb =  allTeam[idSc1.id].Feedback;
+            const gF = "<span style='color: #990099'>משוב: </span>" + ipFeedb  + " <br />" + "<span style='color: #990099'>ציון: </span>" + ipGrade;
+            Swal.fire({
+                title: "ציון ומשוב",
+                html: gF,
+                focusConfirm: false,
+                    confirmButtonText: 'לשינוי',
+                    confirmButtonColor: '#990099',
+                    cancelButtonText: 'חזרה',
+                    showCancelButton: true,
+            }).then((result) => {
+                if (result.value) {
+                    (async () => {
+                const { value: formValues } = await Swal.fire({
+                    title: 'ציון ומשוב',
+                    html: 'משוב- אנא כתבו משוב עבור הפתרון שהועלה' +
+                        '<input id="swal-input1" class="swal2-input">' + 'ציון- העניקו ציון עבור הסרטון' +
+                        '<input id="swal-input2" class="swal2-input">',
+                    focusConfirm: false,
+                    confirmButtonText: 'הבא',
+                    confirmButtonColor: '#990099',
+                    cancelButtonText: 'ביטול',
+                    showCancelButton: true,
+                    preConfirm: () => {
+                        return [
+                            document.getElementById('swal-input1').value,
+                            document.getElementById('swal-input2').value        
+                        ]
+                    }
+                })
+                feedback = document.getElementById('swal-input1').value;
+                grade = document.getElementById('swal-input2').value;
+                idTeamfromDB = allTeam[idSc1.id].id
+                dataPD1 =
+                    {
+                        "ClassName": TaskObj.ClassName,
+                        "ClassNum": TaskObj.ClassNum,
+                        "Proffesion": TaskObj.Profession,
+                        "Grade": grade,
+                        "Feedback": feedback,
+                        "Status": allTeam[idSc1.id].Status_,
+                        "Video":allTeam[idSc1.id].Video,
+                        "Comment":allTeam[idSc1.id].Comment
+                    }
+                apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
+                console.log(dataPD1);
+                ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+                if (formValues) {
+                    Swal.fire({
+                        title: 'לעדכונך',
+                        text: JSON.stringify(formValues),
+                        icon: 'success',
+                        confirmButtonColor: '#990099',
+                        //cancelButtonColor: '#d33',
+                        confirmButtonText: 'המשך',             
+                    })
+                }
+            })()
+                }
+            })
+        }
+         
         var clip = "";
         function showVideo(btn) {
             id = btn.id;
@@ -298,183 +628,38 @@
             //}
             
         }
+        //
 
-                function postFeedbackGrade() {
-
-        }
-
-        var classData;
-        var allTeam = [];
-        function getDataT() {
-            classData =
-                {
-                    "ClassName": TaskObj.ClassName,
-                    "ClassNum": TaskObj.ClassNum,
-                    "Proffesion": TaskObj.Profession
-                }
-            apiT = "../api/Student/GetTeamData";
-            ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
-        }
-        var count = 0;
-        function GETsuccess1(data) {
-            details = data;
-            numT = TaskObj.Task.Num; 
-            for (var i = 0; i < details.length; i++) {
-                if (details[i].IdTask == numT) {
-                    count++;
-                    allTeam.push(details[i]);
-                }
-                document.getElementById("teamNum").innerHTML = count;
-            }
-            console.log(data);
-        }
-        function GETerror1(err) {
-            console.log(err);
-        }
-
-        var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
-        var waitingSTR = "";
-        function getWaiting() {
-            waitingSTR = "";
-            let str = '';
-            for (var i = 0; i < allTeam.length; i++) {
-                if (allTeam[i].Status_ == 1) {
-                    waitingSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-                    waitingSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
-                    waitingSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
-                    waitingSTR += "<div class='row'> צוות מספר &nbsp;";
-                    waitingSTR += allTeam[i].GroupNum;
-                    waitingSTR += " </div></div><div class='row'>";
-                    waitingSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
-                    waitingSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    waitingSTR += allTeam[i].Group_students;
-                    waitingSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
-                    waitingSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#ee8d14; font-size: 22px;'>";
-                    waitingSTR += statusArr[1];
-                    waitingSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
-                    waitingSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
-                    waitingSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
-                    waitingSTR += "</a>&nbsp;<a>";
-                    waitingSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
-                    waitingSTR += "</a>&nbsp;";
-                    waitingSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
-                    waitingSTR += " </div><br /></div></div></div></div>";
-                }   
-            }
-            document.getElementById("waitingID").innerHTML = waitingSTR;
+        function approveVidowsuccess(data) {
+            afterUpdARR = data;
+           
+            setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
 
         }
-
-        var approveSTR = "";    
-        function getApprove() {
-            approveSTR = "";  
-            for (var i = 0; i < allTeam.length; i++) {
-                if (allTeam[i].Status_ == 2) {
-                    approveSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-                    approveSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
-                    approveSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
-                    approveSTR += "<div class='row'> צוות מספר &nbsp;";
-                    approveSTR += allTeam[i].GroupNum;
-                    approveSTR += " </div></div><div class='row'>";
-                    approveSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
-                    approveSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    approveSTR += allTeam[i].Group_students;
-                    approveSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
-                    approveSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#1aaf10; font-size: 22px;'>";
-                    approveSTR += statusArr[2];
-                    approveSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
-                    approveSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
-                    approveSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
-                    approveSTR += "</a>&nbsp;<a>";
-                    approveSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
-                    approveSTR += "</a>&nbsp;";
-                    approveSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
-                    approveSTR += " </div><br /></div></div></div></div>";
-                }   
-            }
-            document.getElementById("approveID").innerHTML = approveSTR;
+        function approveVidowerror(err) {
+            alert(err);
+        }
+         function cancleVidowsuccess(data) {
+            afterUpdARR = data;
+           
+            setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
 
         }
-
-        var notApprovedSTR = "";    
-        function getNotApproved() {
-            notApprovedSTR = "";  
-            for (var i = 0; i < allTeam.length; i++) {
-                if (allTeam[i].Status_ == 0) {
-                    notApprovedSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-                    notApprovedSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
-                    notApprovedSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
-                    notApprovedSTR += "<div class='row'> צוות מספר &nbsp;";
-                    notApprovedSTR += allTeam[i].GroupNum;
-                    notApprovedSTR += " </div></div><div class='row'>";
-                    notApprovedSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
-                    notApprovedSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    notApprovedSTR += allTeam[i].Group_students;
-                    notApprovedSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
-                    notApprovedSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:red; font-size: 22px;'>";
-                    notApprovedSTR += statusArr[0];
-                    notApprovedSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
-                    notApprovedSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
-                    notApprovedSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
-                    notApprovedSTR += "</a>&nbsp;<a>";
-                    notApprovedSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
-                    notApprovedSTR += "</a>&nbsp;";
-                    notApprovedSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
-                    notApprovedSTR += " </div><br /></div></div></div></div>";
-                }   
-            }
-            document.getElementById("notApproved").innerHTML = notApprovedSTR;
+        function cancleVidowerror(err) {
+            alert(err);
+        }
+        function giveScoresuccess(data) {
+            afterUpdARR = data;
+           
+            setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
+        }
+        function giveScoreerror(err) {
+            alert(err);
         }
 
-        allTeamSTR = "";
-        var color = "";
-        var status;
-        function getAllTeamID() {
-            allTeamSTR = "";
-            for (var i = 0; i < allTeam.length; i++) {
-                if (allTeam[i].Status_ == 0) 
-                {
-                    color = "red";
-                    status = statusArr[0];
-                }
-                 if (allTeam[i].Status_ == 1) 
-                 {
-                     color = "#ee8d14";
-                    status = statusArr[1];
-
-                 }
-                 if (allTeam[i].Status_ == 2) 
-                 {
-                     color = "##1aaf10";
-                     status = statusArr[2];
-                }
-                console.log(color, status);
-                    allTeamSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-                    allTeamSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
-                    allTeamSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
-                    allTeamSTR += "<div class='row'> צוות מספר &nbsp;";
-                    allTeamSTR += allTeam[i].GroupNum;
-                    allTeamSTR += " </div></div><div class='row'>";
-                    allTeamSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
-                    allTeamSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    allTeamSTR += allTeam[i].Group_students;
-                    allTeamSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
-                    //allTeamSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:"+ color+"; font-size: 22px;'>";
-                    allTeamSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:"+ color+"; font-size: 22px;'>";
-                    allTeamSTR += status;
-                    allTeamSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
-                    allTeamSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
-                    allTeamSTR += "</a>&nbsp;<a><img id='"+i+"' onclick='giveScore(this)' class='img-fluid' src='img/ציון.png' alt='משוב וציון'>";
-                    allTeamSTR += "</a>&nbsp;<a>";
-                    allTeamSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
-                    allTeamSTR += "</a>&nbsp;";
-                    allTeamSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
-                    allTeamSTR += " </div><br /></div></div></div></div>";
-            }
-            document.getElementById("allTeamID").innerHTML = allTeamSTR;
+        function reload() {
+          document.location.reload();
         }
-
-
     </script>
 </head>
 <body id="page-top">
@@ -538,6 +723,7 @@
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
+               
             </li>
             <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
@@ -576,7 +762,7 @@
                 <h6>פרטיות</h6>
                 <ul>
                     <li>
-                        <a href="manager-settings.html">
+                        <a href="manager-settings.html" >
                             <i class="fa fa-gear" style="font-size:24px"></i>
                             הגדרות
                         </a>

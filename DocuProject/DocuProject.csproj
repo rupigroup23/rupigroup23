@@ -204,6 +204,10 @@
     <Content Include="pages\css\feedbackStyle.css" />
     <Content Include="pages\css\upl.css" />
     <Content Include="pages\EntrancePage.html" />
+    <Content Include="pages\img\cancleBtn.png" />
+    <Content Include="pages\img\NEW.png" />
+    <Content Include="pages\img\NOTapproved1.png" />
+    <Content Include="pages\img\NOTWatchVideo.png" />
     <Content Include="pages\img\student-start.png" />
     <Content Include="pages\img\student.png" />
     <Content Include="pages\img\student2.png" />
