@@ -50,5 +50,12 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             return dbs.getFromDBClass();
         }
+
+
+        public Class Get_Details2(string className, int classNum) //כניסת תלמיד
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getTeacherClass(className, classNum);
+        }
     }
 }

@@ -42,19 +42,23 @@
             $('#form').submit(sub); //FORM
             readFromDB(); //profession
             local = localStorage.getItem('user');
+
             objTeacher = JSON.parse(local);
             showDetalis(objTeacher);
+
             $('#saveDetails').click(saveDetails_);
             pass = objTeacher.Password;
             $("#addsub").click(addSubj);
 
+            passNew = "";
             $("#changePass").click(function () {
-                if ($('#pass1').val() == objTeacher.Password && $('#pass2').val() == $('#pass3').val()) {
-                    pass = $('#pass2').val();
-                    swal("סיסמא שונתה בהצלחה", "", "success");
+         if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
+                    passNew = $('#pass2').val();
+                    saveDetails_();
+                    $('.pw-disclosure').hide();
                 }
                 else {
-                    if ($('#pass1').val() != objTeacher.Password) {
+                    if ($('#pass1').val() != passFromData) {
                         swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
                         return false;
                     }
@@ -161,6 +165,7 @@
 
                 userEmail = obj[0].Email;
                 Prof = obj[0].Profession;
+                   passFromData = obj[0].Password_;
                 str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
                 ProfDB = obj[0].Profession;
                 str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
@@ -185,6 +190,7 @@
                 console.log(err)
             }
 
+            passNew = "";
             function saveDetails_() {
 
                 if ($("#selectProf").val() == '1')
@@ -204,7 +210,7 @@
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
                     "Profession": prof,
-                    "Password": pass
+                    "Password": passNew
                 }
 
                 console.log(teacher);

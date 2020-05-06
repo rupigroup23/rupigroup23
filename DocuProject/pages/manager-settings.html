@@ -32,7 +32,8 @@
     <script>
         var imagePath = '';
         var userEmail = '';
-
+             passNew = "";
+            passFromData = "";
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -45,27 +46,20 @@
             $('#form').submit(sub); 
             $('#saveDetails').click(saveDetails_); 
 
-            //profession
-            readFromDB(); 
-
             //admin
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
-            pass = objAdmin.Password;
-
-            //pass = objAdmin.Password; //If pass not changed
-            $("#addsub").click(addSubj);
-
+       
             $("#changePass").click(function () {
-                if ($('#pass1').val() == objAdmin.Password && $('#pass2').val() == $('#pass3').val()) {
-                    pass = $('#pass2').val();
-                    //saveDetails(pass);
-                    swal("סיסמא שונתה בהצלחה", "", "success");
+           if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
+                    passNew = $('#pass2').val();
+                    saveDetails_();
+                    $('.pw-disclosure').hide();
                 }
                 else {
-                    if ($('#pass1').val() != objAdmin.Password) {
+                    if ($('#pass1').val() != passFromData) {
                         swal("אין אימות נתונים", "סיסמא נוכחית לא תואמת לסיסמא שהוזנה", "warning");
                         return false;
                     }
@@ -115,37 +109,7 @@
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
 
-            function readFromDB() {
-                ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
-            }
-            function GETsuccessCB(data) {
-                ProfARR = []; //מערך המקצועות מהדאטא בייס
-            }
-            function GETsuccessCB(data) {
-                console.log(data);
-                listP = data;
-               //insert options to select
-                for (var i = 0; i < listP.length; i++) {
-                    var select = document.getElementById("selectProf");
-                    var option = document.createElement("option");
-                    option.text = listP[i].Name;
-                    select.add(option);
-                }
-            }
-
-            function GETerrorCB(err) {
-                console.log(err);
-
-                listCS = data;
-
-                for (var i = 0; i < listP.length; i++) {
-                    ProfARR[i] = listP[i].Profession;
-                }
-            }
-            function GETerrorCB(err) {
-                console.log(err);
-            }
-
+         
             function sub() {
                 return false;
             }
@@ -169,6 +133,7 @@
                 console.log(err)
             }
             ////
+            passFromData = "";
             function funcsuccess(data) {
                 obj = data; 
 
@@ -188,7 +153,7 @@
                 $('#bday').val(birthVal);
 
                 userEmail = obj[0].Email;
-
+                passFromData = obj[0].Password_;
                 ClassroomTeacher = obj[0].ClassroomTeacher;
                 str = '<div class="create-text">' + ClassroomTeacher + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
@@ -213,7 +178,7 @@
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
                     "Profession": prof,
-                    "Password": pass
+                    "Password": passNew
                 }
                 console.log(admin);
 
