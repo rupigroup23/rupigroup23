@@ -82,8 +82,8 @@ namespace DocuProject.Models
                     //dr["IdTeacher"] = VT.IdTeacher;
                     //dr["GroupNum"] = VT.GroupNum;
                     //dr["Group_students"] = VT.Group_students;
-                    //dr["Grade"] = VT.Grade;
-                    //dr["Feedback"] = VT.Feedback;
+                    dr["Grade"] = VT.Grade;
+                    dr["Feedback"] = VT.Feedback;
                     dr["Status_"] = VT.Status;
                     dr["Video"] = VT.Video;
                     dr["Comment"] = VT.Comment;

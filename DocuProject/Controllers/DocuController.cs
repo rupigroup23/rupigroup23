@@ -359,5 +359,13 @@ namespace DocuProject.Controllers
         //    return C.deleteP(rowID);
         //}
 
+        [HttpPut]
+        [Route("api/Docu/updateFBG/{id}")]
+        public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
+        {
+            Group_Feedback VC = new Group_Feedback();
+            return VC.PutVC(id, videoTeam);
+        }
+
     }
 }
