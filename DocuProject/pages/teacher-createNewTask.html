@@ -279,14 +279,23 @@
 
             TaskObj =
                 {
-                    "taskId": taskId,
-                    "ClassName": newTaskObj.ClassName,
-                    "ClassNum": newTaskObj.ClassNum,
-                    "Profession": newTaskObj.Profession,
-                    "Topic": $("#topic").val(),
-                    "DateT": $("#dateInput").val(),
-                    "Assignation": assignation,
-                    "Description": taskStr,
+                    "Video": "",
+                "Deadline": $("#dateInput").val(),
+                "Topic": $("#topic").val(),
+                "Assignation": assignation,
+                "Description": taskStr,
+                "ClassName": newTaskObj.ClassName,
+                "ClassNum": newTaskObj.ClassNum,
+                 "Profession": newTaskObj.Profession,
+                "TaskNum": newTaskObj.Task.Num + 1,
+                    "IdTeacher": techerID,
+                   
+                    
+                    
+                    
+                    
+                    
+                    
                 }
 
             console.log(TaskObj)
@@ -295,7 +304,17 @@
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
 
         }
-
+        var techerID = "";
+        function GETsuccessCT1(data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Profession == newTaskObj.Profession ) {
+                    techerID = data[i].Id_teacher;
+                }
+            }
+        }
+        function GETerrorCT1(err) {
+            alert("GetClassSubj");
+        }
         function POSTsuccess(data) {
             Swal.fire({
                 icon: 'success',

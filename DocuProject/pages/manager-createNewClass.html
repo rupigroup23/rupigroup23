@@ -397,9 +397,10 @@
                     "Name": name,
                     "Number": num,
                     "ClassType": $("#classType").val(),
+                    "Year_": $("#Year").val(),
                     "Profession": profession,
                     "Teacher_name": coach,
-                    "Id_teacher": teacherId,
+                    "Id_teacher": teacherId,                  
                 }
             for (var i = 0; i < ClassSubArr.length; i++) {
                 if (ClassSubArr[i].Profession == profession) {
@@ -452,7 +453,7 @@
                 {
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
-                    "Year": $("#Year").val(),
+                    "Year_": $("#Year").val(),
                     "numOfStudents": numOfStudents,
                     "TeacherName": $("#teacherName").val(),
                     "ClassType": $("#classType").val()
@@ -471,7 +472,7 @@
         //ClassSubjects table --> ClassTeachObj
         function POSTsuccessCT() {
             console.log("ClassSubjects good");
-            location.reload();
+            //location.reload();
         }
         function POSTerrorCT(err) { console.log(err) };
         //Student table

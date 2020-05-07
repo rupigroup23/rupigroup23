@@ -18,7 +18,6 @@ namespace DocuProject.Models
         int idRow;
         int taskNum;
         int idTeacher;
-        int idTask;
         public Task() { }
 
         public string Deadline { get => deadline; set => deadline = value; }
@@ -32,7 +31,6 @@ namespace DocuProject.Models
         public int IdRow { get => idRow; set => idRow = value; }
         public int TaskNum { get => taskNum; set => taskNum = value; }
         public int IdTeacher { get => idTeacher; set => idTeacher = value; }
-        public int IdTask { get => idTask; set => idTask = value; }
 
         public int insertTask1(Task taskObj)
         {

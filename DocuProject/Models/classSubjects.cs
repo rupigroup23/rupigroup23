@@ -19,7 +19,7 @@ namespace DocuProject.Models
         string profession; //מקצוע למשל מתמטיקה
         int id_teacher; //מקצוע למשל מתמטיקה
         string teacher_name; //מקצוע למשל מתמטיקה
-
+        string year_;
         public ClassSubjects() { }
 
         public string Name { get => name; set => name = value; }
@@ -28,6 +28,7 @@ namespace DocuProject.Models
         public string Profession { get => profession; set => profession = value; }
         public int Id_teacher { get => id_teacher; set => id_teacher = value; }
         public string Teacher_name { get => teacher_name; set => teacher_name = value; }
+        public string Year_ { get => year_; set => year_ = value; }
 
         public int insertClassSub(List<ClassSubjects> classSUbObj)
         {
