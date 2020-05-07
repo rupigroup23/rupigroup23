@@ -128,7 +128,6 @@ namespace DocuProject.Controllers
             return S.CheckUser(student);
         }
 
-
         //Setting
         [HttpGet]
         [Route("api/Student/GetDetailsS/{Id}")]
@@ -138,7 +137,6 @@ namespace DocuProject.Controllers
             return S.GetDetails(Id);
         }
 
-
         [HttpPost] ///  ��� 2- ����� ���� �� ����
         [Route("api/Student/uploadUrlImg2")]
         public void Post([FromBody] ImgStudent img)
@@ -147,7 +145,6 @@ namespace DocuProject.Controllers
             pic.insertPic(img);
         }
 
-
         [HttpGet] //get pic
         [Route("api/Student/getavatar/{Id}")]
         public string Get(string Id)
@@ -155,7 +152,6 @@ namespace DocuProject.Controllers
             ImgStudent i = new ImgStudent();
             return i.getAvatarImage(Id);
         }
-
 
         [HttpPut] //update setting
         [Route("api/Student/updateStudent")]
@@ -178,21 +174,31 @@ namespace DocuProject.Controllers
         {
             Feedback F = new Feedback();
             return F.getData(groupStudent, numOfTask, profession);
-             }
+        }
 
         [HttpGet]
         [Route("api/student/getvideo/{ClassName}/{ClassNum}/{Professtion}/{takNum}")]
         public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int takNum)
         {
             Group_Feedback G = new Group_Feedback();
-            List <Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, takNum);
+            List<Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, takNum);
             return videos;
         }
 
-
-
-
+        //���
+        [HttpGet] /// �� �����- ����� �����
+        [Route("api/Student/GetDetails2/{className}/{classNum}")]
+        public Class GetDetails2(string className, int classNum) // ����� ���� �� ���������- �� ������
+        {
+            Class C = new Class();
+            return C.Get_Details2(className,classNum);
+        }
     }
 
+
 }
+
+
+
+
 

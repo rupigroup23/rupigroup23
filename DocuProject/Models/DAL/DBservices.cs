@@ -397,7 +397,7 @@ public class DBservices
     }
 
 
-    public List<Student> getFromDBST() 
+    public List<Student> getFromDBST()
     {
         List<Student> listStudent = new List<Student>();
         SqlConnection con = null;
@@ -589,7 +589,7 @@ public class DBservices
         return A;
     }
 
-    public DBservices Get_Nums() 
+    public DBservices Get_Nums()
     {
         SqlConnection con = null;
         string str = "";
@@ -836,8 +836,9 @@ public class DBservices
                 CS.Profession = (string)dr["Profession"];
                 CS.Teacher_name = (string)dr["Teacher_name"];
                 CS.Id_teacher = (int)dr["Id_teacher"];
+
                 listClassSubj.Add(CS);
-           }
+            }
 
         }
         catch (Exception ex)
@@ -855,7 +856,7 @@ public class DBservices
     }
 
 
-    public void Delete(string str ,int id) //כמו GET
+    public void Delete(string str, int id) //כמו GET
     {
         string cStr = "";
         SqlConnection con;
@@ -872,13 +873,13 @@ public class DBservices
         {
             if (str == "Student")
             {
-                 cStr = $@"delete from
+                cStr = $@"delete from
                               Student
                               where id='{id}'";
             }
             else
             {
-                 cStr = $@"delete from
+                cStr = $@"delete from
                               Teacher__
                               where id='{id}'";
             }
@@ -909,7 +910,7 @@ public class DBservices
         }
     }
 
-    
+
     /// //////////////////////////שמירת תלמיד ספציפי////////////////////////////////////////
 
     public int insertS2(Student StudentObj)
@@ -931,7 +932,7 @@ public class DBservices
         {
             int numEffected = 0;
             string cStr = BuildInsertCommand_S(StudentObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -990,8 +991,8 @@ public class DBservices
         try
         {
             int numEffected = 0;
-           
-                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
+
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
             string cStr = BuildInsertCommandTask(taskObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
@@ -1024,8 +1025,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}', {8})", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description,taskObj.Video, taskObj.TaskNum); // לפי האובייקט במחלקה
+
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}', {8})", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description, taskObj.Video, taskObj.TaskNum); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_,video, taskNum)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
@@ -1060,8 +1061,8 @@ public class DBservices
             int numEffected = 0;
             string cStr = "UPDATE Student SET Image_='" + StudentImage.Img + "' where Email='" + StudentImage.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
                                                                                                                               //בניית פקודת דחיפה - הכנסה לדאטהבייס
-            cmd = CreateCommand(cStr, con);  
-            numEffected += cmd.ExecuteNonQuery(); 
+            cmd = CreateCommand(cStr, con);
+            numEffected += cmd.ExecuteNonQuery();
             return numEffected;
         }
         catch (Exception ex)
@@ -1157,7 +1158,7 @@ public class DBservices
 
     public void update()
     {
-        da.Update(dt); 
+        da.Update(dt);
     }
 
     public DBservices Get_Details(int ID, string str)
@@ -1184,11 +1185,11 @@ public class DBservices
             }
 
             else //student
-            { 
+            {
                 selectSTR = $@"select * from
                               Student
                               where Id_='{ID}'";
-        }
+            }
 
             da = new SqlDataAdapter(selectSTR, con);
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
@@ -1212,14 +1213,14 @@ public class DBservices
         return this; // מחזיר איבר מסוג DB SERVICES
     }
 
-    public string getAvatarImage(string Id,string str )
+    public string getAvatarImage(string Id, string str)
     {
         string selectSTR = "";
         string imagePath = "";
         SqlConnection con = null;
         try
-        {   
-            if (str == "admin" )
+        {
+            if (str == "admin")
             {
                 selectSTR = "select Image_ from Admin_ where Id_='" + Id + "'";
             }
@@ -1278,7 +1279,7 @@ public class DBservices
 
             //בניית פקודת דחיפה - הכנסה לדאטהבייס
             string cStr = BuildInsertCommandAd(admin);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                                //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                            //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -1301,7 +1302,7 @@ public class DBservices
     }
 
     private String BuildInsertCommandAd(Admin admin)
-                                                        //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
     { ////עובר שורה שורה 
 
         String command;
@@ -1310,21 +1311,21 @@ public class DBservices
         // use a string builder to create the dynamic string
 
 
-        sb.AppendFormat("Values('{0}','{1}',{2},'{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')", admin.Fname, admin.Lname, admin.Id, admin.Email, admin.City, admin.Street, admin.Bday, admin.PhoneNum, admin.Profession,admin.Password); 
+        sb.AppendFormat("Values('{0}','{1}',{2},'{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')", admin.Fname, admin.Lname, admin.Id, admin.Email, admin.City, admin.Street, admin.Bday, admin.PhoneNum, admin.Profession, admin.Password);
         String prefix = "INSERT INTO Admin_" + "(FName,LName,Id_,Email,City,Street,Bday,PhoneNum,Profession,Password_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
     }
-    
+
     public string getSpecificTask(string class1, string numClass, string sub, string topic)
     {
         string taskPath = "";
-        SqlConnection con = null; 
+        SqlConnection con = null;
         try
-        {   
+        {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "select Description_ from Task where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" +topic + "'";
+            String selectSTR = "select Description_ from Task where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" + topic + "'";
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -1409,7 +1410,7 @@ public class DBservices
         {
             int numEffected = 0;
             string cStr = "UPDATE Teacher__ SET Image_='" + img.Img + "' where Email='" + img.Email + "'";    // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                                                                                         //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                                                                              //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -1506,8 +1507,8 @@ public class DBservices
         return S;
     }
 
-    
-   //שמירת פידבקים////////////////////////////////
+
+    //שמירת פידבקים////////////////////////////////
     public int inserFeedback1(Feedback feedbackObj)
     {
 
@@ -1527,7 +1528,7 @@ public class DBservices
         {
             int numEffected = 0;
             string cStr = BuildInsertCommand_F(feedbackObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
-                                                                 //בניית פקודת דחיפה - הכנסה לדאטהבייס
+                                                                  //בניית פקודת דחיפה - הכנסה לדאטהבייס
             cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
             numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
             return numEffected;
@@ -1552,23 +1553,23 @@ public class DBservices
     // Build the Insert command String
     //--------------------------------------------------------------------
     private String BuildInsertCommand_F(Feedback feedbackObj) // שלב 1 - נעביר את כל המערך לדטה בייס
-                                                            //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
-    { 
+                                                              //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    {
         String command;
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents,  feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName); // לפי האובייקט במחלקה
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents, feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
     }
 
-    public List<Feedback> getData (string groupStudent, string numOfTask , string Profession)
+    public List<Feedback> getData(string groupStudent, string numOfTask, string Profession)
     {
-        List <Feedback> listOfFeedback = new List<Feedback>();
+        List<Feedback> listOfFeedback = new List<Feedback>();
         SqlConnection con = null;
         try
         {
@@ -1612,7 +1613,7 @@ public class DBservices
         try
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * from GroupFeedback where ClassName='" + ClassName + "' and ClassNum ='" + ClassNum + "' and Proffesion = '" + p + "' and IdTask='" + taskNum + "' ";
+            String selectSTR = "SELECT * from GroupFeedback where ClassName='" + ClassName + "' and ClassNum ='" + ClassNum + "' and Proffesion = '" + p + "' and IdTask='" + taskNum + "'  and video <> ' '";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -1642,8 +1643,43 @@ public class DBservices
         }
     }
 
+    public Class getTeacherClass(string className, int classNum)
+    {
+        Class cl = new Class();
 
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = "select * from Class_ where Name_ = '" + className + "' and Number = '" + classNum + "'";
+
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {
+                cl.TeacherName = (string)dr["teacherName"];
+
+            }
+            return cl;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
 }
+
+
 
 
 

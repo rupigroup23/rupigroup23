@@ -66,7 +66,6 @@ namespace DocuProject.Models
                     dr["Street"] = admin.Street;
                     dr["Bday"] = admin.Bday;
                     dr["PhoneNum"] = admin.PhoneNum;
-                    dr["Profession"] = admin.Profession;
                     dr["Password_"] = admin.Password;
                 }
             }
