@@ -54,8 +54,6 @@
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
-
-
         });
 
         function showDetalis(studentObj) {
@@ -109,38 +107,37 @@
 
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                            <div class="video-card">
-                                                <div class="video-card-image">
-                                                    <video width="200" height="150" controls>
-                                                        <source src='${videoPath}' type="video/avi">
-                                                        <source src='${videoPath}' type="video/mp4">
-                                                        Sorry, your browser doesn't support embedded videos.
-                                                    </video>
-                                                    <!--<div class="time">3:50</div>-->
-                                                </div>
-                                                <div class="video-card-body">
-                                                    <div class="video-title">
-                                                        <a class="create-text" href="student-feedbacks.html">
-                                                            חברי הצוות:
-                                                        </a> <br />
-                                                        <a id="studentsText" class="statuses-text" href="student-feedbacks.html">`
+                                                <div class="video-card">
+                                                    <div class="video-card-image">
+                                                        <video width="200" height="150" controls>
+                                                            <source src='${videoPath}' type="video/avi">
+                                                            <source src='${videoPath}' type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+                                                        <!--<div class="time">3:50</div>-->
+                                                    </div>
+                                                    <div class="video-card-body">
+                                                        <div class="video-title">
+                                                            <a class="create-text" href="student-feedbacks.html">
+                                                                חברי הצוות:
+                                                            </a> <br />
+                                                            <a id="studentsText" class="statuses-text" href="student-feedbacks.html">`
                 str += students;
                 str += `</a >
-                                                    </div>
+                                                        </div>
 
-                                                    <div class="video-view">
+                                                        <div class="video-view">
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                  </div>`;
+                      </div>`;
                 $('#videosDiv').append(str); // מצרף
             }
             str += `</div>`;
         }
         function getVideoErrorCB(err) { console.log(err) }
-
 
 
         //סרגל השתלשלות
@@ -364,7 +361,6 @@
                 </div>
             </div>
             <!-- /.container-fluid -->
-        </div>
         </div>
 
 

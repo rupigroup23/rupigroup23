@@ -70,7 +70,7 @@
             ajaxCall('get', '../api/Student/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
             function Success(data) {
-                taskPath = data;
+                taskPath = data; //data of the task
                 strcheck = taskPath.search("http://proj.ruppin.ac.il");
                 if (strcheck == 0) {
                     $('#downloadFile').attr("disabled", false);
@@ -123,29 +123,6 @@
         }
         //
 
-        //delete?
-        function forCreateTask() {
-            if (listCS.length == 0) {
-                idT = 1;
-            }
-            else {
-                idT = Tnum;
-            }
-            forNewTask = {
-                "ClassName": ProfObj.ClassName, //ח
-                "ClassNum": ProfObj.ClassNum,//4
-                "Profession": ProfObj.Profession, //פיזיקה
-                "Task": {
-                    "Num": idT,
-                    "Topic": "",
-                    "Date": "",
-                }
-            }
-            console.log(forNewTask);
-
-            localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
-        }
-
         function Showtxt() {
             txt = document.getElementById("showtxtbox");
             if (txt.style.display === "none") {
@@ -179,18 +156,13 @@
         var teamnum = "";
         //Bring the details up
         function getDatelis() {
-            teamnum = "2"; //לסדר את זה עם האלגוריתם
+            teamnum = "2"; //לסדר את זה עם האלגוריתם     
+            document.getElementById("teamNum").innerHTML = teamnum;//להוסיף שאי אפשר להעלות אחרי הזמן
+
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-            date = TaskObj.Task.Date;
-            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-            document.getElementById("date").innerHTML = date;
-            diffDays1 = diffDays(TaskObj.Task.Date);
-            document.getElementById("restDate").innerHTML = diffDays1;
-            document.getElementById("restDate").style.color = "red"
-            //להוסיף שאי אפשר להעלות אחרי הזמן
-            document.getElementById("teamNum").innerHTML = teamnum;
+            getTask();
             getTeacher();
-            getDataT(); //bring data
+            getDataT(); //bring data           
         }
 
         function diffDays(subm) {
@@ -198,8 +170,9 @@
             var day = today.getDate();
             var month = today.getMonth() + 1;
             var year = today.getFullYear();
-            var subm1 = subm.split('/');
-            var dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
+            var subm1 = subm.split('-');
+            var dateVal = `${subm1[0]}/${subm1[1]}/${subm1[2]}`
+            console.log(dateVal);
             var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
@@ -214,6 +187,37 @@
             console.log(diffDays);
         }
 
+        //get from Task table (again..)
+        var task1 = "";
+        function getTask() {
+            var apiTask = "../api/Student/GetTasks/" + className + "/" + classNum + "/" +subj ;
+            console.log(apiTask);
+            ajaxCall("GET", apiTask, "", GETsuccessTask, GETerrorTask);
+        }
+        function GETsuccessTask(T) {
+            task1 = T;
+            for (var i = 0; i < task1.length; i++) {
+                if (task1[i].IdTask == TaskObj.Task.Num) {
+                    document.getElementById("topic").innerHTML = task1[i].Topic;
+                    date = task1[i].Deadline;
+                    var subm1 = date.split('-');
+                    var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}`
+                    document.getElementById("date").innerHTML = dateVal;
+                    diffDays1 = diffDays(date);
+                    document.getElementById("restDate").innerHTML = diffDays1;
+                    if (diffDays1 == "מועד ההגשה עבר") {
+                        document.getElementById("restDate").style.color = "red";
+                    }
+
+                    
+                }
+            }
+        }
+        function GETerrorTask(err) {
+            console.log(err);
+        }
+
+        //get from teacher table
         function getTeacher() {
             var apiProf = "../api/Student/GetClassSubj/" + className + "/" + classNum;
             console.log(apiProf);
@@ -232,7 +236,9 @@
             alert("GetClassSubj");
         }
 
-
+        //get from GroupFeedback table
+        var thisTeam;
+        var id;
         function getDataT() {
             classData =
                 {
@@ -242,11 +248,7 @@
                 }
             apiT = "../api/Docu/GetTeamData";
             ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
-        }
-
-        var thisTeam;
-        var id;
-
+        }   
         function GETsuccess1(data) {
             details = data;
             numT = TaskObj.Task.Num; 
@@ -280,6 +282,7 @@
         function GETerror1(err) {
             alert("GetDataTask");
         }
+
                 //var status = "";
         var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
         var strStatus = "";
@@ -352,8 +355,7 @@
         var strLink = "";
         var array = "";
         var path = "";
-        var tmp = 0;
-        function checkVidoe(path, status1,comment) {
+        function checkVidoe(path,status1,comment) {
             console.log(path, status1);
             if (status1 == 1 || status1 == 2) {
                 //array = path.split("\\");
@@ -372,17 +374,16 @@
                 }                    
             }
              else {
-                    //sta = 0;
                     status = getStatus(status1);
                     document.getElementById("statusID").innerHTML = status;
                 }
         }
         function cancleVI() {
-            videoPath[0] = "";
+            thisTeam.Video = null;
             thisTeam.Status_ = 0;
             thisTeam.Comment = null;
             document.getElementById("linkURL").style.textDecoration = "line-through";
-
+            document.getElementById("SucceededURL").innerHTML = " <i class='fas fa-check'></i>";
         }
 
         
@@ -390,15 +391,20 @@
 
         var dataPD;
         function saveVideo() {
-            vid = videoPath[0];
-            if (vid == null) {
-                thisTeam.Comment = null;
-                vid = array[1];
+            // just etit comment 
+            if (videoPath[0] == null && thisTeam.Comment != null && thisTeam.Video != null) {
+                vid = thisTeam.Video;
+                thisTeam.Comment = $("#commentStudents").val();
+            }
+            // delete 
+            else if (videoPath[0] == null && thisTeam.Video == null) {
+                vid = thisTeam.Video; // ""
             }
             else {
-                thisTeam.Comment  = $("#commentStudents").val();
+                vid = videoPath[0];
+                thisTeam.Comment = $("#commentStudents").val();
             }
-            
+
             
             dataPD =
                 {
@@ -675,8 +681,8 @@
                                                         <div class="row">
                                                             <input type="file" id="chooseVideo" name="video" accept="video/*" capture class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
                                                             <input type="button" id="uploadVideo" value="טען" class="upload-btn" />
-                                                           <div id="linkURL" class="statuses-text"></div>
-
+                                                            <div id="linkURL" class="statuses-text"></div>
+                                                            <div id="SucceededURL" class="statuses-text" style="color: #1FCBB5"></div>
 
                                                             <!--<input type="file" id="chooseVideo" name="video" accept="video/*" capture style="height: 50px;width: 125px; " multiple />
     <input type="button" id="uploadVideo" value="טען" class="btn btn-light border-none" style="background-color: #d6d8d9;     border-color: #c6c8ca;" />-->

@@ -835,7 +835,7 @@ public class DBservices
                 CS.Number = (string)dr["classNum"];
                 CS.Profession = (string)dr["Profession"];
                 CS.Teacher_name = (string)dr["Teacher_name"];
-                
+                CS.Id_teacher = (int)dr["Id_teacher"];
                 listClassSubj.Add(CS);
            }
 
@@ -1129,6 +1129,8 @@ public class DBservices
                 T.Profession = (string)dr["Profession"];
                 T.Deadline = (string)dr["Deadline"];
                 T.Topic = (string)dr["Topic"];
+                T.IdTeacher = (int)dr["IdTeacher"];
+                T.IdTask = (int)dr["taskNum"];
 
                 listTasks.Add(T);
             }
