@@ -36,6 +36,8 @@
         var likeBtn = 'false';
         var imagePath1 = '';
         var userEmail1 = '';
+        var likearr = [];
+    
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
 
@@ -50,6 +52,8 @@
 
 
             $('#load').prop("disabled", true);
+    
+           
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
@@ -64,6 +68,8 @@
 
                 //(this).css("border-style", "dotted");
             })
+
+           
             $('#chooseVideo').change(function () {
                 $("#load").prop("disabled", false);
             })
@@ -78,6 +84,7 @@
             //pic
             function showDetalis(studentObj) {
                 Id = studentObj.Id;
+                
                 var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -109,14 +116,28 @@
 
             function getDataSuccess(data) {
                 console.log(data)
+                
+                for (var i = 0; i < data.length; i++) {
+                    likearr.push(data[i].UserName)
+                }
+                for (var i = 0; i < likearr.length; i++) {
+                    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
+                        $('#likeBtn').hide();
+                    }
+                }
+                console.log(likearr)
+
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
+    
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].NameLike == "true") {
+
+                    if (data[i].NameLike == "true" ) {
                         strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
                     }
+               
                     if (data[i].Contents != '') {
                         strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"><i class="fas fa-comment"></i>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
                     }
@@ -130,6 +151,7 @@
                 $('#videoDiv').html(strVideo);
 
             }
+
             function getDataError(err) {
                 console.log(err);
             }
@@ -180,7 +202,7 @@
             //check details
             con = $("#contact").val();
             updateVid = videoPath[0];
-            console.log('update Video= ',updateVid)
+           
             if (likeBtn == 'false' || con == "" || updateVid == null) {
                
                 Swal.fire({
@@ -202,6 +224,7 @@
                             "Profession": TaskObj.Profession,
                             "UserName": studentObj.FName + ' ' + studentObj.LName
                         }
+                     
                         console.log(feedbackObj)
                         ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                     }
@@ -216,7 +239,7 @@
                     "Profession": TaskObj.Profession,
                     "UserName": studentObj.FName + ' ' + studentObj.LName
                 }
-
+                $('#likeBtn').attr('disabled', true);
                 console.log(feedbackObj)
                 ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
