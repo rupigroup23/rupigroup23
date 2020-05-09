@@ -81,8 +81,10 @@
                 "Profession": TaskObj.Profession,
                 "Topic": TaskObj.Task.Num
             }
-            urlVideo = "../api/Student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
-            ajaxCall("GET", urlVideo, TaskObj.Task.Num, getVideoSuccessCB, getVideoErrorCB);
+            
+            urlVideo = "../api/student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
+            console.log(urlVideo)
+            ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
             //הבאת סרטונים מהדאטה בייס//
         }
         function getAvatarImageError(err) {
@@ -97,7 +99,9 @@
             console.log(listOfVideo)
             str += `<div class="row">`;
             for (let i in listOfVideo) {
-                videoPath = `../${listOfVideo[i].Video}`
+                videoPath = `../${listOfVideo[i].Video}` 
+//      בשרת    videoPath = `${listOfVideo[i].Video}` 
+
                 students = listOfVideo[i].Group;
 
                 let str = '';
@@ -113,12 +117,12 @@
                                                     </div>
                                                     <div class="video-card-body">
                                                         <div class="video-title">
-                                                            <a class="create-text" href="student-feedbacks.html">
+                                                            <a class="create-text" href="student-feedbacks.html?${videoPath}">
                                                                 חברי הצוות:
                                                             </a> <br />
-                                                            <a id="studentsText" class="statuses-text" href="student-feedbacks.html">`
-                str += students;
-                str += `</a >
+                                                            <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
+                                                                str += students;
+                                                                str += `</a >
                                                         </div>
 
                                                         <div class="video-view">
