@@ -164,7 +164,7 @@
             getTeacher();
             getDataT(); //bring data           
         }
-
+        var diffDays2;
         function diffDays(subm) {
             var today = new Date();
             var day = today.getDate();
@@ -176,19 +176,20 @@
             var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
-            var diffDays = date2.getDate() - submission.getDate();
-            if (diffDays < 0) {
-                diffDays = "מועד ההגשה עבר";
-                return diffDays;
+            var diffDays2 = date2.getDate() - submission.getDate();
+            if (diffDays2 < 0) {
+                diffDays2 = "מועד ההגשה עבר";
+                return diffDays2;
             }
             else {
-                return diffDays;
+                return diffDays2;
             }
-            console.log(diffDays);
+            console.log(diffDays2);
         }
 
         //get from Task table (again..)
         var task1 = "";
+        var diffDays1;
         function getTask() {
             var apiTask = "../api/Student/GetTasks/" + className + "/" + classNum + "/" +subj ;
             console.log(apiTask);
@@ -197,7 +198,7 @@
         function GETsuccessTask(T) {
             task1 = T;
             for (var i = 0; i < task1.length; i++) {
-                if (task1[i].IdTask == TaskObj.Task.Num) {
+                if (task1[i].TaskNum == TaskObj.Task.Num) {
                     document.getElementById("topic").innerHTML = task1[i].Topic;
                     date = task1[i].Deadline;
                     var subm1 = date.split('-');
@@ -207,9 +208,10 @@
                     document.getElementById("restDate").innerHTML = diffDays1;
                     if (diffDays1 == "מועד ההגשה עבר") {
                         document.getElementById("restDate").style.color = "red";
-                    }
-
-                    
+                        //$('#chooseVideo').attr("disabled", true);
+                        // $('#uploadVideo').attr("disabled", true);
+                        // $('#saveVideo').attr("disabled", true);
+                    }                    
                 }
             }
         }
