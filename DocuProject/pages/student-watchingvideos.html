@@ -79,7 +79,7 @@
                 "ClassName": TaskObj.ClassName,
                 "ClassNum": TaskObj.ClassNum,
                 "Profession": TaskObj.Profession,
-                "Topic": TaskObj.Task.Num
+                "TaskNum": TaskObj.Task.Num
             }
             urlVideo = "../api/Student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
             ajaxCall("GET", urlVideo, TaskObj.Task.Num, getVideoSuccessCB, getVideoErrorCB);
