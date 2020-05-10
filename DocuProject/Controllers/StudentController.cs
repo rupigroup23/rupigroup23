@@ -177,11 +177,11 @@ namespace DocuProject.Controllers
         }
 
         [HttpGet]
-        [Route("api/student/getvideo/{ClassName}/{ClassNum}/{Professtion}/{takNum}")]
-        public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int takNum)
+        [Route("api/student/getvideo/{ClassName}/{ClassNum}/{Professtion}/{taskNum}")]
+        public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int taskNum)
         {
             Group_Feedback G = new Group_Feedback();
-            List<Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, takNum);
+            List<Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, taskNum);
             return videos;
         }
 

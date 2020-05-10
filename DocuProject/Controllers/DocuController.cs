@@ -152,12 +152,7 @@ namespace DocuProject.Controllers
             return T.GetTechers();
         }
 
-        //[HttpGet]  /// דף כיתה 
-        //[Route("api/Docu/GetClassSubj")]
-        //public List<ClassSubjects> GetCS([FromBody]ClassSubjects CSObj)
-        //{
-        //    return CSObj.ReadCS();
-        //}
+
         // GET api/Docu/GetClassSubj/ז/2/
         [HttpGet]
         [Route("api/Docu/GetClassSubj/{name}/{num}")]
@@ -341,21 +336,6 @@ namespace DocuProject.Controllers
             return teamObj.GetTeamData();
         }
 
-        //[HttpPut]
-        //[Route("api/Docu/updatetTask")]
-        //public DataTable PutT([FromBody] Task task)
-        //{
-        //    Task T = new Task();
-        //    return T.PutT(task);
-        //}
-
-        //[HttpPost] /// דף מטלה ראשי
-        //[Route("api/Docu/deleteProf")]
-        //public DataTable Delete_P(int rowID) //מורה 
-        //{
-        //    ClassSubjects C= new ClassSubjects();
-        //    return C.deleteP(rowID);
-        //}
 
         [HttpPut]
         [Route("api/Docu/updateFBG/{id}")]

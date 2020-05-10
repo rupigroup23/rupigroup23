@@ -17,6 +17,7 @@ namespace DocuProject.Models
         string video;
         int idRow;
         int taskNum;
+        int idTeacher;
         public Task() { }
 
         public string Deadline { get => deadline; set => deadline = value; }
@@ -29,6 +30,7 @@ namespace DocuProject.Models
         public string Video { get => video; set => video = value; }
         public int IdRow { get => idRow; set => idRow = value; }
         public int TaskNum { get => taskNum; set => taskNum = value; }
+        public int IdTeacher { get => idTeacher; set => idTeacher = value; }
 
         public int insertTask1(Task taskObj)
         {
@@ -69,7 +71,7 @@ namespace DocuProject.Models
         //    return dt;
         //}
 
-        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        public string getSpecificTask(string class1, string numClass, string sub,string  topic)
         {
             DBservices dbs = new DBservices();
             return dbs.getSpecificTask(class1, numClass, sub, topic);

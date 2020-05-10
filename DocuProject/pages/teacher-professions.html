@@ -34,10 +34,6 @@
     <script>
 
         $(document).ready(function () {
-            readFromDB(); //  קריאת כל המקצועות מהדאטה בייס
-
-
-
             local = localStorage.getItem('user'); //local teacher
             objTeacher = JSON.parse(local);
 
@@ -45,20 +41,9 @@
             console.log(classObj);
             readClassSUbjFromDB();
             Showorientation();
-            $('#saveSubj').click(saveSubj);
-            $('#addSubj').click(addSubj);
             showDetalis(objTeacher)
              $('#sorting').click(sortProf);
-            $('#selectProf').change(function () {
-                var value = $(this).val();
-                var X = document.getElementById("txtbox");
-                if (value == "אחר") {
-                    X.style.display = "block";
-                }
-                else {
-                    X.style.display = "none";
-                }
-            });
+ 
 
             ////pic//////////
             function showDetalis(objTeacher) {
@@ -89,113 +74,10 @@
             //////////pic/////
         });
 
-        //add all subjects from the table (DB)
-        function readFromDB() {
-            ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
-        }
-        function GETsuccessCB(data) {
-            console.log(data);
-            listP = data;
-            //insert options to select
-            for (var i = 0; i < listP.length; i++) {
-                var select = document.getElementById("selectProf");
-                var option = document.createElement("option");
-                option.text = listP[i].Name;
-                select.add(option);
-            }
-        }
-        function GETerrorCB(err) {
-            console.log(err);
-        }
+        
 
         var profession = "";
         ClassSubArr = [];
-        function addSubj() // שמירת נתוני המורה בדאטה
-        {
-            profession = $("#selectProf").val();
-            if (profession == "1") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה...',
-                    text: 'לא בחרת מקצוע 😓',
-                    confirmButtonText: 'אוקי',
-                    showCloseButton: true
-                })
-            }
-            else {
-                if (profession == "אחר") {
-                    var X = $("#txtbox").val();
-                    profession = X;
-                }
-                checkSub();
-            }
-        }
-
-        function checkSub() {
-            for (var i = 0; i < ProfARR.length; i++) {
-                if (ProfARR[i] == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'המקצוע כבר קיים',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                    return;
-                }
-            }
-            //אין כזה מקצוע
-            ClassSubObj =
-                {
-                    "Name": classObj.ClassName,
-                    "Number": classObj.ClassNum,
-                    "ClassType": 'רגילה',
-                    "Profession": profession,
-                }
-            for (var i = 0; i < ClassSubArr.length; i++) {
-                if (ClassSubArr[i].Profession == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'הכנסת עכשיו את המקצוע הזה',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                    return;
-                }
-            }
-            Swal.fire({
-                icon: 'success',
-                title: ' המקצוע נשמר 😀',
-                text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                confirmButtonText: 'אוקי',
-                showCloseButton: true
-            })
-            ClassSubArr.push(ClassSubObj);
-        }
-
-        function saveSubj() {
-            if (ClassSubArr == 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה...',
-                    text: 'לא בחרת מקצועות 😓',
-                    confirmButtonText: 'אוקי',
-                    showCloseButton: true
-                })
-            }
-            else {
-                ajaxCall("POST", "../api/Teacher/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
-            }
-        }
-        function POST1success() {
-            Swal.fire({
-                icon: 'success',
-                title: 'הצלחת',
-                text: 'המקצועות נוספו לכיתה 😀',
-            })
-        }
-        function POST1error(err) { console.log(err) };
 
 
         function readClassSUbjFromDB() {
@@ -401,7 +283,7 @@
                         </div>-->
                         <div class="col-xl-6 col-sm-6 mb-3">
                             <!--NewProfession-->
-                            <div id="showItems" style="display:none">
+                            <!--<div id="showItems" style="display:none">
                                 <select id="selectProf" class="create-select">
                                     <option value="1">שם המקצוע</option>
                                 </select>
@@ -414,7 +296,7 @@
                                 <div class="profession-txtbox-disclosure">
                                     <textarea id="txtbox" style="display:none"></textarea>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <hr class="mt-0">

@@ -773,8 +773,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession, classSUbObj.Id_teacher, classSUbObj.Teacher_name); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession,Id_teacher,Teacher_name)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession, classSUbObj.Id_teacher, classSUbObj.Teacher_name, classSUbObj.Year_); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession,Id_teacher,Teacher_name,year_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -835,7 +835,8 @@ public class DBservices
                 CS.Number = (string)dr["classNum"];
                 CS.Profession = (string)dr["Profession"];
                 CS.Teacher_name = (string)dr["Teacher_name"];
-
+                CS.Id_teacher = (int)dr["Id_teacher"];
+                CS.Year_ = (string)dr["year_"];
                 listClassSubj.Add(CS);
             }
 
@@ -1025,8 +1026,8 @@ public class DBservices
         // use a string builder to create the dynamic string
 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}', {8})", taskObj.ClassName, taskObj.ClassNum, taskObj.Profession, taskObj.Deadline, taskObj.Topic, taskObj.Assignation, taskObj.Description, taskObj.Video, taskObj.TaskNum); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_,video, taskNum)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}', {8}, {9})",taskObj.ClassName, taskObj.ClassNum,taskObj.Profession, taskObj.Deadline,taskObj.Topic, taskObj.Assignation,taskObj.Description, taskObj.Video,taskObj.TaskNum, taskObj.IdTeacher); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Task" + "(ClassName,ClassNum,Profession,Deadline,Topic,Assignation,Description_,video, taskNum, IdTeacher)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -1129,6 +1130,8 @@ public class DBservices
                 T.Profession = (string)dr["Profession"];
                 T.Deadline = (string)dr["Deadline"];
                 T.Topic = (string)dr["Topic"];
+                T.IdTeacher = (int)dr["IdTeacher"];
+                T.TaskNum = (int)dr["taskNum"];
 
                 listTasks.Add(T);
             }

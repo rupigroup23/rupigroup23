@@ -36,20 +36,24 @@
         var likeBtn = 'false';
         var imagePath1 = '';
         var userEmail1 = '';
+        var likearr = [];
+    
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
 
-            $(document).ready(function () {
+        $(document).ready(function () {
 
-                var video = document.getElementById('mainVideo');
-                var source = document.createElement('source');
-                source.setAttribute('src', mainVideoPath);
-                console.log(source)
-                console.log(video)
-                document.getElementById('mainVideo').appendChild(source);
+            var video = document.getElementById('mainVideo');
+            var source = document.createElement('source');
+            source.setAttribute('src', mainVideoPath);
+            console.log(source)
+            console.log(video)
+            document.getElementById('mainVideo').appendChild(source);
 
 
             $('#load').prop("disabled", true);
+    
+           
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
@@ -61,9 +65,11 @@
                 $('#like').css("color", "green");
                 $('#likeSpan').css("color", "green");
                 likeBtn = 'true';
-                
+
                 //(this).css("border-style", "dotted");
             })
+
+           
             $('#chooseVideo').change(function () {
                 $("#load").prop("disabled", false);
             })
@@ -78,6 +84,7 @@
             //pic
             function showDetalis(studentObj) {
                 Id = studentObj.Id;
+                
                 var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -99,36 +106,52 @@
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
                 let obj = {
-                    "groupStudent":'רביד נוי ושיר' , 
+                    "groupStudent": 'רביד נוי ושיר',
                     "numOfTask": TaskObj.Task.Num,
-                    "Profession":TaskObj.Profession
+                    "Profession": TaskObj.Profession
                 }
                 console.log(obj)
                 ajaxCall('GET', '../api/Student/getdata/' + obj.groupStudent + '/' + obj.numOfTask + '/' + obj.Profession, '', getDataSuccess, getDataError);
             }
 
             function getDataSuccess(data) {
+                console.log(data)
+                
+                for (var i = 0; i < data.length; i++) {
+                    likearr.push(data[i].UserName)
+                }
+                for (var i = 0; i < likearr.length; i++) {
+                    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
+                        $('#likeBtn').hide();
+                    }
+                }
+                console.log(likearr)
+
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
                 let strContents = '';
                 let strVideo = '';
-                let videoPath='http://proj.ruppin.ac.il/igroup23/prod/'
+                let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
+    
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].NameLike == "true") {
+
+                    if (data[i].NameLike == "true" ) {
                         strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
                     }
+               
                     if (data[i].Contents != '') {
-                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"><i class="fas fa-comment"></i>&nbsp;<h6 style=" font-weight: bold; color:#990099">'+data[i].UserName+':&nbsp;</h6><h6 style=" font-weight: normal;">'+data[i].Contents+'</h6></div></div></div>';
+                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"><i class="fas fa-comment"></i>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
                     }
                     if (data[i].Video != '') {
                         strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a></div></div></div >';
                     }
                 }
-                strLike +='</div></div>'
+                strLike += '</div></div>'
                 $('#divLike').html(strLike);
                 $('#comentDiv').html(strContents);
                 $('#videoDiv').html(strVideo);
 
             }
+
             function getDataError(err) {
                 console.log(err);
             }
@@ -179,8 +202,9 @@
             //check details
             con = $("#contact").val();
             updateVid = videoPath[0];
-            if (likeBtn == 'false' || con == "" || updateVid == "") {
-                console.log('נכנס')
+           
+            if (likeBtn == 'false' || con == "" || updateVid == null) {
+               
                 Swal.fire({
                     title: 'רגע...',
                     text: "אינך השתמשת בכל האופציות, האם ברצונך להמשיך?",
@@ -200,7 +224,7 @@
                             "Profession": TaskObj.Profession,
                             "UserName": studentObj.FName + ' ' + studentObj.LName
                         }
-
+                     
                         console.log(feedbackObj)
                         ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                     }
@@ -215,7 +239,7 @@
                     "Profession": TaskObj.Profession,
                     "UserName": studentObj.FName + ' ' + studentObj.LName
                 }
-
+                $('#likeBtn').attr('disabled', true);
                 console.log(feedbackObj)
                 ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
@@ -229,7 +253,7 @@
                 confirmButtonColor: '#990099',
             })
 
-            
+
         }
         function POSTerror() {
             alert("ops");
@@ -237,8 +261,7 @@
 
         //סרגל השתלשלות
         let orientationSTR = "";
-        function Showorientation()
-        {
+        function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>מקצועות</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + TaskObj.Profession + "</a></li>";
@@ -361,20 +384,20 @@
                                     <!--<iframe width="100%" height="315" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
                                 </div>
                                 <!-- הסרטון הראשי -->
-                                <div class="single-video-title box mb-3">
+                                <div class="single-video-title box md-3">
                                     <span class="testSudent">חברי הצוות:</span> &nbsp;
                                     <span class="create-text">שיר מלכה, נוי מור יוסף ורביד אלבז</span>
                                     <!--<p class="mb-0"><i class="fas fa-eye"></i> 200 צפיות</p>-->
                                 </div>
-                                <div class="single-video-author box mb-3">
+                                <div class="single-video-author box md-3">
                                     <span class="testSudent">הוספת תגובה:</span>&nbsp;
                                     <!--<div class="video-page text-success">-->
                                     <div class="video-page text-success">
                                         <a class="text-success" id="likeBtn" style="cursor: pointer;">
                                             <i class="fas fa-heart" id="like"></i><span id="likeSpan">&nbsp;לייק&nbsp;&nbsp;</span>
                                         </a>
-                                        <a class="text-success"  style="cursor: pointer;" onclick="show1()">
-                                            <i class="fas fa-comment" ></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
+                                        <a class="text-success" style="cursor: pointer;" onclick="show1()">
+                                            <i class="fas fa-comment"></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
                                         </a>
                                         <a class="text-success" style="cursor: pointer;" onclick="show2()">
                                             <i class="fas fa-arrow-circle-up"></i>&nbsp; העלאת תגובה בסרטון&nbsp;&nbsp;
@@ -400,13 +423,13 @@
                                         <input type="button" id="load" value="טען" class="upload-btn" style="margin-left: 25%;" />
                                         <!--<input type="button" id="upload" value="שמור נתונים" class="upload-btn" />-->
                                     </div>
-                                    <div class="single-video-author box mb-3">
+                                    <div class="single-video-author box md-3">
                                         <input type="button" id="upload" value="שמירה" class="upload-btn" />
 
                                     </div>
                                 </div>
                                 <span class="testSudent">לייקים ותגובות:</span>
-                                <div class="single-video-info-content box mb-3">
+                                <div class="single-video-info-content box md-3">
                                     <div id="divLike" class="owl-carousel owl-carousel-category">
                                         <!--<div class="item">
                                             <div class="category-item" style="padding: 0px 0px;">
