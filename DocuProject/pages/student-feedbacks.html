@@ -212,7 +212,8 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'המשך בכל זאת'
+                    confirmButtonText: 'המשך בכל זאת',
+                    cancelButtonText: 'ביטול'
                 }).then((result) => {
                     if (result.value) {
                         feedbackObj = {
@@ -252,8 +253,7 @@
                 confirmButtonText: 'שמור',
                 confirmButtonColor: '#990099',
             })
-
-
+            location.reload();
         }
         function POSTerror() {
             alert("ops");
