@@ -308,13 +308,13 @@ a {
 
 
 /*.how-other-disclosure {*/
-.checkboxTasks-disclosure, .taskcontent-file-disclosure, .taskcontent-txtbox-disclosure, .profession-disclosure, .pw-disclosure {
+.checkboxTasks-disclosure, .taskcontent-file-disclosure, .taskcontent-disclosure, .profession-disclosure, .pw-disclosure {
     display: none;
     margin: 10px 0 0 35px;
 }
 
     /*#how-other:checked ~ .how-other-disclosure*/
-#checkboxTasks:checked ~ .checkboxTasks-disclosure, #taskcontent-file:checked ~ .taskcontent-file-disclosure, #profession:checked ~ .profession-disclosure, #taskcontent-txtbox:checked ~ .taskcontent-txtbox-disclosure, #pw:checked ~ .pw-disclosure {
+#checkboxTasks:checked ~ .checkboxTasks-disclosure, #taskcontent-file:checked ~ .taskcontent-file-disclosure, #profession:checked ~ .profession-disclosure, #taskcontent:checked ~ .taskcontent-disclosure, #pw:checked ~ .pw-disclosure {
     display: block;
 }
 /*statuses */

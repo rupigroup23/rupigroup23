@@ -69,6 +69,13 @@
             getTeacherID();
             $('#saveTask').click(saveTask);
 
+
+            //algorithm
+            $('#gender').click(showG);
+            $('#StrongWeak').click(showG);
+            $('#random').click(showG);
+            $('#geographicalDiS').click(showG);
+
             ///upload files
             $('#upload').on('click', function () { 
                 console.log('clicked')
@@ -141,6 +148,38 @@
         ///
         function funcerror() { }
 
+        function showG() {
+            radioGender = document.getElementById("gender");
+            radioSW = document.getElementById("StrongWeak");
+            random = document.getElementById("random"); 
+            gd = document.getElementById("geographicalDiS");
+
+            var gender = document.getElementById("showGender");
+            var StrongWeak = document.getElementById("showStrongWeak");
+            if (radioGender.checked) {
+                if (gender.style.display === "none") {
+                    gender.style.display = "block";
+                    StrongWeak.style.display = "none";
+                }
+                else {
+                    gender.style.display = "none";
+                }
+            }
+            if (radioSW.checked) {
+                if (StrongWeak.style.display === "none") {
+                    StrongWeak.style.display = "block";
+                    gender.style.display = "none";
+                }
+                else {
+                    StrongWeak.style.display = "none";
+                }
+            }
+            if (random.checked || gd.checked ) {
+                gender.style.display = "none";
+                StrongWeak.style.display = "none";
+                
+            }
+        }
         //show items
         function UploadFile() {
             //radio
@@ -488,36 +527,50 @@
                                         <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-7 col-sm-12">
+                                        <div class="col-lg-2 col-sm-12">
                                             <section>
                                                 <input type="radio" id="random" name="staffing" value="רנדומלי">
                                                 <label class="checkboxTasks" for="random" checked="checked">
                                                     רנדומלי
                                                 </label>
-                                                <br>
-                                                <input type="radio" id="gd" name="staffing" value="מרחק גיאוגרפי">
+                                                <br> 
+                                                <input type="radio" id="geographicalDiS" name="staffing" value="מרחק גיאוגרפי">
                                                 <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
                                                 <br>
-                                                <input type="radio" id="sw" name="staffing" value="חזקים-חלשים">
-                                                <label class="checkboxTasks" for="strongWeak">חזקים-חלשים</label>
+                                                <input type="radio" id="StrongWeak" name="staffing" value="חזקים-חלשים">
+                                                <label class="create-text" for="StrongWeak">חזקים-חלשים</label>
                                                 <br>
-                                                <input id="checkboxTasks" name="staffing" type="radio" value="מין">
-                                                <label for="checkboxTasks" class="create-text">מין</label>
-                                                <div class="checkboxTasks-disclosure">
-                                                    <section>
-                                                        <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="boys">רוב בנים</label>
-                                                        <br>
-                                                        <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="girls">רוב בנות</label>
-                                                        <br>
-                                                        <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
-                                                        <label class="checkboxTasks" for="one">מין אחד</label>
-                                                        <br>
-                                                    </section>
-                                                </div>
+                                                <input id="gender" name="staffing" type="radio" value="מין">
+                                                <label for="gender" class="create-text">מין</label>
                                             </section>
                                         </div>
+                                        <div class="col-lg-5 col-sm-12">
+                                            <div id="showStrongWeak" style="display:none">
+                                                <section>
+                                                    <input type="radio" id="SSW" name="StrongWeak" value="ssw" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
+                                                    <br>
+                                                    <input type="radio" id="WWS" name="StrongWeak" value="wws" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
+                                                </section>
+                                                <h6>תלמיד חזק הוא מעל ממוצע:</h6>
+                                                <input type="text" class="textSquareTEXT" placeholder="ממוצע" required />
+                                            </div>
+                                            <div id="showGender" style="display:none">
+                                                <section>
+                                                    <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="boys">רוב בנים</label>
+                                                    <br>
+                                                    <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="girls">רוב בנות</label>
+                                                    <br>
+                                                    <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="one">מין אחד</label>
+                                                    <br>
+                                                </section>
+                                            </div>
+                                        </div>
+
                                         <!-- כפתורים -->
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row">
@@ -587,7 +640,6 @@
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row" id="showUpload" style="display:none">
-
                                                 <div class="col-lg-8 col-sm-12">
                                                     <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
                                                     &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
