@@ -232,7 +232,7 @@ namespace DocuProject.Models
 
             if (radioChoose == "random")// רנדומלי 
             {
-
+                X = MakeGroupsRandom(dbs.dt);
             }
             return X;
         }
@@ -363,8 +363,7 @@ namespace DocuProject.Models
 
 
             return groupsStudents;
-        }
-        //אלגוריתם בנים בנות - נוי   
+        }        //אלגוריתם בנים בנות - נוי   
         public List<string> MakeGroupsShuffle(DataTable studentsArr) // צוותים מעורבים
         {
             List<Student> BoysArr = new List<Student>();
@@ -392,7 +391,7 @@ namespace DocuProject.Models
             }
             int studentsCount = BoysArr.Count + GirlsArr.Count; //כמות התלמידים בכיתה
             double gorupNum;
-            int x;
+            double x;
 
             if (studentsCount % 3 == 0) // כמות הצוותים - במידה והכמות תתחלק ב3
             {
@@ -401,7 +400,7 @@ namespace DocuProject.Models
             else
             {
                 x = studentsCount / 3;
-                gorupNum = Math.Round(x + 0.5);
+                gorupNum = Math.Ceiling(x + 0.5);
             }
 
             List<string> groupsStudents = new List<string>();
@@ -412,7 +411,6 @@ namespace DocuProject.Models
             {
                 cntr = 0;
                 str = BoysArr[cntr].Id + "," + GirlsArr[cntr].Id + ",";
-                //str = BoysArr[cntr].FName + " " + BoysArr[cntr].LName + "," + GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName + ",";
                 BoysArr.RemoveAt(cntr);
                 GirlsArr.RemoveAt(cntr);
                 cntr++;
@@ -426,7 +424,6 @@ namespace DocuProject.Models
                     if (BoysArr.Count != 0)
                     {
                         groupsStudents[i] += BoysArr[cntr].Id;
-                        //groupsStudents[i] += BoysArr[cntr].FName + BoysArr[cntr].LName;
                         BoysArr.RemoveAt(cntr);
                     }
                 }
@@ -442,6 +439,102 @@ namespace DocuProject.Models
                 }
             }
             return groupsStudents; //מחזיר מערך ממויין
+        }
+        public List<string> MakeGroupsRandom(DataTable studentsArr) // רנדומלי
+        {
+            List<Student> ListArr = new List<Student>(); // יוצרת רשימה שאליה אכניס את התלמידים מהדטא טייבל 
+            Random rand = new Random();
+            List<Student> randomList = new List<Student>(); // הרשימה החדשה אחרי רנדום
+            foreach (DataRow dr in studentsArr.Rows)
+            {
+                Student S = new Student();
+                S.FName = (string)dr["FName"];
+                S.LName = (string)dr["LName"];
+                S.Id = (int)dr["Id_"];
+                S.Gender = (string)dr["Gender"]; // לא בטוח צריכה
+
+                ListArr.Add(S);
+            }
+
+            while (ListArr.Count > 0)
+            {
+                int position = rand.Next(ListArr.Count);
+                randomList.Add(ListArr[position]);
+                ListArr.RemoveAt(position);
+            }
+
+            int TotalNumOfStudent = randomList.Count; //סהכ תלמידים שנכנסו לרשימה של אותה כיתה
+            double gorupNum;
+            int x;
+            int isDivided;
+
+            if (TotalNumOfStudent % 3 == 0) // כמות הצוותים - במידה והכמות תתחלק ב3
+            {
+                gorupNum = TotalNumOfStudent / 3;
+                isDivided = 0;
+            }
+            else if (TotalNumOfStudent % 3 == 2)
+            {
+                isDivided = 2;
+
+            }
+            else // TotalNumOfStudent % 3 == 1
+            {
+                isDivided = 1;
+
+            }
+            //{
+            //    x = TotalNumOfStudent / 3;
+            //    gorupNum = Math.Round(x + 0.5);
+            //    isDivided = false;
+            //}
+
+            List<string> groupsStudents = new List<string>();
+
+            string str = "";
+
+            if (isDivided == 0)
+            {
+                for (int j = 0; j < randomList.Count; j += 3)
+                {
+                    str = randomList[j].Id + "," + randomList[j + 1].Id + "," + randomList[j + 2].Id;
+                    groupsStudents.Add(str);
+                }
+            }
+            else if (isDivided == 2)
+            {
+                for (int i = 0; i < randomList.Count; i += 3)
+                {
+                    if (i >= randomList.Count - 2)
+                    {
+                        str = randomList[i].Id+ "," + randomList[i + 1].Id;
+                    }
+                    else
+                    {
+                        str = randomList[i].Id + "," + randomList[i + 1].Id + "," + randomList[i + 2].Id ;
+                    }
+                    groupsStudents.Add(str);
+                }
+            }
+            else //(isDicided == 1)
+            {
+                for (int i = 0; i < randomList.Count; i += 3)
+                {
+                    if (i >= randomList.Count - 4)
+                    {
+                        str = randomList[i].Id+"," + randomList[i + 1].Id + "," + randomList[i + 2].Id + "," + randomList[i + 3].Id ;
+                        i += 10;
+                    }
+                    else
+                    {
+                        str = randomList[i].Id  + "," + randomList[i + 1].Id+ "," + randomList[i + 2].Id ;
+                    }
+                    groupsStudents.Add(str);
+                }
+            }
+
+
+            return groupsStudents;
         }
         // עד כאן אלמנט חכם 
     }

@@ -39,20 +39,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <link href="css/stam.css" rel="stylesheet" />
-
-    <!--<link rel="stylesheet" href="jquery.dad.css">
-    <script src='jquery.min.js'></script>
-    <script src='jquery.dad.js'></script>-->
-    <!--<style>
-        .droptarget {
-            float: left;
-            width: 100px;
-            height: 35px;
-            margin: 15px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;
-        }
-    </style>-->
     <script>
         //user img
         var imagePath1 = '';
@@ -186,7 +172,7 @@
             shuffle = document.getElementById("shuffle");
             equals = document.getElementById("equals");
             StrongWeak = document.getElementById("StrongWeak");
-         
+
             if (shuffle.checked) // צוותים מעורבים
             { //
                 shuffleGroups(newTaskObj);
@@ -196,14 +182,14 @@
                 equalsGroups(newTaskObj);
             }
 
-            if (true) { // רנדומלי להוסיף
-
+            if (random.checked) { // רנדומלי להוסיף
+                 randomGroups(newTaskObj);
             }
             if (StrongWeak.checked) { // ממוצע להוסיף
                 strongWeakGroup();
             }
 
-           
+
             algorithm = document.getElementById("btnAlgo");
             var management = document.getElementById("TeamManagement");
             if (management.style.display === "none") {
@@ -214,11 +200,24 @@
             }
         }
 
-        function shuffleGroups(newTaskObj) // צוותים מעורבים
-            {
-                radioChoose = "shuffle";
+         function randomGroups(newTaskObj) //צוותים רנדומלים
+        {
+            radioChoose = "random";
 
-                objClass =
+            studentObj =
+                {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum
+                }
+
+            url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
+            ajaxCall("POST", url, JSON.stringify(studentObj), GETsuccessSS, GETerrorSS)
+        }
+        function shuffleGroups(newTaskObj) // צוותים מעורבים
+        {
+            radioChoose = "shuffle";
+
+            objClass =
                 {
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum
@@ -226,18 +225,17 @@
             url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
             ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
         }
-        function equalsGroups(newTaskObj) 
-{
-    radioChoose = "equals";
-        objClass =
-        {
-            "ClassName": newTaskObj.ClassName,
-            "ClassNum": newTaskObj.ClassNum
-        }
-    url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
-    ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
+        function equalsGroups(newTaskObj) {
+            radioChoose = "equals";
+            objClass =
+                {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum
+                }
+            url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
+            ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
 
-}
+        }
 
         allStudents = [];
         function GETsuccessSS(studentsData) {
@@ -269,54 +267,16 @@
                 tblTeam += "<ol data-draggable='target'>";
                 for (var m = 0; m < studentList.length; m++) {
                     if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
-                        tblTeam += "<li data-draggable='item'> ";
+                        tblTeam += "<li data-draggable='item'>";
                         tblTeam += studentList[m].FName + " " + studentList[m].LName;
                         tblTeam += "</li>";
-                        //tblTeam += " <td style='width: 110px;' id='tr_" + rownum + "cell_" + colnum + "'  draggable='true' ondragstart='drag(event)'>" + studentList[m].FName + " " + studentList[m].LName + "</td>";
-                        //colnum++;
-                        // tblTeam += "<td> <div class='droptarget' ondrop='drop(event)' ondragover='allowDrop(event)'><p ondragstart='dragStart(event)' draggable='true' id='dragtarget"+i+"'>";
-                        //  tblTeam += studentList[m].FName + " " + studentList[m].LName + " </p ></div>";
-                        //  tblTeam += "<div class='droptarget' ondrop='drop(event)' ondragover='allowDrop(event)'></div></td>";
                     }
                 }
                 tblTeam += "</ol>";
-                //  tblTeam2 = tblTeam1 + tblTeam + "</ol>";
-                //   tblTeam += " <td style='width: 110px;' id='tr_" + rownum + "cell_4'draggable='true' ondrop='drop(event)' ondragover='allowDrop(event)'></td>";
-
-                //  tblTeam += "</tr>";
             }
             document.getElementById("StudentTable").innerHTML = tblTeam;
         }
 
-        //function allowDrop(ev) {
-        //    console.log(ev);
-        //    ev.preventDefault();
-        //}
-        //function drag(ev) {
-        //    console.log(ev);
-        //    ev.dataTransfer.setData("text", ev.target.id);
-        //}
-
-        //function drop(ev) {
-        //    ev.preventDefault();
-        //    var data = ev.dataTransfer.getData("text");
-        //    ev.target.innerHTML = ''
-        //    ev.target.appendChild(document.getElementById(data));
-        //}
-        //function dragStart(event) {
-        //    document.getElementById(event.target.id).style.color = 'pink'
-        //    event.dataTransfer.setData("Text", event.target.id);
-
-
-        //}
-        //function allowDrop(event) {
-        //    event.preventDefault();
-        //}
-        //function drop(event) {
-        //    event.preventDefault();
-        //    var data = event.dataTransfer.getData("Text");
-        //    event.target.appendChild(document.getElementById(data));
-        //}
         var GroupStudents = "";
         var GroupStudentsList = [];
         function GETsuccessTask(data) {
@@ -600,7 +560,10 @@
 
     </script>
     <!-- partial -->
-    <script src="js/stam.js"></script>
+
+
+
+
 </head>
 <body id="page-top">
     <!-- top bar -->
@@ -829,15 +792,9 @@
                                             </div>
                                         </div>
                                         <div class="row" id="TeamManagement1" style="display:none">
-                                            <div id="StudentTable" style="display:none" class="col-xl-12 col-sm-12 mb-3">
-                                                <!--<table  class="StudentsTable" style="width:100%;display:none">
-                                                                                                <thead>
-
-                                                </thead>
-
-                                                                                            </table>-->
+                                            <div id="StudentTable" style="display:none">
                                             </div>
-
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -922,15 +879,16 @@
             </div>
         </div>
     </div>
+    <script src="js/stam.js"></script>
     <!-- /#wrapper -->
-    <script>
+    <!--<script>
         let currDate =
             new Date().toLocaleDateString('he-IL');
         let inputDate = new Date();
         let bday = new Date();
 
         document.querySelector('#dateInput').valueAsDate = inputDate;
-    </script>
+    </script>-->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -962,7 +920,7 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <!--<script src="js/custom.js"></script>-->
-    
+
 </body>
 
 </html>
