@@ -18,6 +18,7 @@
     <!-- Custom styles for this template-->
     <link href="css/osahan.css" rel="stylesheet">
     <link href="css/tablestyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css">
 
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
@@ -187,7 +188,7 @@
             shuffle = document.getElementById("shuffle");
             equals = document.getElementById("equals");
             StrongWeak = document.getElementById("StrongWeak");
-         
+
             if (shuffle.checked) // צוותים מעורבים
             { //
                 shuffleGroups(newTaskObj);
@@ -204,7 +205,7 @@
                 strongWeakGroup();
             }
 
-           
+
             algorithm = document.getElementById("btnAlgo");
             var management = document.getElementById("TeamManagement");
             if (management.style.display === "none") {
@@ -216,10 +217,10 @@
         }
 
         function shuffleGroups(newTaskObj) // צוותים מעורבים
-            {
-                radioChoose = "shuffle";
+        {
+            radioChoose = "shuffle";
 
-                objClass =
+            objClass =
                 {
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum
@@ -227,18 +228,17 @@
             url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
             ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
         }
-        function equalsGroups(newTaskObj) 
-{
-    radioChoose = "equals";
-        objClass =
-        {
-            "ClassName": newTaskObj.ClassName,
-            "ClassNum": newTaskObj.ClassNum
-        }
-    url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
-    ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
+        function equalsGroups(newTaskObj) {
+            radioChoose = "equals";
+            objClass =
+                {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum
+                }
+            url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
+            ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
 
-}
+        }
 
         allStudents = [];
         function GETsuccessSS(studentsData) {
