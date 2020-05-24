@@ -62,6 +62,237 @@ namespace DocuProject.Models
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
+        //אלגוריתם בנים בנות - נוי 
+        internal List <string> GetStudentsAlgoritem(string radioChoose)
+        {
+            List<string> X = new List<string>();
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_Students(ClassName, ClassNum);
+
+            if (radioChoose == "shuffle") // צוותים מעורבים
+            {
+                X = MakeGroupsShuffle(dbs.dt);
+            }
+            if (radioChoose == "equals") // צוותים מאותו מין
+            {
+                X = MakeGroupsEquals(dbs.dt);
+            }
+
+            if (radioChoose == "random")// רנדומלי 
+            {
+
+            }
+            return X;
+        }
+
+        //אלגוריתם בנים בנות - נוי        
+        public List<string> MakeGroupsEquals(DataTable studentsArr) // מאותו מין
+
+        {
+            List<Student> BoysArr = new List<Student>();
+            List<Student> GirlsArr = new List<Student>();
+            foreach (DataRow dr in studentsArr.Rows)
+            {
+                if (dr["Gender"].ToString() == "זכר")
+                {
+                    Student S = new Student();
+                    S.FName = (string)dr["FName"];
+                    S.LName = (string)dr["LName"];
+                    S.Id = (int)dr["Id_"];
+                    S.Gender = (string)dr["Gender"];
+                    BoysArr.Add(S);
+                }
+                else // נקבה
+                {
+                    Student S = new Student();
+                    S.FName = (string)dr["FName"];
+                    S.LName = (string)dr["LName"];
+                    S.Id = (int)dr["Id_"];
+                    S.Gender = (string)dr["Gender"];
+                    GirlsArr.Add(S);
+                }
+            }
+
+            int studentsCount = BoysArr.Count + GirlsArr.Count; //כמות התלמידים בכיתה
+            double gorupNum;
+            int x;
+            bool Divideby3;
+
+            if (studentsCount % 3 == 0) // כמות הצוותים - במידה והכמות תתחלק ב3
+            {
+                gorupNum = studentsCount / 3;
+                Divideby3 = true;
+
+            }
+            else
+            {
+                x = studentsCount / 3;
+                gorupNum = Math.Round(x + 0.5);
+                Divideby3 = false;
+            }
+
+            List<string> groupsStudents = new List<string>();
+
+            for (int i = 0; i < gorupNum; i++)
+            {
+                int cntr = 0;
+                string str = "";
+
+                for (int j = 0; i < BoysArr.Count; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        if (BoysArr.Count != 0)
+                        {
+                            if (BoysArr.Count == 4)
+                            {
+                                for (int z = 0; z < 2; z++)
+                                {
+                                    cntr = 0;
+                                    str += BoysArr[cntr].Id + ",";
+                                    //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
+                                    BoysArr.RemoveAt(cntr);
+                                    cntr++;
+                                }
+                                groupsStudents.Add(str);
+                                str = "";
+                                break;
+
+                            }
+                            cntr = 0;
+                            str += BoysArr[cntr].Id + ",";
+                            //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
+                            BoysArr.RemoveAt(cntr);
+                            cntr++;
+                        }
+                    }
+                    if (str !="")
+                    {
+                        groupsStudents.Add(str);
+                        str = "";
+                    }             
+
+                }
+
+                for (int j = 0; i < GirlsArr.Count; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        if (GirlsArr.Count != 0) // בנים
+                        {
+                            if (BoysArr.Count == 4)
+                            {
+                                for (int z = 0; z < 2; z++)
+                                {
+                                    cntr = 0;
+                                    str += BoysArr[cntr].Id + ",";
+                                    //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
+                                    BoysArr.RemoveAt(cntr);
+                                    cntr++;
+                                }
+                                groupsStudents.Add(str);
+                                str = "";
+                                break;
+                            }
+                            cntr = 0;
+                            str += GirlsArr[cntr].Id + ",";
+                            //str += GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName + ",";
+                            GirlsArr.RemoveAt(cntr);
+                            cntr++;
+                        }
+                    }
+                    if (str != "")
+                    {
+                        groupsStudents.Add(str);
+                        str = "";
+                    }
+                }
+            }
+
+                    
+            return groupsStudents;
+        }
+        //אלגוריתם בנים בנות - נוי   
+        public List<string> MakeGroupsShuffle(DataTable studentsArr) // צוותים מעורבים
+        {
+            List<Student> BoysArr = new List<Student>();
+            List<Student> GirlsArr = new List<Student>();
+            foreach (DataRow dr in studentsArr.Rows)
+            {
+                    if (dr["Gender"].ToString() == "זכר")
+                    {
+                    Student S = new Student();
+                    S.FName = (string)dr["FName"];
+                    S.LName = (string)dr["LName"];
+                    S.Id = (int)dr["Id_"];
+                    S.Gender = (string)dr["Gender"];
+                    BoysArr.Add(S);
+                    }
+                     else // נקבה
+                    {
+                    Student S = new Student();
+                    S.FName = (string)dr["FName"];
+                    S.LName = (string)dr["LName"];
+                    S.Id = (int)dr["Id_"];
+                    S.Gender = (string)dr["Gender"];
+                    GirlsArr.Add(S);
+                    }
+            }
+            int studentsCount = BoysArr.Count + GirlsArr.Count; //כמות התלמידים בכיתה
+            double gorupNum;
+            int x;
+
+            if (studentsCount % 3 == 0) // כמות הצוותים - במידה והכמות תתחלק ב3
+            {
+                gorupNum = studentsCount / 3;
+            }
+            else
+            { 
+                x = studentsCount / 3;
+                gorupNum = Math.Round(x + 0.5);
+            }
+
+            List<string> groupsStudents = new List<string>();
+            string str = "";
+            int cntr;
+
+            for (int i = 0 ; i < gorupNum; i++)
+            {
+                cntr = 0;
+                str = BoysArr[cntr].Id + "," + GirlsArr[cntr].Id + ",";
+                //str = BoysArr[cntr].FName + " " + BoysArr[cntr].LName + "," + GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName + ",";
+                BoysArr.RemoveAt(cntr);
+                GirlsArr.RemoveAt(cntr);
+                cntr++;
+                groupsStudents.Add(str);
+            }
+            for (int i = 0; i < groupsStudents.Count; i++)
+            {
+                cntr = 0;
+                if (BoysArr.Count > GirlsArr.Count) //סתם רנדומלי
+                {
+                    if (BoysArr.Count != 0)
+                    {
+                        groupsStudents[i] += BoysArr[cntr].Id;
+                        //groupsStudents[i] += BoysArr[cntr].FName + BoysArr[cntr].LName;
+                        BoysArr.RemoveAt(cntr);
+                    }
+                }
+                else
+                {
+                    if (GirlsArr.Count != 0 )
+                    {
+                        groupsStudents[i] += GirlsArr[cntr].Id;
+                        //groupsStudents[i] += GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName;
+                        GirlsArr.RemoveAt(cntr);
+                    }
+
+                }
+            }
+            return groupsStudents; //מחזיר מערך ממויין
+        }
+        // עד כאן אלמנט חכם
+
         public DataTable deleteS(int id) 
         {
             DBservices dbs = new DBservices();

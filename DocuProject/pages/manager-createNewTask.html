@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -58,7 +59,7 @@
             showDetalis(objAdmin);
 
             //localstorage for the orientation
-            local = localStorage.getItem('forNewTask'); 
+            local = localStorage.getItem('forNewTask');
             console.log('local: ', JSON.parse(local));
             newTaskObj = JSON.parse(localStorage["forNewTask"]);
             Showorientation();
@@ -75,9 +76,11 @@
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
             $('#geographicalDiS').click(showG);
+            //נוי
+            $('#make_Group').click(makeGroup);
 
             ///upload files
-            $('#upload').on('click', function () { 
+            $('#upload').on('click', function () {
                 console.log('clicked')
                 var data = new FormData();
                 var files = $("#fileUpload").get(0).files;
@@ -120,7 +123,7 @@
                 console.log(data);
             }
 
-       
+
         });
         //User image
         function showDetalis(objAdmin) {
@@ -151,7 +154,7 @@
         function showG() {
             radioGender = document.getElementById("gender");
             radioSW = document.getElementById("StrongWeak");
-            random = document.getElementById("random"); 
+            random = document.getElementById("random");
             gd = document.getElementById("geographicalDiS");
 
             var gender = document.getElementById("showGender");
@@ -174,11 +177,12 @@
                     StrongWeak.style.display = "none";
                 }
             }
-            if (random.checked || gd.checked ) {
+            if (random.checked || gd.checked) {
                 gender.style.display = "none";
                 StrongWeak.style.display = "none";
-                
+
             }
+
         }
         //show items
         function UploadFile() {
@@ -316,7 +320,7 @@
 
             TaskObj =
                 {
-                "Video": "",
+                    "Video": "",
                     "Deadline": $("#dateInput").val(),
                     "Topic": $("#topic").val(),
                     "Assignation": assignation,
@@ -353,7 +357,7 @@
         var techerID = "";
         function GETsuccessCT1(data) {
             for (var i = 0; i < data.length; i++) {
-                if (data[i].Profession == newTaskObj.Profession ) {
+                if (data[i].Profession == newTaskObj.Profession) {
                     techerID = data[i].Id_teacher;
                 }
             }
@@ -361,6 +365,160 @@
         function GETerrorCT1(err) {
             alert("GetClassSubj");
         }
+
+        //אלגוריתם בנים בנות - נוי   
+        function makeGroup() {
+            shuffle = document.getElementById("shuffle");
+            equals = document.getElementById("equals");
+         
+            if (shuffle.checked) // צוותים מעורבים
+            { //
+                shuffleGroups(newTaskObj);
+            }
+
+            if (equals.checked) { // צוותים מאותו מין
+                equalsGroups(newTaskObj);
+            }
+
+            if (true) { // רנדומלי להוסיף
+
+            }
+            if (true) { // ממוצע להוסיף
+
+            }
+        }
+
+        function equalsGroups(newTaskObj) 
+        {
+            radioChoose = "equals";
+                objClass =
+                {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum
+                }
+            url = "../api/Student/GetStudentsAlgoritem/" + radioChoose;
+            ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessS, GETerrorS)
+
+        }
+            function shuffleGroups(newTaskObj) // צוותים מעורבים
+            {
+                radioChoose = "shuffle";
+
+                objClass =
+                {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum
+                }
+            url = "../api/Student/GetStudentsAlgoritem/" + radioChoose;
+            ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessS, GETerrorS)
+        }
+
+        allStudents = [];
+        function GETsuccessS(studentsData) {
+            allStudents = studentsData;
+            console.log(studentsData);
+        }
+        function GETerrorS() { };
+
+        ///// לא להתייחס - כתיבה בגאווה סקריפט
+        //BoysArr = [];
+            //GirlsArr = [];
+            //algoritemArr = [];
+
+            //for (let i = 0; i < allStudents.length; i++) {
+            //    { // כל עוד = גבר
+            //        if (allStudents[i].Gender == "זכר") {
+
+            //            BoysArr.push(allStudents[i]);
+            //        }
+            //    }
+            //}
+            //console.log(BoysArr);
+            ////מערך בנות
+            //for (let i = 0; i < allStudents.length; i++) {
+            //    {
+            //        if (allStudents[i].Gender == "נקבה") {
+            //            GirlsArr.push(allStudents[i]);
+            //        }
+            //    }
+            //}
+            //console.log(GirlsArr);
+
+            //    str = "";
+            //    studentsCount = BoysArr.length + GirlsArr.length; //סהכ מס התלמידים
+
+
+            //    if (studentsCount % 3 == 0) // אם מ תחלק ב3
+            //    {
+            //        groupsNum = studentsCount / 3;
+            //    }
+            //    else { // לא מתחלק ב3 - נעגל כלפי מעלה תמיד
+            //        x = studentsCount / 3;
+            //        groupsNum = Math.round(x + 0.5);
+            //    }
+
+
+            //    //var group =
+            //    //    {
+            //    //        "name1": '',
+            //    //        "name2": '',
+            //    //        "name3": ''
+            //    //}
+
+            //        GroupsARR = [];                           
+            //        for (let i = 0, j = 0 ; i < groupsNum; i++ , j++) 
+            //        {
+            //             let group =
+            //            {
+            //                "name1": BoysArr[j].FName + " " + BoysArr[j].LName + ",",
+            //                "name2": GirlsArr[j].FName +" " + GirlsArr[j].LName + ",",
+            //                "name3":  ""
+            //            }
+            //            GroupsARR.push(group);
+            //    }
+            //            console.log(GroupsARR);
+            //    }
+
+            //}
+                //    console.log("רוב בנים");
+                //    str = "";
+                //    j = 0;
+                //    for (var i = 0; i < BoysArr.length; i++) {
+                //        str += BoysArr[i].FName + " " + BoysArr[i].LName + ",";
+
+                //        if (i == BoysArr.length-1) {
+                //            str += GirlsArr[j].FName + " " + GirlsArr[j].LName + ",";
+                //            j++;
+                //            algoritemArr.push(str);
+                //            str = "";
+
+                //            cntr = 0;
+                //            for (;j < GirlsArr.length; j++)
+                //            {
+                //                cntr++;
+                //                str += GirlsArr[j].FName + " " + GirlsArr[j].LName + ",";
+                //                if (cntr % 3 == 0 || j == GirlsArr.length || j == GirlsArr.length - 1)
+                //                {
+                //                    algoritemArr.push(str);  
+                //                    str = "";
+                //                }
+                //            }                      
+                //        }
+                //        if (i % 2 != 0)
+                //        {
+                //            str += GirlsArr[j].FName + " " + GirlsArr[j].LName + ",";
+                //            j++;
+                //            algoritemArr.push(str);
+                //            str = "";
+                //            continue;
+                //        }
+                //    }
+                //    console.log("al",algoritemArr);
+                //}
+        //    }
+        //}
+        
+////////
     </script>
 
 </head>
@@ -533,7 +691,7 @@
                                                 <label class="checkboxTasks" for="random" checked="checked">
                                                     רנדומלי
                                                 </label>
-                                                <br> 
+                                                <br>
                                                 <input type="radio" id="geographicalDiS" name="staffing" value="מרחק גיאוגרפי">
                                                 <label class="checkboxTasks" for="geographicalDiS">מרחק גיאוגרפי</label>
                                                 <br>
@@ -558,14 +716,12 @@
                                             </div>
                                             <div id="showGender" style="display:none">
                                                 <section>
-                                                    <input type="radio" id="boy" name="gander" value="boys" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="boys">רוב בנים</label>
+                                                    <input type="radio" id="shuffle" name="gander" value="boys" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="shuffle">צוותים מעורבים</label>
                                                     <br>
-                                                    <input type="radio" id="girl" name="gander" value="girls" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="girls">רוב בנות</label>
-                                                    <br>
-                                                    <input type="radio" id="one" name="gander" value="one" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="one">מין אחד</label>
+                                   
+                                                    <input type="radio" id="equals" name="gander" value="one" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="one" > צוותים מאותו מין</label>
                                                     <br>
                                                 </section>
                                             </div>
@@ -576,7 +732,7 @@
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom>
+                                                        <buttom id="make_Group">
                                                             הפעל אלגוריתם צוות
                                                         </buttom>
                                                     </a>

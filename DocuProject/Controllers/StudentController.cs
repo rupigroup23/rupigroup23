@@ -45,6 +45,14 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
+
+        [HttpPost] // אלגוריתם בנים בנות - נוי 
+        [Route("api/Student/GetStudentsAlgoritem/{radioChoose}")]
+        public List<string> Get_S([FromBody]Student studentObj, string radioChoose)
+        {
+            return studentObj.GetStudentsAlgoritem(radioChoose);
+        }
+
         [HttpGet]
         [Route("api/Student/GetTasks/{name}/{num}/{prof}")]
         public List<Task> GetTask(string name, string num, string prof)

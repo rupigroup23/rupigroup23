@@ -384,6 +384,7 @@
     <Content Include="pages\vendor\owl-carousel\owl.theme.css" />
     <Content Include="pages\video-page.html" />
     <Content Include="pages\video-page1.html" />
+    <Content Include="pages\ניסיון-מרחקים.html" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\allTask.js" />
     <Content Include="Scripts\bootstrap.js" />

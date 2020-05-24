@@ -762,8 +762,6 @@ public class DBservices
 
 
     }
-
-
     private String BuildInsertCommand1(ClassSubjects classSUbObj) // שלב 1 - נעביר את כל המערך לדטה בייס
                                                                   //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
     { ////עובר שורה שורה 
