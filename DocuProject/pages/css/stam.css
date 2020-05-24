@@ -20,12 +20,12 @@
         background: #fff;
     }
 
-        /* drop target focus and dragover state */
-        [data-draggable="target"][aria-dropeffect="move"]:focus,
-        [data-draggable="target"][aria-dropeffect="move"].dragover {
-            outline: none;
-            box-shadow: 0 0 0 1px #fff, 0 0 0 3px #68b;
-        }
+/* drop target focus and dragover state */
+[data-draggable="target"][aria-dropeffect="move"]:focus,
+[data-draggable="target"][aria-dropeffect="move"].dragover {
+    outline: none;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #68b;
+    }
 
 /* draggable items */
 [data-draggable="item"] {
@@ -37,14 +37,14 @@
     line-height: 1.3;
 }
 
-    /* items focus state */
-    [data-draggable="item"]:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px #68b, inset 0 0 0 1px #ddd;
-    }
+/* items focus state */
+[data-draggable="item"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #68b, inset 0 0 0 1px #ddd;
+}
 
-    /* items grabbed state */
-    [data-draggable="item"][aria-grabbed="true"] {
-        background: #8ad;
-        color: #fff;
-    }
+/* items grabbed state */
+[data-draggable="item"][aria-grabbed="true"] {
+    background: #8ad;
+    color: #fff;
+}

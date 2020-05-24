@@ -194,6 +194,15 @@ namespace DocuProject.Controllers
             Class C = new Class();
             return C.Get_Details2(className,classNum);
         }
+
+
+        //אלגורתים חכם- רביד
+        [HttpPost]  
+        [Route("api/Student/GetStudentsAlgoritem/{radioChoose}")]
+        public List<string> Get_S([FromBody] Student studentObj, string radioChoose)
+        {
+            return studentObj.GetStudentsAlgoritem(radioChoose);
+        }
     }
 
 

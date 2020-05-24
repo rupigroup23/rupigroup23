@@ -59,15 +59,33 @@
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
+ 
+
+
             Showorientation();//סרגל השתלשלות
+         
 
             $('#likeBtn').click(function () { //
                 $('#like').css("color", "green");
                 $('#likeSpan').css("color", "green");
                 likeBtn = 'true';
 
+
                 //(this).css("border-style", "dotted");
             })
+
+            $('#comBtn').click(function () {
+                $('#coment').css("color", "green");
+                $('#comentspan').css("color", "green");
+
+            })
+
+            $('#vidBtn').click(function () {
+                $('#video').css("color", "green");
+                $('#videospan').css("color", "green");
+
+            })
+                
 
            
             $('#chooseVideo').change(function () {
@@ -117,15 +135,15 @@
             function getDataSuccess(data) {
                 console.log(data)
                 
-                for (var i = 0; i < data.length; i++) {
-                    likearr.push(data[i].UserName)
-                }
-                for (var i = 0; i < likearr.length; i++) {
-                    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
-                        $('#likeBtn').hide();
-                    }
-                }
-                console.log(likearr)
+                //for (var i = 0; i < data.length; i++) {
+                //    likearr.push(data[i].UserName)
+                //}
+                //for (var i = 0; i < likearr.length; i++) {
+                //    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
+                //        $('#likeBtn').hide();
+                //    }
+                //}
+                //console.log(likearr)
 
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
                 let strContents = '';
@@ -396,11 +414,11 @@
                                         <a class="text-success" id="likeBtn" style="cursor: pointer;">
                                             <i class="fas fa-heart" id="like"></i><span id="likeSpan">&nbsp;לייק&nbsp;&nbsp;</span>
                                         </a>
-                                        <a class="text-success" style="cursor: pointer;" onclick="show1()">
-                                            <i class="fas fa-comment"></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
+                                        <a class="text-success" id="comBtn" style="cursor: pointer;" onclick="show1()">
+                                            <i class="fas fa-comment" id="coment"></i><span id="comentspan"> &nbsp;תגובת טקסט&nbsp;&nbsp;</span>
                                         </a>
-                                        <a class="text-success" style="cursor: pointer;" onclick="show2()">
-                                            <i class="fas fa-arrow-circle-up"></i>&nbsp; העלאת תגובה בסרטון&nbsp;&nbsp;
+                                        <a class="text-success" id="vidBtn" style="cursor: pointer;" onclick="show2()">
+                                            <i class="fas fa-arrow-circle-up" id="video"></i><span id="videospan"> &nbsp; העלאת תגובה בסרטון&nbsp;&nbsp;</span>
                                         </a>
                                     </div>
                                     <div class="col-lg-12 col-sm-6" id="showComment" style="display:none">
