@@ -26,8 +26,7 @@
     <IISExpressSSLPort>44328</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -202,6 +201,7 @@
     <Content Include="pages\categories.html" />
     <Content Include="pages\channels.html" />
     <Content Include="pages\css\feedbackStyle.css" />
+    <Content Include="pages\css\stam.css" />
     <Content Include="pages\css\upl.css" />
     <Content Include="pages\EntrancePage.html" />
     <Content Include="pages\img\cancleBtn.png" />
@@ -227,6 +227,7 @@
     <Content Include="pages\js\myName.js" />
     <Content Include="pages\js\showItem.js" />
     <Content Include="pages\js\manager\tasks.js" />
+    <Content Include="pages\js\stam.js" />
     <Content Include="pages\manager-createNewTeacher.html" />
     <Content Include="pages\student-Classroom.html" />
     <Content Include="pages\student-PresentationAssignment.html" />

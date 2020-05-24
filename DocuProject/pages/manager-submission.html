@@ -53,7 +53,8 @@
             Showorientation();//orientation
             getDatelis(); //Bring the details from the local storage
             getDataT(); //bring the details from GroupFeedback tabel
-            
+            showStudentsData(); //Bring the details from student table
+
             $('#apply').click(filingSubm);  //סנן
             
             //User image
@@ -107,7 +108,9 @@
             diffDays1 = diffDays(TaskObj.Task.Date);
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("restDate").innerHTML = diffDays1;
-            document.getElementById("restDate").style.color = "red"
+            if (diffDays1 == "מועד ההגשה עבר") {
+                 document.getElementById("restDate").style.color = "red"
+            }             
         }
        
         //bring the details from GroupFeedback tabel
@@ -134,13 +137,13 @@
                     allTeam.push(details[i]);
                 }
                 document.getElementById("teamNum").innerHTML = count;
-            }
-            console.log(data);
+            }        
         }
         function GETerror1(err) {
             console.log(err);
         }
         //
+
         //View all details on the page
         var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
         var waitingSTR = "";
@@ -154,46 +157,46 @@
         var strAll = [];
         function getWaiting() {
             waitingSTR = "";
-            notApprovedSTR = "";  
+            notApprovedSTR = "";
             allTeamSTR = "";
             approveSTR = "";
-             imgScore = "";
+            imgScore = "";
             for (var i = 0; i < allTeam.length; i++) {
-                
                 if (allTeam[i].Status_ == 1) {
-                    if (allTeam[i].Grade != 0 && (allTeam[i].Feedback != "" || allTeam[i].Feedback != null)){
+                    if (allTeam[i].Grade != 0 && (allTeam[i].Feedback != "" || allTeam[i].Feedback != null)) {
                         imgScore = "img/NEW.png";
-                         btnSorces = "ViewgiveScore(this)";
-                        }
+                        btnSorces = "ViewgiveScore(this)";
+                    }
                     else {
                         imgScore = "img/ציון.png";
                         btnSorces = "giveScore(this)";
-                        }
-                    waitingSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
-                    waitingSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
-                    waitingSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
-                    waitingSTR += "<div class='row'> צוות מספר &nbsp;";
-                    waitingSTR += allTeam[i].GroupNum;
-                    waitingSTR += " </div></div><div class='row'>";
-                    waitingSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
-                    waitingSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    waitingSTR += allTeam[i].Group_students;
-                    waitingSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
-                    waitingSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#ee8d14; font-size: 22px;'>";
-                    waitingSTR += statusArr[1];
-                    waitingSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
-                    waitingSTR += " <div class='channels-card-image'><a><img id='"+i+"' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
-                    waitingSTR += "</a>&nbsp;<a><img id='"+i+"'onclick='"+btnSorces+"' class='img-fluid' src='"+imgScore+"' alt='משוב וציון'>";
-                    waitingSTR += "</a>&nbsp;<a>";
-                    waitingSTR += "<img onclick='showVideo(this)' id='"+i+"' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
-                    waitingSTR += "</a>&nbsp;";
-                    waitingSTR += "<div id='headerPopup"+i+"' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
-                    waitingSTR += " </div><br /></div></div></div></div>";
-                }   
+                      }   
+                        namesS = getNameS(allTeam[i].Group_students);
+                        waitingSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
+                        waitingSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
+                        waitingSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
+                        waitingSTR += "<div class='row'> צוות מספר &nbsp;";
+                        waitingSTR += allTeam[i].GroupNum;
+                        waitingSTR += " </div></div><div class='row'>";
+                        waitingSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
+                        waitingSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
+                        waitingSTR += namesS
+                        waitingSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
+                        waitingSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#ee8d14; font-size: 22px;'>";
+                        waitingSTR += statusArr[1];
+                        waitingSTR += "</div></div><div class='row' style='padding-right: inherit; display: block;'>";
+                        waitingSTR += " <div class='channels-card-image'><a><img id='" + i + "' onclick='approveVidow(this)' class='img-fluid' src='img/approved1.png' alt='אישור הסרטון'>";
+                        waitingSTR += "</a>&nbsp;<a><img id='" + i + "'onclick='" + btnSorces + "' class='img-fluid' src='" + imgScore + "' alt='משוב וציון'>";
+                        waitingSTR += "</a>&nbsp;<a>";
+                        waitingSTR += "<img onclick='showVideo(this)' id='" + i + "' class='img-fluid' src='img/WatchVideo.png' alt='צפיה בסרטון'>";
+                        waitingSTR += "</a>&nbsp;";
+                        waitingSTR += "<div id='headerPopup" + i + "' style='display:none' class='mfp-hide embed-responsive embed-responsive-16by9'>";
+                        waitingSTR += " </div><br /></div></div></div></div>";
+                    }
+                }
+                document.getElementById("waitingID").innerHTML = waitingSTR;
+                strAll[1] = waitingSTR;
             }
-            document.getElementById("waitingID").innerHTML = waitingSTR;
-            strAll[1] = waitingSTR;
-        }        
         function getApprove() {
             approveSTR = "";  
             notApprovedSTR = "";  
@@ -211,6 +214,7 @@
                         imgScore = "img/ציון.png";
                         btnSorces = "giveScore(this)";
                     }
+                    namesS=getNameS(allTeam[i].Group_students);
                     approveSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
                     approveSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
                     approveSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
@@ -219,7 +223,7 @@
                     approveSTR += " </div></div><div class='row'>";
                     approveSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
                     approveSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    approveSTR += allTeam[i].Group_students;
+                    approveSTR += namesS;
                     approveSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
                     approveSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:#1aaf10; font-size: 22px;'>";
                     approveSTR += statusArr[2];
@@ -253,6 +257,7 @@
                         btnSorces = "ViewgiveScore(this)";
                         
                     }
+                   namesS=getNameS(allTeam[i].Group_students);
                     notApprovedSTR += "<div class='col-xl-4 col-sm-6 mb-3'>";
                     notApprovedSTR += "<div class='channels-card' style='padding: 24px 25px;'>";
                     notApprovedSTR += "<div class='text2' style='color: black; font-size:17px; text-align:right '>";
@@ -261,7 +266,7 @@
                     notApprovedSTR += " </div></div><div class='row'>";
                     notApprovedSTR += "<div class='channels-card' style='padding: 5px;background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;'>";
                     notApprovedSTR += "<div class='statuses-text'><h6 style='font-size: 20px;'>";
-                    notApprovedSTR += allTeam[i].Group_students;
+                    notApprovedSTR += namesS;
                     notApprovedSTR += "</h6></div></div></div><div class='row'><div class='statuses-text'>";
                     notApprovedSTR += "סטאטוס: &nbsp;</div><div class='statuses-text' style='color:red; font-size: 22px;'>";
                     notApprovedSTR += statusArr[0]; 
@@ -513,9 +518,17 @@
                         "Video":allTeam[idSc.id].Video,
                         "Comment":allTeam[idSc.id].Comment
                     }
+
+                students1 = allTeam[idSc.id].Group_students;
+                students = students1.split(',');
+
+                for (var j = 0; j < students.length; j++) {              
+                    getObj(allTeam[idSc.id].id, students[j]);
+                }   
                 apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
                 console.log(dataPD1);
                 ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+                
                 if (formValues) {
                     Swal.fire({
                         title: 'לעדכונך',
@@ -529,9 +542,99 @@
             })()
             
         }
+        function showStudentsData() {
+            obj2 =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                }
+            console.log(obj2);
 
-    //ViewgiveScore
+            url = "../api/Docu/GetStudents";
+            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }
+
+        var studentList = "";       
+        function GETsuccessS(studentsData) {
+            studentList = studentsData;
+        }
+        function GETerrorS(err) {
+            console.log(err);
+
+        }
+
+        //AVG and grade
+        var avgStudent = "";
+        function getAvg(Newgrade, num, oldgrade) {
+            if (oldgrade == null) {
+                oldgrade = 0;
+
+            }
+            return ((oldgrade + Newgrade) / num);
+            
+        }
+        var students = "";
+        var thisTeam = "";
+
+        function postGradeStudent(teamArr) {           
+            for (var i = 0; i < teamArr.length; i++) {
+                oldAvg = teamArr[i].student.avg;
+                newAvg = getAvg(grade, TaskObj.Task.Num, oldAvg);
+                for (var j = 0; j < studentList.length; j++) {
+                    if (studentList[j].id == teamArr[i].student.rowDB) {
+                        studentList[j].GPA = newAvg;
+                        urlGPA = "../api/Docu/updateStudent/" + teamArr[i].student.rowDB;
+                        ajaxCall("PUT", urlGPA, JSON.stringify(studentList[j]), updateDsuccess, updateDerror);
+                    }
+                }
+            }                                                                                      
+        }
+
+        function updateDsuccess(data) {
+            console.log(data);
+        }
+        function updateDerror(err) {
+            console.log(err);
+        }
+
+        var strStudentName = "";
+     
+        function getNameS(idS) {
+            strStudentName = "• ";
+            strStudentName1 = "";
+            students = idS.split(',');              
+            for (var j = 0; j < studentList.length; j++) {                    
+                for (var m = 0; m < students.length; m++) {
+                    if (students[m] == studentList[j].Id_) {
+                        strStudentName += " " + studentList[j].FName + " " + studentList[j].LName + " • ";                   
+                    }
+                }            
+            }                     
+            return strStudentName;
+        }
+
+        var arrStudent = [];
+        function getObj(gn, idS) {
+                for (var i = 0; i < studentList.length; i++) {
+                    if (studentList[i].Id_ == idS) {
+                        obj3 =
+                        {
+                        "grupnum": gn,
+                            "student": {
+                                "id" : idS,
+                                "rowDB": studentList[i].id,
+                                "avg": studentList[i].GPA,
+                                 }
+                        }
+                    }
+                }                
+            arrStudent.push(obj3);  
+            postGradeStudent(arrStudent);
+        }
+
+        //ViewgiveScore
         var answers = "";
+        var avgS = "";
         function ViewgiveScore(idSc1) {
             idTeamfromDB = "";
             feedback = "";
@@ -580,17 +683,17 @@
                         "Status": allTeam[idSc1.id].Status_,
                         "Video":allTeam[idSc1.id].Video,
                         "Comment":allTeam[idSc1.id].Comment
-                    }
+                            }
                 apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
                 console.log(dataPD1);
                 ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+                
                 if (formValues) {
                     Swal.fire({
                         title: 'לעדכונך',
                         text: JSON.stringify(formValues),
                         icon: 'success',
                         confirmButtonColor: '#990099',
-                        //cancelButtonColor: '#d33',
                         confirmButtonText: 'המשך',             
                     })
                 }
@@ -603,15 +706,7 @@
         function showVideo(btn) {
             id = btn.id;
             clip = "";
-            let videoPath = `../${allTeam[id].Video}`;
-            //if (videoPath) {
-            //    Swal.fire({
-            //        icon: 'error',
-            //        title: 'לא הועלה עדיין סרטון',
-            //        confirmButtonColor: '#990099',
-            //    })
-            //}
-            //else {
+            let videoPath = `../${allTeam[id].Video}`;   
                 var x = document.getElementById("headerPopup" + id);
             clip += `<video width="200" height="150" controls>
                                                     <source src='${videoPath}' type="video/avi">
@@ -700,7 +795,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -750,12 +844,10 @@
                     <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                     כיתות
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">

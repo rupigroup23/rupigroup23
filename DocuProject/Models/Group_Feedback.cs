@@ -97,6 +97,16 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             return dbs.get_Videos(ClassName, ClassNum, Professtion, taskNum);
         }
+
+        public int insert(Group_Feedback StudentObj)
+        {
+            DBservices dbs = new DBservices();
+            int numAffected = dbs.insertGroup(StudentObj);
+            return numAffected;
+        }
+
+
+
     }
 
 }

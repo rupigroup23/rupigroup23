@@ -1675,6 +1675,127 @@ public class DBservices
             }
         }
     }
+
+    public List<Student> GetSbyGradeDB(string name, int num, string prof, string grade, string s)
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<Student> listbyAvg = new List<Student>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            string type = "";
+            if (s == "S")
+            {
+                type = ">=";
+            }
+            if (s == "W")
+            {
+                type = "<";
+            }
+            
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@" SELECT t1.ClassName,t1.ClassNum, t1.Id_,t1.FName, t1.LName,t2.Proffesion,t1.GPA
+                         FROM   Student t1
+                                  LEFT OUTER JOIN 
+                                 (SELECT ClassName ,ClassNum, Proffesion
+			                         FROM GroupFeedback 
+			                         GROUP BY ClassName,  ClassNum ,Proffesion
+			                        ) t2
+                                  ON t1.ClassName = t2.ClassName and t1.ClassNum = t2.ClassNum
+                        where t1.ClassName= '{name}' and t1.ClassNum=  {num} and t2.Proffesion= '{prof}' and t1.GPA {type} '{grade}'
+                        ORDER BY t1.Id_";
+
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                    Student byAvg = new Student();
+                    byAvg.Id = (int)dr["Id_"];
+                    byAvg.FName = (string)dr["FName"];
+                    byAvg.LName = (string)dr["LName"];
+                    byAvg.Gpa = (int)dr["GPA"];
+                    listbyAvg.Add(byAvg);
+            }
+            return (listbyAvg); // מחזיר מערך 
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    // 
+    public int insertGroup(Group_Feedback StudentObj)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = BuildInsertCommandGroup(StudentObj);      // לא קבוע - נשנה לפי הערכים בטבלה, 
+                                                             //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertCommandGroup(Group_Feedback StudentObj) // שלב 1 - נעביר את כל המערך לדטה בייס
+                                                      //POST                                                   //  - לא קבוע ! מפרק את המידע ויוצר שאילתה
+    { ////עובר שורה שורה 
+
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+
+        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6}, {7},'{8}',{9}, '{11}', '{12}', '{13}', '{14}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum , StudentObj.Feedback, StudentObj.Grade, StudentObj.Status, StudentObj.Video, StudentObj.Comment, StudentObj.Group, StudentObj.Proffesion); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Class_" + "(ClassName,ClassNum,Deadline,IdTask,IdTeacher,GroupNum,Feedback,Grade, Status_, Video, Comment,Group_students,Proffesion)"; // לפי העמודות בSQL
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
 }
 
 

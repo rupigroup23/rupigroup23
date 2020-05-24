@@ -51,6 +51,15 @@ namespace DocuProject.Controllers
             Class C = new Class();
             C.insert(classObj);
         }
+
+        [HttpPost] /// דף כיתה
+        [Route("api/Docu/postGroup")] 
+        public void postGroup([FromBody] Group_Feedback StudentObj)
+        {
+            Group_Feedback C = new Group_Feedback();
+            C.insert(StudentObj);
+        }
+
         [HttpPost] /// דף כיתה
         [Route("api/Docu/postClassSub")]
         public void Post([FromBody] List<ClassSubjects> classSUbObj)
@@ -174,6 +183,8 @@ namespace DocuProject.Controllers
             Student S2 = new Student();
             S2.insertS2(StudentObj);
         }
+
+
 
         [HttpPost] //שלב1- העלת התמונה לתוכנה
         [Route("api/Docu/uploadimage")]
@@ -345,5 +356,19 @@ namespace DocuProject.Controllers
             return VC.PutVC(id, videoTeam);
         }
 
+        // GET api/Docu/GetClassSubj/ז/2/פיזיקה
+        [HttpGet]
+        [Route("api/Docu/GetSudentsbyGrade/{name}/{num}/{prof}/{grade}")]
+        public List<string> GetSudentsbyGrade(string name, int num, string prof, string grade)
+        {
+            Student G = new Student();
+            return G.GetSbyGrade1(name, num, prof, grade) ; // Read from Models/Counrty
+        }
+        [HttpPost] // אלגוריתם בנים בנות - נוי 
+        [Route("api/Docu/GetStudentsAlgoritem/{radioChoose}")]
+        public List<string> Get_S([FromBody]Student studentObj, string radioChoose)
+        {
+            return studentObj.GetStudentsAlgoritem(radioChoose);
+        }
     }
 }
