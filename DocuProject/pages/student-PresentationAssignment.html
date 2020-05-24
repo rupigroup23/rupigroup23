@@ -64,6 +64,7 @@
             topic = TaskObj.Task.Topic;
 
             Showorientation();
+            showStudentsData(); //Bring the details from student table
 
             getDatelis(); //Bring the details up
 
@@ -251,6 +252,7 @@
             apiT = "../api/Docu/GetTeamData";
             ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
         }   
+        var namesS;
         function GETsuccess1(data) {
             details = data;
             numT = TaskObj.Task.Num; 
@@ -260,8 +262,8 @@
                     id = details[i].id;
                     checkVidoe(details[i].Video, details[i].Status_,details[i].Comment );
                     thisTeam = details[i];
-
-                    document.getElementById("teamNameID").innerHTML = details[i].Group_students;
+                    namesS = getNameS(details[i].Group_students);
+                    document.getElementById("teamNameID").innerHTML = namesS;
                     //Grade
                     if (details[i].Grade == 0) {
                         gradeSTR = "טרם הועלה ציון";
@@ -442,6 +444,41 @@
             console.log(err);
         }
 
+        // get student name
+        function getNameS(idS) {
+            strStudentName = "• ";
+            strStudentName1 = "";
+            students = idS.split(',');              
+            for (var j = 0; j < studentList.length; j++) {                    
+                for (var m = 0; m < students.length; m++) {
+                    if (students[m] == studentList[j].Id_) {
+                        strStudentName += " " + studentList[j].FName + " " + studentList[j].LName + " • ";                   
+                    }
+                }            
+            }                     
+            return strStudentName;
+        }
+
+        function showStudentsData() {
+            obj2 =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                }
+            console.log(obj2);
+
+            url = "../api/Student/GetStudents";
+            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }
+
+        var studentList = "";       
+        function GETsuccessS(studentsData) {
+            studentList = studentsData;
+        }
+        function GETerrorS(err) {
+            console.log(err);
+
+        }
     </script>
 </head>
 <body id="page-top">
