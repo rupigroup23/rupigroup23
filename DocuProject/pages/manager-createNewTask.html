@@ -10,6 +10,7 @@
     <title>'דוקו'</title>
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="img/favicon.png">
+
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -39,6 +40,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <link href="css/stam.css" rel="stylesheet" />
+
     <script>
         //user img
         var imagePath1 = '';
@@ -183,7 +185,7 @@
             }
 
             if (random.checked) { // רנדומלי להוסיף
-                 randomGroups(newTaskObj);
+                randomGroups(newTaskObj);
             }
             if (StrongWeak.checked) { // ממוצע להוסיף
                 strongWeakGroup();
@@ -198,9 +200,20 @@
             else {
                 management.style.display = "none";
             }
+            $('#random').attr("disabled", true);
+            $('#gender').attr("disabled", true);
+             $('#StrongWeak').attr("disabled", true);
+            $('#geographicalDiS').attr("disabled", true);
+            Swal.fire({
+                title: 'הציוות הושלם בהצלחה',
+                text: 'לעריכה - לחץ על ניהול צוותים',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
         }
 
-         function randomGroups(newTaskObj) //צוותים רנדומלים
+        function randomGroups(newTaskObj) //צוותים רנדומלים
         {
             radioChoose = "random";
 
@@ -245,36 +258,34 @@
         }
         function GETerrorSS() { };
         //
-        var tblTeam1 = "";
+        var btnSave = "";
         var tblTeam = "";
-        var tblTeam2 = "";
         var students = "";
+        var idTeam;
         //  var rownum = 1;
         //var colnum = 1;
-        function TeamManagementBTN() {
+function TeamManagementBTN() {
             algorithm1 = document.getElementById("TeamManagementBTN");
             var management1 = document.getElementById("StudentTable");
             if (management1.style.display === "none") {
                 management1.style.display = "block";
-                TeamManagement1.style.display = "block";//
+                TeamManagement1.style.display = "block";
             }
-            // tblTeam1 = "<tr><th style='width: 110px;'>תלמיד 1</th><th style='width: 110px;'>תלמיד 2</th><th style='width: 110px;'>תלמיד 3</th><th style='width: 110px;'>שינוי</th>";
             tblTeam = "";
             for (var i = 0; i < GroupStudentsList.length; i++) {
                 students = GroupStudentsList[i].Group.split(',');
-                // tblTeam += "<tr>";
-                //   colnum = 1;
-                tblTeam += "<ol data-draggable='target'>";
+                tblTeam += "<ol data-draggable='target' id='targets draggable='true' aria-dropeffect='none'>";
                 for (var m = 0; m < studentList.length; m++) {
                     if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
-                        tblTeam += "<li data-draggable='item'>";
+                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false'tabindex='0'>";
                         tblTeam += studentList[m].FName + " " + studentList[m].LName;
                         tblTeam += "</li>";
                     }
                 }
                 tblTeam += "</ol>";
             }
-            document.getElementById("StudentTable").innerHTML = tblTeam;
+         //   btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn'></div>";
+            document.getElementById("StudentTable").innerHTML = tblTeam +btnSave;
         }
 
         var GroupStudents = "";
@@ -292,24 +303,30 @@
         }
         function makeTeam(ListStudent) {
             for (var i = 0; i < ListStudent.length; i++) {
-                InlayStudentsObJ =
-                    {
-                        "ClassName": newTaskObj.ClassName,
-                        "ClassNum": newTaskObj.ClassNum,
-                        "Profession": newTaskObj.Profession,
-                        "Deadline": $("#dateInput").val(),
-                        "TaskNum": newTaskObj.Task.Num + 1,
-                        "IdTeacher": techerID,
-                        "groupNum": i + 1,
-                        "Grade": 0,
-                        "Feedback": null,
-                        "Status": 0,
-                        "Video": null,
-                        "Comment": null,
-                        "Group": ListStudent[i],
-                    }
-                GroupStudentsList.push(InlayStudentsObJ);
+                listTeams = {
+                    "Group": ListStudent[i],
+                }
+                 GroupStudentsList.push(listTeams);
             }
+            //for (var i = 0; i < ListStudent.length; i++) {
+            //    InlayStudentsObJ =
+            //        {
+            //            "ClassName": newTaskObj.ClassName,
+            //            "ClassNum": newTaskObj.ClassNum,
+            //            "Profession": newTaskObj.Profession,
+            //            "Deadline": $("#dateInput").val(),
+            //            "TaskNum": newTaskObj.Task.Num + 1,
+            //            "IdTeacher": techerID,
+            //            "groupNum": i + 1,
+            //            "Grade": 0,
+            //            "Feedback": null,
+            //            "Status": 0,
+            //            "Video": null,
+            //            "Comment": null,
+            //            "Group": ListStudent[i],
+            //        }
+            //    GroupStudentsList.push(InlayStudentsObJ);
+            //}
             objName =
                 {
                     "ClassName": newTaskObj.ClassName,
@@ -748,12 +765,12 @@
                                         <div class="col-lg-5 col-sm-12">
                                             <div id="showStrongWeak" style="display:none">
                                                 <!--<section>
-                                                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
-                                                    <br>
-                                                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
-                                                </section>-->
+                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
+                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
+                    <br>
+                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
+                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
+                </section>-->
                                                 <h6>תלמיד חזק הוא מעל ממוצע:</h6>
                                                 <input id="avg" type="text" class="textSquareTEXT" placeholder="ממוצע" required />
                                             </div>
@@ -791,11 +808,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row" id="TeamManagement1" style="display:none">
-                                            <div id="StudentTable" style="display:none">
-                                            </div>
-                                          
+                                    </div>
+
+                                    <div class="row" id="TeamManagement1" style="display:none">
+                                        <div id="StudentTable" style="display:none" >
+
                                         </div>
+
                                     </div>
                                 </div>
 

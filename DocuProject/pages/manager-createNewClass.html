@@ -192,12 +192,7 @@
             var cntrClass = 0
             for (var i = 0; i < listCl.length; i++) {
                 if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName && $("#classType").val() == listCl[i].ClassType) {
-                    Swal.fire({
-                        title: 'הכיתה כבר קיימת',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    setTimeout(reload, 3000);
                     cntrClass++;
                 }
                 if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#classType").val() == listCl[i].ClassType) {
@@ -240,6 +235,14 @@
             console.log(err);
         }
 
+        function reload() {
+          Swal.fire({
+                        title: 'הכיתה כבר קיימת',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+        }
         //details
         var numOfStudents = "";
         function checkDetails() {
