@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Data;
 using System.Text;
 
+
 namespace DocuProject.Models
 {
     public class Student
@@ -323,7 +324,6 @@ namespace DocuProject.Models
                         groupsStudents.Add(str);
                         str = "";
                     }
-
                 }
 
                 for (int j = 0; i < GirlsArr.Count; j++)

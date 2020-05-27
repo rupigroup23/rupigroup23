@@ -81,6 +81,7 @@
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
             $('#geographicalDiS').click(showG);
+            $('#make_Group').click(makeGroup);
             //avg alg
             $('#btnAlgo').click(makeGroup);
 
@@ -173,6 +174,7 @@
         function makeGroup() {
             shuffle = document.getElementById("shuffle");
             equals = document.getElementById("equals");
+            random = document.getElementById("random");
             StrongWeak = document.getElementById("StrongWeak");
 
             if (shuffle.checked) // צוותים מעורבים
@@ -792,6 +794,7 @@ function TeamManagementBTN() {
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
+                                                        <buttom id="make_Group">
                                                         <buttom id="btnAlgo">
                                                             הפעל אלגוריתם צוות
                                                         </buttom>
