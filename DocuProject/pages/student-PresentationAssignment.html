@@ -47,13 +47,6 @@
         var topic = "";
 
         $(document).ready(function () {
-            //Menus
-            //localN = localStorage.getItem('myName');
-            //console.log('local: ', JSON.parse(localN));
-            //myNameObj = JSON.parse(localStorage["myName"]);
-            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
-
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
             TaskObj = JSON.parse(localStorage["thisTask"]);
@@ -98,6 +91,12 @@
             localUSER = localStorage.getItem('student');
             studentObj = JSON.parse(localUSER);
             showDetalis(studentObj);
+            //menu - Student name
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
+            //
+
             //END- User image
         });
         //User image
@@ -536,7 +535,7 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
             <li class="nav-item active">
                 <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
@@ -544,7 +543,7 @@
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">תלמיד</h6>
+                <h6 id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student-index.html">

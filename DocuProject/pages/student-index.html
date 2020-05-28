@@ -39,10 +39,15 @@
             local = localStorage.getItem('student');
             studentObj = JSON.parse(local);
             readClassSUbjFromDB(studentObj); //מקצועות
-            ////pic//////////
+            Showorientation();
+            //menu - Student name
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
 
+            //
             showDetalis(studentObj);
-
+            
             $('#sorting').click(sortProf);
         });
 
@@ -161,8 +166,8 @@
         //סרגל השתלשלות
         orientationSTR = "";
         function Showorientation() {
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + studentObj.ClassName + "' " + studentObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-index.html'>בית</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
@@ -225,7 +230,7 @@
     <div id="wrapper">
         <!-- Left menu -->
         <!-- Sidebar -->
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
             <li class="nav-item active">
                 <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
@@ -233,7 +238,7 @@
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">תלמיד</h6>
+                <h6 id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student-index.html">
