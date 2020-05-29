@@ -1188,13 +1188,12 @@ public class DBservices
                               Student
                               where Id_='{ID}'";
             }
-
             da = new SqlDataAdapter(selectSTR, con);
             SqlCommandBuilder builder = new SqlCommandBuilder(da);
-
             DataSet ds = new DataSet();
             da.Fill(ds);
-            dt = ds.Tables[0];
+            dt = ds.Tables[0]; // טבלה אחת 
+
         }
 
         catch (Exception ex)
@@ -1346,6 +1345,7 @@ public class DBservices
             }
         }
     }
+  
 
     public Teacher check_User2(Teacher teacher)
     {
@@ -1794,6 +1794,64 @@ public class DBservices
         command = prefix + sb.ToString();
 
         return command;
+    }
+    public DBservices getSpecificTask2(string class1, string numClass, string sub, string topic)
+    {
+        string TBL = "";
+        SqlConnection con = null;
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            TBL = "select * from Task where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" + topic + "' ";
+            da = new SqlDataAdapter(TBL, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0]; // טבלה אחת 
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
+    public int delete_task(string class1, string numClass, string sub, string topic)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            String selectSTR = "delete from Task where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" + topic + "'";
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(selectSTR, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
     }
 
 }

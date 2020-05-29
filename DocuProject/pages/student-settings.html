@@ -197,12 +197,20 @@
             }
 
             function saveDetails_() {
+                Password = "";
+                if ($("#pass2").val() == "")
+                {
+                    Password = obj[0].Password_;
+                }
+                else {
+                    Password = passNew;
+                }
 
                 let student =
                 {
                     "Id": obj[0].Id_,
                     "PhoneNum": $("#phone").val(),
-                    "Password": passNew,
+                    "Password": Password,
                     "ClassName": obj[0].ClassName,
                     "ClassNum": obj[0].ClassNum
                 }

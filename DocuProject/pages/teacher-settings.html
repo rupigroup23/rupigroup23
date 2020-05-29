@@ -156,6 +156,7 @@
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
+            obj = "";
             function funcsuccess(data) {
 
                 obj = data;
@@ -197,13 +198,16 @@
             }
 
             passNew = "";
+            
             function saveDetails_() {
-
-                if ($("#selectProf").val() == '1')
-                    prof = obj[0].Profession;
-                else
-                    prof = $("#selectProf").val();
-
+             Password = "";
+                if ($("#pass2").val() == "")
+                {
+                    Password = obj[0].Password;
+                }
+                else {
+                    Password = passNew;
+                }
 
                 let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
                 {
@@ -216,7 +220,7 @@
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
                     "Profession": prof,
-                    "Password": passNew
+                    "Password": Password
                 }
 
                 console.log(teacher);

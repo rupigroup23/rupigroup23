@@ -304,14 +304,6 @@ namespace DocuProject.Controllers
             return task.getSpecificTask(class1, numClass, sub, topic);
         }
 
-        //[HttpPut]
-        //[Route("api/Docu/updateTask/{id}")]
-        //public DataTable PutTask(int id, [FromBody] Task task)
-        //{
-        //    Student S = new Student();
-        //    return S.PutTask(id, task); 
-        //}
-
 
         [HttpPost] /// דף מטלה ראשי
         [Route("api/Docu/DeleteT/{rowID}")]
@@ -370,5 +362,24 @@ namespace DocuProject.Controllers
         {
             return studentObj.GetStudentsAlgoritem(radioChoose);
         }
+
+        // עריכת מטלה - נוי 
+        [HttpPut]
+        [Route("api/Docu/updateTask/{class1}/{numClass}/{sub}/{topic}")]
+        public DataTable PutTask(string class1, string numClass, string sub, string topic, [FromBody] Task taskNew)
+        {
+            Task T = new Task();
+            return T.putT(class1, numClass, sub, topic, taskNew);
+        }
+
+        //מחיקת מטלה - נוי 
+        [HttpDelete] 
+        [Route("api/Docu/deleteTask/{class1}/{numClass}/{sub}/{topic}")]
+        public int deleteTask(string class1, string numClass, string sub, string topic) //מורה 
+        {
+            Task T = new Task();
+            return T.deleteTask(class1, numClass, sub, topic);
+        }
+
     }
 }
