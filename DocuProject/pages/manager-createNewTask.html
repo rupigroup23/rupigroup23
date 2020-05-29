@@ -11,6 +11,7 @@
     <title>'דוקו'</title>
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="img/favicon.png">
+
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -18,7 +19,6 @@
     <!-- Custom styles for this template-->
     <link href="css/osahan.css" rel="stylesheet">
     <link href="css/tablestyle.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css">
 
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
@@ -41,6 +41,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <link href="css/stam.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.0.0-beta.9/draggable.bundle.js" />
+    <script src="../Scripts/script.js"></script>
     <script>
         //user img
         var imagePath1 = '';
@@ -81,7 +83,6 @@
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
             $('#geographicalDiS').click(showG);
-            $('#make_Group').click(makeGroup);
             //avg alg
             $('#btnAlgo').click(makeGroup);
 
@@ -187,7 +188,7 @@
             }
 
             if (random.checked) { // רנדומלי להוסיף
-                 randomGroups(newTaskObj);
+                randomGroups(newTaskObj);
             }
             if (StrongWeak.checked) { // ממוצע להוסיף
                 strongWeakGroup();
@@ -204,10 +205,10 @@
             }
         }
 
-
-         function randomGroups(newTaskObj) //צוותים רנדומלים
+        function randomGroups(newTaskObj) //צוותים רנדומלים
         {
             radioChoose = "random";
+
             studentObj =
                 {
                     "ClassName": newTaskObj.ClassName,
@@ -217,7 +218,6 @@
             url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
             ajaxCall("POST", url, JSON.stringify(studentObj), GETsuccessSS, GETerrorSS)
         }
-
         function shuffleGroups(newTaskObj) // צוותים מעורבים
         {
             radioChoose = "shuffle";
@@ -230,7 +230,6 @@
             url = "../api/Docu/GetStudentsAlgoritem/" + radioChoose;
             ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
         }
-
         function equalsGroups(newTaskObj) {
             radioChoose = "equals";
             objClass =
@@ -262,25 +261,57 @@
             var management1 = document.getElementById("StudentTable");
             if (management1.style.display === "none") {
                 management1.style.display = "block";
-                TeamManagement1.style.display = "block";//
+                TeamManagement1.style.display = "block";
             }
-            // tblTeam1 = "<tr><th style='width: 110px;'>תלמיד 1</th><th style='width: 110px;'>תלמיד 2</th><th style='width: 110px;'>תלמיד 3</th><th style='width: 110px;'>שינוי</th>";
             tblTeam = "";
+            ////////////////////
+   $(".dropzone").on("dragover", function(ev) {
+  ev.preventDefault();
+});
+
+$(".dropzone").on("drop", function(ev) {
+  ev.preventDefault();
+  var data = ev.originalEvent.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+});
+
+$(".dragable").on("dragstart", function(ev) {
+  ev.originalEvent.dataTransfer.setData("text", ev.target.id);
+});
+
+            ///////////////////
             for (var i = 0; i < GroupStudentsList.length; i++) {
                 students = GroupStudentsList[i].Group.split(',');
-                // tblTeam += "<tr>";
-                //   colnum = 1;
-                tblTeam += "<ol data-draggable='target'>";
+                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
+                //tblTeam += "<ol data-draggable='target' aria-dropeffect='none'>";
+                var tblTeam = document.querySelector('#StudentTable');
+                var ol = document.createElement("ol")
+                ol.setAttribute('data-draggable', 'target')
+                //ol.addEventListener('ondrop', drop(event))
+                //ol.addEventListener('ondragover', allowDrop(event))
+                ol.classList.add('dropzone')
+                //ol.setAttribute('id', `div`)
+                //ol.setAttribute('aria-dropeffect', 'none')
+                tblTeam.appendChild(ol);       
                 for (var m = 0; m < studentList.length; m++) {
                     if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
-                        tblTeam += "<li data-draggable='item'>";
-                        tblTeam += studentList[m].FName + " " + studentList[m].LName;
-                        tblTeam += "</li>";
+                        //tblTeam += "<li data-draggable='item'>";
+                        //tblTeam += studentList[m].FName + " " + studentList[m].LName;
+                        //tblTeam += "</li>";
+                        var li = document.createElement('li')
+                        //li.setAttribute('id', `drag`)
+                        li.classList.add('dragable')
+                        li.setAttribute('data-draggable', 'item')
+                        li.setAttribute('draggable', true)
+                        //li.addEventListener('ondragstart', drag(event))
+                        var text = document.createTextNode(studentList[m].FName + " " + studentList[m].LName);
+                        li.appendChild(text);
+                        ol.appendChild(li)
                     }
                 }
-                tblTeam += "</ol>";
+                //tblTeam += "</ol>";
             }
-            document.getElementById("StudentTable").innerHTML = tblTeam;
+            //document.getElementById("StudentTable").innerHTML = tblTeam;
         }
 
         var GroupStudents = "";
@@ -395,7 +426,6 @@
                 StrongWeak.style.display = "none";
 
             }
-
         }
         //show items
         function UploadFile() {
@@ -515,7 +545,6 @@
 
             TaskObj =
                 {
-
                     "Video": "", //למחוק כשאנחנו מוחקות את העמודה
                     "Deadline": $("#dateInput").val(),
                     "Topic": $("#topic").val(),
@@ -566,8 +595,196 @@
             alert("GetClassSubj");
         }
 
-    </script>
 
+
+        ////////////////////////////////////////
+
+        (function () {
+
+            //exclude older browsers by the features we need them to support
+            //and legacy opera explicitly so we don't waste time on a dead browser
+            if
+                (
+                !document.querySelectorAll
+                ||
+                !('draggable' in document.createElement('span'))
+                ||
+                window.opera
+            ) { return; }
+
+            //get the collection of draggable items and add their draggable attributes
+            for (var
+                items = document.querySelectorAll('[data-draggable="item"]'),
+                len = items.length,
+                i = 0; i < len; i++) {
+                items[i].setAttribute('draggable', 'true');
+                items[i].setAttribute('aria-grabbed', 'false');
+                items[i].setAttribute('tabindex', '0');
+            }
+
+
+
+            //dictionary for storing the selections data
+            //comprising an array of the currently selected items
+            //and a reference to the selected items' owning container
+            var selections =
+            {
+                items: [],
+                owner: null
+            };
+
+            //function for selecting an item
+            function addSelection(item) {
+                //if the owner reference is still null, set it to this item's parent
+                //so that further selection is only allowed within the same container
+                if (!selections.owner) {
+                    selections.owner = item.parentNode;
+                }
+
+                //or if that's already happened then compare it with this item's parent
+                //and if they're not the same container, return to prevent selection
+                else if (selections.owner != item.parentNode) {
+                    return;
+                }
+
+                //set this item's grabbed state
+                item.setAttribute('aria-grabbed', 'true');
+
+                //add it to the items array
+                selections.items.push(item);
+            }
+
+            //function for unselecting an item
+            function removeSelection(item) {
+                //reset this item's grabbed state
+                item.setAttribute('aria-grabbed', 'false');
+
+                //then find and remove this item from the existing items array
+                for (var len = selections.items.length, i = 0; i < len; i++) {
+                    if (selections.items[i] == item) {
+                        selections.items.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            //function for resetting all selections
+            function clearSelections() {
+                //if we have any selected items
+                if (selections.items.length) {
+                    //reset the owner reference
+                    selections.owner = null;
+
+                    //reset the grabbed state on every selected item
+                    for (var len = selections.items.length, i = 0; i < len; i++) {
+                        selections.items[i].setAttribute('aria-grabbed', 'false');
+                    }
+
+                    //then reset the items array
+                    selections.items = [];
+                }
+            }
+
+            //shorctut function for testing whether a selection modifier is pressed
+            function hasModifier(e) {
+                return (e.ctrlKey || e.metaKey || e.shiftKey);
+            }
+
+
+
+            //mousedown event to implement single selection
+            document.addEventListener('mousedown', function (e) {
+                //if the element is a draggable item
+                if (e.target.getAttribute('draggable')) {
+                    //if the multiple selection modifier is not pressed
+                    //and the item's grabbed state is currently false
+                    if
+                        (
+                        !hasModifier(e)
+                        &&
+                        e.target.getAttribute('aria-grabbed') == 'false'
+                    ) {
+                        //clear all existing selections
+                        clearSelections();
+
+                        //then add this new selection
+                        addSelection(e.target);
+                    }
+                }
+
+                //else [if the element is anything else]
+                //and the selection modifier is not pressed
+                else if (!hasModifier(e)) {
+                    //clear all existing selections
+                    clearSelections();
+                }
+
+            }, false);
+
+            //mouseup event to implement multiple selection
+            document.addEventListener('mouseup', function (e) {
+                //if the element is a draggable item
+                //and the multipler selection modifier is pressed
+                if
+                    (
+                    e.target.getAttribute('draggable')
+                    &&
+                    hasModifier(e)
+                ) {
+                    //if the item's grabbed state is currently true
+                    if (e.target.getAttribute('aria-grabbed') == 'true') {
+                        //unselect this item
+                        removeSelection(e.target);
+
+                        //if that was the only selected item
+                        //then reset the owner container reference
+                        if (!selections.items.length) {
+                            selections.owner = null;
+                        }
+                    }
+
+                    //else [if the item's grabbed state is false]
+                    else {
+                        //add this additional selection
+                        addSelection(e.target);
+                    }
+                }
+
+            }, false);
+
+            //dragstart event to initiate mouse dragging
+            document.addEventListener('dragstart', function (e) {
+                //if the element's parent is not the owner, then block this event
+                if (selections.owner != e.target.parentNode) {
+                    e.preventDefault();
+                    return;
+                }
+
+                //[else] if the multiple selection modifier is pressed
+                //and the item's grabbed state is currently false
+                if
+                    (
+                    hasModifier(e)
+                    &&
+                    e.target.getAttribute('aria-grabbed') == 'false'
+                ) {
+                    //add this additional selection
+                    addSelection(e.target);
+                }
+
+                //we don't need the transfer data, but we have to define something
+                //otherwise the drop action won't work at all in firefox
+                //most browsers support the proper mime-type syntax, eg. "text/plain"
+                //but we have to use this incorrect syntax for the benefit of IE10+
+                e.dataTransfer.setData('text', '');
+
+            }, false);
+
+        })();
+
+
+            //////////////////////////////////////////
+    </script>
     <!-- partial -->
 
 
@@ -771,6 +988,7 @@
                                                     <input type="radio" id="shuffle" name="gander" value="boys" style="margin-right: 1.5em">
                                                     <label class="checkboxTasks" for="shuffle">צוותים מעורבים</label>
                                                     <br>
+
                                                     <input type="radio" id="equals" name="gander" value="one" style="margin-right: 1.5em">
                                                     <label class="checkboxTasks" for="one"> צוותים מאותו מין</label>
                                                     <br>
@@ -783,7 +1001,6 @@
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom id="make_Group">
                                                         <buttom id="btnAlgo">
                                                             הפעל אלגוריתם צוות
                                                         </buttom>
@@ -800,11 +1017,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row" id="TeamManagement1" style="display:none">
-                                            <div id="StudentTable" style="display:none">
-                                            </div>
-                                          
+                                    </div>
+
+                                    <div class="row" id="TeamManagement1" style="display:none">
+                                        <div id="StudentTable" style="display:none">
+
                                         </div>
+                                        <ol data-draggable="target">
+                                            <li data-draggable="item">Item 8</li>
+                                        </ol>
                                     </div>
                                 </div>
 

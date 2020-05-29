@@ -6,7 +6,6 @@ using System.Web.Configuration;
 using System.Data;
 using System.Text;
 
-
 namespace DocuProject.Models
 {
     public class Student
@@ -65,8 +64,7 @@ namespace DocuProject.Models
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-       
-        public DataTable deleteS(int id) 
+        public DataTable deleteS(int id)
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(ClassName, ClassNum);
@@ -129,8 +127,8 @@ namespace DocuProject.Models
         public DataTable Put_S(int id, Student student)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.Get_Details(id,"student");
-            dbs.dt = check_Tbl(id,student, dbs.dt); //חוזר לכאן טבלה אחרי העידכונים עדיין לא בדאטהבייס
+            dbs = dbs.Get_Details(id, "student");
+            dbs.dt = check_Tbl(id, student, dbs.dt); //חוזר לכאן טבלה אחרי העידכונים עדיין לא בדאטהבייס
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
@@ -159,16 +157,16 @@ namespace DocuProject.Models
 
             int cntrStudent = listbyStrong.Count() + listbyWeak.Count();
             double gorupNum;
-            double x;
+            int x;
 
-            if (cntrStudent % 3 == 0) 
+            if (cntrStudent % 3 == 0)
             {
                 gorupNum = cntrStudent / 3;
             }
             else
-            { 
+            {
                 x = cntrStudent / 3;
-                gorupNum = Math.Ceiling(x + 0.5);
+                gorupNum = Math.Round(x + 0.5);
             }
             int cntr;
             for (int i = 0; i < gorupNum; i++)
@@ -176,9 +174,9 @@ namespace DocuProject.Models
                 cntr = 0;
                 string nameTeam = "";
                 //Strong - one student
-                if(cntr <= listbyStrong.Count && listbyStrong.Count != 0)
+                if (cntr <= listbyStrong.Count && listbyStrong.Count != 0)
                 {
-                    nameTeam = Convert.ToString(listbyStrong[cntr].Id)  + "," ;
+                    nameTeam = Convert.ToString(listbyStrong[cntr].Id) + ",";
                     listbyStrong.RemoveAt(cntr);
                 }
                 else
@@ -187,7 +185,7 @@ namespace DocuProject.Models
                     listbyWeak.RemoveAt(cntr);
                 }
                 //Weak - one student
-                 if (cntr <= listbyWeak.Count && listbyWeak.Count != 0)
+                if (cntr <= listbyWeak.Count && listbyWeak.Count != 0)
                 {
                     nameTeam += Convert.ToString(listbyWeak[cntr].Id);
                     listbyWeak.RemoveAt(cntr);
@@ -203,7 +201,7 @@ namespace DocuProject.Models
             for (int i = 0; i < listbyMix.Count; i++)
             {
                 cntr = 0;
-                if (listbyStrong.Count > listbyWeak.Count) 
+                if (listbyStrong.Count > listbyWeak.Count)
                 {
                     listbyMix[i] += "," + listbyStrong[cntr].Id; ;
                     listbyStrong.RemoveAt(cntr);
@@ -325,6 +323,7 @@ namespace DocuProject.Models
                         groupsStudents.Add(str);
                         str = "";
                     }
+
                 }
 
                 for (int j = 0; i < GirlsArr.Count; j++)
@@ -508,11 +507,11 @@ namespace DocuProject.Models
                 {
                     if (i >= randomList.Count - 2)
                     {
-                        str = randomList[i].Id+ "," + randomList[i + 1].Id;
+                        str = randomList[i].Id + "," + randomList[i + 1].Id;
                     }
                     else
                     {
-                        str = randomList[i].Id + "," + randomList[i + 1].Id + "," + randomList[i + 2].Id ;
+                        str = randomList[i].Id + "," + randomList[i + 1].Id + "," + randomList[i + 2].Id;
                     }
                     groupsStudents.Add(str);
                 }
@@ -523,12 +522,12 @@ namespace DocuProject.Models
                 {
                     if (i >= randomList.Count - 4)
                     {
-                        str = randomList[i].Id+"," + randomList[i + 1].Id + "," + randomList[i + 2].Id + "," + randomList[i + 3].Id ;
+                        str = randomList[i].Id + "," + randomList[i + 1].Id + "," + randomList[i + 2].Id + "," + randomList[i + 3].Id;
                         i += 10;
                     }
                     else
                     {
-                        str = randomList[i].Id  + "," + randomList[i + 1].Id+ "," + randomList[i + 2].Id ;
+                        str = randomList[i].Id + "," + randomList[i + 1].Id + "," + randomList[i + 2].Id;
                     }
                     groupsStudents.Add(str);
                 }

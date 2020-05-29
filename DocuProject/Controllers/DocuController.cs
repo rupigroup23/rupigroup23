@@ -53,7 +53,7 @@ namespace DocuProject.Controllers
         }
 
         [HttpPost] /// דף כיתה
-        [Route("api/Docu/postGroup")] 
+        [Route("api/Docu/postGroup")]
         public void postGroup([FromBody] Group_Feedback StudentObj)
         {
             Group_Feedback C = new Group_Feedback();
@@ -68,7 +68,7 @@ namespace DocuProject.Controllers
             C.insertClassSub(classSUbObj);
         }
 
-        [HttpPost] 
+        [HttpPost]
         [Route("api/Docu/postTeach")]
         public void Post([FromBody] Teacher TeacherObj)
         {
@@ -91,7 +91,7 @@ namespace DocuProject.Controllers
             Class P = new Class();
             return P.ReadClass();
         }
-        [HttpPost] 
+        [HttpPost]
         [Route("api/Docu/addProff")]
         public void Post([FromBody] Profession proffObj)
         {
@@ -114,7 +114,7 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             T.insertT2(teachersArr);
         }
-        [HttpGet] 
+        [HttpGet]
         [Route("api/Docu/GetT")]
         public List<Teacher> GetT()
         {
@@ -298,10 +298,10 @@ namespace DocuProject.Controllers
 
         [HttpGet]
         [Route("api/Docu/specifictask/{class1}/{numClass}/{sub}/{topic}")]
-        public string getSpecificTask (string class1, string numClass, string sub, string topic)
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
         {
             Task task = new Task();
-            return task.getSpecificTask( class1,numClass,  sub,  topic);
+            return task.getSpecificTask(class1, numClass, sub, topic);
         }
 
         //[HttpPut]
@@ -311,8 +311,8 @@ namespace DocuProject.Controllers
         //    Student S = new Student();
         //    return S.PutTask(id, task); 
         //}
- 
-        
+
+
         [HttpPost] /// דף מטלה ראשי
         [Route("api/Docu/DeleteT/{rowID}")]
         public DataTable Delete_T(int rowID) //מורה 
@@ -340,7 +340,7 @@ namespace DocuProject.Controllers
         }
 
         //submission page
-        [HttpPost] 
+        [HttpPost]
         [Route("api/Docu/GetTeamData")]
         public DataTable GetTeamData([FromBody]Group_Feedback teamObj)
         {
@@ -362,7 +362,7 @@ namespace DocuProject.Controllers
         public List<string> GetSudentsbyGrade(string name, int num, string prof, string grade)
         {
             Student G = new Student();
-            return G.GetSbyGrade1(name, num, prof, grade) ; // Read from Models/Counrty
+            return G.GetSbyGrade1(name, num, prof, grade); // Read from Models/Counrty
         }
         [HttpPost] // אלגוריתם בנים בנות - נוי 
         [Route("api/Docu/GetStudentsAlgoritem/{radioChoose}")]
