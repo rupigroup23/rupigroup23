@@ -1175,7 +1175,7 @@ public class DBservices
                               Teacher__
                               where Id_='{ID}'";
             }
-            if (str == "admin")
+            else if (str == "admin")
             {
                 selectSTR = $@"select * from
                               Admin_

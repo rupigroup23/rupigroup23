@@ -97,7 +97,12 @@
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
-            console.log(studentObj.FName + ' ' + studentObj.LName);
+            //menu - Student name
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
+            //
+
 
             //pic
             function showDetalis(studentObj) {
@@ -347,15 +352,15 @@
     <div id="wrapper">
         <!-- Left menu -->
         <!-- Sidebar -->
-        <ul class="sidebar navbar-nav">
-            <li class="nav-item active">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
+            <li class="nav-item ">
                 <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">תלמיד</h6>
+                <h6  id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student-index.html">

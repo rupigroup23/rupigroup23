@@ -351,26 +351,25 @@
     <div id="wrapper">
         <!-- תפריט -->
         <!-- Sidebar -->
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
             <li class="nav-item ">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
-            <li class="nav-item  channel-sidebar-list">
+            <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
-            <li class="nav-item active dropdown">
+            <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
+                    <a class="dropdown-item " href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item active" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -380,31 +379,28 @@
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
-            <!--<a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; מועדפים</a>-->
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    כיתות
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="manager-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-login.html">
+                    <i class="fa fa-gear"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
             </li>
         </ul>
         <!-- סוף תפריט-->

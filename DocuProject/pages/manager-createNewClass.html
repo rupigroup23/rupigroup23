@@ -192,12 +192,7 @@
             var cntrClass = 0
             for (var i = 0; i < listCl.length; i++) {
                 if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName && $("#classType").val() == listCl[i].ClassType) {
-                    Swal.fire({
-                        title: 'הכיתה כבר קיימת',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                    setTimeout(reload, 3000);
                     cntrClass++;
                 }
                 if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#classType").val() == listCl[i].ClassType) {
@@ -240,6 +235,14 @@
             console.log(err);
         }
 
+        function reload() {
+          Swal.fire({
+                        title: 'הכיתה כבר קיימת',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+        }
         //details
         var numOfStudents = "";
         function checkDetails() {
@@ -563,8 +566,8 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
-        <ul class="sidebar navbar-nav">
-            <li class="nav-item">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
+            <li class="nav-item ">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
@@ -573,16 +576,15 @@
             <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
-            <li class="nav-item active dropdown">
+            <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item active" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
+                    <a class="dropdown-item active " href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -592,30 +594,28 @@
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
-                    <!--<i class="fas fa-fw fa-cloud-upload-alt"></i>-->
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    כיתות
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="manager-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-login.html">
+                    <i class="fa fa-gear"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
             </li>
         </ul>
         <!-- END Left menu -->

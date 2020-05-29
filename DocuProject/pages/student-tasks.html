@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -45,14 +44,6 @@
         var userEmail1 = '';
 
         $(document).ready(function () {
-            ////Menus
-            //localN = localStorage.getItem('myName');
-            //console.log('local: ', JSON.parse(localN));
-            //myNameObj = JSON.parse(localStorage["myName"]);
-            //document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            //document.getElementById("myNameN2").innerHTML = myNameObj.name;
-            //savelocal1(myNameObj.name);
-
             local = localStorage.getItem('thisProfObj');
             console.log('local: ', JSON.parse(local));
             ProfObj = JSON.parse(localStorage["thisProfObj"]);
@@ -65,6 +56,11 @@
             //User image
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
+            //menu - Student name
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
+            //
             showDetalis(studentObj);
 
         });
@@ -280,7 +276,7 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav" style="z-index: 0; ">
             <li class="nav-item active">
                 <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-home"></i>
@@ -288,7 +284,7 @@
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">תלמיד</h6>
+                <h6 id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student-index.html">

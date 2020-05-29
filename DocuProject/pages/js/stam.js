@@ -1,5 +1,4 @@
 ﻿(function () {
-
     //exclude older browsers by the features we need them to support
     //and legacy opera explicitly so we don't waste time on a dead browser
     if

@@ -543,7 +543,7 @@ div {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#650ec0', endColorstr='#00c6ff',GradientType=1 );
     /* IE6-9 fallback on horizontal gradient */
     min-height: 100%;
-    z-index: 9;
+    /*z-index: 9;*/
     padding: 2px 0;
     position: fixed;
     height: 100%;

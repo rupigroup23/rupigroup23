@@ -199,8 +199,6 @@
     <Content Include="pages\404.html" />
     <Content Include="pages\account.html" />
     <Content Include="pages\blank.html" />
-    <Content Include="pages\categories.html" />
-    <Content Include="pages\channels.html" />
     <Content Include="pages\css\feedbackStyle.css" />
     <Content Include="pages\css\stam.css" />
     <Content Include="pages\css\upl.css" />
