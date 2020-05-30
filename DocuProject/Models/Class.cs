@@ -11,24 +11,18 @@ namespace DocuProject.Models
 {
     public class Class
     {
-        
-        // מותאם למסך כיתה
-
         string name;
         int number;
-        string year; // שנה עברית
+        string year;
         int numOfStudents;
         string teacherName;
-        string classType;
  
         public Class () { }
-
         public string Name { get => name; set => name = value; }
         public int Number { get => number; set => number = value; }
         public string Year { get => year; set => year = value; }
         public int NumOfStudents { get => numOfStudents; set => numOfStudents = value; }
         public string TeacherName { get => teacherName; set => teacherName = value; }
-        public string ClassType { get => classType; set => classType = value; }
 
 
         public int insert(Class classObj) 

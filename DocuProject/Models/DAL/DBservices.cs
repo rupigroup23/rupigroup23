@@ -115,8 +115,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}',{1},'{2}',{3},'{4}','{5}')", classObj.Name, classObj.Number, classObj.Year, classObj.NumOfStudents, classObj.TeacherName, classObj.ClassType); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Class_" + "(Name_,Number,year_,numOfStudents,teacherName,classType)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}',{1},'{2}',{3},'{4}')", classObj.Name, classObj.Number, classObj.Year, classObj.NumOfStudents, classObj.TeacherName); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Class_" + "(Name_,Number,year_,numOfStudents,teacherName)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -443,7 +443,7 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select distinct Name_, Number, year_, teacherName, classType from Class_"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select distinct Name_, Number, year_, teacherName from Class_"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
             // get a reader
@@ -456,7 +456,6 @@ public class DBservices
                 C.Number = (int)dr["Number"];
                 C.Year = (string)dr["year_"];
                 C.TeacherName = (string)dr["teacherName"];
-                C.ClassType = (string)dr["classType"];
                 listClass.Add(C);
             }
 
@@ -588,7 +587,37 @@ public class DBservices
         }
         return A;
     }
+    // קבלת הכיתות הספציפיות שהמורה מלמד
+    public DBservices teacherNumClass(int id)
+    {
+        SqlConnection con = null;
+        string str = "";
+        try
+        {
+            con = connect("DBConnectionString");
 
+            str = $@"select distinct ClassName,ClassNum from classProfession where ClassName <> ' ' and Id_teacher='{id}'";
+            da = new SqlDataAdapter(str, con); // נשלח את הסטרינג לכאן
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
     public DBservices Get_Nums()
     {
         SqlConnection con = null;
@@ -619,6 +648,7 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+
 
     public DBservices Get_Students(string className, int classNum) // מחזיר איבר מסוג DBSERVICES
     {
@@ -771,8 +801,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.ClassType, classSUbObj.Profession, classSUbObj.Id_teacher, classSUbObj.Teacher_name, classSUbObj.Year_); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,ClassType,Profession,Id_teacher,Teacher_name,year_)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}')", classSUbObj.Name, classSUbObj.Number, classSUbObj.Profession, classSUbObj.Id_teacher, classSUbObj.Teacher_name, classSUbObj.Year_); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO classProfession" + "(ClassName,ClassNum,Profession,Id_teacher,Teacher_name,year_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -820,6 +850,50 @@ public class DBservices
             String selectSTR = $@"SELECT *
                                FROM classProfession
                                where ClassName = '{name}' and ClassNum='{num}'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                ClassSubjects CS = new ClassSubjects();
+
+                CS.Name = (string)dr["className"];
+                CS.Number = (string)dr["classNum"];
+                CS.Profession = (string)dr["Profession"];
+                CS.Teacher_name = (string)dr["Teacher_name"];
+                CS.Id_teacher = (int)dr["Id_teacher"];
+                CS.Year_ = (string)dr["year_"];
+                listClassSubj.Add(CS);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listClassSubj; // מחזיר מערך 
+    }
+
+    public List<ClassSubjects> getCSFromDB_Teachers(string name, string num, int teachrID)//  קבלת המקצועות הספציפיים של המורה 
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<ClassSubjects> listClassSubj = new List<ClassSubjects>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT *
+                               FROM classProfession
+                               where ClassName = '{name}' and ClassNum='{num}' and Id_teacher='{teachrID}'";
             //שורה קבועה
             SqlCommand cmd = new SqlCommand(selectSTR, con);
             //קורא שורה סוגר וככה הלאה //שורה קבועה

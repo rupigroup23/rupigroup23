@@ -78,14 +78,12 @@
             //////////pic/////
         });
 
-        
-
         var profession = "";
         ClassSubArr = [];
 
 
         function readClassSUbjFromDB() {
-            var apiProf = "../api/Teacher/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
+            var apiProf = "../api/Teacher/GetClassSubj_/" + classObj.ClassName + "/" + classObj.ClassNum + "/" + objTeacher.Id;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
         ProfARR = [];
