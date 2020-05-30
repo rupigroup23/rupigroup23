@@ -44,12 +44,12 @@
         var taskId = 0;
 
         $(document).ready(function () {
-            ////Menus
-            localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+            //menu - Teacher name
+            teacherName = JSON.parse(localStorage["myName"]); //local class
+            document.getElementById("myNameN1").innerHTML = teacherName.name;
+            document.getElementById("myNameN2").innerHTML = teacherName.name;
+            //
+
 
             //localstorage for the images
             //User image
@@ -416,15 +416,15 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
-        <ul class="sidebar navbar-nav">
-            <li class="nav-item active">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
+            <li class="nav-item">
                 <a class="nav-link" href="teacher-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 class="nav-item">מורה</h6>
+                <h6 id="myNameN2" class="nav-item">מורה</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="teacher-index.html">
@@ -432,21 +432,20 @@
                     כיתות
                 </a>
             </li>
-
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="teacher-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="teacher-settings.html">
+                    <i class="fa fa-gear"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
             </li>
         </ul>
         <!-- END Left menu -->

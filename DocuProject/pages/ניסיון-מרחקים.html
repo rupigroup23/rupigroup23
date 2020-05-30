@@ -1,0 +1,23 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+    <script src="https://www.govmap.gov.il/govmap/api/govmap.api.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lon = position.coords.longitude;
+                    const lat = position.coords.latitude;
+                    console.log('lon', lon)
+                    console.log('lat',lat)
+                })
+            }
+        });
+
+    </script>
+</head>
+<body>
+    <div id="map" style="width:600px;height:600px"></div>
+    <button onClick="showExample()">Show Example</button>
+</body>
+</html>

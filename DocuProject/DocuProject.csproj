@@ -199,8 +199,6 @@
     <Content Include="pages\404.html" />
     <Content Include="pages\account.html" />
     <Content Include="pages\blank.html" />
-    <Content Include="pages\categories.html" />
-    <Content Include="pages\channels.html" />
     <Content Include="pages\css\feedbackStyle.css" />
     <Content Include="pages\css\stam.css" />
     <Content Include="pages\css\upl.css" />
@@ -386,6 +384,7 @@
     <Content Include="pages\vendor\owl-carousel\owl.theme.css" />
     <Content Include="pages\video-page.html" />
     <Content Include="pages\video-page1.html" />
+    <Content Include="pages\ניסיון-מרחקים.html" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Scripts\allTask.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -434,6 +433,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\Manager-addClass.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\style.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

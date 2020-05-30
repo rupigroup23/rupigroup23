@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.Web.Configuration;
+using System.Data;
+using System.Text;
 namespace DocuProject.Models
 {
     public class Task
@@ -44,33 +46,6 @@ namespace DocuProject.Models
             return dbs.getTaskFromDB(name, num, prof);
         }
 
-        //public DataTable PutTask(int id, Task task)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
-        //{
-        //    DBservices dbs = new DBservices();
-        //    dbs = dbs.Get_task(task.className, task.ClassNum); //Get_Students
-        //    dbs.dt = checkTbtask(id, task, dbs.dt); //checkTbl
-        //    dbs.update();
-        //    return dbs.dt;//מעביר רק את הטבלה 
-        //}
-        //public DataTable checkTbtask(int id, Task task, DataTable dt)
-        //{
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        ////////// שינוי בתוך הטבלה עצמה
-        //        if (id == Convert.ToInt32(dr["id"]))
-        //        {
-        //            dr["ClassName"] = task.ClassName;
-        //            dr["ClassNum"] = task.ClassNum;
-        //            dr["Profession"] = task.Profession;
-        //            dr["Deadline"] = task.Deadline;
-        //            dr["Topic"] = task.Topic;
-        //            dr["Assignation"] = task.Assignation;
-        //            dr["Description"] = task.Description;
-        //        }
-        //    }
-        //    return dt;
-        //}
-
         public string getSpecificTask(string class1, string numClass, string sub,string  topic)
         {
             DBservices dbs = new DBservices();
@@ -83,38 +58,37 @@ namespace DocuProject.Models
             return dbs.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
         }
 
+        public DataTable putT(string class1, string numClass, string sub, string topic, Task taskNew)
+        {       
+            DBservices dbs = new DBservices();                 
+            dbs = dbs.getSpecificTask2(class1, numClass, sub, topic);
+            dbs.dt = checkTblT2(taskNew , dbs.dt);
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
 
+        public DataTable checkTblT2(Task taskNew,DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                {
+                    dr["ClassName"] = taskNew.ClassName;
+                    dr["ClassNum"] = taskNew.ClassNum;
+                    dr["Profession"] = taskNew.Profession;
+                    dr["Deadline"] = taskNew.Deadline;
+                    dr["Topic"] = taskNew.Topic;
+                    dr["Description_"] = taskNew.Description;
+                }
+            }
+            return dt;
+        }
 
-        //public DataTable GetDetailsT(int ID)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
-        //{
-        //    DBservices dbs = new DBservices();
-        //    dbs = dbs.Get_DetailsT(ID);
-        //    return dbs.dt;//מעביר רק את הטבלה 
-        //}
-        //public DataTable PutT(Task task)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
-        //{
-        //    DBservices dbs = new DBservices();
-        //    dbs = dbs.Get_DetailsT(task.Id);
-        //    dbs.dt = checkTblT(task, task.Id, dbs.dt);
-        //    dbs.update1();
-        //    return dbs.dt;//מעביר רק את הטבלה 
-        //}
-        //public DataTable checkTblT(Task task, int id, DataTable dt)
-        //{
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        {
-        //            dr["ClassName"] = task.ClassName;
-        //            dr["ClassNum"] = task.ClassNum;
-        //            dr["Profession"] = task.Profession;
-        //            dr["Deadline"] = task.Deadline;
-        //            dr["Topic"] = task.Topic;
-        //            dr["Assignation"] = task.Assignation;
-        //            dr["Description_"] = task.Description;
-        //        }
-        //    }
-        //    return dt;
-        //}
+        public int deleteTask(string class1, string numClass, string sub, string topic)
+        {
+            DBservices dbs = new DBservices();
+            int numAffected = dbs.delete_task(class1, numClass, sub, topic);
+            return numAffected;
+        }
 
     }
 }

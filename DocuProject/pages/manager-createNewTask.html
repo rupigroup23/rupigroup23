@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,6 +202,17 @@
             else {
                 management.style.display = "none";
             }
+            $('#random').attr("disabled", true);
+            $('#gender').attr("disabled", true);
+            $('#StrongWeak').attr("disabled", true);
+            $('#geographicalDiS').attr("disabled", true);
+            Swal.fire({
+                title: 'הציוות הושלם בהצלחה',
+                text: 'לעריכה - לחץ על ניהול צוותים',
+                icon: 'warning',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
         }
 
         function randomGroups(newTaskObj) //צוותים רנדומלים
@@ -249,10 +260,10 @@
         }
         function GETerrorSS() { };
         //
-        var tblTeam1 = "";
+        var btnSave = "";
         var tblTeam = "";
-        var tblTeam2 = "";
         var students = "";
+        var idTeam;
         //  var rownum = 1;
         //var colnum = 1;
 
@@ -264,7 +275,6 @@
                 management1.style.display = "block";
                 TeamManagement1.style.display = "block";
             }
-
             tblTeam = "";
 
             for (var i = 0; i < GroupStudentsList.length; i++) {
@@ -283,7 +293,8 @@
 
                 tblTeam += "</ol>";
             }
-            document.getElementById("StudentTable").innerHTML = tblTeam;
+            //   btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn'></div>";
+            document.getElementById("StudentTable").innerHTML = tblTeam + btnSave;
         }
 
         var GroupStudents = "";
@@ -301,24 +312,30 @@
         }
         function makeTeam(ListStudent) {
             for (var i = 0; i < ListStudent.length; i++) {
-                InlayStudentsObJ =
-                    {
-                        "ClassName": newTaskObj.ClassName,
-                        "ClassNum": newTaskObj.ClassNum,
-                        "Profession": newTaskObj.Profession,
-                        "Deadline": $("#dateInput").val(),
-                        "TaskNum": newTaskObj.Task.Num + 1,
-                        "IdTeacher": techerID,
-                        "groupNum": i + 1,
-                        "Grade": 0,
-                        "Feedback": null,
-                        "Status": 0,
-                        "Video": null,
-                        "Comment": null,
-                        "Group": ListStudent[i],
-                    }
-                GroupStudentsList.push(InlayStudentsObJ);
+                listTeams = {
+                    "Group": ListStudent[i],
+                }
+                GroupStudentsList.push(listTeams);
             }
+            //for (var i = 0; i < ListStudent.length; i++) {
+            //    InlayStudentsObJ =
+            //        {
+            //            "ClassName": newTaskObj.ClassName,
+            //            "ClassNum": newTaskObj.ClassNum,
+            //            "Profession": newTaskObj.Profession,
+            //            "Deadline": $("#dateInput").val(),
+            //            "TaskNum": newTaskObj.Task.Num + 1,
+            //            "IdTeacher": techerID,
+            //            "groupNum": i + 1,
+            //            "Grade": 0,
+            //            "Feedback": null,
+            //            "Status": 0,
+            //            "Video": null,
+            //            "Comment": null,
+            //            "Group": ListStudent[i],
+            //        }
+            //    GroupStudentsList.push(InlayStudentsObJ);
+            //}
             objName =
                 {
                     "ClassName": newTaskObj.ClassName,
@@ -625,8 +642,8 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <!-- Left menu -->
-        <ul class="sidebar navbar-nav">
-            <li class="nav-item">
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
+            <li class="nav-item ">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
@@ -635,16 +652,15 @@
             <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown active ">
                 <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>יצירה</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
+                    <a class="dropdown-item " href="manager-createNewClass.html">✎ הקמת כיתה חדשה</a>
                     <a class="dropdown-item" href="manager-createNewTeacher.html">✎ יצירת מורה חדש</a>
                     <a class="dropdown-item" href="manager-createNewStudent.html">✎ יצירת תלמיד חדש</a>
-                    <a class="dropdown-item" href="manager-createNewProfession.html">✎ הקמת מקצוע חדש</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -654,29 +670,28 @@
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="manager-teacher-Management.html">📝 ניהול מורים</a>
-                    <a class="dropdown-item" href="manager-Student-ClassroomManagement.html">📝 ניהול תלמידים</a>
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="manager-index.html">
                     <i class="fas fa-fw fa-users"></i>
-                    <!--&#127891;--> כיתות
+                    כיתות
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6>פרטיות</h6>
-                <ul>
-                    <li>
-                        <a href="manager-settings.html">
-                            <i class="fa fa-gear" style="font-size:24px"></i>
-                            הגדרות
-                        </a>
-                        <a href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
-                            <i class="fa fa-sign-out" style="font-size:24px"></i>
-                            יציאה מהמערכת
-                        </a>
-                    </li>
-                </ul>
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manager-login.html">
+                    <i class="fa fa-gear"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
             </li>
         </ul>
         <!-- END Left menu -->
@@ -782,9 +797,10 @@
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom id="btnAlgo">
-                                                            הפעל אלגוריתם צוות
-                                                        </buttom>
+                                                        <buttom id="make_Group">
+                                                            <buttom id="btnAlgo">
+                                                                הפעל אלגוריתם צוות
+                                                            </buttom>
                                                     </a>
                                                 </div>
                                             </div>
@@ -804,9 +820,6 @@
                                         <div id="StudentTable" style="display:none">
 
                                         </div>
-                                        <ol draggable="true" data-draggable="target">
-                                            <li draggable="true" data-draggable="item"></li>
-                                        </ol>
                                     </div>
                                 </div>
 

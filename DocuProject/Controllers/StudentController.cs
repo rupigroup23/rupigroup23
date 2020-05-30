@@ -45,6 +45,7 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
+
         [HttpGet]
         [Route("api/Student/GetTasks/{name}/{num}/{prof}")]
         public List<Task> GetTask(string name, string num, string prof)
