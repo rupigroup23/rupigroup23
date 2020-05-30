@@ -195,13 +195,7 @@ namespace DocuProject.Controllers
         }
 
 
-        //אלגורתים חכם- רביד
-        [HttpPost]  
-        [Route("api/Student/GetStudentsAlgoritem/{radioChoose}")]
-        public List<string> Get_S([FromBody] Student studentObj, string radioChoose)
-        {
-            return studentObj.GetStudentsAlgoritem(radioChoose);
-        }
+       
     }
 
 
