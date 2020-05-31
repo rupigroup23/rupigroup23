@@ -203,6 +203,7 @@
     <Content Include="pages\css\stam.css" />
     <Content Include="pages\css\upl.css" />
     <Content Include="pages\EntrancePage.html" />
+    <Content Include="pages\HtmlPage2.html" />
     <Content Include="pages\img\cancleBtn.png" />
     <Content Include="pages\img\NEW.png" />
     <Content Include="pages\img\NOTapproved1.png" />

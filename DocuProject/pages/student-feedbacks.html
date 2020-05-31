@@ -49,9 +49,12 @@
             console.log(source)
             console.log(video)
             document.getElementById('mainVideo').appendChild(source);
-
+            //var group = document.getElementById('group');
+            //students = listOfVideo[i].Group;
 
             $('#load').prop("disabled", true);
+
+ 
     
            
             local = localStorage.getItem('thisTask');
@@ -59,11 +62,37 @@
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
- 
-
-
+            
             Showorientation();//סרגל השתלשלות
-         
+
+            ////הבאת סרטונים מהדאטה בייס//
+            //date = TaskObj.Task.Date;
+            //dateArr = date.split('/');
+            //dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
+
+            //taskObject = { // מגיע מהלוקל סטורג'
+            //    "ClassName": TaskObj.ClassName,
+            //    "ClassNum": TaskObj.ClassNum,
+            //    "Profession": TaskObj.Profession,
+            //    "Topic": TaskObj.Task.Topic,
+            //    "Deadline": dateVal
+            //}
+
+            //urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
+
+            //ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
+            //    //הבאת סרטונים מהדאטה בייס//
+
+            //function getVideoSuccessCB(listOfVideo) {
+            //    for (let i in listOfVideo) {
+            //        if (listOfVideo[i] == mainVideoPath) {
+            //            groupsStudends = listOfVideo[i].Group;
+            //        }
+            //    }
+            //    document.getElementById('group').innerHTML = groupsStudends;
+            //}
+
+            function getVideoErrorCB(err) { console.log(err) }
 
             $('#likeBtn').click(function () { //
                 $('#like').css("color", "green");
@@ -103,7 +132,6 @@
             document.getElementById("myNameN2").innerHTML = myname;
             //
 
-
             //pic
             function showDetalis(studentObj) {
                 Id = studentObj.Id;
@@ -128,8 +156,10 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
+
+                // מביא פידבקים לפי הקבוצה+מס מטלה+מקצוע מטבלת הפידבקים
                 let obj = {
-                    "groupStudent": 'רביד נוי ושיר',
+                    "groupStudent":"רביד נוי ושיר",
                     "numOfTask": TaskObj.Task.Num,
                     "Profession": TaskObj.Profession
                 }
@@ -409,7 +439,7 @@
                                 <!-- הסרטון הראשי -->
                                 <div class="single-video-title box md-3">
                                     <span class="testSudent">חברי הצוות:</span> &nbsp;
-                                    <span class="create-text">שיר מלכה, נוי מור יוסף ורביד אלבז</span>
+                                    <span class="create-text" id="group"></span>
                                     <!--<p class="mb-0"><i class="fas fa-eye"></i> 200 צפיות</p>-->
                                 </div>
                                 <div class="single-video-author box md-3">
