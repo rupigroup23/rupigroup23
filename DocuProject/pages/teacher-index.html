@@ -36,13 +36,14 @@
     <script>
 
         $(document).ready(function () {
-            getNumOfClass();
+           
 
             local = localStorage.getItem('user');
             objTeacher = JSON.parse(local);
             console.log(objTeacher);
             showDetalis(objTeacher);
 
+             getNumOfClass(objTeacher);
             studentObj = "";
             $("#class1").click(function () {
                 var open = $(this).data("isopen");
@@ -57,7 +58,6 @@
                             "ClassNum": $("#class1").val()
                         }
                 }
-
                 $(this).data("isopen", !open);
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
@@ -93,9 +93,10 @@
             });
         });
         //////////////select/////////////////
-        function getNumOfClass() {
+        function getNumOfClass(objTeacher) {
+            id = objTeacher.Id;
             console.log();
-            var url = "../api/Teacher/getNumClass";
+            var url = "../api/Teacher/teacherClass/" + Id;
             ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
         }
 
@@ -107,15 +108,20 @@
         }
 
         function funcsuccess(data) {
+            
             obj = data;
             console.log(obj)
+
+            //ברוכים הבאים
+            headStr = "<h1 class='text2' style='font-size: 45px;margin-right: auto;margin-left: auto;'>ברוכים הבאים, " + obj[0].FName + " " + obj[0].LName +"!<h1/>";
+            document.getElementById("head").innerHTML = headStr;
+
             //menu - Teacher name
             myname = obj[0].FName + " " + obj[0].LName;
             document.getElementById("myNameN1").innerHTML = myname;
             document.getElementById("myNameN2").innerHTML = myname;
             savelocal1(myname);
             //
-
             userEmail1 = obj[0].Email;
             ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
@@ -139,24 +145,24 @@
             list = data;
 
             for (var i = 0; i < list.length; i++) {// מוסיף מספרי כיתה
-                if (list[i].Name_ == "ז") {
+                if (list[i].ClassName == "ז") {
                     var select = document.getElementById("class1");
                     var option = document.createElement("option");
-                    option.text = list[i].Number;
+                    option.text = list[i].ClassNum;
                     select.add(option);
                 }
 
-                if (list[i].Name_ == "ח") {
+                if (list[i].ClassName == "ח") {
                     var select = document.getElementById("class2");
                     var option = document.createElement("option");
-                    option.text = list[i].Number;
+                    option.text = list[i].ClassNum;
                     select.add(option);
                 }
 
-                if (list[i].Name_ == "ט") {
+                if (list[i].ClassName == "ט") {
                     var select = document.getElementById("class3");
                     var option = document.createElement("option");
-                    option.text = list[i].Number;
+                    option.text = list[i].ClassNum;
                     select.add(option);
                 }
 
@@ -274,6 +280,8 @@
                     </div>
                 </div>
                 <div class="video-block section-padding">
+                    <div class="row" id="head">
+                    </div>
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-10">
@@ -309,13 +317,13 @@
                                         <option>בחירת כיתה</option>
                                     </select>
                                     <!--<a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז1</a>
-                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז2</a>
-                                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז3</a>
-                                    </div>-->
+                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז1</a>
+                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז2</a>
+                        <a class="dropdown-item" style="color: black" href="teacher-professions.html"><i></i> &nbsp; ז3</a>
+                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
@@ -345,7 +353,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

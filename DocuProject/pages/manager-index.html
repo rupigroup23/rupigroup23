@@ -53,7 +53,12 @@
             }
             function funcsuccess(data) {
                 obj = data;
-                
+
+                     //ברוכים הבאים
+            headStr = "<h1 class='text2' style='font-size: 45px;margin-right: auto;margin-left: auto;'>ברוכים הבאים, " + obj[0].FName + " " + obj[0].LName +"!<h1/>";
+            document.getElementById("head").innerHTML = headStr;
+
+
                 myname = obj[0].FName + " " + obj[0].LName;
                 document.getElementById("myNameN1").innerHTML = myname;
                 document.getElementById("myNameN2").innerHTML = myname;
@@ -280,6 +285,9 @@
                     </div>
                 </div>
                 <div class="video-block section-padding">
+                    <div class="row" id="head"> <!-- ברוכים הבאים -->
+
+                    </div>
                     <div class="col-md-12">
                         <div class="row">
                             <h6 class="text2">קיצורים:</h6>
@@ -322,18 +330,18 @@
                                 </div>
                             </div>
                             <!--<div class="col-md-2">
-                                <div class="main-title">
-                                    <div class="btn-group float-right right-action">
-                                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
+                <div class="main-title">
+                    <div class="btn-group float-right right-action">
+                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-sm-6 mb-3">
@@ -349,14 +357,14 @@
                                     </select>
 
                                     <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
+                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
-                                    </div>-->
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
+                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
@@ -370,13 +378,13 @@
                                     </select>
 
                                     <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
-                                    </div>-->
+                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
+                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
@@ -390,13 +398,13 @@
                                         <option>בחירת כיתה</option>
                                     </select>
                                     <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
-                                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
-                                    </div>-->
+                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
+                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
+                    </div>-->
                                 </div>
                             </div>
                         </div>
