@@ -15,16 +15,13 @@ namespace DocuProject.Models
 
         string name; //שם כיתה למשל ח
         string number; //מספר כיתה למשל 2
-        string classType; //סוג כיתה למשל רגילה
         string profession; //מקצוע למשל מתמטיקה
         int id_teacher; //מקצוע למשל מתמטיקה
         string teacher_name; //מקצוע למשל מתמטיקה
         string year_;
         public ClassSubjects() { }
-
         public string Name { get => name; set => name = value; }
         public string Number { get => number; set => number = value; }
-        public string ClassType { get => classType; set => classType = value; }
         public string Profession { get => profession; set => profession = value; }
         public int Id_teacher { get => id_teacher; set => id_teacher = value; }
         public string Teacher_name { get => teacher_name; set => teacher_name = value; }
@@ -43,17 +40,26 @@ namespace DocuProject.Models
             dbs = dbs.Get_Nums();
             return dbs.dt;//מעביר רק את הטבלה 
         }
-
         public List<ClassSubjects> ReadCS(string name, string num)
         {
             DBservices dbs = new DBservices();
             return dbs.getCSFromDB(name, num);
         }
 
+        //  קבלת המקצועות הספציפיים של המורה 
+        public List<ClassSubjects> ReadCSTeacher(string name, string num, int teachrID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getCSFromDB_Teachers(name, num, teachrID);
+        }
 
-
-
-
+        // קבלת הכיתות הספציפיות שהמורה מלמד
+        public DataTable tacherClass(int id)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.teacherNumClass(id);
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
     }
 
 }

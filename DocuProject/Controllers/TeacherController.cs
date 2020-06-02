@@ -51,12 +51,12 @@ namespace DocuProject.Controllers
             return T.CheckUser2(teacher);
         }
 
-        [HttpGet]
-        [Route("api/Teacher/getNumClass")]
-        public DataTable GetClass()
+        [HttpGet]         // קבלת הכיתות הספציפיות שהמורה מלמד
+        [Route("api/Teacher/teacherClass/{Id}")]
+        public DataTable GetClass(int id)
         {
-            Class C = new Class();
-            return C.GetNumClass();
+            ClassSubjects C = new ClassSubjects();
+            return C.tacherClass(id);
         }
         //Setting teacher
         [HttpGet]
@@ -141,12 +141,12 @@ namespace DocuProject.Controllers
             ClassSubjects C = new ClassSubjects();
             C.insertClassSub(classSUbObj);
         }
-        [HttpGet]
-        [Route("api/Teacher/GetClassSubj/{name}/{num}")]
-        public List<ClassSubjects> GetCS(string name, string num)
+        [HttpGet] //  קבלת המקצועות הספציפיים של המורה 
+        [Route("api/Teacher/GetClassSubj_/{name}/{num}/{teachrID}")]
+        public List<ClassSubjects> GetCS(string name, string num, int teachrID)
         {
             ClassSubjects CS = new ClassSubjects();
-            return CS.ReadCS(name, num); // Read from Models/Counrty
+            return CS.ReadCSTeacher(name, num, teachrID); // Read from Models/Counrty
         }
 
         [HttpPost] // ניהול תלמידים - קבלת טבלת תלמידים

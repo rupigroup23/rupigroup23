@@ -234,6 +234,12 @@
             student = getStudebts(id1);
             console.log(student);
 
+            //bday
+            bday = student.Bday;
+            bdayArr= bday.split('/');
+            bday = bdayArr[2] + "-" + bdayArr[1] + "-" + bdayArr[0];
+            //
+
             $("#fname").val(student.FName);
             $("#lname").val(student.LName);
             $("#number").val(student.PhoneNum);
@@ -241,7 +247,7 @@
             $("#city").val(student.City);
             $("#street").val(student.Street);
             $("#id").val(student.Id_);
-            $("#bday").val(student.Bday);
+            $("#bday").val(bday);
             $("#class").val(student.ClassName);
             $("#classNumber").val(student.ClassNum);
             $("#password").val(student.Password_);

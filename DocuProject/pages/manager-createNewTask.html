@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,7 +19,7 @@
     <!-- Custom styles for this template-->
     <link href="css/osahan.css" rel="stylesheet">
     <link href="css/tablestyle.css" rel="stylesheet" />
-
+    <link href="css/stam.css" rel="stylesheet" />
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
@@ -81,9 +82,8 @@
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
             $('#geographicalDiS').click(showG);
-            $('#make_Group').click(makeGroup);
             //avg alg
-            $('#btnAlgo').click(makeGroup);
+            $('#btnAlgo').click(makeGroup); //play alg
 
             ///upload files
             $('#upload').on('click', function () {
@@ -186,10 +186,10 @@
                 equalsGroups(newTaskObj);
             }
 
-            if (random.checked) { // רנדומלי להוסיף
+            if (random.checked) { // צוותים רנדומלים
                 randomGroups(newTaskObj);
             }
-            if (StrongWeak.checked) { // ממוצע להוסיף
+            if (StrongWeak.checked) { // צוותים לפי ממוצע ציונים - חזק חלש
                 strongWeakGroup();
             }
 
@@ -204,15 +204,15 @@
             }
             $('#random').attr("disabled", true);
             $('#gender').attr("disabled", true);
-             $('#StrongWeak').attr("disabled", true);
+            $('#StrongWeak').attr("disabled", true);
             $('#geographicalDiS').attr("disabled", true);
             Swal.fire({
                 title: 'הציוות הושלם בהצלחה',
                 text: 'לעריכה - לחץ על ניהול צוותים',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
+                icon: 'warning',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
         }
 
         function randomGroups(newTaskObj) //צוותים רנדומלים
@@ -256,7 +256,7 @@
         function GETsuccessSS(studentsData) {
             allStudents = studentsData;
             console.log(studentsData);
-            makeTeam(allStudents);
+            makeTeam(allStudents); // ??
         }
         function GETerrorSS() { };
         //
@@ -266,17 +266,23 @@
         var idTeam;
         //  var rownum = 1;
         //var colnum = 1;
-function TeamManagementBTN() {
+
+        function TeamManagementBTN() {
             algorithm1 = document.getElementById("TeamManagementBTN");
+
             var management1 = document.getElementById("StudentTable");
             if (management1.style.display === "none") {
                 management1.style.display = "block";
                 TeamManagement1.style.display = "block";
             }
             tblTeam = "";
+
             for (var i = 0; i < GroupStudentsList.length; i++) {
+
                 students = GroupStudentsList[i].Group.split(',');
-                tblTeam += "<ol data-draggable='target' id='targets draggable='true' aria-dropeffect='none'>";
+                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
+                tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none'>";
+
                 for (var m = 0; m < studentList.length; m++) {
                     if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
                         tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false'tabindex='0'>";
@@ -284,10 +290,12 @@ function TeamManagementBTN() {
                         tblTeam += "</li>";
                     }
                 }
+
                 tblTeam += "</ol>";
             }
          //   btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn'></div>";
         document.getElementById("StudentTable").innerHTML = tblTeam; //+btnSave;
+
         }
 
         var GroupStudents = "";
@@ -308,7 +316,7 @@ function TeamManagementBTN() {
                 listTeams = {
                     "Group": ListStudent[i],
                 }
-                 GroupStudentsList.push(listTeams);
+                GroupStudentsList.push(listTeams);
             }
             //for (var i = 0; i < ListStudent.length; i++) {
             //    InlayStudentsObJ =
@@ -594,8 +602,7 @@ function TeamManagementBTN() {
         </button> &nbsp;&nbsp;
         <a class="navbar-brand mr-1" href="manager-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
         <!-- Navbar Search -->
-        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-        </form>
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search"></form>
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto osahan-right-navbar">
             <li class="nav-item mx-1 app">
@@ -631,8 +638,7 @@ function TeamManagementBTN() {
     </nav>
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb" id="orientation">
-        </ol>
+        <ol class="breadcrumb" id="orientation"></ol>
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -765,12 +771,12 @@ function TeamManagementBTN() {
                                         <div class="col-lg-5 col-sm-12">
                                             <div id="showStrongWeak" style="display:none">
                                                 <!--<section>
-                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
-                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
-                    <br>
-                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
-                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
-                </section>-->
+                                                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
+                                                    <br>
+                                                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
+                                                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
+                                                </section>-->
                                                 <h6>תלמיד חזק הוא מעל ממוצע:</h6>
                                                 <input id="avg" type="text" class="textSquareTEXT" placeholder="ממוצע" required />
                                             </div>
@@ -793,9 +799,9 @@ function TeamManagementBTN() {
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom id="make_Group">
-                                                        <buttom id="btnAlgo">
-                                                            הפעל אלגוריתם צוות
-                                                        </buttom>
+                                                            <buttom id="btnAlgo">
+                                                                הפעל אלגוריתם צוות
+                                                            </buttom>
                                                     </a>
                                                 </div>
                                             </div>
@@ -812,10 +818,9 @@ function TeamManagementBTN() {
                                     </div>
 
                                     <div class="row" id="TeamManagement1" style="display:none">
-                                        <div id="StudentTable" style="display:none" >
+                                        <div id="StudentTable" style="display:none">
 
                                         </div>
-
                                     </div>
                                 </div>
 

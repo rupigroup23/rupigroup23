@@ -45,6 +45,7 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
+
         [HttpGet]
         [Route("api/Student/GetTasks/{name}/{num}/{prof}")]
         public List<Task> GetTask(string name, string num, string prof)
@@ -168,7 +169,7 @@ namespace DocuProject.Controllers
             Feedback F = new Feedback();
             F.insertFeed(feedbackObj);
         }
-        [HttpGet] /// ���� �������
+        [HttpGet] /// מביא את הפידבקים לדף
         [Route("api/student/getdata/{groupStudent}/{numOfTask}/{profession}")]
         public List<Feedback> getData(string groupStudent, string numOfTask, string profession)
         {
@@ -195,13 +196,7 @@ namespace DocuProject.Controllers
         }
 
 
-        //אלגורתים חכם- רביד
-        [HttpPost]  
-        [Route("api/Student/GetStudentsAlgoritem/{radioChoose}")]
-        public List<string> Get_S([FromBody] Student studentObj, string radioChoose)
-        {
-            return studentObj.GetStudentsAlgoritem(radioChoose);
-        }
+       
     }
 
 

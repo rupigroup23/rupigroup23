@@ -46,7 +46,6 @@
             //
 
             $('#form').submit(sub); //FORM
-            readFromDB(); //profession
             local = localStorage.getItem('user');
 
             objTeacher = JSON.parse(local);
@@ -54,7 +53,6 @@
 
             $('#saveDetails').click(saveDetails_);
             pass = objTeacher.Password;
-            $("#addsub").click(addSubj);
 
             passNew = "";
             $("#changePass").click(function () {
@@ -113,13 +111,6 @@
                 ajaxCall('POST', '../api/Teacher/uploadUrlImg2', JSON.stringify(teacherImg), POSTsuccessImg, POSTerrorImg);
             });
 
-            function readFromDB() {
-                ajaxCall("GET", "../api/Teacher/GetP", "", GETsuccessCB, GETerrorCB);
-            }
-
-            function GETsuccessCB(data) {
-                ProfARR = []; //מערך המקצועות מהדאטא בייס
-            }
             function GETsuccessCB(data) {
                 console.log(data);
                 listP = data;
@@ -133,20 +124,6 @@
                 }
             }
 
-            function GETerrorCB(err) {
-                console.log(err);
-
-                listCS = data;
-
-                for (var i = 0; i < listP.length; i++) {
-                    ProfARR[i] = listP[i].Profession;
-                }
-            }
-
-            function GETerrorCB(err) {
-                console.log(err);
-            }
-
             function sub() {
                 return false;
             }
@@ -156,9 +133,14 @@
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
+            obj = "";
             function funcsuccess(data) {
-
                 obj = data;
+                         //date
+                birthVal = obj[0].Bday;
+                birthValArr = birthVal.split('T00:00:00');
+                birthVal = birthValArr[0];
+                //
 
                 $('#fname').val(obj[0].FName);
                 $('#lname').val(obj[0].LName);
@@ -166,15 +148,15 @@
                 $('#mail').val(obj[0].Email);
                 $('#city').val(obj[0].City);
                 $('#street').val(obj[0].Street);
-                $('#bday').val(obj[0].Bday);
+                $('#bday').val(birthVal);
                 $('#phone').val(obj[0].PhoneNum);
 
                 userEmail = obj[0].Email;
                 Prof = obj[0].Profession;
                    passFromData = obj[0].Password_;
                 str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-                ProfDB = obj[0].Profession;
-                str = '<div class="create-text">' + ProfDB + '<h6 style="font-size: 23px"></h6>';
+                //ProfDB = obj[0].Profession;
+                str = '<div class="create-text">' +  + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('profCard').innerHTML = str;
 
 
@@ -197,13 +179,16 @@
             }
 
             passNew = "";
+            
             function saveDetails_() {
-
-                if ($("#selectProf").val() == '1')
-                    prof = obj[0].Profession;
-                else
-                    prof = $("#selectProf").val();
-
+             Password = "";
+                if ($("#pass2").val() == "")
+                {
+                    Password = obj[0].Password;
+                }
+                else {
+                    Password = passNew;
+                }
 
                 let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
                 {
@@ -215,8 +200,7 @@
                     "Street": $("#street").val(),
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
-                    "Profession": prof,
-                    "Password": passNew
+                    "Password": Password
                 }
 
                 console.log(teacher);
@@ -236,31 +220,7 @@
                 })
             }
             function updateDerror() { }
-            ///
-            var profession = "";
-            ClassSubArr = [];
-            ProfARR = [];
 
-
-            function addSubj() {
-                profession = $("#selectProf").val();
-                if (profession == "1") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'לא בחרת מקצוע 😓',
-                        confirmButtonText: 'אוקי',
-                        showCloseButton: true
-                    })
-                }
-                else {
-                    if (profession == "אחר") {
-                        var X = $("#txtbox").val();
-                        profession = X;
-                    }
-                    checkSub();
-                }
-            }
             function updateDerror() { }
 
             function showImages(data) {
@@ -299,47 +259,7 @@
             //    console.log(err)
             //}
 
-            function checkSub() {
-                //אם המקצוע קיים בדטא
-                obj[0].Profession
-                //for (var i = 0; i < ProfARR.length; i++) {
-                for (var i = 0; i < obj.length; i++) {
-
-                    if (obj[0].Profession == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע כבר קיים',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                //אין כזה מקצוע
-                for (var i = 0; i < ClassSubArr.length; i++) {
-
-                    if (ClassSubArr[i] == profession) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'המקצוע הוכנס כבר למערכת',
-                            confirmButtonText: 'אוקי',
-                            showCloseButton: true
-                        })
-                        return;
-                    }
-                }
-                Swal.fire({
-                    icon: 'success',
-                    title: ' המקצוע נשמר 😀',
-                    text: 'ניתן להוסיף עוד מקצועות, בסיום יש ללחוץ על שמור!',
-                    confirmButtonText: 'אוקי',
-                    showCloseButton: true
-                })
-                ClassSubArr.push(profession);
-            }
-
+      
 
 
 
@@ -487,19 +407,8 @@
                             <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
                             <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
                             <br />
-                            <div class="row">
-                                <div class="col-lg-4 col-sm-6">
-                                    <label class="create-text">מקצוע:</label><br />
-                                </div>
-
+                            <div class="row">                   
                                 <div class="row">
-                                    <select id="selectProf" class="create-select">
-                                        <option value="1">שם המקצוע</option>
-                                    </select>
-                                    <button id="addsub" class="create-select" style="width: auto;">
-                                        הוספה
-                                    </button>
-
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>
@@ -512,16 +421,16 @@
                         </div>
                         <div class="col-lg-3 col-sm-6">
 
-                            <div class="col-lg-12 col-sm-6">
+                            <!--<div class="col-lg-12 col-sm-6">
                                 <h6 class="create-text" for="city">מקצועות לימוד:</h6>
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                    <!--<div class="create-text">
+                                    <div class="create-text">
                                         <h6 style="font-size: 23px"></h6>
-                                    </div>-->
+                                    </div>
                                     <h6 style="font-size: 23px"></h6>
 
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <br />
                        

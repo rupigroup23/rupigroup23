@@ -191,7 +191,7 @@
             listCl = data;
             var cntrClass = 0
             for (var i = 0; i < listCl.length; i++) {
-                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName) {
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName ) {
                     setTimeout(reload, 3000);
                     cntrClass++;
                 }
@@ -205,7 +205,7 @@
                     cntrClass++;
                 }
                 //first option
-                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" || $("#classType").val() == "1" || $("#classType").val() == "1") {
+                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" ) {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
@@ -226,7 +226,6 @@
                 $('#classNum').attr("disabled", true);
                 $('#Year').attr("disabled", true);
                 $('#teacherName').attr("disabled", true);
-                $('#classType').attr("disabled", true);
 
                 $('#continue').attr("disabled", true);
             }
@@ -249,10 +248,9 @@
             name = $("#classSelect").val();
             num = $("#classNum").val();
             year = $("#Year").val();
-            ClassType = $("#classType").val();
             teacher = $("#teacherName").val();
 
-            if (year == "" || name == "" || num == "" || ClassType == "" || teacher == "") { //numOfStudents == 0
+            if (year == "" || name == "" || num == "" || teacher == "") { //numOfStudents == 0
                 Swal.fire({
                     title: 'שדות חסרים',
                     text: 'יש למלא את כל השדות כדי להמשיך',
@@ -399,7 +397,6 @@
                 {
                     "Name": name,
                     "Number": num,
-                    "ClassType": $("#classType").val(),
                     "Year_": $("#Year").val(),
                     "Profession": profession,
                     "Teacher_name": coach,
@@ -456,10 +453,9 @@
                 {
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
-                    "Year_": $("#Year").val(),
+                    "Year": $("#Year").val(),
                     "numOfStudents": numOfStudents,
                     "TeacherName": $("#teacherName").val(),
-                    "ClassType": $("#classType").val()
                 }
             //POSTS
             //ClassSubjects table --> ClassTeachObj
@@ -676,7 +672,7 @@
                                     </div>
                                     <div class="vl" style="padding-right: 15px;"></div>
                                     <div class="col-lg-3 col-sm-12 text2">
-                                        מילוי פרטי הכיתה:
+                                        אנא בחר את מחנכ/ת הכיתה:
                                         <br />
                                         <div class="row">
                                             <div class="col-lg-12 col-sm-6 text2">
@@ -688,16 +684,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-sm-6 text2">
-                                                <div class="form-group">
-                                                    <select id="classType" class="create-select">
-                                                        <option value="1">סוג כיתה</option>
-                                                        <option style="color: #990099">רגילה </option>
-                                                        <option style="color: #990099">מדעית</option>
-                                                        <option style="color: #990099">ספורט </option>
-                                                        <option style="color: #990099">מב"ר </option>
-                                                        <option style="color: #990099">אומץ </option>
-                                                    </select>
-                                                </div>
+                               
                                             </div>
                                         </div>
                                     </div>

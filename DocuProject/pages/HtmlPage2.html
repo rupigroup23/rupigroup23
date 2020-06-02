@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+
+    <p>Click the button to get your coordinates.</p>
+
+    <button onclick="getLocation()">Try It</button>
+
+    <p id="demo"></p>
+
+
+    <script>
+        //מביא את המיקום של המשתמש
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+        }
+    </script>
+
+
+    <script>
+        var list = 10;
+        //get from DB list of all student coords
+        var tmpArray = [];
+        for (var i = 0; i < list.length; i++) {
+            
+            //לקבל מרחק בין תלמיד לתלמיד
+            //איטרציה 1 = 10 קמ
+            tmpArray.push(calcCrow(list[i].lat, list[i].lon1, latSchool, longSchool).toFixed(1))
+            //איטרציה 2 = 12 קמ
+            tmpArray.push(12)
+            //איטרציה 3 = 5 קמ
+            tmpArray.push(5)
+            //איטרציה 4 = 2 קמ
+            tmpArray.push(2)זד
+            //tmpArray[2,5,10,12]
+        }
+        tmpArray.sort(function (a, b) {
+            return a - b;
+        }); // מערך ממויין
+
+
+        alert('המרחק ביני לבין אורי =' + calcCrow(32.636346, 35.317573, 32.354976, 34.997366).toFixed(1));
+
+
+
+        //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+        function calcCrow(lat1, lon1, lat2, lon2) {
+            var R = 6371; // km
+            var dLat = toRad(lat2 - lat1);
+            var dLon = toRad(lon2 - lon1);
+            var lat1 = toRad(lat1);
+            var lat2 = toRad(lat2);
+
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+            return d;
+        }
+
+        // Converts numeric degrees to radians
+        function toRad(Value) {
+            return Value * Math.PI / 180;
+        }
+    </script>
+</body>
+</html>
