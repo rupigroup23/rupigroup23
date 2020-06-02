@@ -73,7 +73,11 @@ Version: 1.0
         color: #fff;
     }
 
-
+.alert-danger {
+    color: #721c24;
+    border-color: #E6D0DE;
+    background-color: #f8f8f8;
+}
 /*Entrance page-noy*/
 .imgEntrance:hover {
     border: 3px solid #990099;

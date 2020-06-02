@@ -270,7 +270,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
@@ -346,7 +345,6 @@
                 </div>
                 <form id="form">
                     <div class="row">
-                        <!--<div class="col-sm-6">-->
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
@@ -358,7 +356,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email">
+                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email" style="width: 250px;">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
@@ -385,7 +383,7 @@
                             <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
                             <br />
                             <div class="row">
-                                <div class="row">      
+                                <div class="row">
                                     <div class="profession-txtbox-disclosure">
                                         <textarea id="txtbox" style="display:none"></textarea>
                                     </div>
@@ -397,7 +395,6 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
-
                             <div class="col-lg-12 col-sm-6">
                                 <h6 class="create-text" for="city">מחנך כיתה:</h6>
 
@@ -406,28 +403,17 @@
                                 </div>
                             </div>
                         </div>
-                        <br />
-
                     </div>
                 </form>
             </div>
             <hr class="mt-0">
             <div class="row">
                 <div class="col-lg-8 col-sm-8">
-                    <!--<button class="create-btn" style="padding-right: 65px;">צירוף תמונה</button>-->
                     <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />
                     &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
                     &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
                 </div>
-
-                <!--<div class="col-lg-3 col-sm-6">
-                    <button class="create-btn" style="padding-right: 65px;">צירוף מסמך</button>
-                </div>-->
-
                 <div class="col-lg-4 col-sm-4">
-                    <button id="changePass" class="create-btn" style="padding-right: 65px;">
-                        שינוי סיסמא
-                    </button>
                     <input id="pw" name="pw" type="radio">
                     <label for="pw" class="create-text">שינוי סיסמא</label>
                     <div class="pw-disclosure">
@@ -455,6 +441,11 @@
                                 <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
                             </div>
                         </div>
+                        <div class="row">
+                            <button id="changePass" class="upload-btn">
+                                שמור סיסמא
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -471,7 +462,6 @@
 
     </div>
     <!--/.content-wrapper-->
-    <!--</div>-->
     <!-- /#wrapper
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

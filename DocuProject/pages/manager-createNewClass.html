@@ -191,11 +191,11 @@
             listCl = data;
             var cntrClass = 0
             for (var i = 0; i < listCl.length; i++) {
-                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName && $("#classType").val() == listCl[i].ClassType) {
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName) {
                     setTimeout(reload, 3000);
                     cntrClass++;
                 }
-                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#classType").val() == listCl[i].ClassType) {
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year) {
                     Swal.fire({
                         title: 'הכיתה כבר קיימת',
                         icon: 'warning',
@@ -209,7 +209,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
-                        text: 'לא בחרת כיתה/שנה/מחנך/סוג כיתה 😓',
+                        text: 'לא מילאת את כל השדות 😓',
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
                     })
