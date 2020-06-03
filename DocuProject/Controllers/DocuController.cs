@@ -356,7 +356,7 @@ namespace DocuProject.Controllers
             Student G = new Student();
             return G.GetSbyGrade1(name, num, prof, grade); // Read from Models/Counrty
         }
-        [HttpPost] // אלגוריתם בנים בנות - נוי 
+        [HttpPost] //אלגוריתם חכם 
         [Route("api/Docu/GetStudentsAlgoritem/{radioChoose}")]
         public List<string> Get_S([FromBody]Student studentObj, string radioChoose)
         {

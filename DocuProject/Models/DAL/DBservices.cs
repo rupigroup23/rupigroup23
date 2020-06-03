@@ -406,7 +406,8 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select Id_, ClassName, ClassNum from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            //String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
             // get a reader
@@ -417,6 +418,8 @@ public class DBservices
 
                 Student St = new Student();
                 St.Id = (int)dr["Id_"];
+                St.ClassName = (string)dr["ClassName"];
+                St.ClassNum = (int)dr["ClassNum"];
                 listStudent.Add(St);
             }
         }
@@ -1040,8 +1043,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}' ,'{11}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password, StudentObj.Gender); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_,Gender)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}' ,'{11}', {12})", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password, StudentObj.Gender, StudentObj.Gpa); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_,Gender,Gpa)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;

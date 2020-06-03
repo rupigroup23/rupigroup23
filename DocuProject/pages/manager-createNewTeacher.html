@@ -34,7 +34,6 @@
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
-
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -43,10 +42,14 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+            //Checking validation
             $('#form1').submit(sub);
 
-            //professions
+            //Get: Profession table, Teacher Table
             readFromDB();
+            getTachears();
+
+            //Add-Subject
             $('#addsub').click(addSubj);
             $('#selectProf').change(function () {
                 var value = $(this).val();
@@ -58,11 +61,9 @@
                     X.style.display = "none";
                 }
             });
-
-            //$('#upload').click(uploadTeachers);
-            //$('#saveprof').click(saveSubj);
-            getTachears();
-            $('#addTeacher').click(saveTeacherDB); //Save the teacher in the table
+          
+            //save Teacher
+            $('#addTeacher').click(checkingData); 
 
             //User image
             localAdmin = localStorage.getItem('user');
@@ -90,46 +91,16 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END User image
+
+           
         });
 
+        //Checking validation
         function sub() {
             return false;
         }
 
-        //save new proff - post: Profession
-        function checkNewProff(prof) {
-<<<<<<< HEAD
-            cntr = 0;
-=======
-              cntr = 0;
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
-            for (var i = 0; i < listP.length; i++) {
-                if (listP[i].Name == prof) {
-                    cntr++;
-                }
-            }
-            if (cntr == 0) {
-                newProf = {
-                    'Name': prof,
-                }
-                //obj for Profession table
-                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-
-            }
-        }
-<<<<<<< HEAD
-        //Profession function checkNewProff
-=======
-            //Profession function checkNewProff
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
-        function POSTsuccessP() {
-            console.log("Profession good");
-        }
-        function POSTerrorP() {
-            console.log(err)
-        }
-        //Profession table
+        //Get from Profession table
         function readFromDB() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
@@ -147,10 +118,47 @@
             console.log(err);
         }
 
+        //get teacher from Teacher Table
+        function getTachears() {
+            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+        }
+        function GETsuccessT(data) {
+            listT = data;
+        }
+        function GETerrorT(err) { console.log(err) }
+
+        //Post/Save new proff to Profession Table
+        function checkNewProff(prof) {
+            cntr = 0;
+            for (var i = 0; i < listP.length; i++) {
+                if (listP[i].Name == prof) {
+                    cntr++;
+                }
+            }
+            if (cntr == 0) {
+                newProf = {
+                    'Name': prof,
+                }
+                //obj for Profession table
+                ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
+            }
+        }
+
+        //Profession function checkNewProff
+        function POSTsuccessP() {
+            console.log("Profession good");
+        }
+        function POSTerrorP() {
+            console.log(err)
+        }
+        
+        //clicking on the Add-Subject
+        //move to checkSub
         function addSubj() //שהמשתמש לוחץ על הוספת מקצוע
         {
             profession = $("#selectProf").val();
-            if (profession == "1") { // אם לחץ על שם המקצוע (כלומר לא הוסיף כלום)
+            //validation 
+            if (profession == "1") { 
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
@@ -159,7 +167,7 @@
                     showCloseButton: true
                 })
             }
-            else { //אם לחץ על אחר
+            else { 
                 if (profession == "אחר") {
                     var X = $("#txtbox").val();
                     checkNewProff(X);
@@ -168,9 +176,12 @@
                 checkSub();
             }
         }
+
+        //Checking validation
+        var SubjList = "";
         function checkSub() {
             for (var i = 0; i < teacherArr.length; i++) {
-                if (teacherArr[i] == profession) {
+                if (teacherArr[i] == profession) { //validation
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה',
@@ -181,55 +192,57 @@
                     return;
                 }
             }
-            Swal.fire({
-                icon: 'success',
-                title: ' המקצוע נשמר בהצלחה 😀',
-                text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
-                confirmButtonText: 'אישור',
-                showCloseButton: true
-            })
+           // document.getElementById("Successfully_saved").innerHTML = "המקצוע נשמר בהצלחה </br>";
+            //Swal.fire({
+            //    icon: 'success',
+            //    title: ' המקצוע נשמר בהצלחה 😀',
+            //    text: 'ניתן להוסיף עוד מקצועות! בסיום יש ללחוץ על שמירה',
+            //    confirmButtonText: 'אישור',
+            //    showCloseButton: true
+            //})
             teacherArr.push(profession);
-            //saveSubj(teacherArr);
+            for (var j = 0; j < teacherArr.length; j++) {
+                SubjList +="• " + teacherArr[j] + " </br> ";
+                console.log(SubjList);
+            } 
+            let str = "</br></br><h5 style='text-decoration: underline';> הוספת</h5></br>";
+            document.getElementById("Successfully_view").innerHTML =str+ SubjList ;
+            SubjList = "";
         }
 
-        //get teacher
-        function getTachears() {
-            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
-        }
-        function GETsuccessT(data) {
-            listT = data;
-        }
-        function GETerrorT(err) { console.log(err) }
-
-        //Teacher table
         var profession = "";
         var birthVal = "";
+        var phoneNumber = "";
         teacherArr = [];
         count = 0;
 
-        // ולדציה
-        function saveTeacherDB() {
-            FName = $("#fname").val();
-            LName = $("#lname").val();
-            Email = $("#email").val();
-            City = $("#city").val();
-            Street = $("#street").val();
-            Id = $("#idT").val();
-            PhoneNum = $("#phone").val();
+        //Checking validation
+        function checkingData() {
 
-            if (FName == "" || LName == "" || Id == "" || Email == "" || City == "" || PhoneNum == "" || PhoneNum == "") {
+            //empty values
+            if ($("#fname").val() == "" || $("#lname").val() == "" || $("#email").val() == "" || $("#day").val() == "" || $("#month").val() == "0" || $("#year").val() == "" || $("#idT").val() == ""  || $("#phone").val() == ""|| $("#city").val() == ""  || $("#street").val() == "") {
                 Swal.fire({
-                    icon: 'warning',
+                    icon: 'warning', 
                     title: 'שדות חסרים',
                     text: 'יש למלא את כל השדות כדי להמשיך',
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
-
                 })
                 return false;
             }
+
+            telephoneCheck($("#phone").val()); //Phone number validation
+
+            day = $("#day").val();
+            month = $("#month").val();
+            year = $("#year").val();
+            birthVal = year + "-" + month + "-" + day; //1970-04-09
+            bDayCheck(day, month, year); // bDay validation
+
+            isValidIsraeliID($("#idT").val()); // ID validation
+            //duplication values
             for (var i = 0; i < listT.length; i++) {
-                if (listT[i].Id == Id) {
+                if (listT[i].Id == $("#idT").val()) {
                     Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
@@ -240,20 +253,75 @@
                     return false;
                 }
             }
+            //to post value in the table
             saveAll(teacherArr);
         }
-        function saveAll(teacherArr) {
-            //תאריכים כרגע לא עובדים
-            //birthVal = $('#bday').val();
-            //birthValArr = birthVal.split('/');
-            //birthVal = `${birthValArr[2]}-${birthValArr[1]}-${birthValArr[0]}`
-            //console.log(birthVal);
 
+        function telephoneCheck(str) {
+            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
+            if (isphone == false) {
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'פלאפון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                return false;
+            }         
+        }
+        function bDayCheck(day,month,year) { //01/12/1994
+            var msg = "";
+            if (month < 1 || month > 12) { // check month range
+             //   alert("Month must be between 1 and 12.")
+                msg = "חודש חייב להיות בין 1 ל- 12";
+
+                alert(msg);
+            }
+            if (day < 1 || day > 31) {
+               // alert("Day must be between 1 and 31.")
+                msg = "יום חייב להיות בין 1 ל- 31..";
+                alert(msg);
+            }
+            if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+               // msg = "Month " + month + " doesn't have 31 days!";
+                msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                alert(msg);
+            }
+            if (month == 2) { // check for february 29th
+                var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                if (day>29 || (day==29 && !isleap)) {
+               //     msg = "February " + year + " doesn't have " + day + " days!";
+                    msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                    alert(msg);
+                }
+            }
+            if (day.charAt(0) == '0') day= day.charAt(1);
+        }
+        function isValidIsraeliID(id) {
+            var id = String(id).trim();
+            console.log(id.length);
+            if (id.length > 9 || id.length < 5 || isNaN(id)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תעודת זהות לא תקינה',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                return false;
+            }
+	        // Pad string with zeros up to 9 digits
+  	        id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+        }
+
+        function saveAll(teacherArr) {
+            birthVal = $('#bday').val(); // 2020-05-18
             if (teacherArr == 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה',
-                    text: 'לא בחרת מקצועות 😓',
+                    text: 'לא בחרת מקצוע/ות 😓',
                     confirmButtonText: 'אישור',
                     confirmButtonColor: '#990099',
                 })
@@ -268,20 +336,18 @@
                             "City": $("#city").val(),
                             "Street": $("#street").val(),
                             "Id": $("#idT").val(),
-                            "Bday": "01.01.1994", //birthVal,
+                            "Bday": birthVal,
                             "PhoneNum": $("#phone").val(),
                             "Profession": teacherArr[i],
                             "Password": Math.random().toString(36).substring(7),
                         }
-                    ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
+                    console.log(TeacherObj);
+                 //   ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
                 }
             }
         }
-<<<<<<< HEAD
-        function POSTsuccess() {
-=======
+
         function POSTsuccess() { 
->>>>>>> 3e20c1b3c01cd77034f7a15a943fbff4767f244b
             count += 1;
             if (count == teacherArr.length) {
                 Swal.fire({
@@ -428,7 +494,7 @@
                                     <h6 class="text2">אנא מלא/י פרטי המורה:</h6>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!--<div class="row">-->
                                 <form id="form1">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-6">
@@ -446,7 +512,24 @@
                                             <input type="text" class="create-txt" id="idT" name="idTeacher" required>
                                             <br />
                                             <label class="create-text" for="bday"> תאריך לידה:</label><br />
-                                            <input class="create-txt" type="date" id="bday" name="bday" />
+                                            <!--<input class="create-txt" type="date" id="bday" name="bday" />-->
+                                            <input type="text" name="myDate" id="day" class="create-txt" size=2 maxlength=2 style="width: 20%;" placeholder="יום"> 
+                                            <select id="month" name="myDate" class="create-select" style="width: 20%;">
+                                                <option value="0">חודש</option>
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                            <input type="text" name="myDate" id="year" class="create-txt" size=4 maxlength=4 style="width: 20%;" placeholder="שנה"> 
                                             <br />
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
                                             <input class="create-txt" type="tel" id="phone" name="phone" required />
@@ -462,7 +545,7 @@
                                         </div>
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="row">
-                                                <label class="create-text">מקצוע:</label><br />
+                                                <label class="create-text">מקצוע/ות:</label><br />
                                             </div>
                                             <div class="row">
                                                 <select id="selectProf" class="create-select">
@@ -471,15 +554,19 @@
                                                 <button id="addsub" class="create-btn" style="width: auto;">
                                                     שמירה
                                                 </button>
-                                                <br />
+                                            </div>
+                                            <div class="row">
                                                 <div class="profession-txtbox-disclosure">
                                                     <textarea class="comment-box" id="txtbox" rows="1" cols="15" style="display:none"></textarea>
                                                 </div>
                                             </div>
+                                            <div class="row" id="Successfully_view">
+                                            </div>
+                                            <br />                                          
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            <!--</div>-->
                             <br />
                             <hr class="mt-0">
                             <div class="row">

@@ -214,7 +214,7 @@ namespace DocuProject.Models
             }
             return listbyMix; //מחזיר מערך ממויין
         }
-        //אלגוריתם בנים בנות - נוי 
+        //אלגוריתם חכם כל האופציות
         internal List<string> GetStudentsAlgoritem(string radioChoose)
         {
             List<string> X = new List<string>();
@@ -440,7 +440,9 @@ namespace DocuProject.Models
             }
             return groupsStudents; //מחזיר מערך ממויין
         }
-        public List<string> MakeGroupsRandom(DataTable studentsArr) // רנדומלי
+
+
+        public List<string> MakeGroupsRandom(DataTable studentsArr) // צוותים רנדומלים- רביד 
         {
             List<Student> ListArr = new List<Student>(); // יוצרת רשימה שאליה אכניס את התלמידים מהדטא טייבל 
             Random rand = new Random();
