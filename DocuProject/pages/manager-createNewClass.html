@@ -287,12 +287,13 @@
                                     student.Address = cells[5];
                                     student.Id = cells[6];
                                     student.Bday = cells[7];
+                                    student.Gender = cells[8];
                                     student.ClassName = $("#classSelect").val();
                                     student.ClassNum = $("#classNum").val();
-                                    student.Password = Math.random().toString(36).substring(7);
+                                    student.Password = Math.random().toString(36).substring(7); // first password
+                                    student.Gpa = 0; // average
                                     studentsArr.push(student);
-                                    console.log(studentsArr[0]);
-                                    console.log(studentsArr.length);
+                                    console.log(studentsArr);
                                 }
                             }
                         }
