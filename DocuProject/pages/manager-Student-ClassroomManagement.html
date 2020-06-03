@@ -17,12 +17,10 @@
     <!-- Custom styles for this template-->
     <link href="css/tablestyle.css" rel="stylesheet" />
     <link href="css/osahan.css" rel="stylesheet">
-
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Our links -->
@@ -33,12 +31,12 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
+        var classObj ;
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -46,23 +44,22 @@
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
-
+            //Bring the details from the local storage
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
-
-            console.log(classObj);
+            //orientation
             Showorientation();
-
+            //Bring the details from the STUDENT TABLE 
             showStudentsData();
+            //PUT in the STUDENT TABLE
             $('#saveBTN').click(saveStudent);
-            $('#form1').submit(sub); //FORM
-
+            //Valisation
+            $('#form1').submit(sub); 
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -85,13 +82,14 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END User image
-
         });
 
+        //Valisation
         function sub() {
             return false;
         }
+
+        //orientation
         orientationSTR = "";
         function Showorientation() {
             thisclass = classObj.ClassName + "' " + classObj.ClassNum;
@@ -104,14 +102,15 @@
             document.getElementById("classNum").innerHTML = thisclass;
         }
 
+        //Get - from Student table
         function showStudentsData(obj) {
-            local = localStorage.getItem('studentObj'); // מביא את כל התלמידים שלומדים בז2
-            obj = JSON.parse(local);
-            console.log(obj);
+          //  local = localStorage.getItem('studentObj'); // מביא את כל התלמידים שלומדים בז2
+           // obj = JSON.parse(local);
+           // console.log(obj);
             obj2 =
                 {
-                    "ClassName": obj.ClassName,
-                    "ClassNum": obj.ClassNum
+                    "ClassName": classObj.ClassName,
+                    "ClassNum": classObj.ClassNum
                 }
             console.log(obj2);
 
@@ -119,11 +118,10 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
         function GETsuccessS(studentsData) {
-            studentsArr = studentsData; /// מיותר
-
-            console.log(studentsData)
+            studentsArr = studentsData;
             students = studentsData;
 
+            //fixed dates
              for (var i = 0; i < studentsArr.length; i++) {
                 bd = studentsArr[i].Bday;
                 bd1 = bd.split('-');
@@ -131,10 +129,8 @@
                 dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
                 studentsArr[i].Bday = dateIL
             }
-
-
+            //DataTable
             try {
-
                 tbl = $('#StudentTable').DataTable({
                     responsive: true,
                      "language": {
@@ -147,30 +143,21 @@
                             render: function (data, type, row, meta) {
                                 let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-                                //deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'" + row.id + ">";
                                 deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-
-                                //editBtn = "<button type='button' class = 'editButtons editBtn btn btn-outline-light' " + rowID + "> עריכה </button>";
-
                                 return editBtn + " " + deleteBtn;
                             }
                         },
-                        { data: "id" },
                         { data: "FName" },
                         { data: "LName" },
+                        { data: "Id_" },
                         { data: "Gender" },
                         { data: "PhoneNum" },
                         { data: "Email" },
                         { data: "City" },
                         { data: "Street" },
-                        { data: "Id_" },
                         { data: "Bday" },
-                        { data: "ClassName" },
-                        { data: "ClassNum" },
                         { data: "Password_" },
-
-                        
-
+                        { data: "GPA" },                         
                     ],
                 });
             }
@@ -180,12 +167,11 @@
         }
         function GETerrorS() { }
 
+        //Delete Student - used tables: Student 
         $(document).on("click", ".deleteBtn", function () {
-
             mode = "delete";
             //markSelected(this);
             rowID = this.getAttribute('data-RowId');
-
             swal({
                 title: "האם את/ה בטוח?",
                 text: "במידה והפעולה תאושר,התלמיד/ה יימחק מהמערכת",
@@ -199,7 +185,6 @@
                     else swal("הפעולה בוטלה");
                 });
         });
-
         function deleteStudent(rowID) {
             var url = "../api/Docu/" + rowID;
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
@@ -212,7 +197,8 @@
         }
         function DeleteError(err) { console.log(err) }
 
-        function redrawTBL(tbl, data) // מאתחלת את הטבלה מחדש על המסך
+        //reset
+        function redrawTBL(tbl, data) 
         {
             tbl.clear();
             for (var i = 0; i < data.length; i++) {
@@ -221,13 +207,14 @@
             tbl.draw();
         }
 
+        //Edit/update Student - use tables: Student
+        //PUT
         $(document).on("click", ".editBtn", function () {
             //markSelected(this);
             $("#editDiv").show();
             $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
             populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
-
         function populateFields(rowID) {
             id1 = rowID
             console.log(id1);
@@ -252,14 +239,11 @@
             $("#classNumber").val(student.ClassNum);
             $("#password").val(student.Password_);
         }
-
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
             $("#editDiv").hide();
         });
-
         function getStudebts(RowID) {
-
             console.log(studentsArr);
             for (i in studentsArr) {
                 if (studentsArr[i].id == RowID)
@@ -267,7 +251,6 @@
             }
             return null;
         }
-
         function saveStudent()
         {
             let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
@@ -292,7 +275,6 @@
 
             location.reload();
         }
-
         function updateDsuccess(data) {
 
             console.log(data);
@@ -301,7 +283,6 @@
             redrawTBL(tbl, data);
             $("#editDiv").hide();
         }
-
         function updateDerror(err) {
             console.log(err);
         }
@@ -354,12 +335,10 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
         </ol>
-
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -428,7 +407,7 @@
                             <div class="col-lg-11 col-sm-12 text2">
                                 <div class="row">
                                     <span>
-                                        כיתה &nbsp;
+                                        רשימת תלמידים - כיתה &nbsp;
                                     </span>
                                     <div id="classNum">
                                     </div>
@@ -441,30 +420,29 @@
                         </div>
                     </div>
                 </div>
-                <hr class="mt-0">
+                <br />  <hr class="mt-0">
                 <form>
                     <table id="StudentTable" class="StudentsTable" style="width:100%">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
+                                <th>תעודת זהות</th>
                                 <th>מגדר</th>
                                 <th>מספר נייד</th>
                                 <th>איימל</th>
                                 <th>עיר</th>
                                 <th>רחוב</th>
-                                <th>תעודת זהות</th>
                                 <th>תאריך לידה</th>
-                                <th>כיתה</th>
-                                <th>מס' כיתה</th>
                                 <th>סיסמא ראשונית</th>
+                                <th>ממוצע ציונים</th>
                             </tr>
                         </thead>
                     </table>
                 </form>
                 <div id="editDiv" style="display:none">
+                    <br />   <hr class="mt-0">
                     <form id="form1">
                         <div class="form-group row">
                             <div class="form-group col-sm-3 create-text">
@@ -478,9 +456,7 @@
                             <div class="form-group col-sm-3 create-text">
                                 <label for="year"><span class="red-star"> </span>מספר נייד</label>
                                 <input type="text" class="form-control" id="number" required>
-
                             </div>
-
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>איימל</label>
                                 <input type="text" class="form-control" id="mail" required />
@@ -497,7 +473,6 @@
                                 <label for="price"><span class="red-star"> </span>תעודת זהות</label>
                                 <input type="number" class="form-control" id="id" required />
                             </div>
-
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>תאריך לידה</label>
                                 <input type="date" class="form-control" id="bday" required />
@@ -510,7 +485,6 @@
                                 <label for="price"><span class="red-star"> </span>מספר כיתה</label>
                                 <input type="number" class="form-control" id="classNumber" required />
                             </div>
-
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
                                 <input type="text" class="form-control" id="password" required />
@@ -524,45 +498,39 @@
                                 <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /#wrapper -->
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
-                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Bootstrap core JavaScript-->
-    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
-    <!-- Owl Carousel -->
-    <script src="vendor/owl-carousel/owl.carousel.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/custom.js"></script>
+    <!-- /#wrapper 
+                    <!-- Scroll to Top Button-->
+                    <a class="scroll-to-top rounded" href="#page-top">
+                        <i class="fas fa-angle-up"></i>
+                    </a>
+                    <!-- Logout Modal-->
+                    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <!-- Owl Carousel -->
+                    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/custom.js"></script>
 </body>
 </html>

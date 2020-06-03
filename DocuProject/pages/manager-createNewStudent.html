@@ -31,6 +31,7 @@
         var imagePath = '';
         var userEmail = '';
         var maxnum = 1;
+        var countError;
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -48,8 +49,9 @@
             //Checking validation
             //Post Student - Student Table
             $('#form2').submit(function (e) {
+                countError = 0
+
                 let idVal = $("#idT").val();
-                
                 e.preventDefault();
                 pass = Math.random().toString(36).substring(7);
 
@@ -57,7 +59,6 @@
                 let lnameVal = document.getElementById("lname").value;
                 let emailVal = document.getElementById("email").value;
                 let addressVal = document.getElementById("street").value;
-                //let birthVal = document.getElementById("birth").value;
                 let gender = document.getElementById("gender").value;
                 let phoneVal = document.getElementById("phone").value;
                 let cityVal = $('#city').val();
@@ -68,27 +69,7 @@
                 let month = $("#month").val();
                 let year = $("#year").val();
 
-                //birthVal
-                //birthValArr = birthVal.split('-');
-                //birthVal1 = `${birthValArr[0]}-${birthValArr[1]}-${birthValArr[2]}`                
-
-                if (fnameVal == "" ||  lnameVal == "" || gender == ""|| phoneVal == "" || idVal == "" || day == "" || month == "חודש" || year == "" || phoneVal == "" || cityVal == "" || addressVal == "" || classNumVal == "בחר מספר" ||  classVal == "בחר מספר") {
-                    Swal.fire(
-                        {
-                            text: 'ישנם שדות חסרים',
-                            icon: 'error',
-                            confirmButtonColor: '#990099',
-                            confirmButtonText: 'אישור',
-                        })
-                    return false;
-                }
-
-                telephoneCheck(phoneVal);//Phone number validation
-                isValidIsraeliID(idVal); // ID validation
-                 
-                let birthVal = year + "-" + month + "-" + day; 
-                bDayCheck(day, month, year); // bDay validation
-
+                //duplication values
                 for (var i = 0; i < listSt.length; i++) {
                     if (listSt[i].Id == idVal) {
                         Swal.fire({
@@ -98,10 +79,33 @@
                             confirmButtonText: 'אוקי',
                             confirmButtonColor: '#990099',
                         })
+                        countError++;
                         return false;
                     }
                 }
+                //empty values
+                if (fnameVal == "" ||  lnameVal == "" || gender == ""|| phoneVal == "" || idVal == "" || day == "" || month == "חודש" || year == "" || phoneVal == "" || cityVal == "" || addressVal == "" || classNumVal == "בחר מספר" ||  classVal == "בחר מספר") {
+                    Swal.fire(
+                        {
+                            text: 'ישנם שדות חסרים',
+                            icon: 'error',
+                            confirmButtonColor: '#990099',
+                            confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                    return false;
+                }
 
+                telephoneCheck(phoneVal);//Phone number validation
+                isValidIsraeliID(idVal); // ID validation
+                 
+                bDayCheck(day, month, year); // bDay validation
+                let birthVal = year + "-" + month + "-" + day; 
+                //date
+                    birthVal1 = year + "-" + month + "-" + day;
+                    birthValArr = birthVal1.split('T00:00:00');
+                    birthVal12 = birthValArr[0];
+                    //
                 StudentObj = 
                     { 
                         "FName": fnameVal,
@@ -111,22 +115,24 @@
                         "Email": emailVal,
                         "City": cityVal,
                         "Id": idVal,
-                        "Bday": birthVal,
+                        "Bday":birthVal12,
                         "ClassName": classVal,
                         "ClassNum": classNumVal,
                         "Password": pass,
                         "Gender": gender,
                         "Gpa": 0,
                     }
-
                 userEmail = emailVal;
                 console.log(StudentObj);
-                ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess , POSTerror);
-
-                //document.getElementById("form2").reset(); //מנקה את הפקדים
+                console.log(countError);
+                if (countError == 0) {
+                    ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess , POSTerror);
+                }
+                      //document.getElementById("form2").reset(); //מנקה את הפקדים
                 //return false;
             });
 
+            //validations
             function telephoneCheck(str) {
             var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
             if (isphone == false) {
@@ -136,36 +142,71 @@
                         text: 'פלאפון לא תקין',
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
-                    })
+                 })
+                countError++;
                 return false;
             }         
-        }
-            function bDayCheck(day,month,year) { //01/12/1994
-            var msg = "";
-            if (month < 1 || month > 12) { // check month range
-             //   alert("Month must be between 1 and 12.")
-                msg = "חודש חייב להיות בין 1 ל- 12";
-                alert(msg);
-            }
-            if (day < 1 || day > 31) {
-               // alert("Day must be between 1 and 31.")
-                msg = "יום חייב להיות בין 1 ל- 31..";
-                alert(msg);
-            }
-            if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-               // msg = "Month " + month + " doesn't have 31 days!";
-                msg = "בחודש ה- " + month + " אין 31 ימים! ";
-                alert(msg);
-            }
-            if (month == 2) { // check for february 29th
-                var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-                if (day>29 || (day==29 && !isleap)) {
-               //     msg = "February " + year + " doesn't have " + day + " days!";
-                    msg = "בפברואר " + year + " אין  " + day + " ימים!";
-                    alert(msg);
+             }
+            function bDayCheck(day, month, year) { //01/12/1994
+                var text = /^[0-9]+$/;
+                if ((!text.test(day)) || (!text.test(year))) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תאריך לידה שגוי',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                countError++;
+                return false;
                 }
-            }
-            if (day.charAt(0) == '0') day= day.charAt(1);
+                var msg = "";
+                if (month < 1 || month > 12) { // check month range
+                 //   alert("Month must be between 1 and 12.")
+                    msg = "חודש חייב להיות בין 1 ל- 12";
+                    alert(msg);
+                    countError++;
+                    return false;
+                }
+                    if (day < 1 || day > 31) {
+                    Swal.fire(
+                            {
+                                text: "יום חייב להיות בין 1 ל- 31..",
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                    countError++;
+                     return false;
+                }
+                if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+                    msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                    Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                     return false;
+                }
+                if (month == 2) { // check for february 29th
+                    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                    if (day>29 || (day==29 && !isleap)) {
+                        msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                        Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                         return false;
+                    }
+                }
+                if (day.charAt(0) == '0') day= day.charAt(1);
         }
             function isValidIsraeliID(id) {
             var id = String(id).trim();
@@ -485,7 +526,6 @@
                                     <h6 class="text2">אנא מלא/י פרטי התלמיד:</h6>
                                 </div>
                             </div>
-                            <!--<div class="row">-->
                                 <form id="form2">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-6">
@@ -545,7 +585,6 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-sm-12">
-                                            <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">כיתה:</label><br />
                                             <select id="class" class="create-select" style="width: 35%;">>
                                                 <option value="">בחר כיתה</option>
@@ -553,7 +592,6 @@
                                                 <option>ח</option>
                                                 <option>ט</option>
                                             </select>
-                                            <!--<label class="create-text">מספר כיתה:</label>-->
                                             <select id="classNum" class="create-select" style="width: 35%;">
                                                 <option value="">בחר מספר</option> 
                                             </select>
@@ -580,9 +618,7 @@
                                             </div>
                                         </div> 
                                     </div>
-                                </form>
-                            <!--</div>-->
-                            
+                                </form>                            
                             <div id="imageUplaodDiv" class="row">
                                 <div class="col-lg-3 col-sm-4 ">
                                     <span class="text2">

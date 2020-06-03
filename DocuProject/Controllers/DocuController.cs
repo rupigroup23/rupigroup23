@@ -127,7 +127,7 @@ namespace DocuProject.Controllers
         public List<Student> GetST()
         {
             Student S = new Student();
-            return S.ReadSt();
+                return S.ReadSt();
         }
 
         [HttpPost] /// דף כניסה- במידה ומנהל
@@ -162,7 +162,7 @@ namespace DocuProject.Controllers
             return T.GetTechers();
         }
 
-
+       
         // GET api/Docu/GetClassSubj/ז/2/
         [HttpGet]
         [Route("api/Docu/GetClassSubj/{name}/{num}")]
@@ -312,6 +312,14 @@ namespace DocuProject.Controllers
         {
             Teacher T = new Teacher();
             return T.deleteT(rowID);
+        }
+
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/DeleteTeachFromCS/{TeacherId}/{TeacherSubj}")]
+        public DataTable DeleteTeachFromCS(int TeacherId, string TeacherSubj) //מורה 
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.deleteT_CS(TeacherId, TeacherSubj);
         }
 
 
