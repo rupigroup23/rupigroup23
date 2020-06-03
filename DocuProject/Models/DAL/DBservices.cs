@@ -406,7 +406,7 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select Id_, ClassName, ClassNum from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select Id_, ClassName, ClassNum, FName,LName from Student"; // נכתוב שאילתה להוצאת הטבלה 
             //String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -420,6 +420,8 @@ public class DBservices
                 St.Id = (int)dr["Id_"];
                 St.ClassName = (string)dr["ClassName"];
                 St.ClassNum = (int)dr["ClassNum"];
+                St.FName = (string)dr["FName"];
+                St.LName = (string)dr["LName"];
                 listStudent.Add(St);
             }
         }
