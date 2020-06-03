@@ -36,14 +36,18 @@
 
     <script src="js/myName.js"></script>
     <script>
+        var classNumStr;
         $(document).ready(function () {
-
+            //get Classes from Class Table
             getNumOfClass();
+
             //login
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
 
             //User image
+            //GET - Admin Table
+            //GET - ImgAdmin Table
             showDetalis(objAdmin);
             function showDetalis(objAdmin)
             {
@@ -53,16 +57,16 @@
             }
             function funcsuccess(data) {
                 obj = data;
+                //Welcome
+                headStr = "<h1 class='text2' style='font-size: 45px;margin-right: auto;margin-left: auto;'>ברוכים הבאים, " + obj[0].FName + " " + obj[0].LName +"!<h1/>";
+                document.getElementById("head").innerHTML = headStr;
 
-                     //ברוכים הבאים
-            headStr = "<h1 class='text2' style='font-size: 45px;margin-right: auto;margin-left: auto;'>ברוכים הבאים, " + obj[0].FName + " " + obj[0].LName +"!<h1/>";
-            document.getElementById("head").innerHTML = headStr;
-
-
+                //Menus
                 myname = obj[0].FName + " " + obj[0].LName;
                 document.getElementById("myNameN1").innerHTML = myname;
                 document.getElementById("myNameN2").innerHTML = myname;
 
+                //User image from Admin Table and ImgAdmin
                 userEmail1 = obj[0].Email;
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
                 savelocal1(myname);
@@ -76,28 +80,55 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END User image
 
-            studentObj = ""; //save class choose
-            $("#class1").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
-                    if ($("#class1").val() == "בחירת כיתה")
+            //Saving the selected class in the local storage.
+            studentObj = ""; 
+
+            //$("#class1").click(function () {
+            $("#class1").on("change", function () {
+                 //validation
+                if ($("#class1").val() != 0) {
+                    var open = $(this).data("isopen");
+                    var open1 = true;
+                    console.log(open1);
+                }
+                else {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'לא נבחרה כיתה',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
                         return false;
-                    window.location.href = "manager-professions.html";
+                }
+                if (open1) {                
+                   window.location.href = "manager-professions.html";
                     studentObj =
                         {
                             "ClassName": "ז",
                             "ClassNum": $("#class1").val()
-                        }
+                        }                    
                 }
-
                 $(this).data("isopen", !open);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
-            $("#class2").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
+            $("#class2").on("change", function () {
+                 //validation
+                if ($("#class2").val() != 0) {
+                    var open = $(this).data("isopen");
+                    var open1 = true;
+                    console.log(open1);
+                }
+                else {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'לא נבחרה כיתה',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+                        return false;
+                }
+                if (open1) {     
                     window.location.href = "manager-professions.html";
                     studentObj =
                         {
@@ -105,14 +136,27 @@
                             "ClassNum": $("#class2").val()
                         }
                 }
-
                 $(this).data("isopen", !open);
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
-            $("#class3").click(function () {
-                var open = $(this).data("isopen");
-                if (open) {
+            $("#class3").on("change", function () {
+                //validation
+                if ($("#class3").val() != 0) {
+                    var open = $(this).data("isopen");
+                    var open1 = true;
+                    console.log(open1);
+                }
+                else {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'לא נבחרה כיתה',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+                        return false;
+                }
+                if (open1) {   
                     window.location.href = "manager-professions.html";
                     studentObj =
                         {
@@ -124,16 +168,43 @@
                 console.log(studentObj);
                 localStorage.setItem('studentObj', JSON.stringify(studentObj));
             });
+
+
+            //$("#class3").click(function () {
+            //    var open = $(this).data("isopen");
+            //    if (open) {
+            //        //validation
+            //        if ($("#class3").val() == "בחירת כיתה") {
+            //            Swal.fire({
+            //                icon: 'error',
+            //                title: 'שגיאה...',
+            //                text: 'לא נבחרה כיתה',
+            //                confirmButtonText: 'אוקי',
+            //                confirmButtonColor: '#990099',
+            //            })
+            //            return false;
+            //        }
+            //        window.location.href = "manager-professions.html";
+            //        studentObj =
+            //            {
+            //                "ClassName": "ט",
+            //                "ClassNum": $("#class3").val()
+            //            }
+            //    }
+            //    $(this).data("isopen", !open);
+            //    console.log(studentObj);
+            //    localStorage.setItem('studentObj', JSON.stringify(studentObj));
+            //});
+
+                        //refresh     
         });
+
+        //GET - Class Table
         function getNumOfClass() {
-            console.log();
             var url = "../api/Docu/getNumClass";
             ajaxCall("GET", url, "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
-
-            console.log(data);
-
             list = data;
             for (var i = 0; i < list.length; i++) {// add class numbers for options
                 if (list[i].Name_ == "ז") {
@@ -156,7 +227,9 @@
                 }
             }
         };
-        function GETerrorCB() { };
+        function GETerrorCB(err) {
+            console.log(err);
+        };
     </script>
 </head>
 <body id="page-top">
@@ -285,8 +358,7 @@
                     </div>
                 </div>
                 <div class="video-block section-padding">
-                    <div class="row" id="head"> <!-- ברוכים הבאים -->
-
+                    <div class="row" id="head"> 
                     </div>
                     <div class="col-md-12">
                         <div class="row">
@@ -329,82 +401,36 @@
                                     בחר/י את הכיתה הרצויה:
                                 </div>
                             </div>
-                            <!--<div class="col-md-2">
-                <div class="main-title">
-                    <div class="btn-group float-right right-action">
-                        <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-sm-6 mb-3">
                                 <div class="channels-card">
                                     <div class="channels-card-image">
                                         <img class="img-fluid" src="img/ז.png" alt="כיתה ז">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
                                     </div>
                                     <select id="class1" class="choose">
-                                        <!--<option value="">בחר כיתה</option>-->
-                                        <option>בחירת כיתה</option>
-
+                                        <option value="0">בחירת כיתה</option>
                                     </select>
-
-                                    <!--<a id="ז" href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 1</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 2</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; 3</a>
-                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
                                 <div class="channels-card">
                                     <div class="channels-card-image">
                                         <img class="img-fluid" src="img/ח.png" alt="כיתה ח">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">Subscribe <strong>1.4M</strong></button></div>-->
                                     </div>
                                     <select id="class2" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
+                                        <option value="0">בחירת כיתה</option>
                                     </select>
-
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח1</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח2</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ח3</a>
-                    </div>-->
                                 </div>
                             </div>
                             <div class="col-xl-3 col-sm-6 mb-3">
                                 <div class="channels-card">
                                     <div class="channels-card-image">
                                         <img class="img-fluid" src="img/ט.png" alt="כיתה ט">
-                                        <!--<div class="channels-card-image-btn"><button type="button" class="btn btn-outline-secondary btn-sm">Subscribed <strong>1.4M</strong></button></div>-->
                                     </div>
-
                                     <select id="class3" class="choose" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <option>בחירת כיתה</option>
+                                        <option value="0">בחירת כיתה</option>
                                     </select>
-                                    <!--<a href="classes.html" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        בחירת כיתה <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט1</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט2</a>
-                        <a class="dropdown-item" style="color: black" href="manager-professions.html"><i></i> &nbsp; ט3</a>
-                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -412,37 +438,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <!--<footer class="sticky-footer">
-                <div class="container">
-                    <div class="row no-gutters">
-                        <div class="col-lg-6 col-sm-6">
-                            <p class="mt-1 mb-0">
-                        &copy; Copyright 2020 <strong class="text-dark">Vidoe</strong>. All Rights Reserved<br>
-                        <small class="mt-0 mb-0">
-                            Made with <i class="fas fa-heart text-danger"></i> by <a class="text-primary" target="_blank" href="https://askbootstrap.com/">Ask Bootstrap</a>
-                        </small>
-                    </p>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 text-right">
-                            <div class="app">
-                                <a href="https://www.facebook.com/MindCET/?tn-str=k*F">
-                                    <img alt="" src="img/facebook.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="" src="img/Instagram1.png">
-                                </a>
-                                <a href="#">
-                                    <img alt="https://mindset.org.il/" src="img/link1.png">
-                                </a>
-                                <a href="#"><img alt="" src="img/google.png"></a>
-                        <a href="#"><img alt="" src="img/apple.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>-->
         </div>
         <!-- /.content-wrapper -->
     </div>
@@ -451,7 +446,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">

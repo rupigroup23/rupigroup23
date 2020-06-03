@@ -17,12 +17,10 @@
     <!-- Custom styles for this template-->
     <link href="css/tablestyle.css" rel="stylesheet" />
     <link href="css/osahan.css" rel="stylesheet">
-
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Our links -->
@@ -33,13 +31,11 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
     <!--alert  -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
-
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -47,10 +43,13 @@
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
-
+            //Valisation
+            $('#form').submit(sub);
+            //Bring the details from the TEACHER TABLE
             getTeachers();
-            //buttom save and cancel
+            //EDIT- PUT in the TEACER TABLE
             $('#saveBTN').click(saveTeacherDB);
+
             $('#upload').click(uploadTeachers);
 
             //User image
@@ -59,9 +58,11 @@
             showDetalis(objAdmin);
         });
 
+        //Valisation
         function sub() {
             return false;
         }
+
         //img
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
@@ -85,21 +86,23 @@
             console.log(err)
         }
 
-        //img
-        function getTeachers(data) {
+        //Get - from Teacher table
+        techersArr = [];
+        function getTeachers() {
             var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
-        }
-        techersArr = [];
+        }       
         function GETsuccess(data) {
             techersArr = data;
             for (var i = 0; i < techersArr.length; i++) {
+                //Fix Date
                 bd = techersArr[i].Bday;
                 bd1 = bd.split('-');
                 day = bd1[2].split('T');
                 dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
                 data[i].Bday = dateIL
             }
+            //DataTable
             try {
                 tbl = $('#teachersTable').DataTable({
                     responsive: true,
@@ -114,23 +117,19 @@
                                 let rowID = "data-RowId='" + row.id + "'";
                                 editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
                                 deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-
-                                //editBtn = "<button type='button' class = 'editBtn btn btn-success' " + dataS + "> עריכה </button>";
-                                //deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' " + dataS + "> מחיקה </button>";
                                 return editBtn + " " + deleteBtn;
                             }
                         },
-                        { data: "id" },
-                        { data: "Profession" },
                         { data: "FName" },
                         { data: "LName" },
+                        { data: "Id_" },
+                        { data: "Profession" },
                         { data: "Email" },
                         { data: "City" },
                         { data: "Street" },
-                        { data: "Id_" },
                         { data: "Bday" },
                         { data: "PhoneNum" },                        
-                        { data: "Password_" },
+                        //{ data: "Password_" },
                     ],
                 });
             }
@@ -140,10 +139,17 @@
         }
         function GETerror(err) { console.log(err) }
 
-        ////////////////////DELETE//////////////
+
+        //Delete Teacher - used tables: Teacher, classProfession 
+        //POST
         $(document).on("click", ".deleteBtn", function () {
             rowID = this.getAttribute('data-RowId');
-
+            for (var i = 0; i < techersArr.length; i++) {
+                if (techersArr[i].id == rowID) {
+                    TeacherId = techersArr[i].Id_;
+                    TeacherSubj = techersArr[i].Profession;
+                }
+            }
             swal({
                 title: "האם את/ה בטוח?",
                 text: "במידה והפעולה תאושר,המורה יימחק מהמערכת",
@@ -153,24 +159,30 @@
             })
                 .then(function (willDelete) {
                     if (willDelete)
-                        deleteTecher(rowID);
+                        deleteTecher(rowID,TeacherId,TeacherSubj);
                     else swal("הפעולה בוטלה");
                 });
         });
+        function deleteTecher(rowID, TeacherId) {
+            ajaxCall("POST", "../api/Docu/DeleteTeachFromCS/" + TeacherId + "/"+TeacherSubj, "", DeleteSuccessCS, DeleteErrorCS);
 
-
-        function deleteTecher(rowID) {
             ajaxCall("POST", "../api/Docu/DeleteT/" + rowID, "", DeleteSuccess, DeleteError);
+            
         }
         function DeleteSuccess(data) {
             redrawTBL(tbl, data);
             swal("המורה נמחק/ה בהצלחה!", "", "success");
             location.reload();
-
         }
         function DeleteError(err) { console.log(err) }
 
-
+        function DeleteSuccessCS(data) {
+            console.log("DeleteSuccessCS");
+        }
+        function DeleteErrorCS(err) {
+            console.log(err);
+        }
+        //reset
         function redrawTBL(tbl, data) // לרענן את הטבלה לאחר שבוצועו שינויים.
         {
             tbl.clear();
@@ -180,23 +192,22 @@
             tbl.draw();
 
         }
-        ///UPDATE
+
+        //Edit/update Teacher - use tables: Teacher
+        //PUT
         $(document).on("click", ".editBtn", function () {
             $("#editDiv").show();
             $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
             populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
-
         function populateFields(rowID) {
             id1 = rowID
             console.log(id1);
             teacher = getTeachers_(id1);
-        
             //bday
             bday = teacher.Bday;
             bdayArr= bday.split('/');
             bday = bdayArr[2] + "-" + bdayArr[1] + "-" + bdayArr[0];
-            //
 
             $("#fname").val(teacher.FName);
             $("#lname").val(teacher.LName);
@@ -207,9 +218,8 @@
             $("#id").val(teacher.Id_);
             $("#bday").val(bday);
             $("#prof").val(teacher.Profession);
-            $("#password").val(teacher.Password_);
+            //$("#password").val(teacher.Password_);
         }
-
         function getTeachers_(RowID) { // check in the new data
             console.log(techersArr);
             for (i in techersArr) {
@@ -218,13 +228,10 @@
             }
             return null;
         }
-
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
             $("#editDiv").hide();
         }); // כפתור ביטול של העריכה
-
-
         function getStudebts(RowID) {
             console.log(studentsArr);
             for (i in studentsArr) {
@@ -233,7 +240,6 @@
             }
             return null;
         }
-
         function saveTeacherDB() {
             let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
@@ -246,7 +252,7 @@
                 "Id": $("#id").val(),
                 "Bday": $("#bday").val(),
                 "Profession": $("#prof").val(),
-                "Password": $("#password").val()
+                //"Password": $("#password").val()
             }
             console.log(teacher); // האיבר המעודכן
 
@@ -264,11 +270,11 @@
             redrawTBL(tbl, data);
             $("#editDiv").hide();
         }
-
         function updateDerror(err) {
             console.log(err);
         }
 
+        //EXCEL
         teachersArr = new Array();
         $(function () {
             $("#load").bind("click", function () {
@@ -319,7 +325,6 @@
         function uploadTeachers() { //EXCEL
             ajaxCall("POST", "../api/Docu/postTeach2", JSON.stringify(teachersArr), POSTsuccess_, POSTerror_);
         }
-
         function POSTsuccess_() {
             Swal.fire(
                 {
@@ -375,7 +380,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -383,14 +387,12 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a style="color: black" href="manager-index.html">בית</a></li>
             <li class="breadcrumb-item active" aria-current="page"><a href="manager-teacher-Management">ניהול מורים</a></li>
         </ol>
-
     </nav>
     <div id="wrapper">
         <!-- Sidebar -->
@@ -449,24 +451,17 @@
         </ul>
         <!-- END Left menu -->
         <!-- Page content -->
-        <!--לעשות דאטא טייבל -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
                 <div class="row">
-                    <!--<div class="col-md-4">
-                        <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                            <input id="search" class="form-control" name="search" type="text" placeholder="חיפוש מורה...">
-                            &nbsp;<label for="search" class="fas fa-search" style="color: #990099"></label>
-                        </div>
-                    </div>-->
-                    <div class="col-md-2 text2">
+                    <div class="col-md-6 text2">
                         <span style="border-bottom: 1px solid #990099">
                             ניהול מורים
                         </span>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <div class="row">
-                            <div class="col-lg-3 col-sm-4">
+                            <div class="col-lg-4 col-sm-4">
                                 <span class="text2">
                                     העלאת קובץ מורים:
                                 </span>
@@ -479,12 +474,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <div class="main-title text2" style="display: flex;     font-size: 18px;">
-                            <!--&nbsp;<i class="fas fa-file-excel"></i>-->
-                        </div>
-                    </div>
                 </div>
+                <br />
                 <hr class="mt-0">
                 <div>
                     <form>
@@ -492,18 +483,16 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th></th>
-                                    <th>מקצוע</th>
                                     <th>שם פרטי</th>
                                     <th>שם משפחה</th>
+                                    <th>ת"ז</th>
+                                    <th>מקצוע</th>
                                     <th>אימייל</th>
                                     <th>עיר</th>
                                     <th>רחוב</th>
-                                    <th>ת"ז</th>
                                     <th>תאריך לידה</th>
                                     <th>מספר נייד</th>
-
-                                    <th>סיסמא ראשונית</th>
+                                    <!--<th>סיסמא ראשונית</th>-->
                                 </tr>
                             </thead>
                         </table>
@@ -515,20 +504,14 @@
                                     <label for="name">שם פרטי</label>
                                     <input type="text" class="form-control" id="fname" required>
                                 </div>
-
-
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="model"><span class="red-star"> </span>שם משפחה</label>
                                     <input type="text" class="form-control" id="lname" required>
                                 </div>
-
-
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="year"><span class="red-star"> </span>מספר נייד</label>
                                     <input type="text" class="form-control" id="number" required>
-
                                 </div>
-
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>איימל</label>
                                     <input type="email" class="form-control" id="mail" required />
@@ -545,7 +528,6 @@
                                     <label for="price"><span class="red-star"> </span>תעודת זהות</label>
                                     <input type="number" class="form-control" id="id" required />
                                 </div>
-
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>תאריך לידה</label>
                                     <input type="date" class="form-control" id="bday" required />
@@ -554,15 +536,12 @@
                                     <label for="price"><span class="red-star"> </span>מקצוע</label>
                                     <input type="text" class="form-control" id="prof" required />
                                 </div>
-
-
-                                <div class="form-group col-sm-3 create-text">
+                                <!--<div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
                                     <input type="text" class="form-control" id="password" required />
-                                </div>
+                                </div>-->
                             </div>
-
-                            <div class="row">
+                           <div class="row">
                                 <div class="col-lg-2 col-sm-6">
                                     <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
                                 </div>
@@ -571,14 +550,11 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -603,10 +579,7 @@
         </div>
     </div>
     <!-- Bootstrap core JavaScript-->
-    <!--<script src="vendor/jquery/jquery.min.js"></script>-->
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <!--<script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
     <!-- Owl Carousel -->
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->

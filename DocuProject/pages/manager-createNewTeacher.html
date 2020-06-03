@@ -34,6 +34,8 @@
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
+
+        var countError;
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -90,9 +92,7 @@
             function getAvatarImageError(err) {
                 console.log(err)
             }
-            function funcerror() { }
-
-           
+            function funcerror() { }     
         });
 
         //Checking validation
@@ -180,6 +180,7 @@
         //Checking validation
         var SubjList = "";
         function checkSub() {
+            countError = 0;
             for (var i = 0; i < teacherArr.length; i++) {
                 if (teacherArr[i] == profession) { //validation
                     Swal.fire({
@@ -189,6 +190,7 @@
                         confirmButtonText: 'אישור',
                         showCloseButton: true
                     })
+                    countError++;
                     return;
                 }
             }
@@ -218,7 +220,21 @@
 
         //Checking validation
         function checkingData() {
-
+            //duplication values
+            countError = 0;
+            for (var i = 0; i < listT.length; i++) {
+                if (listT[i].Id == $("#idT").val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'המורה כבר קיים במערכת 😓',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                    countError++;
+                    return false;
+                }
+            }
             //empty values
             if ($("#fname").val() == "" || $("#lname").val() == "" || $("#email").val() == "" || $("#day").val() == "" || $("#month").val() == "0" || $("#year").val() == "" || $("#idT").val() == ""  || $("#phone").val() == ""|| $("#city").val() == ""  || $("#street").val() == "") {
                 Swal.fire({
@@ -228,6 +244,7 @@
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
+                countError++;
                 return false;
             }
 
@@ -240,22 +257,25 @@
             bDayCheck(day, month, year); // bDay validation
 
             isValidIsraeliID($("#idT").val()); // ID validation
-            //duplication values
-            for (var i = 0; i < listT.length; i++) {
-                if (listT[i].Id == $("#idT").val()) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'המורה כבר קיים במערכת 😓',
-                        confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
-                    })
-                    return false;
-                }
+
+            if (teacherArr == 0) {// subject validation
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה',
+                    text: 'לא בחרת מקצוע/ות 😓',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+                })
+                countError++;
+                return false;
             }
+
+            console.log(countError);
             //to post value in the table
-            saveAll(teacherArr);
-        }
+            if (countError == 0) {
+                saveAll(teacherArr);
+            }
+    }
 
         function telephoneCheck(str) {
             var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
@@ -266,37 +286,71 @@
                         text: 'פלאפון לא תקין',
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
-                    })
+                 })
+                countError++;
                 return false;
             }         
         }
-        function bDayCheck(day,month,year) { //01/12/1994
+        function bDayCheck(day, month, year) { //01/12/1994
+            var text = /^[0-9]+$/;
+            if ((!text.test(day)) || (!text.test(year))) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תאריך לידה שגוי',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                countError++;
+                return false;
+            }
             var msg = "";
-            if (month < 1 || month > 12) { // check month range
-             //   alert("Month must be between 1 and 12.")
-                msg = "חודש חייב להיות בין 1 ל- 12";
-
-                alert(msg);
-            }
-            if (day < 1 || day > 31) {
-               // alert("Day must be between 1 and 31.")
-                msg = "יום חייב להיות בין 1 ל- 31..";
-                alert(msg);
-            }
-            if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-               // msg = "Month " + month + " doesn't have 31 days!";
-                msg = "בחודש ה- " + month + " אין 31 ימים! ";
-                alert(msg);
-            }
-            if (month == 2) { // check for february 29th
-                var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-                if (day>29 || (day==29 && !isleap)) {
-               //     msg = "February " + year + " doesn't have " + day + " days!";
-                    msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                if (month < 1 || month > 12) { // check month range
+                 //   alert("Month must be between 1 and 12.")
+                    msg = "חודש חייב להיות בין 1 ל- 12";
                     alert(msg);
+                    countError++;
+                    return false;
                 }
-            }
-            if (day.charAt(0) == '0') day= day.charAt(1);
+                if (day < 1 || day > 31) {
+                    Swal.fire(
+                            {
+                                text: "יום חייב להיות בין 1 ל- 31..",
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                    countError++;
+                     return false;
+                }
+                if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+                    msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                    Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                     return false;
+                }
+                if (month == 2) { // check for february 29th
+                    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                    if (day>29 || (day==29 && !isleap)) {
+                        msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                        Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                         return false;
+                    }
+                }
+                if (day.charAt(0) == '0') day= day.charAt(1);
         }
         function isValidIsraeliID(id) {
             var id = String(id).trim();
@@ -309,6 +363,7 @@
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
                     })
+                countError++;
                 return false;
             }
 	        // Pad string with zeros up to 9 digits
@@ -316,17 +371,6 @@
         }
 
         function saveAll(teacherArr) {
-            birthVal = $('#bday').val(); // 2020-05-18
-            if (teacherArr == 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה',
-                    text: 'לא בחרת מקצוע/ות 😓',
-                    confirmButtonText: 'אישור',
-                    confirmButtonColor: '#990099',
-                })
-            }
-            else {
                 for (var i = 0; i < teacherArr.length; i++) {
                     TeacherObj =
                         {
@@ -342,9 +386,8 @@
                             "Password": Math.random().toString(36).substring(7),
                         }
                     console.log(TeacherObj);
-                 //   ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
+                    ajaxCall("POST", "../api/Docu/PostTeach", JSON.stringify(TeacherObj), POSTsuccess, POSTerror);
                 }
-            }
         }
 
         function POSTsuccess() { 
