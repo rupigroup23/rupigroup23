@@ -160,10 +160,12 @@
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + subj + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html's>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-PresentationAssignment.html'>הצגה ועריכה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
+
+
 
         //Bring the details up
         function getDatelis() {
@@ -174,14 +176,29 @@
             document.getElementById("date").innerHTML = date;
         }
 
-        ///עריכת מטלה - נוי//        
+        // edit task - noy
         $(document).on("click", "#editTask", function () {
             $("#editTaskDiv").show();
+            $("#showtxtbox").hide();
+            
             populateFields(TaskObj); // fill the form fields according to the selected row
         });
-      
+
+        x = "";
         function populateFields(TaskObj)
         {
+            var btnDelete = document.getElementById("deleteFile");
+            x = taskPath.search("http://proj.ruppin.ac.il"); //If there is a file 
+            if (x == 0) {
+            btnDelete.style.display = "block";
+            $("#descriptionDiv").hide();
+
+            }
+            else
+            {
+                document.getElementById("valuTxtEdit").innerHTML = taskPath;
+                btnDelete.style.display = "none";
+            }
             //date
             date = TaskObj.Task.Date; 
             deadLine= date.split('/');
@@ -193,22 +210,20 @@
             $("#deadLine").val(date_);
             $("#num").val(TaskObj.Task.Num);
             $("#taskTopic").val(TaskObj.Task.Topic);
-            document.getElementById("valuTxtEdit").innerHTML = taskPath;
         }
      
         function saveTask()
         {
-            let TaskNew = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+            let TaskNew =
             {
                 "ClassName": $("#class").val(),
                 "classNum": $("#classNum").val(),
                 "Profession": $("#prof").val(),
                 "Deadline": $("#deadLine").val(),
                 "Topic" : $("#taskTopic").val(),
-                //"TaskNum": $("#num").taskTopic(), -  מס מטלה לעריכה בלבד
                 "Description": $("#valuTxtEdit").val(),
             }
-            console.log(TaskNew); // האיבר המעודכן
+            console.log(TaskNew); 
 
             url = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic
             ajaxCall("PUT", url, JSON.stringify(TaskNew), updateDsuccess, updateDerror);
@@ -218,9 +233,9 @@
             console.log(data);
             $("#editTaskDiv").hide();
 
-                      Swal.fire({
+                    Swal.fire({
                     icon: 'success',
-                    text: 'פרטי המטלה שונו בהצלחה',
+                    text: 'פרטי המטלה עודכנו בהצלחה',
                     confirmButtonText: 'אישור',
                     showCloseButton: true
                 }) 
@@ -230,20 +245,10 @@
             console.log(err);
         }
 
-        //עד כאן עריכת מטלה
+        //edit - finall
 
-
-        //מחיקת מטלה- נוי
-        $(document).on("click", "deleteTask", function () {
-alert("kfkf");
-        });
-
-               $(document).on("click", "#deleteTask", function () {
-
-            mode = "delete";
-            //markSelected(this);
-            rowID = this.getAttribute('data-RowId');
-
+        //delete task - noy
+        $(document).on("click", "#deleteTask", function () {
             swal({
                 title: "האם את/ה בטוח?",
                 text: "במידה והפעולה תאושר,המטלה תמחק מהמערכת",
@@ -270,7 +275,7 @@ alert("kfkf");
             location.assign(x);
         }
         function DeleteError(err) { console.log(err) }
-        //
+        //delete - finall
 
     </script>
 </head>
@@ -399,13 +404,21 @@ alert("kfkf");
                         </div>
                     </div>
                 </div>
-                
+
                 <!--מחיקת מטלה-->
                 <div class="row">
-<p></p>             
-                    <a href="#" >
+                    <p></p>
+                    <a href="#">
                         <img id="deleteTask" style="height:50px; width:50px ;position:absolute; left:30px ;" src="img/deletePNG.png" />
                     </a>
+
+                </div>
+                <div class="row" style="margin-top:50px">
+                    <p>
+                        <a href="#">
+                            <img id="editTask" style="height:50px; width:50px ;position:absolute; left:30px ;" src="img/editPNG.png" />
+                        </a>
+                    </p>
                 </div>
 
                 <div class="row">
@@ -423,14 +436,14 @@ alert("kfkf");
                                     </div>
                                 </div>
                                 <!--<div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
-                                    <div class="row">
-                                        <a href="manager-EDIT_PresentationAssignment.html">
-                                            <i class="far fa-edit"></i>
-                                        </a>
-                                        &nbsp;
-                                        <i class="far fa-trash-alt"></i>
-                                    </div>
-                                </div>-->
+                        <div class="row">
+                            <a href="manager-EDIT_PresentationAssignment.html">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            &nbsp;
+                            <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>-->
                             </div>
                             <br />
                             <div class="row">
@@ -472,9 +485,9 @@ alert("kfkf");
                                                 הצגת המטלה
                                                 <!--(טקסט)-->
                                             </button>
-                                            <button id="editTask" class="showTask-btn">
+                                            <!--<button id="editTask" class="showTask-btn">
                                                 עריכת המטלה
-                                            </button>
+                                            </button>-->
                                             <button class="showTask-btn">
                                                 ניהול צוותים
                                                 <!--(טקסט)-->
@@ -483,7 +496,7 @@ alert("kfkf");
                                         </div>
                                     </div>
                                     <!--הצגת מטלה-->
-                                    <div class="row"> 
+                                    <div class="row">
                                         <div class="col-lg-12 col-sm-12">
                                             <div class="col-lg-12 col-sm-12" id="showtxtbox" style="display:none">
                                                 <textarea id="valuTxt" class="comment-box" rows="4" cols="70" readonly></textarea>
@@ -496,53 +509,57 @@ alert("kfkf");
                                         <div class="col-lg-12 col-sm-12">
                                             <div class="col-lg-12 col-sm-12" id="editTaskDiv" style="display:none">
                                                 <!--<form id="form1">-->
-                                                    <div class="form-group row">
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="class">כיתה</label>
-                                                            <input type="text" class="form-control" id="class" required>
-                                                        </div>
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="classNum"><span class="red-star"> </span>מספר כיתה</label>
-                                                            <input type="number" class="form-control" id="classNum" required>
-                                                        </div>
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="prof"><span class="red-star"> </span>מקצוע</label>
-                                                            <input type="text" class="form-control" id="prof" required>
-
-                                                        </div>
-
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="date"><span class="red-star"> </span>תאריך הגשה</label>
-                                                            <input type="date" class="form-control" id="deadLine" required />
-                                                        </div>
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="num"><span class="red-star"> </span>מספר מטלה</label>
-                                                            <input type="number" class="form-control" id="num" readonly />
-                                                        </div>
-                                                        <div class="form-group col-sm-3 create-text">
-                                                            <label for="topic"><span class="red-star"> </span>נושא המטלה</label>
-                                                            <input type="text" class="form-control" id="taskTopic" />
-                                                        </div>
-                                                        <div class="form-group col-sm-6 create-text">
-                                                            <label for="description"><span class="red-star"> </span>תיאור</label>
-                                                            <textarea id="valuTxtEdit" class="comment-box" rows="4" cols="70"></textarea>
-                                                        </div>
-
+                                                <div class="form-group row">
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="class">כיתה</label>
+                                                        <input type="text" class="form-control" id="class" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="classNum"><span class="red-star"> </span>מספר כיתה</label>
+                                                        <input type="number" class="form-control" id="classNum" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="prof"><span class="red-star"> </span>מקצוע</label>
+                                                        <input type="text" class="form-control" id="prof" required>
 
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-2 col-sm-6">
-                                                            <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
-                                                        </div>
 
-                                                        <div class="col-lg-2 col-sm-6">
-                                                            <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
-                                                        </div>
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="date"><span class="red-star"> </span>תאריך הגשה</label>
+                                                        <input type="date" class="form-control" id="deadLine" required />
                                                     </div>
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="num"><span class="red-star"> </span>מספר מטלה</label>
+                                                        <input type="number" class="form-control" id="num" readonly />
+                                                    </div>
+                                                    <div class="form-group col-sm-3 create-text">
+                                                        <label for="topic"><span class="red-star"> </span>נושא המטלה</label>
+                                                        <input type="text" class="form-control" id="taskTopic" />
+                                                    </div>
+                                                    <div id="descriptionDiv" class="form-group col-sm-6 create-text">
+                                                        <label for="description"><span class="red-star"> </span>תיאור</label>
+                                                        <textarea id="valuTxtEdit" class="comment-box" rows="4" cols="70"></textarea>
+                                                    </div>
+                                                    <div id="deleteFile" class="form-group col-sm-6 create-text">
+                                                        <label for="description"><span class="red-star"> </span>לחץ/י למחיקת קובץ המטלה</label><br />
+
+                                                        <button>מחיקה  </button>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-sm-6">
+                                                        <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col-sm-6">
+                                                        <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
+                                                    </div>
+                                                </div>
 
                                                 <!--</form>-->
                                                 <!--<button id="stam"> ניסיון
-                                                </button>-->
+                                    </button>-->
                                             </div>
                                         </div>
                                     </div>
