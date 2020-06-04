@@ -1,0 +1,553 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Askbootstrap">
+    <meta name="author" content="Askbootstrap">
+    <!-- page name -->
+    <title>'דוקו'</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/osahan.css" rel="stylesheet">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="page-top">
+    <!-- top bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
+        &nbsp;&nbsp;
+        <br />
+        <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button> &nbsp;&nbsp;
+        <a class="navbar-brand mr-1" href="teacher-index.html"><img class="imgMenu" alt="" src="img/logo.png"></a>
+
+        <!-- Navbar Search -->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
+        </form>
+        <ul class="navbar-nav ml-auto osahan-right-navbar">
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-facebook-f" title="פייסבוק"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-instagram" title="אינסטגרם"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1 app">
+                <a class="nav-link" href="https://www.facebook.com/MindCET/?tn-str=k*F">
+                    <i class="fa fa-external-link" title="אתר אינטרנט"></i>
+                </a>
+            </li>  &nbsp;
+            <li class="nav-item mx-1">
+                <a class="nav-link" href="upload.html">
+                    <i class="fas fa-plus-circle fa-fw"></i>
+                    העלאת סרטון
+                </a>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw" title="התראות"></i>
+                    <span class="badge badge-danger">9+</span>
+                </a>
+                <!-- לשנות לעדכונים -->
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
+                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="Avatar" src="img/user.png">
+                    קרן גרוסמן
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- orientation bar -->
+    <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a style="color: black" href="teacher-index.html">בית</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="teacher-professions.html">מקצועות</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="teacher-tasks.html">מטלות</a></li>
+            <li class="breadcrumb-item"><a style="color: black" href="teacher-watchingvideos.html">צפייה בסרטונים</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="teacher-feedbacks.html">פידבקים</a></li>
+        </ol>
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <!-- Left menu -->
+        <ul class="sidebar navbar-nav" style="z-index: 0;">
+            <li class="nav-item">
+                <a class="nav-link" href="teacher-index.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>בית</span>
+                </a>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 id="myNameN2" class="nav-item">מורה</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="teacher-index.html">
+                    <i class="fas fa-fw fa-users"></i>
+                    כיתות
+                </a>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+                <h6 class="nav-item">פרטיות</h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="teacher-settings.html">
+                    <i class="fa fa-gear"></i>
+                    <span>הגדרות</span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
+                    <span>יציאה מהמערכת</span>
+                </a>
+            </li>
+        </ul>
+        <!-- END Left menu -->
+        <!-- Page content -->
+        <div id="content-wrapper">
+            <div class="container-fluid pb-0">
+                <div class="video-block section-padding">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="single-video-left">
+                                <div class="single-video">
+                                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/MEbza_hAOx4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                </div>
+                                <!-- הסרטון הראשי -->
+                                <div class="single-video-title box mb-3">
+                                    <span class="text2">חברי הצוות:</span> &nbsp;
+                                    <span class="create-text">שיר מלכה, נוי מור יוסף ורביד אלבז</span>
+                                    <!--<p class="mb-0"><i class="fas fa-eye"></i> 200 צפיות</p>-->
+                                </div>
+                                <div class="single-video-author box mb-3">
+                                    <span class="text2">הוספת תגובה:</span>&nbsp;
+                                    <!--<div class="video-page text-success">-->
+                                    <div class="video-page text-success">
+                                        <a class="text-success" style="cursor: pointer;">
+                                            <i class="fas fa-heart"></i>&nbsp;לייק&nbsp;&nbsp;
+                                        </a>
+                                        <a class="text-success" style="cursor: pointer;" onclick="show1()">
+                                            <i class="fas fa-comment"></i>&nbsp;תגובת טקסט&nbsp;&nbsp;
+                                        </a>
+                                        <a class="text-success" style="cursor: pointer;" onclick="show2()">
+                                            <i class="fas fa-arrow-circle-up"></i>&nbsp; העלאת תגובה בסרטון&nbsp;&nbsp;
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-6" id="showComment" style="display:none">
+                                        <div class="reviews-members pt-0">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <div class="form-members-body">
+                                                        <textarea rows="1" placeholder="הוספת תגובה..." class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-members-footer text-right mt-2">
+
+                                                        <button class="btn btn-outline-danger btn-sm upload-btn" type="button">ביטול</button> <button class="btn btn-danger btn-sm upload-btn" type="button">שמירה</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-6" id="showFile" style="display:none">
+                                        <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 40px;width: 240px" />
+                                        <input type="button" id="load" value="טען" class="upload-btn" style="margin-right: 25%;" />
+                                        <input type="button" id="upload" value="שמור נתונים" class="upload-btn" />
+                                    </div>
+                                </div>
+                                <span class="text2">לייקים ותגובות:</span>
+                                <div class="single-video-info-content box mb-3">
+                                    <div class="owl-carousel owl-carousel-category">
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">אריאל</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">מיכל</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">שקד</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">ענת</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">בני</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">אלמוג</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="category-item" style="padding: 0px 0px;">
+                                                <a href="#">
+                                                    <i class="fas fa-heart"></i>
+                                                    <h6 style="font-weight: bold;">אופיר</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="video-slider-right-list">
+                                    <div class="video-card video-card-list">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        אריאל:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card video-card-list active">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        בן:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        איזה כיף לראות את הסרטון. הצלחתן להעביר את המסר
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card video-card-list">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        מיכל:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        ואו! כל הכבוד  על ההשקעה. למדתי המון
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card video-card-list">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        אריאל:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card video-card-list">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        אריאל:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        מצטיינים, סרטון שמעביר את המסר, יצרתי ומעולה
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card video-card-list">
+                                        <div class="video-card-body">
+                                            <div class="video-title">
+                                                &nbsp;&nbsp;&nbsp;
+                                                <div class="row text2" style="font-size: 20px;margin-right: 0px;">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    <h6 style=" font-weight: bold; color:#990099">
+                                                        מיכל:&nbsp;
+                                                    </h6>
+                                                    <h6 style=" font-weight: normal;">
+                                                        ואו! כל הכבוד  על ההשקעה. למדתי המון
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="single-video-info-content box mb-3">
+        <h6>Cast:</h6>
+        <p>Nathan Drake , Victor Sullivan , Sam Drake , Elena Fisher</p>
+        <h6>Category :</h6>
+        <p>Gaming , PS4 Exclusive , Gameplay , 1080p</p>
+        <h6>About :</h6>
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved overVarious versions have evolved over the years, sometimes </p>
+        <h6>Tags :</h6>
+        <p class="tags mb-0">
+            <span><a href="#">Uncharted 4</a></span>
+            <span><a href="#">Playstation 4</a></span>
+            <span><a href="#">Gameplay</a></span>
+            <span><a href="#">1080P</a></span>
+            <span><a href="#">ps4Share</a></span>
+            <span><a href="#">+ 6</a></span>
+        </p>
+    </div>-->
+                            </div>
+                            </div>
+                        <div class="col-md-4">
+                            <div class="single-video-right">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text2" style="font-size: 24px;">
+                                            תגובות בסרטונים
+                                        </div>
+                                        <div class="main-title">
+                                            <div class="btn-group float-right right-action">
+                                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="#"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר צוות</a>
+                                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="https://drive.google.com/open?id=1DiWRUFsFAz_C6aTy5Ib3j_yOMi3QHgmW">
+                                                    <img class="img-fluid" src="img/PIC1.JPG" alt="">                                                </a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">מיה מלכה</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">אלמוג לוי</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">אופיר בן בסט</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">מאיה בלאט</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">מאי שלומזון</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="video-card video-card-list">
+                                            <div class="video-card-image">
+                                                <a class="play-icon" href="#"><i class="fas fa-play-circle"></i></a>
+                                                <a href="#"><img class="img-fluid" src="img/v1.png" alt=""></a>
+                                                <div class="time">3:50</div>
+                                            </div>
+                                            <div class="video-card-body">
+                                                <div class="video-title">
+                                                    <a href="#">איה יצחקי</a>
+                                                </div>
+                                                <div class="video-view">
+                                                    <small>פורסם בתאריך 10 למרץ 2020</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+            
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        function show1() {
+            var x = document.getElementById("showComment");
+            var y = document.getElementById("showFile");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        function show2() {
+            var x = document.getElementById("showFile");
+            var y = document.getElementById("showComment");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/custom.js"></script>
+
+</body>
+</html>

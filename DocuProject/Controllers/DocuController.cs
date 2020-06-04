@@ -129,6 +129,7 @@ namespace DocuProject.Controllers
             Student S = new Student();
                 return S.ReadSt();
         }
+
         [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Docu/checkUsers")]
         public Admin Post([FromBody] Admin admin) // מקבלת מערך של אובייקטים- מה שהכנתי

@@ -346,8 +346,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}' ,'{2}','{3}','{4}','{5}' ,{6},'{7}','{8}',{9},'{10}')", student.FName, student.LName, student.PhoneNum, student.Email, student.City, student.Address, student.Id, student.Bday, student.ClassName, student.ClassNum, student.Password); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student" + "(FName,LName,PhoneNum,Email,City,Street, Id_,Bday,ClassName,ClassNum,Password_) "; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}' ,'{2}','{3}','{4}','{5}' ,{6},'{7}','{8}',{9},'{10}','{11}', {12})", student.FName, student.LName, student.PhoneNum, student.Email, student.City, student.Address, student.Id, student.Bday, student.ClassName, student.ClassNum, student.Password , student.Gender, student.Gpa); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student" + "(FName,LName,PhoneNum,Email,City,Street, Id_,Bday,ClassName,ClassNum,Password_,Gender,GPA) "; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -406,7 +406,7 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select Id_, ClassName, ClassNum from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select Id_, ClassName, ClassNum, FName,LName from Student"; // נכתוב שאילתה להוצאת הטבלה 
             //String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -420,6 +420,8 @@ public class DBservices
                 St.Id = (int)dr["Id_"];
                 St.ClassName = (string)dr["ClassName"];
                 St.ClassNum = (int)dr["ClassNum"];
+                St.FName = (string)dr["FName"];
+                St.LName = (string)dr["LName"];
                 listStudent.Add(St);
             }
         }

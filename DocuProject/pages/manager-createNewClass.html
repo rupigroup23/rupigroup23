@@ -35,6 +35,8 @@
 
     <script>
         $(document).ready(function () {
+             existsArr = [];
+
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -51,6 +53,8 @@
             showDetalis(objAdmin);
             getTachears();
             getSubjects();
+            getStudent();
+
             $('#continue').click(checkDetails);
 
             $('#selectProf').change(function () {
@@ -250,7 +254,7 @@
             year = $("#Year").val();
             teacher = $("#teacherName").val();
 
-            if (year == "" || name == "" || num == "" || teacher == "") { //numOfStudents == 0
+            if (year == "" || name == "" || num == "" || teacher == "1") { //numOfStudents == 0
                 Swal.fire({
                     title: 'שדות חסרים',
                     text: 'יש למלא את כל השדות כדי להמשיך',
@@ -265,10 +269,45 @@
             }
         }
 
+        ///ולידציית סטודנטים - קובץ אקסל
+        function getStudent() {
+            ajaxCall("GET", "../api/Docu/GetST", "", GETsuccessS, GETerrorS);
+        }
+
+        listSt = [];
+        function GETsuccessS(data) {
+            listSt = data;
+            console.log('listSt',listSt)
+        }
+        function GETerrorS(err) {
+            alert("NOT");
+            console.log(err)
+        }
+        ///
+
         //Excel
         studentsArr = new Array();
+        
+        strExists="";
         $(function () {
             $("#load").bind("click", function () {
+
+             name = $("#classSelect").val();
+            num = $("#classNum").val();
+            year = $("#Year").val();
+            teacher = $("#teacherName").val();
+
+            if (year == "" || name == "" || num == "" || teacher == "") { //numOfStudents == 0
+                Swal.fire({
+                    title: 'שדות חסרים',
+                    text: 'אנא מלא/י פרטי כיתה לפני העלאת קובץ תלמידים',
+                    icon: 'warning',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
+                return false;
+                }
+                exists = false;
                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
                 if (regex.test($("#fileUpload").val().toLowerCase())) {
                     if (typeof (FileReader) != "undefined") {
@@ -278,24 +317,40 @@
                             for (var i = 0; i < rows.length; i++) {
                                 var cells = rows[i].split(",");
                                 if (cells.length > 1) {
-                                    var student = {};
-                                    student.FName = cells[0];
-                                    student.LName = cells[1];
-                                    student.PhoneNum = cells[2];
-                                    student.Email = cells[3];
-                                    student.City = cells[4];
-                                    student.Address = cells[5];
-                                    student.Id = cells[6];
-                                    student.Bday = cells[7];
-                                    student.ClassName = $("#classSelect").val();
-                                    student.ClassNum = $("#classNum").val();
-                                    student.Password = Math.random().toString(36).substring(7);
-                                    studentsArr.push(student);
-                                    console.log(studentsArr[0]);
-                                    console.log(studentsArr.length);
-                                }
+
+                                    for (var k = 0; k < listSt.length; k++) {
+                                        if (cells[6] == listSt[k].Id) {
+                                            exists = true;
+                                            strExists = listSt[k].FName + " " + listSt[k].LName;
+                                            existsArr.push(strExists);
+                                            console.log('existsArr',existsArr);
+                                        }
+                                    }
+                                        if (exists == false)
+                                        {
+                                            var student = {};
+                                            student.FName = cells[0];
+                                            student.LName = cells[1];
+                                            student.PhoneNum = cells[2];
+                                            student.Email = cells[3];
+                                            student.City = cells[4];
+                                            student.Address = cells[5];
+                                            student.Id = cells[6];
+                                            student.Bday = cells[7];
+                                            student.Gender = cells[8];
+                                            student.ClassName = $("#classSelect").val();
+                                            student.ClassNum = $("#classNum").val();
+                                            student.Password = Math.random().toString(36).substring(7); // first password
+                                            student.Gpa = 0; // average  
+
+                                                  studentsArr.push(student);
+                                        }
+                                    exists = false;
+                                    }
+                              
+                                     console.log('studentsArr',studentsArr);
                             }
-                        }
+                        }                  
                         reader.readAsText($("#fileUpload")[0].files[0]);
                         btnsaveExcel = document.getElementById("upload");
                         if (btnsaveExcel.style.display === "none") {
@@ -309,16 +364,39 @@
                 else {
                     swal("Please upload a valid CSV file", "", "warning")
                 }
+                
             });
         });
-        function save_uploadStudents() {
-            numOfStudents = studentsArr.length;
-            Swal.fire({
-                text: 'התלמידים שויכו לכיתה בהצלחה',
-                icon: 'success',
-                confirmButtonColor: '#990099',
-                confirmButtonText: 'אישור',
-            })
+
+        function save_uploadStudents()
+        {
+            str = "";
+
+            if (existsArr.length > 0) {
+                for (var i = 0; i < existsArr.length; i++) {
+                    str += (i + 1) + ". " + existsArr[i] + "<br>";
+                }
+
+                str += " <br>  <br> ** שאר התלמידים שויכו לכיתה בהצלחה :) **"
+
+                           Swal.fire({
+                        title: 'חלק מהתלמידים קיימים כבר במערכת ולא שובצו:',
+                        text: "שאר התלמידים שובצו בהצלחה :)",
+                        icon: 'warning',
+                        html: str,
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+            }
+            else {
+
+                Swal.fire({
+                    text: 'התלמידים שויכו לכיתה בהצלחה',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
+            }
         }
 
         //proff
@@ -462,8 +540,23 @@
             ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POSTsuccessCT, POSTerrorCT);
 
             //Student table
-            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
+            str = "";
 
+            if (studentsArr.length > 0) {
+                ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
+            }
+            else {
+                
+                    Swal.fire({
+                        title: 'קובץ אקסל לא מכיל תלמידים',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+
+
+                }
+ 
             //Class table --> classObj
             ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessC, POSTerrorC);
         }

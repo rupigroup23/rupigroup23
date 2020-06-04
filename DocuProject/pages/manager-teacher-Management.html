@@ -91,12 +91,16 @@
         function getTeachers() {
             var url = "../api/Docu/getTeachers";
             ajaxCall("GET", url, "", GETsuccess, GETerror);
-        }       
+
+        }
+        teachersData = [];
+ 
         function GETsuccess(data) {
-            techersArr = data;
-            for (var i = 0; i < techersArr.length; i++) {
+            teachersData = data;
+            for (var i = 0; i < teachersData.length; i++) {
                 //Fix Date
-                bd = techersArr[i].Bday;
+                bd = teachersData[i].Bday;
+
                 bd1 = bd.split('-');
                 day = bd1[2].split('T');
                 dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
@@ -139,15 +143,15 @@
         }
         function GETerror(err) { console.log(err) }
 
-
+        //
         //Delete Teacher - used tables: Teacher, classProfession 
         //POST
         $(document).on("click", ".deleteBtn", function () {
             rowID = this.getAttribute('data-RowId');
-            for (var i = 0; i < techersArr.length; i++) {
-                if (techersArr[i].id == rowID) {
-                    TeacherId = techersArr[i].Id_;
-                    TeacherSubj = techersArr[i].Profession;
+            for (var i = 0; i < teachersData.length; i++) {
+                if (teachersData[i].id == rowID) {
+                    TeacherId = teachersData[i].Id_;
+                    TeacherSubj = teachersData[i].Profession;
                 }
             }
             swal({
@@ -221,10 +225,10 @@
             //$("#password").val(teacher.Password_);
         }
         function getTeachers_(RowID) { // check in the new data
-            console.log(techersArr);
-            for (i in techersArr) {
-                if (techersArr[i].id == RowID)
-                    return techersArr[i];
+            console.log(teachersData);
+            for (i in teachersData) {
+                if (teachersData[i].id == RowID)
+                    return teachersData[i];
             }
             return null;
         }
@@ -274,10 +278,17 @@
             console.log(err);
         }
 
+
+   teachersArr = new Array();     
+        strExists = "";
+        existsArr = [];
+
         //EXCEL
         teachersArr = new Array();
+
         $(function () {
             $("#load").bind("click", function () {
+                exists = false;
                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
                 if (regex.test($("#fileUpload").val().toLowerCase())) {
                     if (typeof (FileReader) != "undefined") {
@@ -287,6 +298,20 @@
                             for (var i = 0; i < rows.length; i++) {
                                 var cells = rows[i].split(",");
                                 if (cells.length > 1) {
+
+                                    for (var k = 0; k < teachersData.length; k++)
+                                    {
+                                        if (cells[5] == teachersData[k].Id_) {
+                                            exists = true;
+                                            strExists = teachersData[k].FName + " " + teachersData[k].LName;
+                                            existsArr.push(strExists);
+                                            console.log(existsArr);
+                                            //break;
+                                        }
+                                    }
+                                      
+                                    if (exists == false)
+                                    {
                                     var teacher = {};
                                     teacher.FName = cells[0];
                                     teacher.LName = cells[1];
@@ -298,15 +323,15 @@
                                     teacher.PhoneNum = cells[7];
                                     teacher.Profession = cells[8];
                                     teacher.Password = Math.random().toString(36).substring(7);
-
-
                                     teachersArr.push(teacher);
-                                    console.log(teachersArr[0]);
-                                    console.log(teachersArr.length);
+                                    }
+                                    exists = false;
+                                }
+                                console.log(teachersArr);
                                 }
                             }
-
-                        }
+                        
+                    
                         reader.readAsText($("#fileUpload")[0].files[0]);
                         btnsaveExcel = document.getElementById("upload");
                         if (btnsaveExcel.style.display === "none") {
@@ -320,23 +345,42 @@
                 else {
                     swal("Please upload a valid CSV file", "", "warning")
                 }
+                
             });
         });
+
+
+
+
+        /////////////
+
+
+
         function uploadTeachers() { //EXCEL
             ajaxCall("POST", "../api/Docu/postTeach2", JSON.stringify(teachersArr), POSTsuccess_, POSTerror_);
         }
+
         function POSTsuccess_() {
-            Swal.fire(
-                {
-                    text: 'מורים נוספו למערכת בהצלחה',
-                    icon: 'success',
+            str = "";
+            if (existsArr.length > 0) {
+                for (var i = 0; i < existsArr.length; i++) {
+                    str += (i + 1) + ". " + existsArr[i] + "<br>";
+                }
+
+                str += " <br>  <br> ** שאר המורים שויכו לכיתה בהצלחה :) **"
+
+                Swal.fire({
+                    title: 'חלק מהמורים קיימים כבר במערכת ולכן לא הוזנו:',
+                    text: "שאר התלמידים שובצו בהצלחה :)",
+                    icon: 'warning',
+                    html: str,
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
-            //location.reload() כדאי להוסיף אחרי שהעלאת הקובץ הסתיימה בהצלחה הפקודה הזאת עושה רענן לעמוד ובעצם מרעננת את הטבלה
-
-
+            }
         }
+
+
         function POSTerror_(err) { console.log(err) }
     </script>
 
