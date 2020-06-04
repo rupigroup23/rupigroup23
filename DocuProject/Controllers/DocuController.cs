@@ -357,7 +357,6 @@ namespace DocuProject.Controllers
             return VC.PutVC(id, videoTeam);
         }
 
-        // GET api/Docu/GetClassSubj/ז/2/פיזיקה
         [HttpGet]
         [Route("api/Docu/GetSudentsbyGrade/{name}/{num}/{prof}/{grade}")]
         public List<string> GetSudentsbyGrade(string name, int num, string prof, string grade)

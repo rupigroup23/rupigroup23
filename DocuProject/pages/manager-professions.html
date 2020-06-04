@@ -90,7 +90,6 @@
                 }
             });
             
-
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
@@ -355,23 +354,6 @@
         function POSTerrorP() {
             console.log(err)
         }
-
-        //GET - ClassSubjects Table
-        //csDBAaa = [];
-        //function getClassSUbjFromDB(name, num) { // to check if the prof was added before
-        //    var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
-        //    console.log(apiProf);
-        //    ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
-        //}
-        //function GETsuccessCT1(data) {
-        //    listCT = data;
-        //    for (var i = 0; i < listCT.length; i++) {
-        //        csDBAaa[i] = listCT[i].Profession; 
-        //    }
-        //}
-        //function GETerrorCT1(err) {
-        //    console.log(err);
-        //}
 
         //POST subj&teacher - ClassSubjects Table
         function saveSubj() {
