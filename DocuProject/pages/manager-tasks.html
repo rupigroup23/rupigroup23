@@ -169,9 +169,10 @@
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
                     tasksSTR += "מטלה מספר ";
                     tasksSTR += Tnum;  
-                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
-                    tasksSTR += "<i class='far fa-edit'></i>&nbsp;";
-                    tasksSTR += "<i class='far fa-trash-alt'></i>";
+                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left' >";
+                    tasksSTR += "<a href='#'>";
+                    tasksSTR += "<i class='far fa-trash-alt'  onclick='deleteTask(this)'  id='" + Tnum + "'></i>";
+                    tasksSTR += "</a>";
                     tasksSTR += "</div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
@@ -184,7 +185,7 @@
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
                     tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
                     tasksSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSTR += "</div></div></div></div>";
 
@@ -193,6 +194,54 @@
                 showLastTask(listCS["length"]);
             }
         }
+        // delete task - noy
+        function deleteTask(thisTask) {
+
+               swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר , המטלה תמחק מהמערכת",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete)
+                        delete_TaskDB(thisTask);
+                    else swal("הפעולה בוטלה");
+                });
+        }
+
+        function  delete_TaskDB(thisTask)
+        {
+            idT = thisTask.id; 
+            task = listCS[idT - 1].Topic; 
+            thisTask = {
+                "ClassName": ProfObj.ClassName, 
+                "ClassNum": ProfObj.ClassNum,
+                "Profession": ProfObj.Profession, 
+                "Task": {
+                    "Num": idT,
+                    "Topic": listCS[idT - 1].Topic,
+                    "Date": dateIL,
+                }
+            }
+            console.log(thisTask);
+
+            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic
+            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+        }
+
+        function DeleteSuccess(data) {
+            swal("המטלה נמחקה בהצלחה!", "", "success");
+            console.log(data);
+            x = "manager-tasks.html";
+
+            location.assign(x);
+        }
+        function DeleteError(err) { console.log(err) }
+        /// delete - finall
+
+       
         function GETerrorT1(err) {
             console.log(err);
         }
@@ -210,8 +259,9 @@
             lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align:right'>מטלה מספר ";
             lastSTR += LastNum;
             lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style = 'text-align:left'>"
-            lastSTR += "<i class='far fa-edit'></i>&nbsp;";
-            lastSTR += "<i class='far fa-trash-alt'></i>";
+            lastSTR += "<a href='#'>";
+            lastSTR += "<i class='far fa-trash-alt'  onclick='deleteTask(this)'  id='" + Tnum + "'></i>";
+            lastSTR += "</a>";
             lastSTR += "</div></div>";
             lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
             lastSTR += "<div class='text2'>&nbsp;    נושא: ";
@@ -225,7 +275,7 @@
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
             lastSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
             lastSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
             lastSTR += "</div></div></div></div></div>";
 
@@ -247,7 +297,7 @@
                     tasksSort += "מטלה מספר ";
                     tasksSort += i+1;  
                     tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
-                    tasksSort += "<i class='far fa-edit'></i>&nbsp;";
+                    //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
                     tasksSort += "<i class='far fa-trash-alt'></i>";
                     tasksSort += "</div></div>";
                     tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
@@ -261,7 +311,7 @@
                     tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSort += "<div class='channels-card-image'>";
                     tasksSort += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSort += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+                    tasksSort += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
                     tasksSort += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSort += "</div></div></div></div>";
 
