@@ -156,7 +156,19 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
-
-
+        [HttpPut]
+        [Route("api/Teacher/updateFBG/{id}")]
+        public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
+        {
+            Group_Feedback VC = new Group_Feedback();
+            return VC.PutVC(id, videoTeam);
+        }
+        [HttpPut]
+        [Route("api/Teacher/updateStudent/{id}")]
+        public DataTable PutDIS(int id, [FromBody] Student student)
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
+        }
     }
 }

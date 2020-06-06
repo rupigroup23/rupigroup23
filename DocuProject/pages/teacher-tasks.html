@@ -28,8 +28,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <!--<script src="../Scripts/Manager-addClass.js"></script>-->
-    <!--shir links-->
     <!-- Include a required theme -->
     <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
@@ -41,8 +39,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- js links -->
     <script src="js/myName.js"></script>
-
-    <!--<script src="js/manager/tasks.js"></script>-->
     <script>
         var imagePath1 = '';
         var userEmail1 = '';        
@@ -50,35 +46,39 @@
         ////////// שמתי פה את כל הקוד של התמונה מוכן//////
 
         $(document).ready(function () {
-             //menu - Teacher name
+            //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
             document.getElementById("myNameN2").innerHTML = teacherName.name;
-            //
-
+            // Saving Name in local storage for the next pages
+            savelocal1(teacherName.name);
+            //Bring data from the local storage
             local = localStorage.getItem('thisProfObj');
             console.log('local: ', JSON.parse(local));
             ProfObj = JSON.parse(localStorage["thisProfObj"]);
             console.log(ProfObj);
-
+            //orientation
             Showorientation();
+            //GET - Task Table  
             readTaskFromDB();
-            //$('#oldTask').click(oldTask);
+            //Saving in the local storage
             $('#newTask').click(forCreateTask);
+            //sort numeric down-alt
+
+            //$('#oldTask').click(oldTask);
+            $('#sortNum').click(sortNum);
 
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objTeacher)
         {
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-
-function funcsuccess(data)
+            function funcsuccess(data)
         {
         obj = data;
                 userEmail1 = obj[0].Email;
@@ -95,9 +95,27 @@ function funcsuccess(data)
                 console.log(err)
             }
             function funcerror() { }
-            //END- User image
         });
+        // Saving Name in local storage for the next pages
+        task = "";
+        function savelocal(thisTask) {
+            idT = thisTask.id; //2
+            task = listCS[idT - 1].Topic; //מרובע
+            thisTask = {
+                "ClassName": ProfObj.ClassName, //ח
+                "ClassNum": ProfObj.ClassNum,//4
+                "Profession": ProfObj.Profession, //פיזיקה
+                "Task": {
+                    "Num": idT,
+                    "Topic": listCS[idT - 1].Topic,
+                    "Date": listCS[idT - 1].Deadline,
+                }
+            }
+            console.log(thisTask);
 
+            localStorage.setItem('thisTask', JSON.stringify(thisTask));
+        }
+        // save to local the num of task and class details
         function forCreateTask() {
             if (listCS.length == 0) {
                 idT = 1;
@@ -120,7 +138,7 @@ function funcsuccess(data)
             localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
         }
 
-        //סרגל השתלשלות
+        //orientation
         orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>בית</a></li>";
@@ -131,35 +149,13 @@ function funcsuccess(data)
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
-        task = "";
-        //שומר את הערכים
-        function savelocal(thisTask) {
-            idT = thisTask.id; //2
-            task = listCS[idT - 1].Topic; //מרובע
-
-            thisTask = {
-                "ClassName": ProfObj.ClassName, //ח
-                "ClassNum": ProfObj.ClassNum,//4
-                "Profession": ProfObj.Profession, //פיזיקה
-                "Task": {
-                    "Num": idT,
-                    "Topic": listCS[idT - 1].Topic,
-                    "Date": listCS[idT - 1].Deadline,
-                }
-            }
-            console.log(thisTask);
-
-            localStorage.setItem('thisTask', JSON.stringify(thisTask));
-        }
-
-        /////////////////////////
-
+        //GET - Task Table 
+        tasksARR = [];
+        tasksSTR = "";
         function readTaskFromDB() {
             var apiTasks = "../api/Docu/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
             ajaxCall("GET", apiTasks, "", GETsuccessT1, GETerrorT1);
         }
-        tasksARR = [];
-        tasksSTR = "";
         function GETsuccessT1(data) {
             listCS = data;
             console.log(listCS);
@@ -167,11 +163,11 @@ function funcsuccess(data)
                 document.getElementById("oldTask").disabled = true;
             }
             else {
-                //
                 $('#oldTask').click(Items);
 
                 for (var i = 0; i < listCS.length; i++) {
-                      date = listCS[i].Deadline;
+                    //fix date
+                    date = listCS[i].Deadline;
                     date1 = date.split('-');
                     dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
                     dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
@@ -193,7 +189,7 @@ function funcsuccess(data)
                     tasksSTR += "</span></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
-                    tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+                    tasksSTR += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
                     tasksSTR += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
                     tasksSTR += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSTR += "</div></div></div></div>";
@@ -206,7 +202,6 @@ function funcsuccess(data)
         function GETerrorT1(err) {
             console.log(err);
         }
-
         lastSTR = "";
         function showLastTask(LastNum) {
             date = listCS[LastNum - 1].Deadline;
@@ -220,6 +215,9 @@ function funcsuccess(data)
             lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align:right'>מטלה מספר ";
             lastSTR += LastNum;
             lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style = 'text-align:left'>"
+            lastSTR += "<a href='#'>";
+            lastSTR += "<i class='far fa-trash-alt'  onclick='deleteTask(this)'  id='" + Tnum + "'></i>";
+            lastSTR += "</a>";
             lastSTR += "</div></div>";
             lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
             lastSTR += "<div class='text2'>&nbsp;    נושא: ";
@@ -233,12 +231,54 @@ function funcsuccess(data)
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
             lastSTR += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-            lastSTR += "<a href='teacher-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+            lastSTR += "<a href='teacher-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה ועריכה'></a>&nbsp;";
             lastSTR += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
             lastSTR += "</div></div></div></div></div>";
 
             document.getElementById("lastTask").innerHTML = lastSTR;
         }
+
+        var tasksSort;
+        function sortNum() {
+            tasksSort = ""
+            document.getElementById("tasks").innerHTML = "";
+            for (var i = listCS.length-1; i >= 0; i--) {
+                //fix date
+                date = listCS[i].Deadline;
+                date1 = date.split('-');
+                dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+                dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
+
+                    tasksSort += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
+                    tasksSort += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
+                    tasksSort += "מטלה מספר ";
+                    tasksSort += i+1;  
+                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
+                    //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
+                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
+                    tasksSort += "</div></div>";
+                    tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
+                    tasksSort += "<h3 class='textSquareGRAY' style='width: 120%'>";
+                    tasksSort += listCS[i].Topic;
+                    tasksSort += "</h3></div></div>";
+                    tasksSort += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
+                    tasksSort += "<span class='textSquareGRAY' style='width: 120 %'>";   
+                    tasksSort += dateIL; 
+                    tasksSort += "</span></div></div> ";
+                    tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
+                    tasksSort += "<div class='channels-card-image'>";
+                    tasksSort += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+                    tasksSort += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+                    tasksSort += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+                    tasksSort += "</div></div></div></div>";
+
+                    document.getElementById("tasks").innerHTML = tasksSort;
+            }
+        }
+
+        
+
+        
     </script>
 </head>
 <body id="page-top">
@@ -378,8 +418,7 @@ function funcsuccess(data)
                                                 סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="teacher-SORT1-2tasks.html"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר מטלה</a>
-                                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                                <a class="dropdown-item" id="sortNum"><i class="fas fa-sort-numeric-down-alt"></i>&nbsp; מספר מטלה</a>
                                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                             </div>
                                         </div>

@@ -43,27 +43,33 @@
         var imagePath1 = '';
         var userEmail1 = '';
         $(document).ready(function () {
-
-            local = localStorage.getItem('user'); //local teacher
+            //Menus
+            //localN = localStorage.getItem('myName');
+            //console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
+           
+            local = localStorage.getItem('user'); 
             objTeacher = JSON.parse(local);
-            showDetalis(objTeacher)
-
-
+             //Bring the details from the local storage
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
-
-            console.log(classObj);
-            Showorientation(); //shir
-
+            //orientation
+            Showorientation(); 
+            showDetalis(objTeacher)
+            //Bring the details from the STUDENT TABLE 
             showStudentsData();
-            $('#form1').submit(sub); //FORM
+            //PUT in the STUDENT TABLE
+            //$('#saveBTN').click(saveStudent);
 
+            //Valisation     
+            $('#form1').submit(sub); 
             //User image
             local = localStorage.getItem('admin');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
               Id = objTeacher.Id;
                var url = "../api/Teacher/GetDetailsT/" + Id;
@@ -88,14 +94,13 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END User image
-
         });
-
+        //Valisation
         function sub() {
             return false;
         }
-        //shir//
+
+        //orientation
         orientationSTR = "";
         function Showorientation() {
             thisclass = classObj.ClassName + "' " + classObj.ClassNum;
@@ -107,19 +112,16 @@
 
             document.getElementById("classNum").innerHTML = thisclass;
         }
-        //shir END//
 
-        ////////////////////////NOY//////////////////////
+        //Get - from Student table
         function showStudentsData(obj) {
-
-            local = localStorage.getItem('studentObj');
-            obj = JSON.parse(local);
-            console.log(obj);
-
+            //local = localStorage.getItem('studentObj');
+            //obj = JSON.parse(local);
+            //console.log(obj);
             obj2 =
                 {
-                    "ClassName": obj.ClassName,
-                    "ClassNum": obj.ClassNum
+                    "ClassName": classObj.ClassName,
+                    "ClassNum": classObj.ClassNum
                 }
             console.log(obj2);
 
@@ -128,9 +130,16 @@
         }
         function GETsuccessS(studentsData) {
             studentsArr = studentsData;
-
             console.log(studentsData)
             students = studentsData;
+            //fixed dates
+             for (var i = 0; i < studentsArr.length; i++) {
+                bd = studentsArr[i].Bday;
+                bd1 = bd.split('-');
+                day = bd1[2].split('T');
+                dateIL = `${day[0]}/${bd1[1]}/${bd1[0]}`;
+                studentsArr[i].Bday = dateIL
+            }
             try {
                 tbl = $('#StudentTable').DataTable({
                     responsive: true,
@@ -140,6 +149,14 @@
                     data: students,
                     pageLength: 5,
                     columns: [
+                         {
+                            render: function (data, type, row, meta) {
+                                let rowID = "data-RowId='" + row.id + "'";
+                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
+                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
+                                return editBtn + " " + deleteBtn;
+                            }
+                        },
                         //{
                         //    render: function (data, type, row, meta) {
                         //        let rowID = "data-RowId='" + row.id + "'";
@@ -148,18 +165,18 @@
                         //        return editBtn + " " + deleteBtn;
                         //    }
                         //},
-                        { data: "id" },
+                        //{ data: "id" },
                         { data: "FName" },
                         { data: "LName" },
+                        { data: "Id_" },
+                        { data: "Gender" },
                         { data: "PhoneNum" },
                         { data: "Email" },
                         { data: "City" },
-                        { data: "Street" },
-                        { data: "Id_" },
+                        { data: "Street" },     
                         { data: "Bday" },
-                        { data: "ClassName" },
-                        { data: "ClassNum" },
-                        { data: "Password_" },
+                        //{ data: "Password_" },
+                        { data: "GPA" },     
                     ],
                 });
             }
@@ -168,6 +185,7 @@
             }
         }
         function GETerrorS() { }
+
 
 
 
@@ -287,7 +305,6 @@
                 </div>
                 <hr class="mt-0">
                 <form>
-                    <!--<div id="StudentDiv">בלהלהל</div>-->
                     <table id="StudentTable" class="StudentsTable" style="width:100%">
                         <thead>
                             <tr>
@@ -295,15 +312,15 @@
                                 <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
+                                <th>תעודת זהות</th>
+                                <th>מגדר</th>
                                 <th>מספר נייד</th>
                                 <th>איימל</th>
                                 <th>עיר</th>
                                 <th>רחוב</th>
-                                <th>תעודת זהות</th>
                                 <th>תאריך לידה</th>
-                                <th>כיתה</th>
-                                <th>מס' כיתה</th>
-                                <th>סיסמא ראשונית</th>
+                                <!--<th>סיסמא ראשונית</th>-->
+                                <th>ממוצע ציונים</th>
                             </tr>
                         </thead>
                     </table>
