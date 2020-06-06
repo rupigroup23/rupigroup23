@@ -133,7 +133,6 @@ namespace DocuProject.Models
                     dr["Street"] = teacher.Street;
                     dr["Bday"] = teacher.Bday;
                     dr["PhoneNum"] = teacher.PhoneNum;
-                    dr["Profession"] = teacher.Profession;
                     dr["Password_"] = teacher.Password;
                 }
             }

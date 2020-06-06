@@ -51,12 +51,17 @@
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
+            
+            $('input[type=radio]').on('change', function () {
+                $("#changePass").show();
+            });
        
             $("#changePass").click(function () {
            if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
                     passNew = $('#pass2').val();
                     saveDetails_();
-                    $('.pw-disclosure').hide();
+               $('.pw-disclosure').hide();
+
                 }
                 else {
                     if ($('#pass1').val() != passFromData) {
@@ -165,14 +170,15 @@
 
             function saveDetails_() {
 
-                Password = "";
+             Password = "";
                 if ($("#pass2").val() == "")
                 {
-                    Password = obj[0].Password_;
+                    Password = obj[0].Password;
                 }
                 else {
                     Password = passNew;
                 }
+
                 let admin =
                 {
                     "Fname": $("#fname").val(),

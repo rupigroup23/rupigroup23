@@ -180,7 +180,8 @@
             });
 
             $(document).on("change", "#addFile", function () {
-            $("#upload_btn2").show();  
+                $("#upload_btn2").show();  
+                $('#valuTxtEdit').prop( "disabled", true );
             });
 
             $(document).on("click", "#delete_btnTask", function () {

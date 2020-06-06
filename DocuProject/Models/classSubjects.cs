@@ -68,8 +68,11 @@ namespace DocuProject.Models
             dbs.DeleteCS(TeacherId, TeacherSubj); // check the spcific teacher
             return dbs.dt;
         }
-
-
+            public List<ClassSubjects> ReadCS_Teacher( int teachrID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getCSFromDB(teachrID);
+        }
     }
 
 }

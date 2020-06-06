@@ -332,11 +332,11 @@ namespace DocuProject.Controllers
         }
 
         [HttpGet]
-        [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{Topic}/{Deadline}")]
-        public List<Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+        [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{taskNum}")]
+        public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int taskNum)
         {
-            Task t = new Task();
-            List<Task> videos = t.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
+            Group_Feedback G = new Group_Feedback();
+            List<Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, taskNum);
             return videos;
         }
 

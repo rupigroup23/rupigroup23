@@ -156,7 +156,12 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
-
-
+        [HttpGet] //  קבלת המקצועות הספציפיים של המורה 
+        [Route("api/Teacher/gatProffDB/{teachrID}")]
+        public List<ClassSubjects> get_proff(int teachrID)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS_Teacher(teachrID); // Read from Models/Counrty
+        }
     }
 }
