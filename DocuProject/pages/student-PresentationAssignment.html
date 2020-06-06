@@ -386,7 +386,6 @@
             document.getElementById("SucceededURL").innerHTML = " <i class='fas fa-check'></i>";
         }
 
-        
         function showVideoError(err) { console.log(err) }
 
         var dataPD;
@@ -403,9 +402,7 @@
             else {
                 vid = videoPath[0];
                 thisTeam.Comment = $("#commentStudents").val();
-            }
-
-            
+            }     
             dataPD =
                 {
                     "ClassName": thisTeam.ClassName,
@@ -435,7 +432,6 @@
           document.location.reload();
         }
 
-        
         function updateDerror(err) {
             console.log(err);
         }
