@@ -162,7 +162,7 @@ namespace DocuProject.Controllers
         {
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS_Teacher(teachrID); // Read from Models/Counrty
-
+        }
         [HttpPut]
         [Route("api/Teacher/updateFBG/{id}")]
         public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
@@ -178,5 +178,15 @@ namespace DocuProject.Controllers
             Student S = new Student();
             return S.PutS(id, student);
         }
+
+        [HttpGet]
+        [Route("api/Teacher/specifictask/{class1}/{numClass}/{sub}/{topic}")]
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        {
+            Task task = new Task();
+            return task.getSpecificTask(class1, numClass, sub, topic);
+        }
     }
+
+
 }
