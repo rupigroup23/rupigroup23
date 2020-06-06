@@ -81,7 +81,7 @@ namespace DocuProject.Controllers
         public List<Profession> GetP()
         {
             Profession P = new Profession();
-            return P.Read();
+            return P.Read11();
         }
 
         [HttpGet] /// דף מורה - שדה מקצוע

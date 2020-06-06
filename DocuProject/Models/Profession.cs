@@ -12,7 +12,7 @@ namespace DocuProject.Models
         public Profession() { }
         public string Name { get => name; set => name = value; }
 
-        public List<Profession> Read()
+        public List<Profession> Read11()
         {
             DBservices dbs = new DBservices();
             return dbs.getFromDB();

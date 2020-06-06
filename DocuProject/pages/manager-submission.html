@@ -43,24 +43,25 @@
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
-            Showorientation();//orientation
-            getDatelis(); //Bring the details from the local storage
-            getDataT(); //bring the details from GroupFeedback tabel
-            showStudentsData(); //Bring the details from student table
-
-            $('#apply').click(filingSubm);  //סנן
-            
-            //User image
-            localUSER = localStorage.getItem('student');
-            studentObj = JSON.parse(localUSER);
-            showDetalis(studentObj);
-             //Menus
+            //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
-            //END- User image
+
+            Showorientation();//orientation
+            getDatelis(); //Bring the details from the local storage
+            getDataT();  //POST - Group_Feedback Table
+            showStudentsData(); //POST - Student table
+
+            //סנן
+            $('#apply').click(filingSubm);  
+            
+            //User image
+            localUSER = localStorage.getItem('student');
+            studentObj = JSON.parse(localUSER);
+            showDetalis(studentObj);
         });
 
          //User image
@@ -99,7 +100,6 @@
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-tasks.html'>הגשות</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
-        //
 
         //Bring the details from the local storage
         function getDatelis() {
@@ -111,8 +111,8 @@
                  document.getElementById("restDate").style.color = "red"
             }             
         }
-       
-        //bring the details from GroupFeedback tabel
+
+        //POST - Group_Feedback Table
         //לראות אם לשנות לקונטרולר של הדוקו הרגיל 
         var classData;
         var allTeam = [];
@@ -141,7 +141,6 @@
         function GETerror1(err) {
             console.log(err);
         }
-        //
 
         //View all details on the page
         var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
@@ -397,6 +396,7 @@
         //
        
         //הכפתורים בכל צוות
+        //PUT -  Group_Feedback table
         var status = "";
         var idTeamfromDB = "";
         var result;
@@ -479,6 +479,7 @@
             })   
         }
 
+        //PUT -  Group_Feedback table
         var grade = "";
         var feedback = "";
         function giveScore(idSc) {
@@ -541,6 +542,9 @@
             })()
             
         }
+
+        //POST -  Student table
+        var studentList = "";   
         function showStudentsData() {
             obj2 =
                 {
@@ -551,9 +555,7 @@
 
             url = "../api/Docu/GetStudents";
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
-        }
-
-        var studentList = "";       
+        }            
         function GETsuccessS(studentsData) {
             studentList = studentsData;
         }
@@ -561,8 +563,10 @@
             console.log(err);
         }
 
-        //AVG and grade
+        //PUT - Student table
         var avgStudent = "";
+        var students = "";
+        var thisTeam = "";
         function getAvg(Newgrade, num, oldgrade) {
             if (oldgrade == null) {
                 oldgrade = 0;
@@ -570,10 +574,7 @@
             }
             return ((oldgrade + Newgrade) / num);
             
-        }
-        var students = "";
-        var thisTeam = "";
-
+        }        
         function postGradeStudent(teamArr) {           
             for (var i = 0; i < teamArr.length; i++) {
                 oldAvg = teamArr[i].student.avg;
@@ -587,7 +588,6 @@
                 }
             }                                                                                      
         }
-
         function updateDsuccess(data) {
             console.log(data);
         }
@@ -595,8 +595,7 @@
             console.log(err);
         }
 
-        var strStudentName = "";
-     
+        var strStudentName = "";   
         function getNameS(idS) {
             strStudentName = "• ";
             strStudentName1 = "";
@@ -630,6 +629,7 @@
             postGradeStudent(arrStudent);
         }
 
+        //PUT - Group_Feedback Table
         //ViewgiveScore
         var answers = "";
         var avgS = "";
@@ -721,18 +721,16 @@
             //}
             
         }
-        //
 
         function approveVidowsuccess(data) {
             afterUpdARR = data;
-           
             setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
 
         }
         function approveVidowerror(err) {
             alert(err);
         }
-         function cancleVidowsuccess(data) {
+        function cancleVidowsuccess(data) {
             afterUpdARR = data;
            
             setTimeout(reload, 2000); //מרפרש אחרי 2 שניות

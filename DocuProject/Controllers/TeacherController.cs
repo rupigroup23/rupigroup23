@@ -66,13 +66,13 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.GetDetails(Id);
         }
-        [HttpGet] /// דף מורה - שדה מקצוע
-        [Route("api/Teacher/GetP")]
-        public List<Profession> GetP()
-        {
-            Profession P = new Profession();
-            return P.Read();
-        }
+        //[HttpGet] /// דף מורה - שדה מקצוע
+        //[Route("api/Teacher/GetP")]
+        //public List<Profession> GetP()
+        //{
+        //    Profession P = new Profession();
+        //    return P.Read();
+        //}
 
         [HttpPut]
         [Route("api/Teacher/updatetTeacher")]
