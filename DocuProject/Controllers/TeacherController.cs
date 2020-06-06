@@ -66,13 +66,13 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.GetDetails(Id);
         }
-        [HttpGet] /// דף מורה - שדה מקצוע
-        [Route("api/Teacher/GetP")]
-        public List<Profession> GetP()
-        {
-            Profession P = new Profession();
-            return P.Read();
-        }
+        //[HttpGet] /// דף מורה - שדה מקצוע
+        //[Route("api/Teacher/GetP")]
+        //public List<Profession> GetP()
+        //{
+        //    Profession P = new Profession();
+        //    return P.Read();
+        //}
 
         [HttpPut]
         [Route("api/Teacher/updatetTeacher")]
@@ -162,6 +162,21 @@ namespace DocuProject.Controllers
         {
             ClassSubjects CS = new ClassSubjects();
             return CS.ReadCS_Teacher(teachrID); // Read from Models/Counrty
+
+        [HttpPut]
+        [Route("api/Teacher/updateFBG/{id}")]
+        public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
+        {
+            Group_Feedback VC = new Group_Feedback();
+            return VC.PutVC(id, videoTeam);
+        }
+
+        [HttpPut]
+        [Route("api/Teacher/updateStudent/{id}")]
+        public DataTable PutDIS(int id, [FromBody] Student student)
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
         }
     }
 }

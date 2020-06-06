@@ -58,10 +58,11 @@
             classObj = JSON.parse(localStorage["studentObj"]);
 
             //GETS
-            //Profession Table
-            getSubjcts(); 
             //Teacher Table
             getTachears(); 
+            //Profession Table
+            getSubjcts(); 
+            
             //ClassSubjects Table
             readClassSUbjFromDB();
 
@@ -120,19 +121,33 @@
         });
 
         //GET - Profession Table
+        var strP;
+        var arrP = [];
         function getSubjcts() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
             listP = data;
-            //insert options to select
+            //filter- Professions that have teachers //Validation
             for (var i = 0; i < listP.length; i++) {
+                for (var j = 0; j < listT.length; j++) {
+                    if (listP[i].Name == listT[j].Profession) {
+                        arrP.push(listT[j].Profession);                       
+                    }
+                }    
+            }
+             strP=arrP.filter((item, index) => {
+                return arrP.indexOf(item) === index
+            });
+            //insert options to select
+            for (var t in strP) {
                 var select = document.getElementById("selectProf");
                 var option = document.createElement("option");
-                option.text = listP[i].Name;
+                option.text = strP[t];
                 select.add(option);
             }
+            
         }
         function GETerrorCB(err) {
             console.log(err);
@@ -146,6 +161,7 @@
         function GETsuccessT(data) {
             console.log(data);
             listT = data;
+            strT= removeDuplicates(listT);
             //insert teachers options to select
             for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("coachName");
@@ -163,7 +179,10 @@
             }
         }
         function GETerrorT(err) { console.log(err) }
-
+        function removeDuplicates(array) {
+          let uniq = {};
+           return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
+        }
         //GET - ClassSubjects Table
         ProfARR = [];
         ProgSTR = "";
