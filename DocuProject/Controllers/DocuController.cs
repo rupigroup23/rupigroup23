@@ -379,7 +379,6 @@ namespace DocuProject.Controllers
             Task T = new Task();
             return T.putT(class1, numClass, sub, topic, taskNew);
         }
-
         //מחיקת מטלה - נוי 
         [HttpDelete] 
         [Route("api/Docu/deleteTask/{class1}/{numClass}/{sub}/{topic}")]

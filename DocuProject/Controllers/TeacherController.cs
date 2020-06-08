@@ -186,6 +186,14 @@ namespace DocuProject.Controllers
             Task task = new Task();
             return task.getSpecificTask(class1, numClass, sub, topic);
         }
+
+        [HttpDelete]
+        [Route("api/Teacher/deleteTask/{class1}/{numClass}/{sub}/{topic}")]
+        public int deleteTask(string class1, string numClass, string sub, string topic) //מורה 
+        {
+            Task T = new Task();
+            return T.deleteTask(class1, numClass, sub, topic);
+        }
     }
 
 

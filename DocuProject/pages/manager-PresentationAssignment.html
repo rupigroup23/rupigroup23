@@ -62,7 +62,7 @@
             Showorientation();
 
             getDatelis(); //Bring the details up
-                 $('#saveBTN').click(saveTask); // save edit
+            $('#saveBTN').click(saveTask); // save edit
 
             //let class1 = TaskObj11.ClassName;
             //let numClass = TaskObj11.ClassNum;
@@ -246,10 +246,21 @@
                 $("#deadLine").val(date_);
                 $("#num").val(TaskObj.Task.Num);
                 $("#taskTopic").val(TaskObj.Task.Topic);
-                }
+        }
+
+        decription_DB = "";
      
                 function saveTask()
                 {
+                    if (isFile == true) {
+
+                        decription_DB = taskPathNew;
+                    }
+                    else
+                    {
+                        decription_DB = $("#valuTxtEdit").val();
+                    }
+
                 let TaskNew =
                     {
                     "ClassName": $("#class").val(),
@@ -257,7 +268,7 @@
                     "Profession": $("#prof").val(),
                     "Deadline": $("#deadLine").val(),
                     "Topic" : $("#taskTopic").val(),
-                    "Description": $("#valuTxtEdit").val(),
+                    "Description":decription_DB 
                     }
                     console.log(TaskNew); 
 
@@ -276,6 +287,8 @@
                     confirmButtonText: 'אישור',
                     showCloseButton: true
                     }) 
+
+                     window.location.replace("manager-tasks.html");
                 }
         function updateDerror(err) {
             console.log(err);
@@ -311,9 +324,10 @@
                 return false;
             });
 
-            function changeTaskPath(data) {
-
-                taskPath = data; // כעת עודכן הקובץ
+        taskPathNew = "";
+        function changeTaskPath(data)
+        {
+                taskPathNew = data; // כעת עודכן הקובץ
 
                 Swal.fire({
                     icon: 'success',
@@ -322,7 +336,7 @@
                     confirmButtonText: 'אישור',
                     confirmButtonColor: '#990099',
                 })
-            }
+        }
             function error(data) {
                 console.log(data);
             }
