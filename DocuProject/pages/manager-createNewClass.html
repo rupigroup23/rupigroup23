@@ -48,11 +48,11 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
+            getTachears(); //Teacher
             //Validation #1
             $('#form1').submit(sub);
 
             //GETs - Tables: Teacher, Student, Profession, Class
-            getTachears(); //Teacher
             getSubjects(); //Profession
             getStudent(); //Student
             getClasses(); //Class
@@ -872,7 +872,7 @@
                             <form id="form1">
                                 <div class="row text2">
                                     <div class="col-lg-9 col-sm-12 text2">
-                                        מילוי פרטי הכיתה:
+                                        שלב 1: מילוי פרטי כיתה
                                         <br />
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-12 text2">
@@ -895,8 +895,8 @@
                                                             <option value="1">שנה עברית:</option>
                                                             <!--<option>תשפ"א</option>-->
                                                             <option>תש"ף</option>
-                                                            <option>תשע"ט</option>
-                                                            <option>תשע"ח</option>
+                                                            <!--<option>תשע"ט</option>
+                                                            <option>תשע"ח</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -917,7 +917,7 @@
                                 <div id="showProff" class="row text2" style="display:none">
                                     <hr class="mt-0">
                                     <div class="col-lg-9 col-sm-12 text2">
-                                        שיוך מקצועות:
+                                        שלב 2: שיוך מקצועות
                                         <br />
                                         <div class="row text2">
                                             <div class="col-lg-11 col-sm-12">
@@ -940,35 +940,35 @@
                                 </div>
                                 <div id="showAddStudent" class="row text2" style="display:none">
                                     <br /><hr class="mt-0">
-                                    <div class="col-lg-9 col-sm-12 text2">
-                                        העלאת קובץ תלמידים:
-                                        <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
-                                        <br />
-                                        <div class="row text2">
-                                            <div class="col-lg-5 col-sm-12 text2">
-                                                <div class="form-group">
-                                                    <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-1 col-sm-1 text2">
-                                                <div class="form-group">
-                                                    <input type="button" id="load" value="טען" class="upload-btn" />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2 col-sm-2 text2">
-                                                <div class="form-group">
-                                                    <input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-2">
-                                                <div id="showSave" class="row" style="display:none">
-                                                    <button id="saveClass" class="btn btn-outline-primary btn-block btn-lg" >
-                                                        שמירה
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                          <div class="col-lg-9 col-sm-12 text2">
+                                              שלב 3: העלאת קובץ תלמידים
+                                              <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
+                                              <br />
+                                              <div class="row text2">
+                                                  <div class="col-lg-5 col-sm-12 text2">
+                                                      <div class="form-group">
+                                                          <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-1 col-sm-1 text2">
+                                                      <div class="form-group">
+                                                          <input type="button" id="load" value="טען" class="upload-btn" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-2 col-sm-2 text2">
+                                                      <div class="form-group">
+                                                          <input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-4 col-sm-2">
+                                                      <div id="showSave" class="row" style="display:none">
+                                                          <button id="saveClass" class="btn btn-outline-primary btn-block btn-lg">
+                                                              שמירה
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
 
                                 </div>
                             </form>
