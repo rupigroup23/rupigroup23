@@ -20,57 +20,107 @@
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
 
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-
-    <!-- links of Facebook, instedram and links -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="../Scripts/allTask.js"></script>
+    <!--shir links-->
+    <!-- Include a required theme -->
+    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">-->
+    <!--<script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
+    <!-- more -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
+    <!-- links of Facebook, instedram and links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
+        //user img
         var imagePath1 = '';
         var userEmail1 = '';
+
+        var taskPath = '';
+
+        var className = "";
+        var classNum = "";
+        var subj = "";
+        var topic = "";
+
         $(document).ready(function () {
             //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
             document.getElementById("myNameN2").innerHTML = teacherName.name;
+            //
 
-            local = localStorage.getItem('user'); 
-            objTeacher = JSON.parse(local);
+            //localstorage for the orientation
+            local = localStorage.getItem('thisTask');
+            TaskObj = JSON.parse(localStorage["thisTask"]);
+            //TaskObj11 = JSON.parse(localStorage["thisTask"]);
 
-            //Saving the selected class in the local storage.
-            classObj = JSON.parse(localStorage["studentObj"]); //local class
+            className = TaskObj.ClassName;
+            classNum = TaskObj.ClassNum;
+            subj = TaskObj.Profession;
+            topic = TaskObj.Task.Topic;
 
-            //GETS
-            //ClassSubjects Table
-            readClassSUbjFromDB();
-
-            //orientation
             Showorientation();
 
-            showDetalis(objTeacher)
-             $('#sorting').click(sortProf);
+            getDatelis(); //Bring the details up
 
+
+            //let class1 = TaskObj11.ClassName;
+            //let numClass = TaskObj11.ClassNum;
+            //let sub = TaskObj11.Profession
+            //var topic = TaskObj11.Task.Topic
+
+            ajaxCall('get', '../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
+
+            function Success(data) {
+                taskPath = data;
+                strcheck = taskPath.search("http://proj.ruppin.ac.il");
+                if (strcheck == 0) {
+                    $('#downloadFile').attr("disabled", false);
+                    $('#showTxt').attr("disabled", true);
+
+                }
+                if (strcheck == -1) {
+                    $('#showTxt').attr("disabled", false);
+                    $('#downloadFile').attr("disabled", true);
+                }
+            }
+            function Error(err) {
+                console.log(err)
+            }
+
+            $('#showTxt').click(Showtxt);
+
+
+            $('#downloadFile').click(function () {
+                window.location.replace(taskPath);
+            });
 
             //User image
-            function showDetalis(objTeacher) {
+            localAdmin = localStorage.getItem('user');
+            objAdmin = JSON.parse(localAdmin);
+            showDetalis(objAdmin);
+
+            function showDetalis(objTeacher)
+        {
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-            function funcsuccess(data) {
-                obj = data;
-                userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-            }
-            function funcerror() { }
-            function getAvatarImageSuccess(imagePath1) {
+        }
 
+function funcsuccess(data)
+        {
+        obj = data;
+                userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
+        }
+
+            function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
@@ -79,83 +129,52 @@
             function getAvatarImageError(err) {
                 console.log(err)
             }
+            function funcerror(err) { console.log(err) }
+            //END- User image
+            function getSpecificTaskSuccess(data) {
+                $('#addpic').attr("disabled", false);
+                taskPath = data;
+
+            }
+            function getSpecificTaskError(err) { console.log(err) }
+
         });
 
-        var profession = "";
-        ClassSubArr = [];
-
-        //GET - ClassSubjects Table
-        ProfARR = [];
-        ProgSTR = "";
-        function readClassSUbjFromDB() {
-            var apiProf = "../api/Teacher/GetClassSubj_/" + classObj.ClassName + "/" + classObj.ClassNum + "/" + objTeacher.Id;
-            ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
-        }     
-        function GETsuccessCB2(data) {
-            listCS = data;
-
-            for (var i = 0; i < listCS.length; i++) {
-                ProfARR[i] = listCS[i].Profession;
+        function Showtxt() {
+            txt = document.getElementById("showtxtbox");
+            if (txt.style.display === "none") {
+                txt.style.display = "block";
+            } else {
+                txt.style.display = "none";
             }
-            console.log(ProfARR);
-            for (var i = 0; i < ProfARR.length; i++) {
-                ProgSTR += " <div class='col-xl-3 col-sm-6 mb-3'>";
-                ProgSTR += "<div class='channels-card'>";
-                ProgSTR += " <div id='prof" + i + "' class='create-text' style='color: black; font-size: 35px'>";
-                ProgSTR += ProfARR[i];
-                ProgSTR += "<br /><a href='teacher-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
-                ProgSTR += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
-                ProgSTR += "</div></div></div>";
-                document.getElementById("professions").innerHTML = ProgSTR;
-            }
-        }
-        function GETerrorCB2(err) {
-            console.log(err);
-        }
-        //save the proff in the local storage
-        function savelocal(thisprof) {
-            id = thisprof.id; //1
-            profession = ProfARR[id]; //פיזיקה
 
-            thisProfObj = {
-                "ClassName": listCS[0].Name, //ח
-                "ClassNum": listCS[0].Number,//4
-                "Profession": profession, //פיזיקה
-            }
-            console.log(thisProfObj);
-            localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
+            //valuTxt
+            document.getElementById("valuTxt").innerHTML = taskPath;
+
         }
 
         //סרגל השתלשלות
-        orientationSTR = "";
+        let orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='teacher-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>" + className + "' " + classNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>" + subj + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='teacher-PresentationAssignment.html'>הצגה ועריכה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
-        
-        function sortProf() {
-            document.getElementById("professions").innerHTML = "";
 
-            for (var i = 0; i < listCS.length; i++) {
-                ProfARR[i] = listCS[i].Profession;
-            }
-            ProfARR.sort();
-
-            strNew = "";
-            console.log(ProfARR);
-            for (var i = 0; i < ProfARR.length; i++) {
-                strNew += " <div class='col-xl-3 col-sm-6 mb-3'>";
-                strNew += "<div class='channels-card'>";
-                strNew += " <div id='prof" + i + "' class='create-text' style='color: black; font-size: 35px'>";
-                strNew += ProfARR[i];
-                strNew += "<br /><a href='manager-tasks.html' onclick='savelocal(this)' id='" + i + "'>";
-                strNew += "<img class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>"
-                strNew += "</div></div></div>";
-
-            }
-                            document.getElementById("professions").innerHTML = strNew;
+        //Bring the details up
+        function getDatelis() {
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+            date = TaskObj.Task.Date;
+            date1 = date.split('-');
+            dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
+            dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
+            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
+            document.getElementById("date").innerHTML = dateIL;
         }
     </script>
 </head>
@@ -204,15 +223,14 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
-        <ol class="breadcrumb" id="orientation">
-        </ol>
+        <ol class="breadcrumb" id="orientation"></ol>
     </nav>
+    <!-- תפריט -->
     <div id="wrapper">
-        <!-- Left menu -->
         <!-- Sidebar -->
+        <!-- Left menu -->
         <ul class="sidebar navbar-nav" style="z-index: 0;">
             <li class="nav-item">
                 <a class="nav-link" href="teacher-index.html">
@@ -246,8 +264,8 @@
             </li>
         </ul>
         <!-- END Left menu -->
+        <!-- Page content -->
         <div id="content-wrapper">
-            <!-- Page content -->
             <div class="container-fluid pb-0">
                 <div class="top-mobile-search">
                     <div class="row">
@@ -263,53 +281,98 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="video-block section-padding">
-                    <div class="row">
-                        <div class="col-xl-3 col-sm-6 mb-3">
-                            <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-ClassroomManagement.html">
-                                <buttom>
-                                    ניהול תלמידים
-                                </buttom>
-                            </a>
-                        </div>
-                        <div class="col-xl-6 col-sm-6 mb-3">
-                        </div>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <div class="row text2">
-                                בחר/י את המקצוע הרצוי:
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="osahan-form">
+                            <div class="row text2 ">
+                                <div class="col-lg-11 col-sm-11 col-xs-3 ">
+                                    <div class="row">
+                                        <span style="font-size:27px; border-bottom: 1px solid #990099">
+                                            מטלה מספר &nbsp;
+                                        </span>
+                                        <div id="taskNum" style="font-size:27px; border-bottom: 1px solid #990099">
+                                            <!-- להוסיף מספר -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
+                                    <div class="row">
+                                        <a href="teacher-EDIT_PresentationAssignment.html">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        &nbsp;
+                                        <i class="far fa-trash-alt"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="main-title">
-                                <div class="btn-group float-right right-action">
-                                    <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        מיון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item"  id="sorting"><i class='fas fa-sort-amount-down-alt'></i> &nbsp; א-ב</a>
-                                        <a class="dropdown-item" href="manager-professions.html"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12 col-xs-3">
+                                    <div class="row ">
+                                        <span class="text2">
+                                            נושא המטלה:&nbsp;
+                                        </span>
+                                        <div id="topic" class="squareTEXT">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 col-xs-3 ">
+                                    <div class="row">
+                                        <span class="text2">
+                                            מועד הגשה:&nbsp;
+                                        </span>
+                                        <div id="date" class="squareTEXT">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 create-text">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <h3 class="text2">אפשרויות: </h3>
+                                            <br />
+                                        </div>
+                                        <div class="col-lg-9 col-sm-12">
+                                            <!--לשים במקום המרכאות את הניתוב של המטלה-->
+                                            <button id="downloadFile" class="showTask-btn">
+                                                הורדת המטלה
+                                                <!--(קובץ חיצוני)-->
+                                            </button>
+                                            <button id="showTxt" class="showTask-btn">
+                                                הצג מטלה
+                                                <!--(טקסט)-->
+                                            </button>
+                                            <button class="showTask-btn">
+                                                ניהול צוותים
+                                                <!--(טקסט)-->
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="col-lg-12 col-sm-12" id="showtxtbox" style="display:none">
+                                                <textarea id="valuTxt" class="comment-box" rows="4" cols="70" readonly></textarea>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- לפה נכנסים כל המקצועות -->
-                    <div class="row" id="professions">
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- /#wrapper -->
+    <!--<script src="js/showItem.js"></script>-->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -328,7 +391,6 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

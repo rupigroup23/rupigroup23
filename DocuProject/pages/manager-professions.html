@@ -52,23 +52,36 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
             savelocal1(myNameObj.name);
 
-            getSubjcts(); //all
-            getTachears(); 
-             CheckHebDate();
-            //get class choose
+            //Saving the selected class in the local storage.
             local = localStorage.getItem('studentObj');
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
+
+            //GETS
+            //Teacher Table
+            getTachears(); 
+            //Profession Table
+            getSubjcts(); 
+            
+            //ClassSubjects Table
+            readClassSUbjFromDB();
+
+            //validation
+             CheckHebDate();
+            
+            //orientation
             Showorientation();
 
-            readClassSUbjFromDB(); //for this class
+            //
             $('#addSubj').click(addSubj);
+
+            //POST subj&teacher - ClassSubjects Table
             $('#saveSubj').click(saveSubj);
 
+            //שם המקצוע
             $('#selectProf').change(function () {
                 var value = $(this).val();
                 getCoachs(value);
-
                 var X = document.getElementById("txtbox");
                 if (value == "אחר") {
                     X.style.display = "block";
@@ -77,12 +90,11 @@
                     X.style.display = "none";
                 }
             });
-
+            
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -104,31 +116,44 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END User image
-              $('#sorting').click(sortProf);
+
+            $('#sorting').click(sortProf);
         });
 
-        //get subjects from the DB
+        //GET - Profession Table
+        var strP;
+        var arrP = [];
         function getSubjcts() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
             listP = data;
-            //insert options to select
+            //filter- Professions that have teachers //Validation
             for (var i = 0; i < listP.length; i++) {
+                for (var j = 0; j < listT.length; j++) {
+                    if (listP[i].Name == listT[j].Profession) {
+                        arrP.push(listT[j].Profession);                       
+                    }
+                }    
+            }
+             strP=arrP.filter((item, index) => {
+                return arrP.indexOf(item) === index
+            });
+            //insert options to select
+            for (var t in strP) {
                 var select = document.getElementById("selectProf");
                 var option = document.createElement("option");
-                option.text = listP[i].Name;
+                option.text = strP[t];
                 select.add(option);
             }
+            
         }
         function GETerrorCB(err) {
             console.log(err);
         }
 
-
-        //get teacher from the BD
+        //GET - Teacher Table
         arrCoach = [];
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
@@ -136,6 +161,7 @@
         function GETsuccessT(data) {
             console.log(data);
             listT = data;
+            strT= removeDuplicates(listT);
             //insert teachers options to select
             for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("coachName");
@@ -153,195 +179,18 @@
             }
         }
         function GETerrorT(err) { console.log(err) }
-        
-        $('#selectProf').change(function () {
-                var value = $(this).val();
-                getCoachs(value);
-                var X = document.getElementById("txtbox");
-                if (value == "אחר") {
-                    X.style.display = "block";
-                }
-                else {
-                    X.style.display = "none";
-                }
-        });
-
-
-        function getCoachs(prof) {
-            var selectCoach = document.getElementById("coachName");
-               while (selectCoach.options.length > 0) {
-                selectCoach.remove(0);
-                }
-            for (var i = 0; i < listT.length; i++) {
-                if (prof == listT[i].Profession) {
-                    var option = document.createElement("option");
-                    option.text = listT[i].FName + " " + listT[i].LName;
-                    selectCoach.add(option);
-                }
-            }
+        function removeDuplicates(array) {
+          let uniq = {};
+           return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
         }
-
-        //get lists of prof-class
-        csDBAaa = [];
-        function getClassSUbjFromDB(name, num) { // to check if the prof was added before
-            var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
-            console.log(apiProf);
-            ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
-        }
-        function GETsuccessCT1(data) {
-            listCT = data;
-            for (var i = 0; i < listCT.length; i++) {
-                csDBAaa[i] = listCT[i].Profession; 
-            }
-        }
-        function GETerrorCT1(err) {
-            console.log(err);
-        }
-
-        var profession = "";
-         var profession = "";
-        var coach = "";
-        var teacher_Id = "";
-        ClassSubArr = [];
-        function addSubj() 
-        {
-            profession = $("#selectProf").val();
-            coach = $("#coachName").val();
-           
-           if (profession == "1" || coach == "1" ) { // if there is no choice
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה...',
-                    text: 'לא בחרת מקצוע/מורה 😓',
-                    confirmButtonText: 'אוקי',
-                    confirmButtonColor: '#990099',
-                })
-            }
-            else { // add a new proff
-                if (profession == "אחר") {
-                    var X = $("#txtbox").val();
-                    checkNewProff(X);
-                    profession = X;
-               }
-
-
-                checkSubCoach();
-            }
-        }
-
-        function checkSubCoach() {
-            name = classObj.ClassName;
-            num = classObj.ClassNum;
-            getClassSUbjFromDB(name, num); 
-
-            //check if the prof+teacher added before
-            for (var i = 0; i < csDBAaa.length; i++) {
-                if (csDBAaa[i] == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'המקצוע כבר קיים',
-                        confirmButtonText: 'אישור',
-                        confirmButtonColor: '#990099',
-                    })
-                    return;
-                }
-            }
-       
-            for (var i = 0; i < arrCoach.length; i++) {
-                if (coach == arrCoach[i].name) { //take the specific teacher id
-                    teacher_Id = arrCoach[i].id;
-                }
-            }
-           
-            //obj for ClassSubjects table
-            ClassTeachObj =
-                {
-                    "Name": name,
-                    "Number": num,
-                    "ClassType": $("#classType").val(),
-                    "Profession": profession,
-                    "Teacher_name": coach,
-                    "Id_teacher": teacher_Id,
-                    "Year_": yearHeb,
-                }
-            for (var i = 0; i < ClassSubArr.length; i++) {
-                if (ClassSubArr[i].Profession == profession) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'הכנסת עכשיו את המקצוע הזה',
-                        confirmButtonText: 'אישור',
-                        confirmButtonColor: '#990099',
-                    })
-                    return;
-                }
-            }
-            var answers = "";
-            Swal.fire({
-                icon: 'success',
-                title: ' ההוספה נשמרה בהצלחה 😀',
-                confirmButtonText: 'אישור',
-                confirmButtonColor: '#990099',
-            }).then((result) => {
-                if (result.value) {
-                    for (var i = 0; i < ClassSubArr.length; i++) {
-                        answers += (i + 1) + ". " + ClassSubArr[i].Profession + " - " + ClassSubArr[i].Teacher_name + "</br>";
-                    }
-                    //let answers = JSON.stringify(SUB)
-                    Swal.fire({
-                        title: 'עד עכשיו הוספת:',
-                        html: answers,
-                        confirmButtonText: 'אישור',
-                        confirmButtonColor: '#990099',
-                    })
-                }
-            })
-            ClassSubArr.push(ClassTeachObj); // save the new prof to array
-        }
-        var yearHeb = "";
-        function CheckHebDate() {
-            var today = new Date();
-            var day = today.getDate();
-            var year = today.getFullYear();
-            if (year == 2020) {
-                yearHeb = 'תש"ף';
-            }
-            if (year == 2021) {
-                yearHeb = 'התש"ף';
-            }
-        }
-        function saveSubj() {
-            if (ClassSubArr == 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'שגיאה...',
-                    text: 'לא בחרת מקצועות 😓',
-                    confirmButtonText: 'אישור',
-                    confirmButtonColor: '#990099',
-                })
-            }
-            else {
-                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
-            }
-        }
-        function POST1success() {
-            Swal.fire({
-                icon: 'success',
-                title: 'המקצועות נוספו לכיתה 😀',
-            })
-            location.reload();
-        }
-        function POST1error(err) { console.log(err) };
-
+        //GET - ClassSubjects Table
+        ProfARR = [];
+        ProgSTR = "";
         function readClassSUbjFromDB()
         {
             var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
-
-        ProfARR = [];
-        ProgSTR = "";
         function GETsuccessCB2(data) {
             listCS = data;
 
@@ -365,8 +214,8 @@
         function GETerrorCB2(err) {
             console.log(err);
         }
-
-        function savelocal(thisprof) { //save the proff choose for local
+        //save the proff in the local storage
+        function savelocal(thisprof) { 
             id = thisprof.id; 
             profession = ProfARR[id];
 
@@ -379,6 +228,129 @@
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
         }
 
+        //validation - HE date
+        var yearHeb = "";
+        function CheckHebDate() {
+            var today = new Date();
+            var day = today.getDate();
+            var year = today.getFullYear();
+            if (year == 2020) {
+                yearHeb = 'תש"ף';
+            }
+            if (year == 2021) {
+                yearHeb = 'התש"ף';
+            }
+        }
+
+        //סרגל השתלשלות
+        orientationSTR = "";
+        function Showorientation() {
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
+            document.getElementById("orientation").innerHTML = orientationSTR;
+        }
+
+        var profession = "";
+        var coach = "";
+        var teacher_Id = "";
+        ClassSubArr = [];
+        function addSubj() 
+        {
+            profession = $("#selectProf").val();
+            coach = $("#coachName").val();
+           //validation - empty values
+           if (profession == "1" || coach == "1" ) { // if there is no choice
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת מקצוע/מורה 😓',
+                    confirmButtonText: 'אוקי',
+                    confirmButtonColor: '#990099',
+                })
+            }
+            else { // add a new proff
+                if (profession == "אחר") {
+                    var X = $("#txtbox").val();
+                    checkNewProff(X);
+                    profession = X;
+               }
+                checkSubCoach();
+            }
+        }
+        function checkSubCoach() {
+            var answers = "";
+            name = classObj.ClassName;
+            num = classObj.ClassNum;
+
+           // getClassSUbjFromDB(name, num); 
+
+            //validations
+            //check if the prof+teacher added before
+            for (var i = 0; i < ProfARR.length; i++) {
+                if (ProfARR[i] == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'המקצוע כבר קיים',
+                        confirmButtonText: 'אישור',
+                        confirmButtonColor: '#990099',
+                    })
+                    return;
+                }
+            }
+     
+            for (var i = 0; i < arrCoach.length; i++) {
+                if (coach == arrCoach[i].name) { //take the specific teacher id
+                    teacher_Id = arrCoach[i].id;
+                }
+            }
+            //add subjects
+            for (var i = 0; i < ClassSubArr.length; i++) {
+                if (ClassSubArr[i].Profession == profession) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'הכנסת עכשיו את המקצוע הזה',
+                        confirmButtonText: 'אישור',
+                        confirmButtonColor: '#990099',
+                    })
+                    return;
+                }
+            }           
+            Swal.fire({
+                icon: 'success',
+                title: ' ההוספה נשמרה בהצלחה 😀',
+                confirmButtonText: 'אישור',
+                confirmButtonColor: '#990099',
+            }).then((result) => {
+                if (result.value) {
+                    for (var i = 0; i < ClassSubArr.length; i++) {
+                        answers += (i + 1) + ". " + ClassSubArr[i].Profession + " - " + ClassSubArr[i].Teacher_name + "</br>";
+                    }
+                    //let answers = JSON.stringify(SUB)
+                    Swal.fire({
+                        title: 'עד עכשיו הוספת:',
+                        html: answers,
+                        confirmButtonText: 'אישור',
+                        confirmButtonColor: '#990099',
+                    })
+                }
+            })
+
+            //obj for ClassSubjects table
+            ClassTeachObj =
+                {
+                    "Name": name,
+                    "Number": num,
+                    "Profession": profession,
+                    "Teacher_name": coach,
+                    "Id_teacher": teacher_Id,
+                    "Year_": yearHeb,
+                }
+            ClassSubArr.push(ClassTeachObj); // save the new prof to array
+        }
+        //POST new proff - Profession Table
         //save new proff .if choose = 'אחר'
         function checkNewProff(prof) {
             cntr = 0;
@@ -391,10 +363,8 @@
                 newProf = {
                     'Name': prof,
                 }
-
                 //obj for Profession table
                 ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-
             }
         }
         function POSTsuccessP() {
@@ -404,13 +374,46 @@
             console.log(err)
         }
 
-        //סרגל השתלשלות
-        orientationSTR = "";
-        function Showorientation() {
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + classObj.ClassName + "' " + classObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-professions.html'>מקצועות</a></li>";
-            document.getElementById("orientation").innerHTML = orientationSTR;
+        //POST subj&teacher - ClassSubjects Table
+        function saveSubj() {
+            //validation
+            if (ClassSubArr == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'לא בחרת מקצועות 😓',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+                })
+            }
+            else {
+                ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POST1success, POST1error);
+            }
+        }
+        function POST1success() {
+            Swal.fire({
+                icon: 'success',
+                title: 'המקצועות נוספו לכיתה 😀',
+            })
+            setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
+        }   
+        function POST1error(err) { console.log(err) };
+        function reload() {
+          document.location.reload();
+        }
+
+        function getCoachs(prof) {
+            var selectCoach = document.getElementById("coachName");
+               while (selectCoach.options.length > 0) {
+                selectCoach.remove(0);
+                }
+            for (var i = 0; i < listT.length; i++) {
+                if (prof == listT[i].Profession) {
+                    var option = document.createElement("option");
+                    option.text = listT[i].FName + " " + listT[i].LName;
+                    selectCoach.add(option);
+                }
+            }
         }
 
         function sortProf() {
@@ -435,7 +438,6 @@
             }
                             document.getElementById("professions").innerHTML = strNew;
         }
-
     </script>
 </head>
 <body id="page-top">
@@ -484,7 +486,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
@@ -633,7 +634,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -652,7 +652,6 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

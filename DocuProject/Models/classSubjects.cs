@@ -60,6 +60,19 @@ namespace DocuProject.Models
             dbs = dbs.teacherNumClass(id);
             return dbs.dt;//מעביר רק את הטבלה 
         }
+
+        public DataTable deleteT_CS(int TeacherId, string TeacherSubj)// הפונקציה מחזירה דאטה טייבל ולכן מסוג דאטה טייבל
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.Get_TechersCS(); //get a teachers table 
+            dbs.DeleteCS(TeacherId, TeacherSubj); // check the spcific teacher
+            return dbs.dt;
+        }
+            public List<ClassSubjects> ReadCS_Teacher( int teachrID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getCSFromDB(teachrID);
+        }
     }
 
 }

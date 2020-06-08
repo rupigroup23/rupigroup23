@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
+        existsArr = [];
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -42,39 +43,42 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-            $('#form1').submit(sub);
-
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
-
             showDetalis(objAdmin);
-            getTachears();
-            getSubjects();
-            $('#continue').click(checkDetails);
 
+            //Validation #1
+            $('#form1').submit(sub);
+
+            //GETs - Tables: Teacher, Student, Profession, Class
+            getTachears(); //Teacher
+            getSubjects(); //Profession
+            getStudent(); //Student
+            getClasses(); //Class
+            
+            $('#continue1').click(checkDetails);              
+            $('#addSubjTeach').click(addSubj); //הוספה
+            //subject name is "אחר"
             $('#selectProf').change(function () {
-                var value = $(this).val();
-                getCoachs(value);
-                var X = document.getElementById("txtbox");
-                if (value == "אחר") {
-                    X.style.display = "block";
-                }
-                else {
-                    X.style.display = "none";
-                }
+                    var value = $(this).val();
+                    getCoachs(value);
+                    var X = document.getElementById("txtbox");
+                    if (value == "אחר") {
+                        X.style.display = "block";
+                    }
+                    else {
+                        X.style.display = "none";
+                    }
             });
 
-            $('#addSubjTeach').click(addSubj);
-            $('#saveClass').click(saveClassDB);
+            $('#continue2').click(moveToAddStudent);             
             $('#upload').click(save_uploadStudents);
+
+            $('#saveClass').click(saveClassDB);
         });
 
-        function sub() {
-            return false;
-        }
-
-        //admin
+        //User image
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
             var url = "../api/Docu/GetDetails/" + Id;
@@ -96,20 +100,29 @@
             console.log(err)
         }
 
-        //get teacher
+        //Validation
+        function sub() {
+            return false;
+        }
+
+        //GET - Teacher Table (מחנך)
         arrCoach = [];
+        var listT;
         function getTachears() {
             ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
         function GETsuccessT(data) {
-            console.log(data);
             listT = data;
-            //insert options to select
-            for (var i = 0; i < listT.length; i++) {
+            console.log('listT', listT);
+            strT= removeDuplicates(listT);
+            //insert options to select teacher
+            console.log('strT', strT)
+            for (var i in strT) {
+            ////for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("teacherName");
-
                 var option = document.createElement("option");
-                option.text = listT[i].FName + " " + listT[i].LName;
+                option.text = strT[i].FName + " " + strT[i].LName;
+                ////option.text = listT[i].FName + " " + listT[i].LName;
                 selecTacher.add(option);
             }
             for (var j = 0; j < listT.length; j++) {
@@ -121,25 +134,17 @@
             }
         }
         function GETerrorT(err) { console.log(err) }
-
-        $('#selectProf').change(function () {
-                var value = $(this).val();
-                getCoachs(value);
-                var X = document.getElementById("txtbox");
-                if (value == "אחר") {
-                    X.style.display = "block";
-                }
-                else {
-                    X.style.display = "none";
-                }
-        });
-
-
+        function removeDuplicates(array) {
+          let uniq = {};
+           return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
+        }
+        //מורה מלמד - Coachs
         function getCoachs(prof) {
             var selectCoach = document.getElementById("coachName");
                while (selectCoach.options.length > 0) {
-                selectCoach.remove(0);
-                }
+                    selectCoach.remove(0);
+            }
+            //insert options to select Coach
             for (var i = 0; i < listT.length; i++) {
                 if (prof == listT[i].Profession) {
                     var option = document.createElement("option");
@@ -148,109 +153,74 @@
                 }
             }
         }
-        //get subjects
+
+        //GET - Profession Table
+        var listP;
+        var strP;
+        var arrP=[];
         function getSubjects() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessS, GETerrorS);
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessP, GETerrorP);
         }
-        function GETsuccessS(data) {
+        function GETsuccessP(data) {
             listP = data;
-            //insert options to select
+            console.log('listP', listP);
+            //filter- Professions that have teachers //Validation
             for (var i = 0; i < listP.length; i++) {
+                for (var j = 0; j < listT.length; j++) {
+                    if (listP[i].Name == listT[j].Profession) {
+                        arrP.push(listT[j].Profession);                       
+                    }
+                }    
+            }
+             strP=arrP.filter((item, index) => {
+                return arrP.indexOf(item) === index
+            });
+            //insert options to select
+            for (var t in strP) {
                 var select = document.getElementById("selectProf");
                 var option = document.createElement("option");
-                option.text = listP[i].Name;
+                option.text = strP[t];
                 select.add(option);
             }
+               
+                        
+        }
+        function GETerrorP(err) {
+            console.log(err);
+        }
+
+        //GET - Student Table (for the validations)
+        listSt = [];
+        function getStudent() {
+            ajaxCall("GET", "../api/Docu/GetST", "", GETsuccessS, GETerrorS);
+        }     
+        function GETsuccessS(data) {
+            listSt = data;
+            console.log('listSt',listSt)
         }
         function GETerrorS(err) {
-            console.log(err);
+            alert("NOT");
+            console.log(err)
         }
 
-        //get lists of prof-class
-        csDBAaa = [];
-        function getClassSUbjFromDB(name, num) {
-            var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
-            console.log(apiProf);
-            ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
-        }
-        function GETsuccessCT1(data) {
-            listCT = data;
-            for (var i = 0; i < listCT.length; i++) {
-                csDBAaa[i] = listCT[i].Profession;
-            }
-        }
-        function GETerrorCT1(err) {
-            console.log(err);
-        }
-
-        //ולידציה- במידה והכיתה כבק קיימת
+        //GET - Class table (validation - כיתה קיימת)
+        var listCl;
         function getClasses() {
             ajaxCall("GET", "../api/Docu/GetClasses", "", GETsuccessC, GETerrorC);
         }
         function GETsuccessC(data) {
             listCl = data;
-            var cntrClass = 0
-            for (var i = 0; i < listCl.length; i++) {
-                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year && $("#teacherName").val() == listCl[i].TeacherName ) {
-                    setTimeout(reload, 3000);
-                    cntrClass++;
-                }
-                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year) {
-                    Swal.fire({
-                        title: 'הכיתה כבר קיימת',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
-                    cntrClass++;
-                }
-                //first option
-                if ($("#classSelect").val() == "1" || $("#Year").val() == "1" ) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'לא בחרת כיתה/שנה/מחנך/סוג כיתה 😓',
-                        confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
-                    })
-                    cntrClass++;
-                }
-            }
-            if (cntrClass == 0) {
-                var proff = document.getElementById("showProff");
-                if (proff.style.display === "none") {
-                    proff.style.display = "block";
-                }
-
-                $('#classSelect').attr("disabled", true);
-                $('#classNum').attr("disabled", true);
-                $('#Year').attr("disabled", true);
-                $('#teacherName').attr("disabled", true);
-
-                $('#continue').attr("disabled", true);
-            }
+            console.log('listCl', listCl);
         }
         function GETerrorC(err) {
             console.log(err);
         }
 
-        function reload() {
-          Swal.fire({
-                        title: 'הכיתה כבר קיימת',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
-                    })
-        }
-        //details
-        var numOfStudents = "";
+         //Validation Data (until continue1)
+        //var numOfStudents = "";
         function checkDetails() {
-            name = $("#classSelect").val();
-            num = $("#classNum").val();
-            year = $("#Year").val();
-            teacher = $("#teacherName").val();
-
-            if (year == "" || name == "" || num == "" || teacher == "") { //numOfStudents == 0
+            //validation - empyt valus
+            if ($("#classSelect").val() == "1" || $("#classNum").val() == "" || $("#Year").val() == "1" || $("#teacherName").val() == "1") {
                 Swal.fire({
                     title: 'שדות חסרים',
                     text: 'יש למלא את כל השדות כדי להמשיך',
@@ -260,78 +230,42 @@
                 })
                 return false;
             }
-            else {
-                getClasses();
+            //validation - duplicate values
+            for (var i = 0; i < listCl.length; i++) {
+                if ($("#classSelect").val() == listCl[i].Name && $("#classNum").val() == listCl[i].Number && $("#Year").val() == listCl[i].Year) {
+                    Swal.fire({
+                        title: 'הכיתה כבר קיימת',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                    return false;
+                }
             }
-        }
 
-        //Excel
-        studentsArr = new Array();
-        $(function () {
-            $("#load").bind("click", function () {
-                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-                if (regex.test($("#fileUpload").val().toLowerCase())) {
-                    if (typeof (FileReader) != "undefined") {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            var rows = e.target.result.split("\r\n");
-                            for (var i = 0; i < rows.length; i++) {
-                                var cells = rows[i].split(",");
-                                if (cells.length > 1) {
-                                    var student = {};
-                                    student.FName = cells[0];
-                                    student.LName = cells[1];
-                                    student.PhoneNum = cells[2];
-                                    student.Email = cells[3];
-                                    student.City = cells[4];
-                                    student.Address = cells[5];
-                                    student.Id = cells[6];
-                                    student.Bday = cells[7];
-                                    student.ClassName = $("#classSelect").val();
-                                    student.ClassNum = $("#classNum").val();
-                                    student.Password = Math.random().toString(36).substring(7);
-                                    studentsArr.push(student);
-                                    console.log(studentsArr[0]);
-                                    console.log(studentsArr.length);
-                                }
-                            }
-                        }
-                        reader.readAsText($("#fileUpload")[0].files[0]);
-                        btnsaveExcel = document.getElementById("upload");
-                        if (btnsaveExcel.style.display === "none") {
-                            btnsaveExcel.style.display = "block";
-                        }
-                    }
-                    else {
-                        swal("This browser does not support HTML5.", "", "warning")
-                    }
-                }
-                else {
-                    swal("Please upload a valid CSV file", "", "warning")
-                }
-            });
-        });
-        function save_uploadStudents() {
-            numOfStudents = studentsArr.length;
-            Swal.fire({
-                text: 'התלמידים שויכו לכיתה בהצלחה',
-                icon: 'success',
-                confirmButtonColor: '#990099',
-                confirmButtonText: 'אישור',
-            })
+            //
+            var proff = document.getElementById("showProff");
+            if (proff.style.display === "none") {
+                    proff.style.display = "block";
+            }
+
+            $('#classSelect').attr("disabled", true);
+            $('#classNum').attr("disabled", true);
+            $('#Year').attr("disabled", true);
+            $('#teacherName').attr("disabled", true);
+            $('#continue1').attr("disabled", true);
         }
 
         //proff
-        var profession = "";
         var coach = "";
         var teacherId = "";
-
-        subjArr = [];
         ClassSubArr = [];
-        function addSubj() // שמירת נתוני המורה בדאטה
+        var profession = "";
+        function addSubj() 
         {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
+            //validation - empyt valus + new proff
             if (profession == "1" || coach == "1") {
                 Swal.fire({
                     icon: 'error',
@@ -351,9 +285,11 @@
             }
 
         }
-        //save new proff - post: Profession
+
+        // POST - Profession Table (from addSubj func)
+        //שיש מקצוע חדש דנדש
         function checkNewProff(prof) {
-              cntr = 0;
+            cntr = 0;
             for (var i = 0; i < listP.length; i++) {
                 if (listP[i].Name == prof) {
                     cntr++;
@@ -365,15 +301,18 @@
                 }
                 //obj for Profession table
                 ajaxCall("POST", "../api/Docu/addProff", JSON.stringify(newProf), POSTsuccessP, POSTerrorP);
-
             }
         }
 
+        //Validation - Subject + Coachs
+        //Call from addSubj func
+        var answers;
         function checkSubCoach() {
             name = $("#classSelect").val();
             num = $("#classNum").val();
-            getClassSUbjFromDB(name, num);
-
+            // GET from ClassSubjects
+            getClassSUbjFromDB(name, num); 
+            //Validation - duplicate values
             for (var i = 0; i < csDBAaa.length; i++) {
                 if (csDBAaa[i] == profession) {
                     Swal.fire({
@@ -383,25 +322,16 @@
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
                     })
-                    return;
+                    return false;
                 }
             }
-            //אין כזה מקצוע
+            //Validation- Profession does not exist (in this class)***
             for (var i = 0; i < arrCoach.length; i++) {
                 if (coach == arrCoach[i].name) {
                     teacherId = arrCoach[i].id;
                 }
             }
-            //obj for ClassSubjects table
-            ClassTeachObj =
-                {
-                    "Name": name,
-                    "Number": num,
-                    "Year_": $("#Year").val(),
-                    "Profession": profession,
-                    "Teacher_name": coach,
-                    "Id_teacher": teacherId,                  
-                }
+            //Validation - The profession has now been entered
             for (var i = 0; i < ClassSubArr.length; i++) {
                 if (ClassSubArr[i].Profession == profession) {
                     Swal.fire({
@@ -411,10 +341,10 @@
                         confirmButtonText: 'אישור',
                         confirmButtonColor: '#990099',
                     })
-                    return;
+                    return false;
                 }
             }
-            var answers = "";
+            //The validation was successful
             Swal.fire({
                 icon: 'success',
                 title: ' ההוספה נשמרה בהצלחה 😀',
@@ -422,6 +352,7 @@
                 confirmButtonColor: '#990099',
             }).then((result) => {
                 if (result.value) {
+                    answers = "";
                     for (var i = 0; i < ClassSubArr.length; i++) {
                         answers += (i + 1) + ". " + ClassSubArr[i].Profession + " - " + ClassSubArr[i].Teacher_name + "</br>";
                     }
@@ -434,40 +365,340 @@
                     })
                 }
             })
-            ClassSubArr.push(ClassTeachObj);
+            //obj for ClassSubjects table
+            ClassTeachObj =
+                {
+                    "Name": name,
+                    "Number": num,
+                    "Year_": $("#Year").val(),
+                    "Profession": profession,
+                    "Teacher_name": coach,
+                    "Id_teacher": teacherId,                  
+                }
+            ClassSubArr.push(ClassTeachObj);          
         }
 
-        function saveClassDB() {
-            if (ClassSubArr.length == 0) {
+        //continue to the add students
+        function moveToAddStudent() {
+            if (ClassSubArr.length > 0) {
+                var addStudent = document.getElementById("showAddStudent");
+                if (addStudent.style.display === "none") {
+                    addStudent.style.display = "block";
+                }
+
+                $('#continue2').attr("disabled", true);
+                $('#selectProf').attr("disabled", true);
+                $('#coachName').attr("disabled", true);
+                $('#addSubjTeach').attr("disabled", true);
+            }
+            else {
                 Swal.fire({
-                    text: 'לחצו על שמירת מקצועות',
-                    icon: 'warning',
+                    text: 'מקצועות לא נשמרו, יש ללחוץ על הוספה',
+                    icon: 'success',
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
+            }  
+        }
+
+        //GET - ClassSubjects Table (for the validations)
+        csDBAaa = [];
+        var listCT;
+        function getClassSUbjFromDB(name, num) {
+            var apiProf = "../api/Docu/GetClassSubj/" + name + "/" + num;
+            ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
+        }
+        function GETsuccessCT1(data) {
+            listCT = data;
+            console.log('listCT', listCT);
+            for (var i = 0; i < listCT.length; i++) {
+                csDBAaa[i] = listCT[i].Profession;
+            }
+        }
+        function GETerrorCT1(err) {
+            console.log(err);
+        }
+
+        //EXCEL
+        var studentsArr = new Array();
+        var studentsArr = [];
+        strExists = "";
+        var exists;
+        //טען
+        var counterSt = 0;
+        var counterAll = 0;
+        var existsArr1 =[];
+        $(function () {
+            $("#load").bind("click", function () {
+            //validation - no files were added
+            if ($("#fileUpload").val() == "") {
+                     Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'קובץ לא הועלה',
+                            confirmButtonText: 'אוקי',
+                            confirmButtonColor: '#990099',
+                     })
+                return false;
+                }
+            exists = false;
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+            if (regex.test($("#fileUpload").val().toLowerCase())) {
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var rows = e.target.result.split("\r\n");
+                        counterSt = 0;
+                        console.log(rows);
+                       var existsArr = [];
+                        for (var i = 0; i < rows.length; i++) {
+                            var cells = rows[i].split(",");
+                            if (cells.length > 1 && cells[0] != "") {
+                                for (var k = 0; k < listSt.length; k++) {
+                                    if (cells[6] == listSt[k].Id && cells[6] != 0) {
+                                        exists = true;
+                                        strExists = listSt[k].FName + " " + listSt[k].LName;
+                                        existsArr.push(strExists);
+                                        counterSt++;
+                                        //console.log('existsArr',existsArr);
+                                        telephoneCheck(cells[2]);
+                                    isValidIsraeliID(cells[6]);
+                                    bDayCheck(cells[7]);
+                                    }
+                                    
+                                }            
+                                if (exists == false)
+                                {
+                                    var student = {};
+                                    student.FName = cells[0];
+                                    student.LName = cells[1];
+                                    student.PhoneNum = cells[2];
+                                    student.Email = cells[3];
+                                    student.City = cells[4];
+                                    student.Address = cells[5];
+                                    student.Id = cells[6];
+                                    student.Bday = cells[7];
+                                    student.Gender = cells[8];
+                                    student.ClassName = $("#classSelect").val();
+                                    student.ClassNum = $("#classNum").val();
+                                    student.Password = Math.random().toString(36).substring(7); // first password
+                                    student.Gpa = 0; // average  
+
+                                    studentsArr.push(student);
+                                    console.log('studentsArr', studentsArr);
+                                    counterAll++;
+                                }
+                                exists = false;
+                            }
+                            
+                        }
+                        var sumOfNewStudent=  rows.length - (rows.length - (counterAll + counterSt))
+                        //validation 
+                        if (existsArr.length == sumOfNewStudent || studentsArr.length < 1) {
+                            Swal.fire({
+                                text: 'כל התלמידים שבקובץ קיימים במערכת, יש להעלות קובץ אחר.',
+                                icon: 'warning',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                            $('#upload').attr("disabled", true);
+                            $('#load').attr("disabled", false);
+                            exists = false;
+                            return false;
+                        }
+                        if (studentsArr.length < 1) {
+                                    Swal.fire({
+                                title: 'קובץ אקסל לא מכיל תלמידים',
+                                icon: 'warning',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                        }
+                        else {
+                            for (var i = 0; i < existsArr.length; i++) {
+                                existsArr1[i] = existsArr[i];
+                            }
+                            btnsaveExcel = document.getElementById("upload");
+                    $('#load').attr("disabled", true);
+                    $('#upload').attr("disabled", false);
+                    if (btnsaveExcel.style.display === "none") {
+                        btnsaveExcel.style.display = "block";
+                    }
+                        }
+                    }                  
+                    reader.readAsText($("#fileUpload")[0].files[0]);
+                    
+                }
+                else {
+                    swal("This browser does not support HTML5.", "", "warning")
+                }
+            }
+            else {
+                swal("Please upload a valid CSV file", "", "warning")
+            }            
+            });
+        });
+        //validations
+        function telephoneCheck(str) {
+            if (str.search("-") > 0) {
+                strSplit = str.split("-");
+                var str1 = strSplit[0] + strSplit[1];
+            }
+            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str1);
+            if (isphone == false) {
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'פלאפון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                return false;
+            }         
+        }
+        function isValidIsraeliID(id) {
+            var id = String(id).trim();
+            console.log(id.length);
+            if (id.length > 9 || id.length < 5 || isNaN(id)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תעודת זהות לא תקינה',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
                 return false;
             }
-
+	        // Pad string with zeros up to 9 digits
+  	        id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+        }
+        function bDayCheck(date) { //01/12/1994
+            date1 = date.split("/");
+            day = date1[0];
+            month = date1[1];
+            year = date1[2];
+                var text = /^[0-9]+$/;
+                if ((!text.test(day)) || (!text.test(year))) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תאריך לידה שגוי',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                return false;
+                }
+                var msg = "";
+                if (month < 1 || month > 12) { // check month range
+                 //   alert("Month must be between 1 and 12.")
+                    msg = "חודש חייב להיות בין 1 ל- 12";
+                    alert(msg);
+                    return false;
+                }
+                    if (day < 1 || day > 31) {
+                    Swal.fire(
+                            {
+                                text: "יום חייב להיות בין 1 ל- 31..",
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                     return false;
+                }
+                if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+                    msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                    Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                     return false;
+                }
+                if (month == 2) { // check for february 29th
+                    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                    if (day>29 || (day==29 && !isleap)) {
+                        msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                        Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                         return false;
+                    }
+                }
+                if (day.charAt(0) == '0') day= day.charAt(1);
+        }
+        //המשך    
+        function save_uploadStudents()
+        {
+            str = "";
+            if (existsArr1.length > 0) {               
+                for (var i = 0; i < existsArr1.length; i++) {
+                    str += (i + 1) + ". " + existsArr1[i] + "<br>";
+                }               
+                    str += " <br>  <br> ** שאר התלמידים שויכו לכיתה בהצלחה :) **"
+                    Swal.fire({
+                        title: 'להלן התלמידים שכבר קיימים במערכת ולכן לא שובצו בכיתה:',
+                        //title: 'חלק מהתלמידים קיימים כבר במערכת ולא שובצו:',
+                        text: "שאר התלמידים שובצו בהצלחה :)",
+                        icon: 'warning',
+                        html: str,
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                    btnsaveAll = document.getElementById("showSave");
+                    $('#upload').attr("disabled", true);
+                    if (btnsaveAll.style.display === "none") {
+                        btnsaveAll.style.display = "block";
+                    }              
+            }
+            else {
+                Swal.fire({
+                    text: 'התלמידים שויכו לכיתה בהצלחה',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
+                btnsaveAll = document.getElementById("showSave");
+                $('#upload').attr("disabled", true);
+                if (btnsaveAll.style.display === "none") {
+                    btnsaveAll.style.display = "block";
+                }
+            }
+             
+        }
+        //שמירה
+        var classObj;
+        function saveClassDB() {
+            $('#upload').attr("disabled", true);
             //obj for Class table
             classObj =
                 {
                     "Name": $("#classSelect").val(),
                     "Number": $("#classNum").val(),
                     "Year": $("#Year").val(),
-                    "numOfStudents": numOfStudents,
+                    "numOfStudents": studentsArr.length,
                     "TeacherName": $("#teacherName").val(),
                 }
             //POSTS
-            //ClassSubjects table --> ClassTeachObj
+            //POST: ClassSubjects table --> ClassTeachObj
             ajaxCall("POST", "../api/Docu/postClassSub", JSON.stringify(ClassSubArr), POSTsuccessCT, POSTerrorCT);
 
             //Student table
-            ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
-
+            //str = "";
+            if (studentsArr.length > 0) {
+               ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
+            }
+ 
             //Class table --> classObj
-            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessC, POSTerrorC);
+           ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCC, POSTerrorCC);
         }
 
+        //POSTs
         //ClassSubjects table --> ClassTeachObj
         function POSTsuccessCT() {
             console.log("ClassSubjects good");
@@ -476,27 +707,26 @@
         function POSTerrorCT(err) { console.log(err) };
         //Student table
         function POSTsuccessS(data) {
+            Swal.fire({
+                    text: 'הכיתה נוצרה',
+                    icon: 'success',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
             console.log("Student" + data);
         }
         function POSTerrorS(err) { console.log(err) }
         //Class table --> classObj
-        function POSTsuccessC() {
+        function POSTsuccessCC() {
             Swal.fire({
                 text: 'הכיתה נוצרה בהצלחה!',
                 icon: 'success',
                 confirmButtonColor: '#990099',
                 confirmButtonText: 'אישור',
             })
-            // לאחר לחיצה מאפס לחצנים
-            //$("#classSelect option:first").attr('selected', 'selected');
-            //$("#classNum option:first").attr('selected', 'selected');
-            //$("#Year").val("");
-            //$("#NumOfs").val("");
-            //$("#teacherName option:first").attr('selected', 'selected');
-            //$("#classType option:first").attr('selected', 'selected');
-            /////////////
+            setTimeout(reload, 6000);
         }
-        function POSTerrorC(err) { console.log(err) };
+        function POSTerrorCC(err) { console.log(err) };
         //Profession function checkNewProff
         function POSTsuccessP() {
             console.log("Profession good");
@@ -504,6 +734,10 @@
         function POSTerrorP() {
             console.log(err)
         }
+
+        function reload() {
+            document.location.reload();    
+        }     
     </script>
 </head>
 <body id="page-top">
@@ -637,11 +871,11 @@
                         <div class="osahan-form">
                             <form id="form1">
                                 <div class="row text2">
-                                    <div class="col-lg-3 col-sm-12 text2">
-                                        בחירת כיתה:
+                                    <div class="col-lg-9 col-sm-12 text2">
+                                        מילוי פרטי הכיתה:
                                         <br />
                                         <div class="row">
-                                            <div class="col-lg-12 col-sm-12 text2">
+                                            <div class="col-lg-4 col-sm-12 text2">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <select id="classSelect" class="create-select" style="width: 160px;">
@@ -654,97 +888,93 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-sm-12 text2">
+                                            <div class="col-lg-3 col-sm-3 text2">
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        <select id="Year" class="create-select" style="width: 160px;">
+                                                        <select id="Year" class="create-select" style="width: 150px;">
                                                             <option value="1">שנה עברית:</option>
                                                             <!--<option>תשפ"א</option>-->
                                                             <option>תש"ף</option>
                                                             <option>תשע"ט</option>
                                                             <option>תשע"ח</option>
                                                         </select>
-                                                        <!--<input type="text" id="Year" class="create-txt" placeholder="שנה עברית" />-->
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="vl" style="padding-right: 15px;"></div>
-                                    <div class="col-lg-3 col-sm-12 text2">
-                                        אנא בחר את מחנכ/ת הכיתה:
-                                        <br />
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-6 text2">
+                                            <div class="col-lg-4 col-sm-4 text2">
                                                 <div class="form-group">
                                                     <select id="teacherName" class="create-select">
                                                         <option value="1"> שם המחנך</option>
                                                     </select>
-                                                    <!-- למשוך את המורים מטבלת מורים -->
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-sm-6 text2">
-                               
+                                            <div class="col-lg-1 col-sm-12 text2">
+                                                <input type="button" id="continue1" value="המשך" class="upload-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="vl" style="padding-right: 15px;"></div>
-                                    <div class="col-lg-4 col-sm-12 text2">
+                                </div>
+                                <div id="showProff" class="row text2" style="display:none">
+                                    <hr class="mt-0">
+                                    <div class="col-lg-9 col-sm-12 text2">
+                                        שיוך מקצועות:
+                                        <br />
+                                        <div class="row text2">
+                                            <div class="col-lg-11 col-sm-12">
+                                                <select id="selectProf" class="create-select">
+                                                    <option value="1">מקצוע</option>
+                                                </select>
+                                                <select id="coachName" class="create-select">
+                                                    <option value="1"> מורה מלמד</option>
+                                                </select>
+                                                <button id="addSubjTeach" class="upload-btn">
+                                                    הוספה
+                                                </button>
+                                                <input type="text" id="txtbox" class="create-txt" placeholder="שם המקצוע" style="display:none;" />
+                                            </div>
+                                            <div class="col-lg-1 col-sm-12 text2">
+                                                <input type="button" id="continue2" value="המשך" class="upload-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="showAddStudent" class="row text2" style="display:none">
+                                    <br /><hr class="mt-0">
+                                    <div class="col-lg-9 col-sm-12 text2">
                                         העלאת קובץ תלמידים:
                                         <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>
                                         <br />
-                                        <div class="col-lg-12 col-sm-4 text2">
-                                            <div class="form-group">
-                                                <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                        <div class="row text2">
+                                            <div class="col-lg-5 col-sm-12 text2">
+                                                <div class="form-group">
+                                                    <input type="file" id="fileUpload" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 50px;width: 250px" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12 col-sm-4 text2">
-                                            <div class="form-group">
-                                                &nbsp;&nbsp; <input type="button" id="load" value="טען" class="upload-btn" />
-                                                &nbsp;<input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
+                                            <div class="col-lg-1 col-sm-1 text2">
+                                                <div class="form-group">
+                                                    <input type="button" id="load" value="טען" class="upload-btn" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-2 text2">
+                                                <div class="form-group">
+                                                    <input type="button" id="upload" value="שמור נתונים" class="upload-btn" style="display:none" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-2">
+                                                <div id="showSave" class="row" style="display:none">
+                                                    <button id="saveClass" class="btn btn-outline-primary btn-block btn-lg" >
+                                                        שמירה
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="vl" style="padding-right: 15px;"></div>
-                                    <div class="col-lg-1 col-sm-12 text2">
-                                        <input type="button" id="continue" value="המשך" class="upload-btn" style="margin: 60px 15px;" />
-                                    </div>
-
 
                                 </div>
                             </form>
-                            <hr class="mt-0">
-                            <div id="showProff" class="col-lg-12 col-sm-4 text2" style="display:none">
-                                <div class="row">
-                                    <h6 class="text2">
-                                        &nbsp;
-                                        שיוך מקצועות:
-                                    </h6>
-                                </div>
-                                <div class="row text2">
-                                    <div class="col-lg-8 col-sm-8">
-                                        <!-- להכניס לפה -->
-                                        <select id="selectProf" class="create-select">
-                                            <option value="1">מקצוע</option>
-                                        </select>
-                                        <select id="coachName" class="create-select">
-                                            <option value="1"> מורה מלמד</option>
-                                        </select>
-                                        <button id="addSubjTeach" class="upload-btn" >
-                                            הוספה
-                                        </button>
-                                        <!--<input type="text" id="NewProfession" class="create-txt" placeholder="שם המקצוע" />-->
-                                        <input type="text" id="txtbox" class="create-txt" placeholder="שם המקצוע" style="display:none;" />
-                                    </div>
-                                    <div class="col-lg-2 col-sm-2">
-                                        <div class="row">
-                                            <button id="saveClass" class="btn btn-outline-primary btn-block btn-lg">
-                                                שמירה
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                          
+                            
                         </div>
                     </div>
                 </div>

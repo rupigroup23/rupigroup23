@@ -57,9 +57,10 @@
             topic = TaskObj.Task.Topic;
 
             Showorientation();
-            showStudentsData(); //Bring the details from student table
-
-            getDatelis(); //Bring the details up
+            //Bring the details from student table
+            showStudentsData();
+            //Bring the details up
+            getDatelis(); 
 
             ajaxCall('get', '../api/Student/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
@@ -95,10 +96,8 @@
             myname = studentObj.FName + " " + studentObj.LName;
             document.getElementById("myNameN1").innerHTML = myname;
             document.getElementById("myNameN2").innerHTML = myname;
-            //
-
-            //END- User image
         });
+
         //User image
         function showDetalis(objTeacher) {
             Id = studentObj.Id;
@@ -112,10 +111,8 @@
         }
         function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
-
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
         }
         function getAvatarImageError(err) {
@@ -389,7 +386,6 @@
             document.getElementById("SucceededURL").innerHTML = " <i class='fas fa-check'></i>";
         }
 
-        
         function showVideoError(err) { console.log(err) }
 
         var dataPD;
@@ -406,9 +402,7 @@
             else {
                 vid = videoPath[0];
                 thisTeam.Comment = $("#commentStudents").val();
-            }
-
-            
+            }     
             dataPD =
                 {
                     "ClassName": thisTeam.ClassName,
@@ -438,7 +432,6 @@
           document.location.reload();
         }
 
-        
         function updateDerror(err) {
             console.log(err);
         }

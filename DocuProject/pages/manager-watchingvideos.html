@@ -46,7 +46,9 @@
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
 
+            getVideosDB(TaskObj);
             Showorientation();//סרגל השתלשלות
+           
 
             //User image
             localAdmin = localStorage.getItem('user');
@@ -56,93 +58,101 @@
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
-
-                //ID = objAdmin.Id;
-                //var url = "../api/Docu/GetDetails/" + ID;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
             function funcsuccess(data) {
                 obj = data;
-                userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                //userEmail1 = obj[0].Email;
+               // ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
+
             urlVideo = "";
+
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
+            }
+
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror() { }
+            ////END- User image
+
+        });
+
+        function getVideosDB(TaskObj) {
+            
                 //הבאת סרטונים מהדאטה בייס//
                 date = TaskObj.Task.Date;
                 dateArr = date.split('/');
                 dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
-                taskObject = { // מגיע מהלוקל סטורג'
-                    "ClassName": TaskObj.ClassName,
-                    "ClassNum": TaskObj.ClassNum,
-                    "Profession": TaskObj.Profession,
-                    "Topic": TaskObj.Task.Topic,
-                    "Deadline": dateVal
+            taskObject = { 
+                "ClassName": TaskObj.ClassName,
+                "ClassNum": TaskObj.ClassNum,
+                "Profession": TaskObj.Profession,
+                "TaskNum": TaskObj.Task.Num
                 }
 
-                 urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
-
-                ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
+            urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
+            console.log(urlVideo)
+            ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
-            }
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
-            function funcerror() { }
-            //END- User image
+        }
 
-        });
 
+
+        // הצגת סרטונים על המסך 
+        str = "";
+        videoPath = "";
         function getVideoSuccessCB(listOfVideo) {
+
+            console.log("sucess");
             //הכנסה דינמית לDOM
+            str += `<div class="row">`;
             for (let i in listOfVideo) {
-                let videoPath = `../${listOfVideo[i].Video}`
-               
+                videoPath = `../${listOfVideo[i].Video}` 
+
+//      בשרת    videoPath = `${listOfVideo[i].Video}` 
+                students = listOfVideo[i].Group;
+
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                        <div class="video-card">
-                                            <div class="video-card-image">
-                                                <video width="200" height="150" controls>
-                                                    <source src='${videoPath}' type="video/avi">
-                                                    <source src='${videoPath}' type="video/mp4">
-                                                    Sorry, your browser doesn't support embedded videos.
-                                                </video>
-                                                <!--<div class="time">3:50</div>-->
-                                            </div>
-                                            <div class="video-card-body">
-                                                <div class="video-title">
-                                                    <a class="create-text" href="teacher-feedbacks.html">
-                                                        חברי הצוות:
-                                                    </a> <br />
-                                                    <a class=" statuses-text" href="teacher-feedbacks.html">
-                                                    </a>
-                                                </div>
-                                                <div class="video-page text-success">
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                    <a href="teacher-feedbacks.html">
-                                                        <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                                                    </a>
-                                                </div>
-                                                <div class="video-view">
-                                                    
+                                                <div class="video-card">
+                                                    <div class="video-card-image">
+                                                        <video width="200" height="150" controls>
+                                                            <source src='${videoPath}' type="video/avi">
+                                                            <source src='${videoPath}' type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+                                                        <!--<div class="time">3:50</div>-->
+                                                    </div>
+                                                    <div class="video-card-body">
+                                                        <div class="video-title">
+                                                            <a class="create-text" href="student-feedbacks.html?${videoPath}">
+                                                                חברי הצוות:
+                                                            </a> <br />
+                                                            <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
+                                                                str += students;
+                                                                str += `</a >
+                                                        </div>
+
+                                                        <div class="video-view">
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>`;
+                      </div>`;
                 $('#videosDiv').append(str); // מצרף
             }
+            str += `</div>`;
         }
+
         function getVideoErrorCB(err) { console.log(err) }
 
 

@@ -46,22 +46,30 @@
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
-
+            // Saving Name in local storage for the next pages
             savelocal1(myNameObj.name);
 
+            //Bring data from the local storage.
             local = localStorage.getItem('thisProfObj'); // the proff choose
             ProfObj = JSON.parse(localStorage["thisProfObj"]);
             console.log(ProfObj); 
 
+            //orientation
             Showorientation();
+
+            //GET - Task Table         
             readTaskFromDB();
+
+            //Saving in the local storage
             $('#newTask').click(forCreateTask);
+
+            //sort numeric down-alt
+            $('#sortNum').click(sortNum);
 
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -83,8 +91,25 @@
                 console.log(err)
             }
             function funcerror() { }
-            //END- User image
         });
+
+        // Saving Name in local storage for the next pages
+        task = "";     
+        function savelocal(thisTask) { //save tha last task
+            idT = thisTask.id; 
+            task = listCS[idT - 1].Topic; 
+            thisTask = {
+                "ClassName": ProfObj.ClassName, 
+                "ClassNum": ProfObj.ClassNum,
+                "Profession": ProfObj.Profession, 
+                "Task": {
+                    "Num": idT,
+                    "Topic": listCS[idT - 1].Topic,
+                    "Date": dateIL,
+                }
+            }
+            localStorage.setItem('thisTask', JSON.stringify(thisTask));
+        }
 
         function forCreateTask() { // save to local the num of task and class details
             if (listCS.length == 0) {
@@ -108,7 +133,7 @@
             localStorage.setItem('forNewTask', JSON.stringify(forNewTask));
         }
 
-        //סרגל השתלשלות
+        //orientation
         orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
@@ -119,56 +144,35 @@
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
-        task = "";
-        //save tha last task
-        function savelocal(thisTask) {
-            idT = thisTask.id; //2
-            task = listCS[idT - 1].Topic; //מרובע
-
-            thisTask = {
-                "ClassName": ProfObj.ClassName, //ח
-                "ClassNum": ProfObj.ClassNum,//4
-                "Profession": ProfObj.Profession, //פיזיקה
-                "Task": {
-                    "Num": idT,
-                    "Topic": listCS[idT - 1].Topic,
-                    "Date": dateIL,
-                }
-            }
-            console.log(thisTask);
-
-            localStorage.setItem('thisTask', JSON.stringify(thisTask));
-        }
-
-        /////////////////////////
-
+        //GET - Task Table 
+        tasksARR = [];
+        tasksSTR = "";
         function readTaskFromDB() {
             var apiTasks = "../api/Docu/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
             ajaxCall("GET", apiTasks, "", GETsuccessT1, GETerrorT1);
-        }
-        tasksARR = [];
-        tasksSTR = "";
+        }       
         function GETsuccessT1(data) {
             listCS = data;
-            console.log(listCS);
             if (listCS.length == 0) {
                 document.getElementById("oldTask").disabled = true;
             }
             else {
-                //
                 $('#oldTask').click(Items);
-
                 for (var i = 0; i < listCS.length; i++) {
+                    //fix date
                     date = listCS[i].Deadline;
                     date1 = date.split('-');
                     dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
                     dateIL=`${date1[2]}/${date1[1]}/${date1[0]}`
-                    Tnum = i + 1;
+                    Tnum = i + 1; //next task
                     tasksSTR += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
                     tasksSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
                     tasksSTR += "מטלה מספר ";
-                    tasksSTR += Tnum;  //1
-                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
+                    tasksSTR += Tnum;  
+                    tasksSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left' >";
+                    tasksSTR += "<a href='#'>";
+                    tasksSTR += "<i class='far fa-trash-alt'  onclick='deleteTask(this)'  id='" + Tnum + "'></i>";
+                    tasksSTR += "</a>";
                     tasksSTR += "</div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<h3 class='textSquareGRAY' style='width: 120%'>";
@@ -176,12 +180,12 @@
                     tasksSTR += "</h3></div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
                     tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";   
-                    tasksSTR += dateIL; //0
+                    tasksSTR += dateIL; 
                     tasksSTR += "</span></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
                     tasksSTR += "<div class='channels-card-image'>";
                     tasksSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+                    tasksSTR += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
                     tasksSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
                     tasksSTR += "</div></div></div></div>";
 
@@ -190,39 +194,57 @@
                 showLastTask(listCS["length"]);
             }
         }
+        // delete task - noy
+        function deleteTask(thisTask) {
+
+               swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר , המטלה תמחק מהמערכת",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete)
+                        delete_TaskDB(thisTask);
+                    else swal("הפעולה בוטלה");
+                });
+        }
+
+        function  delete_TaskDB(thisTask)
+        {
+            idT = thisTask.id; 
+            task = listCS[idT - 1].Topic; 
+            thisTask = {
+                "ClassName": ProfObj.ClassName, 
+                "ClassNum": ProfObj.ClassNum,
+                "Profession": ProfObj.Profession, 
+                "Task": {
+                    "Num": idT,
+                    "Topic": listCS[idT - 1].Topic,
+                    "Date": dateIL,
+                }
+            }
+            console.log(thisTask);
+
+            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic
+            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+        }
+
+        function DeleteSuccess(data) {
+            swal("המטלה נמחקה בהצלחה!", "", "success");
+            console.log(data);
+            x = "manager-tasks.html";
+
+            location.assign(x);
+        }
+        function DeleteError(err) { console.log(err) }
+        /// delete - finall
+
+       
         function GETerrorT1(err) {
             console.log(err);
         }
-
-        //delete prof///
-
-
-
-        //$(document).on("click", "#deleteProf", function (ProfObj) {
-
-        //    alert("jdjd")
-        //    swal({
-        //        title: "האם את/ה בטוח?",
-        //        text: "במידה והפעולה תאושר,המקצוע יימחק מהכיתה",
-        //        icon: "warning",
-        //        buttons: true,
-        //        dangerMode: true
-        //    })
-        //        .then(function (willDelete) {
-        //            if (willDelete)
-        //                deleteProf(ProfObj);
-        //            else swal("הפעולה בוטלה");
-        //        });
-        //});
-
-        //function deleteProf(ProfObj)
-        //{
-        //    var url = "../api/Docu/deleteProf" ;
-        //    ajaxCall("POST", url, JSON.stringify(student), DeleteSuccess, DeleteError)
-
-        //}
-
-
 
         lastSTR = "";
         function showLastTask(LastNum) {
@@ -237,6 +259,9 @@
             lastSTR += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align:right'>מטלה מספר ";
             lastSTR += LastNum;
             lastSTR += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style = 'text-align:left'>"
+            lastSTR += "<a href='#'>";
+            lastSTR += "<i class='far fa-trash-alt'  onclick='deleteTask(this)'  id='" + Tnum + "'></i>";
+            lastSTR += "</a>";
             lastSTR += "</div></div>";
             lastSTR += "<div class='row'><div class='col-xl-6 col-sm-6 mb-3'><div class='row'>";
             lastSTR += "<div class='text2'>&nbsp;    נושא: ";
@@ -250,11 +275,48 @@
             lastSTR += "<div class='col-xl-6 col-sm-6 mb-3'><div style='padding-right: inherit; display: block;'>";
             lastSTR += "<div class='channels-card-image'>";
             lastSTR += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+            lastSTR += "<a href='manager-PresentationAssignment.html' ><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
             lastSTR += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + LastNum + "'class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
             lastSTR += "</div></div></div></div></div>";
 
             document.getElementById("lastTask").innerHTML = lastSTR;
+        }
+
+        var tasksSort;
+        function sortNum() {
+            tasksSort = ""
+            document.getElementById("tasks").innerHTML = "";
+            for (var i = listCS.length-1; i >= 0; i--) {
+                //fix date
+                let date = listCS[i].Deadline;
+                let date1 = date.split('-');
+                let dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
+
+                    tasksSort += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
+                    tasksSort += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
+                    tasksSort += "מטלה מספר ";
+                    tasksSort += i+1;  
+                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
+                    //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
+                    tasksSort += "<i class='far fa-trash-alt'></i>";
+                    tasksSort += "</div></div>";
+                    tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
+                    tasksSort += "<h3 class='textSquareGRAY' style='width: 120%'>";
+                    tasksSort += listCS[i].Topic;
+                    tasksSort += "</h3></div></div>";
+                    tasksSort += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
+                    tasksSort += "<span class='textSquareGRAY' style='width: 120 %'>";   
+                    tasksSort += dateIL; 
+                    tasksSort += "</span></div></div> ";
+                    tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
+                    tasksSort += "<div class='channels-card-image'>";
+                    tasksSort += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+                    tasksSort += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
+                    tasksSort += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+                    tasksSort += "</div></div></div></div>";
+
+                    document.getElementById("tasks").innerHTML = tasksSort;
+            }
         }
     </script>
 </head>
@@ -296,7 +358,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -304,7 +365,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation">
@@ -416,15 +476,13 @@
                                                 סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="manager-SORT1-2tasks.html"><i class="fas fa-sort-numeric-down"></i>&nbsp; מספר מטלה</a>
-                                                <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> &nbsp; זמן העלאה</a>
+                                                <a class="dropdown-item" id="sortNum"><i class="fas fa-sort-numeric-down-alt"></i>&nbsp; מספר מטלה</a>
                                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- tasks -->
                             <div class="row" id="tasks">
 
                             </div>

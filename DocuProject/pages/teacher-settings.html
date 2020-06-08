@@ -45,16 +45,29 @@
             document.getElementById("myNameN2").innerHTML = teacherName.name;
             //
 
+           
+
             $('#form').submit(sub); //FORM
             local = localStorage.getItem('user');
 
             objTeacher = JSON.parse(local);
             showDetalis(objTeacher);
 
+            getProffTeacher(objTeacher); //teacher proffesions
+
             $('#saveDetails').click(saveDetails_);
             pass = objTeacher.Password;
 
             passNew = "";
+            passFromData = "";
+
+
+            $('input[type=radio]').on('change', function () {
+                $("#changePass").show();
+            });
+
+
+
             $("#changePass").click(function () {
          if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
                     passNew = $('#pass2').val();
@@ -151,32 +164,26 @@
                 $('#bday').val(birthVal);
                 $('#phone').val(obj[0].PhoneNum);
 
+                        passFromData = obj[0].Password_;
+
                 userEmail = obj[0].Email;
-                Prof = obj[0].Profession;
-                   passFromData = obj[0].Password_;
-                str = '<div class="create-text">' + Prof + '<h6 style="font-size: 23px"></h6>';
-                //ProfDB = obj[0].Profession;
-                str = '<div class="create-text">' +  + '<h6 style="font-size: 23px"></h6>';
-                document.getElementById('profCard').innerHTML = str;
-
-
-                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                //ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
             };
             function funcerror() { }
 
 
-            function getAvatarImageSuccess(imagePath1) {
+            //function getAvatarImageSuccess(imagePath1) {
 
-                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+            //    src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            //    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            }
+            //    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            //}
 
-            function getAvatarImageError(err) {
-                console.log(err)
-            }
+            //function getAvatarImageError(err) {
+            //    console.log(err)
+            //}
 
             passNew = "";
             
@@ -202,9 +209,7 @@
                     "PhoneNum": $("#phone").val(),
                     "Password": Password
                 }
-
                 console.log(teacher);
-
                 url = "../api/Teacher/updatetTeacher";
                 ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
             }
@@ -242,7 +247,6 @@
 
             }
 
-
             function POSTerrorImg(data) {
                 console.log(data);
             }
@@ -259,9 +263,29 @@
             //    console.log(err)
             //}
 
-      
 
+            api = "";
+            // get proffesions 
+            function getProffTeacher(objTeacher) {
+                teachrID = objTeacher.Id;
 
+                url2 = '../api/Teacher/gatProffDB/' + teachrID;
+                ajaxCall("GET", url2, "", func_success, func_error);
+            }
+            str = "";
+            function func_success(data) {
+                proffArr = data;
+
+                for (var i = 0; i < proffArr.length; i++) {
+                    if (proffArr[i].Profession != "") {
+                        str += '<div class="create-text">' + proffArr[i].Profession + '<h6 style="font-size: 23px"></h6>';
+                        str += '<div class="create-text"><h6 style="font-size: 23px"></h6>';
+                    }                 
+                }
+                document.getElementById('profCard').innerHTML = str;
+            }
+            function func_error() { }
+            //
 
         });
 
@@ -421,7 +445,7 @@
                         </div>
                         <div class="col-lg-3 col-sm-6">
 
-                            <!--<div class="col-lg-12 col-sm-6">
+                            <div class="col-lg-12 col-sm-6">
                                 <h6 class="create-text" for="city">מקצועות לימוד:</h6>
                                 <div id="profCard" class="channels-card" style=" background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
                                     <div class="create-text">
@@ -430,7 +454,7 @@
                                     <h6 style="font-size: 23px"></h6>
 
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                         <br />
                        
@@ -451,7 +475,7 @@
                 </div>-->
 
                 <div class="col-lg-4 col-sm-4">
-                    <button id="changePass" class="create-btn" style="padding-right: 65px;">
+                    <button id="changePass" class="create-btn" style="padding-right: 65px;display:none">
                         שינוי סיסמא
                     </button>
                     <input id="pw" name="pw" type="radio">

@@ -66,13 +66,13 @@ namespace DocuProject.Controllers
             Teacher T = new Teacher();
             return T.GetDetails(Id);
         }
-        [HttpGet] /// דף מורה - שדה מקצוע
-        [Route("api/Teacher/GetP")]
-        public List<Profession> GetP()
-        {
-            Profession P = new Profession();
-            return P.Read();
-        }
+        //[HttpGet] /// דף מורה - שדה מקצוע
+        //[Route("api/Teacher/GetP")]
+        //public List<Profession> GetP()
+        //{
+        //    Profession P = new Profession();
+        //    return P.Read();
+        //}
 
         [HttpPut]
         [Route("api/Teacher/updatetTeacher")]
@@ -162,8 +162,37 @@ namespace DocuProject.Controllers
         {
             Feedback F = new Feedback();
             F.deleteComment(selectedRow, type);
+        [HttpGet] //  קבלת המקצועות הספציפיים של המורה 
+        [Route("api/Teacher/gatProffDB/{teachrID}")]
+        public List<ClassSubjects> get_proff(int teachrID)
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.ReadCS_Teacher(teachrID); // Read from Models/Counrty
+        }
+        [HttpPut]
+        [Route("api/Teacher/updateFBG/{id}")]
+        public DataTable PutVC(int id, [FromBody] Group_Feedback videoTeam)
+        {
+            Group_Feedback VC = new Group_Feedback();
+            return VC.PutVC(id, videoTeam);
         }
 
+        [HttpPut]
+        [Route("api/Teacher/updateStudent/{id}")]
+        public DataTable PutDIS(int id, [FromBody] Student student)
+        {
+            Student S = new Student();
+            return S.PutS(id, student);
+        }
 
+        [HttpGet]
+        [Route("api/Teacher/specifictask/{class1}/{numClass}/{sub}/{topic}")]
+        public string getSpecificTask(string class1, string numClass, string sub, string topic)
+        {
+            Task task = new Task();
+            return task.getSpecificTask(class1, numClass, sub, topic);
+        }
     }
+
+
 }

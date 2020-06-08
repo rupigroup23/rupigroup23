@@ -177,8 +177,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','{9}')", TeacherObj.FName, TeacherObj.LName, TeacherObj.Email, TeacherObj.City, TeacherObj.Street, TeacherObj.Id, TeacherObj.Bday, TeacherObj.PhoneNum, TeacherObj.Profession, TeacherObj.Password); // לפי האובייקט במחלקה
+        var str = TeacherObj.Bday.ToString("yyyy-MM-dd");
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}',{5},'{6}','{7}','{8}','{9}')", TeacherObj.FName, TeacherObj.LName, TeacherObj.Email, TeacherObj.City, TeacherObj.Street, TeacherObj.Id, str, TeacherObj.PhoneNum, TeacherObj.Profession, TeacherObj.Password); // לפי האובייקט במחלקה
         String prefix = "INSERT INTO Teacher__" + "(FName,LName,Email,City,Street,Id_,Bday,PhoneNum,Profession,Password_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
@@ -346,8 +346,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
 
-        sb.AppendFormat("Values('{0}','{1}' ,'{2}','{3}','{4}','{5}' ,{6},'{7}','{8}',{9},'{10}')", student.FName, student.LName, student.PhoneNum, student.Email, student.City, student.Address, student.Id, student.Bday, student.ClassName, student.ClassNum, student.Password); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student" + "(FName,LName,PhoneNum,Email,City,Street, Id_,Bday,ClassName,ClassNum,Password_) "; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}' ,'{2}','{3}','{4}','{5}' ,{6},'{7}','{8}',{9},'{10}','{11}', {12})", student.FName, student.LName, student.PhoneNum, student.Email, student.City, student.Address, student.Id, student.Bday, student.ClassName, student.ClassNum, student.Password , student.Gender, student.Gpa); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student" + "(FName,LName,PhoneNum,Email,City,Street, Id_,Bday,ClassName,ClassNum,Password_,Gender,GPA) "; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -406,7 +406,8 @@ public class DBservices
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
-            String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            String selectSTR = "select Id_, ClassName, ClassNum, FName,LName from Student"; // נכתוב שאילתה להוצאת הטבלה 
+            //String selectSTR = "select distinct Id_ from Student"; // נכתוב שאילתה להוצאת הטבלה 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
             // get a reader
@@ -417,6 +418,10 @@ public class DBservices
 
                 Student St = new Student();
                 St.Id = (int)dr["Id_"];
+                St.ClassName = (string)dr["ClassName"];
+                St.ClassNum = (int)dr["ClassNum"];
+                St.FName = (string)dr["FName"];
+                St.LName = (string)dr["LName"];
                 listStudent.Add(St);
             }
         }
@@ -838,6 +843,35 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+    public DBservices Get_TechersCS() // מחזיר איבר מסוג DBSERVICES
+    {
+        SqlConnection con = null;
+        string str = "";
+        try
+        {
+            con = connect("DBConnectionString");
+            str = " SELECT * FROM classProfession";
+            da = new SqlDataAdapter(str, con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(da);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            dt = ds.Tables[0];
+        }
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return this; // מחזיר איבר מסוג DB SERVICES
+    }
 
     public List<ClassSubjects> getCSFromDB(string name, string num)
     {
@@ -981,6 +1015,42 @@ public class DBservices
             }
         }
     }
+    public void DeleteCS(int TeacherId, string TeacherSubj) //כמו GET
+    {
+        string cStr = "";
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DBConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            cStr = $@"delete from
+                              classProfession
+                              where Id_teacher={TeacherId} and Profession='{TeacherSubj}'";
+
+            int numEffected = 0;
+           cmd = CreateCommand(cStr, con);
+            numEffected += cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
 
 
     /// //////////////////////////שמירת תלמיד ספציפי////////////////////////////////////////
@@ -1037,11 +1107,13 @@ public class DBservices
         //string newBday = arr[1] + '-' + arr[0] + '-' + arr[2];
         String command;
 
+        var str = StudentObj.Bday.ToString("yyyy-MM-dd");
+
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}' ,'{11}')", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, StudentObj.Bday, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password, StudentObj.Gender); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_,Gender)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}', {9} ,'{10}' ,'{11}', {12})", StudentObj.FName, StudentObj.LName, StudentObj.PhoneNum, StudentObj.Email, StudentObj.City, StudentObj.Address, StudentObj.Id, str, StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Password, StudentObj.Gender, StudentObj.Gpa); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Student (FName,LName,PhoneNum,Email,City,Street,Id_,Bday,ClassName,ClassNum,Password_,Gender,Gpa)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -2145,6 +2217,46 @@ public class DBservices
             throw (ex);
         }
     }
+
+
+    public List<ClassSubjects> getCSFromDB( int teachrID)//  קבלת המקצועות הספציפיים של המורה 
+    {
+        //יצירת רשימה לשמירת הנתונים
+        List<ClassSubjects> listClassSubj = new List<ClassSubjects>();
+        SqlConnection con = null; //שורה קבועה
+        try
+        {   //שורה קבועה
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+            String selectSTR = $@"SELECT DISTINCT Profession
+                               FROM classProfession
+                               where Id_teacher='{teachrID}'";
+            //שורה קבועה
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            //קורא שורה סוגר וככה הלאה //שורה קבועה
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dr.Read())
+            {// Read till the end of the data into a row
+                ClassSubjects CS = new ClassSubjects();
+                CS.Profession = (string)dr["Profession"];
+                listClassSubj.Add(CS);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return listClassSubj; // מחזיר מערך 
+    }
+
 
 }
 

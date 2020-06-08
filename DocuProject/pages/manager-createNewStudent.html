@@ -28,7 +28,10 @@
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
-
+        var imagePath = '';
+        var userEmail = '';
+        var maxnum = 1;
+        var countError;
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -37,16 +40,36 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-            //get Student
+            //get Student from Student Table
             getStudent();
 
-            var imagePath = '';
-            var userEmail = '';
-
             $('#imageUplaodDiv').hide();
+            $('#option1').hide();
+
+            //Checking validation
+            //Post Student - Student Table
             $('#form2').submit(function (e) {
-                //checking
+                countError = 0
+
                 let idVal = $("#idT").val();
+                e.preventDefault();
+                pass = Math.random().toString(36).substring(7);
+
+                let fnameVal = document.getElementById("fname").value;
+                let lnameVal = document.getElementById("lname").value;
+                let emailVal = document.getElementById("email").value;
+                let addressVal = document.getElementById("street").value;
+                let gender = document.getElementById("gender").value;
+                let phoneVal = document.getElementById("phone").value;
+                let cityVal = $('#city').val();
+                let classVal = $('#class').val();
+                let classNumVal = document.getElementById("classNum").value;
+
+                let day = $("#day").val();
+                let month = $("#month").val();
+                let year = $("#year").val();
+
+                //duplication values
                 for (var i = 0; i < listSt.length; i++) {
                     if (listSt[i].Id == idVal) {
                         Swal.fire({
@@ -56,30 +79,12 @@
                             confirmButtonText: 'אוקי',
                             confirmButtonColor: '#990099',
                         })
+                        countError++;
                         return false;
                     }
                 }
-                e.preventDefault();
-                pass = Math.random().toString(36).substring(7);
-
-                let fnameVal = document.getElementById("fname").value;
-                let lnameVal = document.getElementById("lname").value;
-                let emailVal = document.getElementById("email").value;
-                let addressVal = document.getElementById("street").value;
-                let birthVal = document.getElementById("birth").value;
-                let gender = document.getElementById("gender").value;
-
-                console.log(birthVal);
-                birthValArr = birthVal.split('-');
-                birthVal1 = `${birthValArr[0]}-${birthValArr[1]}-${birthValArr[2]}` //
-                console.log(birthVal1);
-
-                let phoneVal = document.getElementById("phone").value;
-                let classNumVal = document.getElementById("classNum").value;
-                let cityVal = $('#city').val();
-                let classVal = $('#class').val();
-
-                if (fnameVal == "" || gender == ""|| lnameVal == "" || idVal == "" || phoneVal == "" || birthVal == "" || phoneVal == "" || classNumVal == "" || cityVal == "" || classVal == "") {
+                //empty values
+                if (fnameVal == "" ||  lnameVal == "" || gender == ""|| phoneVal == "" || idVal == "" || day == "" || month == "חודש" || year == "" || phoneVal == "" || cityVal == "" || addressVal == "" || classNumVal == "בחר מספר" ||  classVal == "בחר מספר") {
                     Swal.fire(
                         {
                             text: 'ישנם שדות חסרים',
@@ -87,12 +92,22 @@
                             confirmButtonColor: '#990099',
                             confirmButtonText: 'אישור',
                         })
-
+                    countError++;
                     return false;
                 }
 
-                StudentObj = // נגדיר אובייקט ג'ייסוני שאליו יכנסו הערכים של המשתמש
-                    { // האדום חייב להיות זהה לפרופרטיז במחלקה
+                telephoneCheck(phoneVal);//Phone number validation
+                isValidIsraeliID(idVal); // ID validation
+                 
+                bDayCheck(day, month, year); // bDay validation
+                let birthVal = year + "-" + month + "-" + day; 
+                //date
+                    birthVal1 = year + "-" + month + "-" + day;
+                    birthValArr = birthVal1.split('T00:00:00');
+                    birthVal12 = birthValArr[0];
+                    //
+                StudentObj = 
+                    { 
                         "FName": fnameVal,
                         "LName": lnameVal,
                         "PhoneNum": phoneVal,
@@ -100,24 +115,139 @@
                         "Email": emailVal,
                         "City": cityVal,
                         "Id": idVal,
-                        "Bday": birthVal1,
+                        "Bday":birthVal12,
                         "ClassName": classVal,
                         "ClassNum": classNumVal,
                         "Password": pass,
                         "Gender": gender,
+                        "Gpa": 0,
                     }
-
                 userEmail = emailVal;
                 console.log(StudentObj);
-                ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess, POSTerror);
-
-                //document.getElementById("form2").reset(); //מנקה את הפקדים
+                console.log(countError);
+                if (countError == 0) {
+                    ajaxCall("post", "../api/Docu/postStudent", JSON.stringify(StudentObj), POSTsuccess , POSTerror);
+                }
+                      //document.getElementById("form2").reset(); //מנקה את הפקדים
                 //return false;
             });
+
+            //validations
+            function telephoneCheck(str) {
+            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
+            if (isphone == false) {
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'פלאפון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                countError++;
+                return false;
+            }         
+             }
+            function bDayCheck(day, month, year) { //01/12/1994
+                var text = /^[0-9]+$/;
+                if ((!text.test(day)) || (!text.test(year))) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תאריך לידה שגוי',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                countError++;
+                return false;
+                }
+                var msg = "";
+                if (month < 1 || month > 12) { // check month range
+                 //   alert("Month must be between 1 and 12.")
+                    msg = "חודש חייב להיות בין 1 ל- 12";
+                    alert(msg);
+                    countError++;
+                    return false;
+                }
+                    if (day < 1 || day > 31) {
+                    Swal.fire(
+                            {
+                                text: "יום חייב להיות בין 1 ל- 31..",
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                            })
+                    countError++;
+                     return false;
+                }
+                if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+                    msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                    Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                     return false;
+                }
+                if (month == 2) { // check for february 29th
+                    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                    if (day>29 || (day==29 && !isleap)) {
+                        msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                        Swal.fire(
+                            {
+                                text: msg,
+                                icon: 'error',
+                                confirmButtonColor: '#990099',
+                                confirmButtonText: 'אישור',
+                        })
+                    countError++;
+                         return false;
+                    }
+                }
+                if (day.charAt(0) == '0') day= day.charAt(1);
+        }
+            function isValidIsraeliID(id) {
+            var id = String(id).trim();
+            console.log(id.length);
+            if (id.length > 9 || id.length < 5 || isNaN(id)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תעודת זהות לא תקינה',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                return false;
+            }
+	        // Pad string with zeros up to 9 digits
+  	        id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+        }
             function POSTerror(err) {
                 console.log(err)
             }
             function POSTsuccess() {
+                $('#continue').attr("disabled", true);
+                $('#option1').show();
+                document.getElementById("Successfully_saved").innerHTML = 'ההוספה נשמרה!';
+                $('#form2').attr("disabled", true);
+                //$('#imageUplaodDiv').show();
+            }
+
+            //matching the number of class
+            $('#class').change(function () {
+                var value = $(this).val();
+                getNum(value);          
+            });
+
+            //add photo - yes / no
+            $('#yes').on('click', function () {
+                $('#imageUplaodDiv').show();
+                $('#form2').attr("disabled", true);
+                $('#no').attr("disabled", true);
+            });
+            $('#no').on('click', function () {
                 Swal.fire(
                     {
                         text: 'התלמיד/ה נוספ/ה בהצלחה',
@@ -125,12 +255,18 @@
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                     })
-                $('#continue').attr("disabled", true);
+                $('#yes').attr("disabled", true);
+                $('#form2').attr("disabled", true);
+                setTimeout(reload, 5000);
+            });
 
-                $('#imageUplaodDiv').show();
-            }
+            //refresh
+            function reload() {
+                 document.location.reload();             
+                }          
 
             //שלב1 -העלאת התמונה לתוכנה
+            // POST - uploadimage
             $('#upload').on('click', function () { // טעינת התמונה לתוכנה
                 console.log('clicked')
                 var data = new FormData();
@@ -154,10 +290,8 @@
                     success: showImages,
                     error: error
                 });
-
                 return false;
-            });
-
+            })
             function showImages(data) {
                 imagePath = data;
                 Swal.fire(
@@ -168,11 +302,11 @@
                         confirmButtonText: 'המשך',
                     })
             }
-
             function error(data) {
                 console.log(data);
             }
 
+            //uploadUrlImg from ImgStudent Table
             // שלב2- העלאת התמונה מהתוכנה לדטא
             $('#uploadIMG').on('click', function () {
                 var imgStr = `http://localhost:44328/${imagePath}` // להחליף בין הניתובים לפני שמעלים לשרת!!!
@@ -181,10 +315,10 @@
                     "email": userEmail,
                     "Img": imgStr
                 }
-                ajaxCall('POST', '../api/Docu/uploadUrlImg', JSON.stringify(StudentImage), POSTsuccessImg, POSTerrorImg);
+              ajaxCall('POST', '../api/Docu/uploadUrlImg', JSON.stringify(StudentImage), POSTsuccessImg, POSTerrorImg);
             });
 
-            //User image
+            //User image from Admin Table and ImgAdmin
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
@@ -196,16 +330,11 @@
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-
-
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-
             }
             function getAvatarImageSuccess(imagePath1) {
-
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
             function getAvatarImageError(err) {
@@ -213,6 +342,29 @@
             }
             function funcerror() { }
         });
+
+        function getNum(class1) {
+            var classNum = document.getElementById("classNum");
+            console.log(classNum.options);
+            maxnum = 1;
+             while (classNum.options.length > 0) {
+                classNum.remove(0);
+                }
+             for (var i = 0; i < listSt.length; i++) {
+                if (listSt[i].ClassName == class1) {
+                    if (listSt[i].ClassNum >= maxnum) {
+                        maxnum = listSt[i].ClassNum;
+                    }
+                }
+            }          
+             for (var j =1; j <= maxnum; j++) {
+                    var option = document.createElement("option");
+                    option.text = j;
+                    classNum.add(option);
+            }
+        }
+
+        //uploadUrlImg from ImgStudent Table
         function POSTsuccessImg() {
             Swal.fire(
                 {
@@ -221,12 +373,14 @@
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
+                 document.location.reload();             
         }
         function POSTerrorImg(data) {
             console.log(data);
         }
 
-        //get student
+        //get student from Student Table
+        var listSt;
         function getStudent() {
             ajaxCall("GET", "../api/Docu/GetST", "", GETsuccessS, GETerrorS);
         }
@@ -237,7 +391,6 @@
             alert("NOT");
             console.log(err)
         }
-
     </script>
 </head>
 <body id="page-top">
@@ -278,7 +431,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
-                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="manager-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -286,7 +438,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb">
@@ -367,7 +518,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="osahan-form">
@@ -376,8 +526,6 @@
                                     <h6 class="text2">אנא מלא/י פרטי התלמיד:</h6>
                                 </div>
                             </div>
-                            <div class="row">
-                                <!--<form action="/action_page.php">-->
                                 <form id="form2">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-6">
@@ -402,12 +550,26 @@
                                             <input type="text" class="create-txt" id="idT" name="idTeacher" />
                                             <br />
                                             <label class="create-text" for="date"> תאריך לידה:</label><br />
-                                            <input class="create-txt" type="date" id="birth" name="date" />
+                                            <!--<input class="create-txt" type="date" id="birth" name="date" />-->
+                                            <input type="text" name="myDate" id="day" class="create-txt" size=2 maxlength=2 style="width: 20%;" placeholder="יום">
+                                            <select id="month" name="myDate" class="create-select" style="width: 20%;">
+                                                <option value="0">חודש</option>
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                            <input type="text" name="myDate" id="year" class="create-txt" size=4 maxlength=4 style="width: 20%;" placeholder="שנה">
 
                                         </div>
-
-
-
                                         <div class="col-lg-3 col-sm-6">
                                             <label class="create-text" for="phone"> פלאפון:</label><br />
                                             <input class="create-txt" type="tel" id="phone" name="phone" />
@@ -422,21 +584,18 @@
 
                                             </div>
                                         </div>
-
                                         <div class="col-lg-3 col-sm-12">
-                                            <!-- לעשות סקריפט של כל המדינות -->
                                             <label class="create-text" for="city">כיתה:</label><br />
-                                            <select id="class" class="create-select">
+                                            <select id="class" class="create-select" style="width: 35%;">>
                                                 <option value="">בחר כיתה</option>
                                                 <option>ז</option>
                                                 <option>ח</option>
                                                 <option>ט</option>
-
                                             </select>
-
-                                            <label class="create-text">מספר כיתה:</label><br />
-                                            <input class="create-txt" id="classNum" autocomplete="off">
-
+                                            <select id="classNum" class="create-select" style="width: 35%;">
+                                                <option value="">בחר מספר</option> 
+                                            </select>
+                                            <!--<input class="create-txt" id="classNum" autocomplete="off">-->
                                         </div>
                                     </div>
                                     <br />
@@ -446,10 +605,20 @@
                                                 <input type="submit" value="שמירה" class="btn btn-outline-primary btn-block btn-lg" />
                                             </a>
                                         </div>
+                                        <div id="Successfully_saved" class="col-xl-3 col-sm-6 mb-3 text2" style="color:red">
+
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6 mb-3">
+                                            <div id="option1" class="row alert alert-danger" role="alert">
+                                                    <span class="text2">
+                                                        רוצה להוסיף תמונה?
+                                                        <input id="yes" name="addPHOTO" type="button" class="btn btn-light border-none" value="כן">
+                                                        <input id="no" name="addPHOTO" type="button" class="btn btn-light border-none" value="לא" >
+                                                    </span>
+                                            </div>
+                                        </div> 
                                     </div>
-                                </form>
-                            </div>
-                            <hr class="mt-0">
+                                </form>                            
                             <div id="imageUplaodDiv" class="row">
                                 <div class="col-lg-3 col-sm-4 ">
                                     <span class="text2">

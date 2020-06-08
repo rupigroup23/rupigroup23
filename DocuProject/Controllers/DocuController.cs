@@ -81,7 +81,7 @@ namespace DocuProject.Controllers
         public List<Profession> GetP()
         {
             Profession P = new Profession();
-            return P.Read();
+            return P.Read11();
         }
 
         [HttpGet] /// דף מורה - שדה מקצוע
@@ -127,8 +127,9 @@ namespace DocuProject.Controllers
         public List<Student> GetST()
         {
             Student S = new Student();
-            return S.ReadSt();
+                return S.ReadSt();
         }
+
         [HttpPost] /// דף כניסה- במידה ומנהל
         [Route("api/Docu/checkUsers")]
         public Admin Post([FromBody] Admin admin) // מקבלת מערך של אובייקטים- מה שהכנתי
@@ -161,7 +162,7 @@ namespace DocuProject.Controllers
             return T.GetTechers();
         }
 
-
+       
         // GET api/Docu/GetClassSubj/ז/2/
         [HttpGet]
         [Route("api/Docu/GetClassSubj/{name}/{num}")]
@@ -313,6 +314,14 @@ namespace DocuProject.Controllers
             return T.deleteT(rowID);
         }
 
+        [HttpPost] /// דף מטלה ראשי
+        [Route("api/Docu/DeleteTeachFromCS/{TeacherId}/{TeacherSubj}")]
+        public DataTable DeleteTeachFromCS(int TeacherId, string TeacherSubj) //מורה 
+        {
+            ClassSubjects CS = new ClassSubjects();
+            return CS.deleteT_CS(TeacherId, TeacherSubj);
+        }
+
 
         [HttpPut] //teacher
         [Route("api/Docu/updateTeacher/{id}")]
@@ -323,11 +332,11 @@ namespace DocuProject.Controllers
         }
 
         [HttpGet]
-        [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{Topic}/{Deadline}")]
-        public List<Task> getVideos(string ClassName, string ClassNum, string Professtion, string Topic, string Deadline)
+        [Route("api/Docu/getvideo/{ClassName}/{ClassNum}/{Professtion}/{taskNum}")]
+        public List<Group_Feedback> getVideos_(string ClassName, string ClassNum, string Professtion, int taskNum)
         {
-            Task t = new Task();
-            List<Task> videos = t.getVideos(ClassName, ClassNum, Professtion, Topic, Deadline);
+            Group_Feedback G = new Group_Feedback();
+            List<Group_Feedback> videos = G.getVideo(ClassName, ClassNum, Professtion, taskNum);
             return videos;
         }
 
@@ -348,7 +357,6 @@ namespace DocuProject.Controllers
             return VC.PutVC(id, videoTeam);
         }
 
-        // GET api/Docu/GetClassSubj/ז/2/פיזיקה
         [HttpGet]
         [Route("api/Docu/GetSudentsbyGrade/{name}/{num}/{prof}/{grade}")]
         public List<string> GetSudentsbyGrade(string name, int num, string prof, string grade)

@@ -41,6 +41,7 @@
             console.log(TaskObj);
 
             Showorientation();//סרגל השתלשלות
+            getVideosDB(TaskObj);
 
             //User image
             localStudent = localStorage.getItem('student');
@@ -70,6 +71,19 @@
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
+        }
+
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+        function funcerror() { }
+        //END- User image
+        str = "";
+        videoPath = "";
+
+        
+        function getVideosDB(TaskObj) {
             date = TaskObj.Task.Date;
             dateArr = date.split('/');
             dateVal = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
@@ -86,13 +100,7 @@
             ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
             //הבאת סרטונים מהדאטה בייס//
         }
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
-        function funcerror() { }
-        //END- User image
-        str = "";
-        videoPath = "";
+
         function getVideoSuccessCB(listOfVideo) {
             //הכנסה דינמית לDOM
             console.log(listOfVideo)
