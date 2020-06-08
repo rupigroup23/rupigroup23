@@ -162,6 +162,8 @@ namespace DocuProject.Controllers
         {
             Feedback F = new Feedback();
             F.deleteComment(selectedRow, type);
+            }
+
         [HttpGet] //  קבלת המקצועות הספציפיים של המורה 
         [Route("api/Teacher/gatProffDB/{teachrID}")]
         public List<ClassSubjects> get_proff(int teachrID)

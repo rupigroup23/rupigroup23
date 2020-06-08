@@ -298,48 +298,61 @@
         //var colnum = 1;
 
 
-
-        function TeamManagementBTN() { //
+        function TeamManagementBTN() { 
             algorithm1 = document.getElementById("TeamManagementBTN");
 
             var management1 = document.getElementById("StudentTable");
             if (management1.style.display === "none") {
                 management1.style.display = "block";
                 TeamManagement1.style.display = "block";
-
-
             }
             tblTeam = "";
             newGroups = [];
-            for (var i = 0; i < GroupStudentsList.length; i++) {
-
-                students = GroupStudentsList[i].Group.split(',');
-                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
-                tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns'>";
-
-                for (var m = 0; m < studentList.length; m++) {
-                    if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
-                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false' tabindex='0' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
+           
+            for (var i = 0; i < arrTeam.length; i++) {
+                tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns"+i+"' ondragstart='getdata(this)'>";
+                for (var j = 0; j < arrTeam[i].length; j++) {
+                    for (var m = 0; m < studentList.length; m++) {
+                    if (arrTeam[i][j] == studentList[m].Id_) {
+                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false' tabindex='"+j+"' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
                         tblTeam += studentList[m].FName + " " + studentList[m].LName;
                         tblTeam += "</li>";
+                    }  
                     }
-                   
                 }
-               
                 tblTeam += "</ol>";
             }
-         //   btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn'></div>";
-        document.getElementById("StudentTable").innerHTML = tblTeam; //+btnSave;
+                //arrTeam[0][1]
+                //arr[0]= 0: "3333", 1: "1111", 2: "2222"
+                //arr[0][1] = 1111
+
+            //for (var i = 0; i < GroupStudentsList.length; i++) {
+                //students = GroupStudentsList[i].Group.split(',');
+                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
+               // tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns"+i+"' onchange='stam(this)'>";
+                
+                
+           
+           btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn' ></div>";
+        document.getElementById("StudentTable").innerHTML = tblTeam +btnSave;
 
         }
+        function stam(team) {
+            console.log(team)
+        }
 
-
-        function getdata(tblTeam){
-    
-            var tblTeam = $("#selected_columns li").map(function () {
-                return $(this).tblTeam("item");
-            }).get();
-            console.log(tblTeam);
+        function getdata(tblTeam) {
+            console.log(tblTeam.id)
+            //var tblTeam1 = $('#' + tblTeam.id + '"').map(function () {
+            $('#' + tblTeam.id + '"').append('רביד אלבז');
+            console.log($('#' + tblTeam.id + '"').append('רביד אלבז'));
+           // var tblTeam = $("#selected_columns li").map(function () {
+           // var tblTeam = $("#selected_columns"+i +" li").map(function () {
+              //  return $(this).tblTeam("item");
+             //   console.log(tblTeam);
+           //   //  console.log(tblTeam1);
+         //   }).get();
+            
           
 
         }
@@ -352,14 +365,20 @@
         }
 
         var GroupStudentsList = []; // נכניס למערך כל קבוצה בתא נפרד
-
+        var arrTeam = [];
         function makeTeam(ListStudent) { // מקבל את הרשימה של כל הקבוצת
-            for (var i = 0; i < ListStudent.length; i++) {
-                listTeams = {
-                    "Group": ListStudent[i],
-                }
-                GroupStudentsList.push(listTeams);
+            console.log(ListStudent);
+            for (var j = 0; j < ListStudent.length; j++) {
+                var strTeam = ListStudent[j].split(",");
+                arrTeam.push(strTeam);
             }
+            console.log(arrTeam);
+            //for (var i = 0; i < ListStudent.length; i++) {
+            //    listTeams = {
+            //        "Group": ListStudent[i],
+            //    }
+            //    GroupStudentsList.push(listTeams);
+            //}
             //for (var i = 0; i < ListStudent.length; i++) { // לטבלת גרופ פיבדבק
             //    InlayStudentsObJ =
             //        {
