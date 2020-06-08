@@ -212,6 +212,7 @@
     <Content Include="pages\img\student2.png" />
     <Content Include="pages\img\teacher.png" />
     <Content Include="pages\img\Untitled.png" />
+    <Content Include="pages\img\user1.png" />
     <Content Include="pages\img\תלמיד.png" />
     <Content Include="pages\js\manager\ABcsaveProfClass.js" />
     <Content Include="pages\js\manager\createNewTask.js" />

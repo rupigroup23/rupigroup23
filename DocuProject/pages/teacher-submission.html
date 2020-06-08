@@ -54,7 +54,7 @@
 
             Showorientation();//orientation
             getDatelis(); //Bring the details from the local storage
-            getDatelis(); //Bring the details from the local storage
+            getDataT();  //POST - Group_Feedback Table
             showStudentsData(); //POST - Student table
 
              //סנן
@@ -84,7 +84,9 @@
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
+          //  $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+//<img src="img/user1.png" />
         }
         function getAvatarImageError(err) {
             console.log(err)
@@ -132,6 +134,7 @@
         }
         function GETsuccess1(data) {
             details = data;
+            console.log(details);
             numT = TaskObj.Task.Num; 
             for (var i = 0; i < details.length; i++) {
                 if (details[i].IdTask == numT) {
@@ -139,7 +142,14 @@
                     allTeam.push(details[i]);
                 }
                 document.getElementById("teamNum").innerHTML = count;
-            }        
+                console.log(count);
+            }
+
+            //noHaveTeamId
+            if (count == 0 || details.length == 0) {
+                document.getElementById("noHaveTeamId").innerHTML = "הצוותים טרם העלו את הפתרון";
+                document.getElementById("teamNum").innerHTML = count;
+            }
         }
         function GETerror1(err) {
             console.log(err);
@@ -377,22 +387,26 @@
 
         //The time difference
         function diffDays(subm) {
+            //today date
             var today = new Date();
             var day = today.getDate();
-            var month = today.getMonth() + 1;
+            var month = today.getMonth() + 1;    
             var year = today.getFullYear();
-            var subm1 = subm.split('/');
-            var dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
-            var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
-            var diffDays = date2.getDate() - submission.getDate();
-            if (diffDays < 0) {
-                diffDays = "מועד ההגשה עבר";
-                return diffDays;
+            //Task date
+            var subm1 = subm.split('-');
+            var dateVal = `${subm1[1]}/${subm1[2]}/${subm1[0]}` //M-D-Y
+            var submission = new Date(dateVal);
+            //rest of the date
+            var diffDays2 = date2.getDate() - submission.getDate();
+            console.log(diffDays2);
+            if (diffDays2 < 0) {
+                diffDays2 = "מועד ההגשה עבר";
+                return diffDays2;
             }
             else {
-                return diffDays;
+                return diffDays2;
             }
             console.log(diffDays);
         }
@@ -897,6 +911,11 @@
                             <div class="create-text" id="teamNum">
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row text2"  style="color:red;font-size: 45px;text-align: center;">
+                    <div class="col-md-12" id="noHaveTeamId">
+
                     </div>
                 </div>
                 <br /><hr class="mt-0">
