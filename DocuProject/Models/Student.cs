@@ -307,7 +307,7 @@ namespace DocuProject.Models
             return GroupStudent;
         }
 
-        private List<string> makegroupsgeographicaldis(DataTable studentsArr, Admin a)
+        private List<string> makegroupsgeographicaldis(DataTable studentsArr, Admin a) // אלגוריתם מרחקים- רביד
         {
             List<Student> studentPosition = new List<Student>();
             foreach (DataRow dr in studentsArr.Rows)
@@ -351,7 +351,7 @@ namespace DocuProject.Models
                     }
                 }
             }
-            return studentIdByDistance; // רשימה של כל הסטונטים שלומדים בט3 לפי מרחק מבית ספר ממויין
+            return studentIdByDistance; // לפי תז רשימה של כל הסטונטים שלומדים בט3 לפי מרחק מבית ספר ממויין
         }
 
         private double calcCrow(double latitude1, double lon1, double latitude2, double lon2)
@@ -674,13 +674,13 @@ namespace DocuProject.Models
         }
         // עד כאן אלמנט חכם 
 
-        public Student checkPosition(int studentId)
+        public Student checkPosition(int studentId) // בודק אם נל
         {
             DBservices dbs = new DBservices();
             return dbs.checkPosition(studentId);
         }
 
-        public int postPosition(int studentId , Student studentPosition)
+        public int postPosition(int studentId , Student studentPosition) // מכניס 
         {
             DBservices dbs = new DBservices();
             return dbs.postPosition(studentId,studentPosition);

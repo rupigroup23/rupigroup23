@@ -164,7 +164,7 @@
                         confirmButtonColor: '#990099',
                     })
                 }
-
+                
             }
 
             var avgAPI = "../api/Docu/GetSudentsbyGrade/" + newTaskObj.ClassName + "/" + newTaskObj.ClassNum + "/" + newTaskObj.Profession + "/" + AvgGrade;
@@ -181,7 +181,7 @@
             
 
             if (shuffle.checked) // צוותים מעורבים
-            { //
+            { 
                 shuffleGroups(newTaskObj);
             }
 
@@ -319,7 +319,7 @@
 
                 for (var m = 0; m < studentList.length; m++) {
                     if (students[0] == studentList[m].Id_ || students[1] == studentList[m].Id_ || students[2] == studentList[m].Id_) {
-                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false' tabindex='0' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
+                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false' tabindex='0' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target' ondrop='drop_handler(event)' ondragover='dragover_handler(event)' >";
                         tblTeam += studentList[m].FName + " " + studentList[m].LName;
                         tblTeam += "</li>";
                     }
@@ -327,6 +327,7 @@
                 }
                
                 tblTeam += "</ol>";
+                getdata(tblTeam)
             }
          //   btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn'></div>";
         document.getElementById("StudentTable").innerHTML = tblTeam; //+btnSave;
@@ -338,12 +339,13 @@
     
             var tblTeam = $("#selected_columns li").map(function () {
                 return $(this).tblTeam("item");
+                console.log(tblTeam);
             }).get();
             console.log(tblTeam);
-          
+            }   
 
-        }
-
+        
+        
         var GroupStudents = "";
     
         function GETsuccessTask(data) { // אלגוריתם של שיר
