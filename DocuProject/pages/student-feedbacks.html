@@ -170,15 +170,15 @@
             function getDataSuccess(data) {
                 console.log(data)
                 
-                //for (var i = 0; i < data.length; i++) {
-                //    likearr.push(data[i].UserName)
-                //}
-                //for (var i = 0; i < likearr.length; i++) {
-                //    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
-                //        $('#likeBtn').hide();
-                //    }
-                //}
-                //console.log(likearr)
+                for (var i = 0; i < data.length; i++) {
+                    likearr.push(data[i].UserName)
+                }
+                for (var i = 0; i < likearr.length; i++) {
+                    if (likearr[i] == studentObj.FName + ' ' + studentObj.LName) {
+                        $('#likeBtn').hide();
+                    }
+                }
+                console.log(likearr)
 
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
                 let strContents = '';
@@ -280,6 +280,7 @@
                         }
                      
                         console.log(feedbackObj)
+                        localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
                         ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                     }
                 })
@@ -295,6 +296,7 @@
                 }
                 $('#likeBtn').attr('disabled', true);
                 console.log(feedbackObj)
+                localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
                 ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
         }

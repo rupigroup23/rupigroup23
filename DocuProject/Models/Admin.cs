@@ -19,6 +19,8 @@ namespace DocuProject.Models
         string phoneNum;
         string profession;
         string password;
+        double latitude;
+        double longitude;
 
         public Admin() { }
 
@@ -32,6 +34,8 @@ namespace DocuProject.Models
         public string PhoneNum { get => phoneNum; set => phoneNum = value; }
         public string Profession { get => profession; set => profession = value; }
         public string Password { get => password; set => password = value; }
+        public double Latitude { get => latitude; set => latitude = value; }
+        public double Longitude { get => longitude; set => longitude = value; }
 
         public Admin CheckUser(Admin admin)
         {
@@ -77,6 +81,20 @@ namespace DocuProject.Models
             int numAffected = dbs.Post_Admin(admin);
             return numAffected; //מחזיר את מספר השורות
         }
+
+        public Admin checkAdminPosition(int managerId)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.checkAdminPosition(managerId);
+        }
+
+        public int postAdminPosition(int managerId, Admin AdminPosition)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.postAdminPosition(managerId, AdminPosition);
+        }
+
+
 
     }
 

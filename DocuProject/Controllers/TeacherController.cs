@@ -156,6 +156,13 @@ namespace DocuProject.Controllers
             return studentObj.GetStudents();
         }
 
+        [HttpPut] // מחיקת תגובה בדף הפידבקים
+        [Route("api/Teacher/deleteComment/{selectedRow}/{type}")]
+        public void delete(int selectedRow, string type) //מורה 
+        {
+            Feedback F = new Feedback();
+            F.deleteComment(selectedRow, type);
+        }
 
 
     }

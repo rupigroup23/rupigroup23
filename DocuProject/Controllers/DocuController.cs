@@ -381,5 +381,28 @@ namespace DocuProject.Controllers
             return T.deleteTask(class1, numClass, sub, topic);
         }
 
+        [HttpGet] // אלגוריתם מרחקים -רביד
+        [Route("api/Docu/checkPosition/{managerId}")]
+        public Admin checkAdminPosition(int managerId)
+        {
+            Admin a = new Admin();
+            return a.checkAdminPosition(managerId);
+        }
+
+        [HttpPost]// אלגוריתם מרחקים- רביד
+        [Route("api/Docu/postPosition/{managerId}")]
+        public int postAdminPosition (int managerId , [FromBody] Admin AdminPosition)
+        {
+            Admin a = new Admin();
+            return a.postAdminPosition(managerId, AdminPosition);
+        }
+
+        [HttpPost] //אלגוריתם מרחקים- רביד
+        [Route("api/Docu/GetGeographicalDiSGroup/{radioChoose}/{managerId}")]
+        public List<string> GetGeographicalDiSGroup([FromBody]Student studentObj, string radioChoose,int managerId)
+        {
+            return studentObj.GetStudentsAlgoritem(radioChoose, managerId);
+        }
+
     }
 }

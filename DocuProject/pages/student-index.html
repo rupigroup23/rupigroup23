@@ -357,5 +357,44 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
+
+    <script>
+        var studentFromLocalStorage = localStorage.getItem('student');
+        var studentAfterParse = JSON.parse(studentFromLocalStorage);
+
+        ajaxCall('GET', '../api/Student/checkPosition/' + studentAfterParse.Id, "", getpositionsuccess, getPositionError);
+
+        function getpositionsuccess(data) {
+            if (data.Latitude == -1.1 && data.Longitude == -1.1) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+
+                } else {
+                    alert("geolocation is not supported by this browser.");
+                }
+            }
+        }
+
+        function getPositionError() { console.log('there is position already') };
+
+        function showPosition(position) {
+
+            let StudentPosition = {
+                "Latitude": position.coords.latitude,
+                "Longitude": position.coords.longitude,
+            }
+            ajaxCall('POST', '../api/student/postPosition/' + studentAfterParse.Id, JSON.stringify(StudentPosition),postPositionSuccess,postPositionError)
+        }
+        function postPositionSuccess(numeffected) {
+            if (numeffected == 1) {
+                console.log('post position suceess');
+            }
+            else {
+                postPositionError()
+            }
+        }
+
+        function postPositionError() {console.log('post position not success')}
+    </script>
 </body>
 </html>

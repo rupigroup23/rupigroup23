@@ -480,5 +480,44 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <!--<script src="js/custom.js"></script>-->
+    <script>
+        var managerFromLocalStorage = localStorage.getItem('user');
+        var managerAfterParse = JSON.parse(managerFromLocalStorage);
+        console.log(managerAfterParse.Id)
+        ajaxCall('GET', '../api/Docu/checkPosition/' + managerAfterParse.Id, "", getpositionsuccess, getPositionError);
+
+        function getpositionsuccess(data) {
+            if (data.Latitude == -1.1 && data.Longitude == -1.1) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+
+                } else {
+                    alert("geolocation is not supported by this browser.");
+                }
+            }
+        }
+
+        function getPositionError() { console.log('there is position already') };
+
+        function showPosition(position) {
+
+            let managerPosition = {
+                "Latitude": position.coords.latitude,
+                "Longitude": position.coords.longitude,
+            }
+            ajaxCall('POST', '../api/Docu/postPosition/' + managerAfterParse.Id, JSON.stringify(managerPosition), postPositionSuccess, postPositionError)
+        }
+        function postPositionSuccess(numeffected) {
+            if (numeffected == 1) {
+                console.log('post position suceess');
+            }
+            else {
+                postPositionError()
+            }
+        }
+
+        function postPositionError() { console.log('post position not success') }
+    </script>
+
 </body>
 </html>
