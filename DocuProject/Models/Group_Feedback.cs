@@ -16,7 +16,7 @@ namespace DocuProject.Models
         string className; 
         int classNum; 
         string proffesion; 
-        DateTime deadline;
+        string deadline;
         int idTask;
         int idTeacher;
         int groupNum;
@@ -30,7 +30,7 @@ namespace DocuProject.Models
         public string ClassName { get => className; set => className = value; }
         public int ClassNum { get => classNum; set => classNum = value; }
         public string Proffesion { get => proffesion; set => proffesion = value; }
-        public DateTime Deadline { get => deadline; set => deadline = value; }
+        public string Deadline { get => deadline; set => deadline = value; }
         public int IdTask { get => idTask; set => idTask = value; }
         public int IdTeacher { get => idTeacher; set => idTeacher = value; }
         public int GroupNum { get => groupNum; set => groupNum = value; }

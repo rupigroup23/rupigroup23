@@ -48,12 +48,14 @@
         var userEmail1 = '';
         //files
         var taskPath = '';
-        var taskId = 0;
+        var taskId = 0; 
+        var arrTeam = [];
+        var olCounter = 0;
+        var teams = [];
 
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
             myNameObj = JSON.parse(localStorage["myName"]);
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
@@ -66,7 +68,6 @@
 
             //localstorage for the orientation
             local = localStorage.getItem('forNewTask');
-            console.log('local: ', JSON.parse(local));
             newTaskObj = JSON.parse(localStorage["forNewTask"]);
             Showorientation();
 
@@ -75,8 +76,8 @@
             $('#uploadtxtbox').click(UploadTxt);
             getTeacher();
             $('#saveTask').click(saveTask); // שמירת מטלה
-            $('#TeamManagement').click(TeamManagementBTN); // ניהול צוותים
-            //$('#continue').click(saveTeams); //שמירת צוותים
+           
+            
 
             //algorithm
             $('#gender').click(showG);
@@ -173,6 +174,8 @@
         }
         //radiobtn algo
         function makeGroup() {
+            $('#btnAlgo').hide();
+            $('#btnAlgo1').hide();
             shuffle = document.getElementById("shuffle"); //מעורב
             equals = document.getElementById("equals"); // בנים בנות
             random = document.getElementById("random"); // רנדומלי
@@ -201,7 +204,7 @@
             }
 
 
-            algorithm = document.getElementById("btnAlgo"); // הפעלת אלגוריתם
+            var algorithm = document.getElementById("btnAlgo"); // הפעלת אלגוריתם
             var management = document.getElementById("TeamManagement"); // ניהול צוותים
             if (management.style.display === "none") {
                 management.style.display = "block";
@@ -213,13 +216,14 @@
             $('#gender').attr("disabled", true);
             $('#StrongWeak').attr("disabled", true);
             $('#geographicalDiS').attr("disabled", true);
+            $('#btnAlgo').attr("disabled", true);
             Swal.fire({
-                title: 'הציוות הושלם בהצלחה',
-                text: 'לצפייה ועריכה - לחץ על ניהול צוותים',
-                icon: 'warning',
+                icon: 'success',
+                title: 'הציוות בוצע בהצלחה! 😀',
+                confirmButtonText: 'OK',
                 confirmButtonColor: '#990099',
-                confirmButtonText: 'אישור',
             })
+            
         }
 
         function randomGroups(newTaskObj) //צוותים רנדומלים
@@ -276,6 +280,7 @@
             allStudents = studentsData; // מערך של כל הקבוצות של הסטודנטים בתעודות זהות
             console.log(studentsData);
             makeTeam(allStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ 
+            
         }
         function GETerrorSS() { };
 
@@ -286,19 +291,12 @@
             makeTeam(GroupStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ 
         }
 
-
-
-
-
-        var btnSave = "";
+        
         var tblTeam = "";
         var students = "";
         var idTeam;
-        //  var rownum = 1;
-        //var colnum = 1;
 
-
-        function TeamManagementBTN() { 
+        function TeamManagementBTN() {
             algorithm1 = document.getElementById("TeamManagementBTN");
 
             var management1 = document.getElementById("StudentTable");
@@ -306,59 +304,47 @@
                 management1.style.display = "block";
                 TeamManagement1.style.display = "block";
             }
+
             tblTeam = "";
-            newGroups = [];
-           
+            let studentTeamArray = studentList;
+
             for (var i = 0; i < arrTeam.length; i++) {
-                tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns"+i+"' ondragstart='getdata(this)'>";
+
+                tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns" + i + "' ondrop='getdata()'>";
+
                 for (var j = 0; j < arrTeam[i].length; j++) {
                     for (var m = 0; m < studentList.length; m++) {
-                    if (arrTeam[i][j] == studentList[m].Id_) {
-                        tblTeam += "<li draggable='true' data-draggable='item' aria-grabbed='false' tabindex='"+j+"' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
-                        tblTeam += studentList[m].FName + " " + studentList[m].LName;
-                        tblTeam += "</li>";
-                    }  
+                        if (arrTeam[i][j] == studentList[m].Id_) {
+                            tblTeam += "<li id=" + studentTeamArray[m].Id_ + " draggable='true' data-draggable='item' aria-grabbed='false' tabindex='" + j + "' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
+                            tblTeam += studentList[m].FName + " " + studentList[m].LName + " - " + studentTeamArray[m].Id_+".";
+                            tblTeam += "</li>";
+                        }
                     }
                 }
                 tblTeam += "</ol>";
-                getdata(tblTeam)
+                olCounter++;
             }
-                //arrTeam[0][1]
-                //arr[0]= 0: "3333", 1: "1111", 2: "2222"
-                //arr[0][1] = 1111
+            setTimeout(function () {
+                for (let i = 0; i < olCounter; i++) {
+                    teams.push($(`#selected_columns${i}`).text())
+                }
+            }, 500)
 
-            //for (var i = 0; i < GroupStudentsList.length; i++) {
-                //students = GroupStudentsList[i].Group.split(',');
-                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
-               // tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns"+i+"' onchange='stam(this)'>";
-                
-                
-           
-           btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn' ></div>";
-        document.getElementById("StudentTable").innerHTML = tblTeam +btnSave;
 
-        }
-        function stam(team) {
-            console.log(team)
-        }
-
-        function getdata(tblTeam) {
-            console.log(tblTeam.id)
-            //var tblTeam1 = $('#' + tblTeam.id + '"').map(function () {
-            $('#' + tblTeam.id + '"').append('רביד אלבז');
-            console.log($('#' + tblTeam.id + '"').append('רביד אלבז'));
-           // var tblTeam = $("#selected_columns li").map(function () {
-           // var tblTeam = $("#selected_columns"+i +" li").map(function () {
-              //  return $(this).tblTeam("item");
-             //   console.log(tblTeam);
-           //   //  console.log(tblTeam1);
-         //   }).get();
             
-          
+            document.getElementById("StudentTable").innerHTML = tblTeam;
 
         }
 
-        
+        function getdata() {
+            teams=[]
+            setTimeout(function () {
+                for (let i = 0; i < olCounter; i++) {
+                    teams.push($(`#selected_columns${i}`).text())
+                }
+                console.log(teams)
+            }, 500)            
+        }        
         
         var GroupStudents = "";
     
@@ -368,39 +354,12 @@
         }
 
         var GroupStudentsList = []; // נכניס למערך כל קבוצה בתא נפרד
-        var arrTeam = [];
         function makeTeam(ListStudent) { // מקבל את הרשימה של כל הקבוצת
-            console.log(ListStudent);
             for (var j = 0; j < ListStudent.length; j++) {
                 var strTeam = ListStudent[j].split(",");
                 arrTeam.push(strTeam);
             }
             console.log(arrTeam);
-            //for (var i = 0; i < ListStudent.length; i++) {
-            //    listTeams = {
-            //        "Group": ListStudent[i],
-            //    }
-            //    GroupStudentsList.push(listTeams);
-            //}
-            //for (var i = 0; i < ListStudent.length; i++) { // לטבלת גרופ פיבדבק
-            //    InlayStudentsObJ =
-            //        {
-            //            "ClassName": newTaskObj.ClassName,
-            //            "ClassNum": newTaskObj.ClassNum,
-            //            "Profession": newTaskObj.Profession,
-            //            "Deadline": $("#dateInput").val(),
-            //            "TaskNum": newTaskObj.Task.Num + 1,
-            //            "IdTeacher": techerID,
-            //            "groupNum": i + 1,
-            //            "Grade": 0,
-            //            "Feedback": null,
-            //            "Status": 0,
-            //            "Video": null,
-            //            "Comment": null,
-            //            "Group": ListStudent[i],
-            //        }
-            //    GroupStudentsList.push(InlayStudentsObJ);
-            //}
 
 
             objName = // כדי להביא את השמות
@@ -408,7 +367,6 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                 }
-            console.log(objName);
 
             url = "../api/Docu/GetStudents";
             ajaxCall("POST", url, JSON.stringify(objName), GETsuccessS, GETerrorS) // מביא את השמות
@@ -416,6 +374,11 @@
 
         function GETsuccessS(studentsData) {  // מביא את שמות הסטודנטים מטבלת הסטודנט
             studentList = studentsData;
+            TeamManagementBTN();
+            
+
+
+
         }
         function GETerrorS(err) {
             console.log(err);
@@ -423,8 +386,8 @@
         }
 
         var d;
-        function POSTsuccessGroup(data) {
-            d = data;
+        function POSTsuccessGroup() {
+            console.log('success');
         }
         function POSTerrorGroup() {
             alert("ops");
@@ -619,10 +582,38 @@
                     "Profession": newTaskObj.Profession,
                     "TaskNum": newTaskObj.Task.Num + 1,
                     "IdTeacher": techerID,
+                }            
+
+            for (var i = 0; i < teams.length; i++) {
+
+                var teamsIdArray = teams[i].split('.');
+
+                var strId = '';
+
+                for (var j = 0; j < teamsIdArray.length; j++) {
+                    let idGroup = teamsIdArray[j].split('-')
+                    console.log(idGroup)
+                    if (idGroup[1]) {
+                        strId += idGroup[1] + ",";
+                    }
                 }
-            console.log(TaskObj)
+                let date = $("#dateInput").val();
+
+                groupTask = {
+                    "ClassName": newTaskObj.ClassName,
+                    "ClassNum": newTaskObj.ClassNum,
+                    "Proffesion": newTaskObj.Profession,
+                    "Deadline": date.toString() ,
+                    "IdTask": newTaskObj.Task.Num + 1,
+                    "IdTeacher": techerID,
+                    "groupNum": i + 1,
+                    "Group": strId
+                }
+
+                ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
+            }
+            
             ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
-            //   ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(GroupStudentsList), POSTsuccessGroup, POSTerrorGroup);
 
         }
 
@@ -644,7 +635,6 @@
         //get from teacher table
         function getTeacher() {
             var apiProf = "../api/Docu/GetClassSubj/" + newTaskObj.ClassName + "/" + newTaskObj.ClassNum;
-            console.log(apiProf);
             ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
         }
         var techerID = "";
@@ -871,15 +861,15 @@
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
-                                                    <a class="btn btn-outline-primary btn-block btn-lg" href="#">
-                                                        <buttom id="make_Group">
+                                                    <a class="btn btn-outline-primary btn-block btn-lg" id="btnAlgo1" href="#">
+                                                        
                                                             <buttom id="btnAlgo">
                                                                 הפעל אלגוריתם צוות
                                                             </buttom>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="row" id="TeamManagement" style="display:none">
+                                            <div class="row" id="TeamManagement" hidden style="display:none">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>

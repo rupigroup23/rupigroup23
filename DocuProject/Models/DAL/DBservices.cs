@@ -1938,9 +1938,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-
-        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6}, {7},'{8}',{9}, '{11}', '{12}', '{13}', '{14}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Feedback, StudentObj.Grade, StudentObj.Status, StudentObj.Video, StudentObj.Comment, StudentObj.Group, StudentObj.Proffesion); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Class_" + "(ClassName,ClassNum,Deadline,IdTask,IdTeacher,GroupNum,Feedback,Grade, Status_, Video, Comment,Group_students,Proffesion)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6},'{7}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Proffesion, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Group); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO GroupFeedback" + "(ClassName , ClassNum, Proffesion,Deadline , IdTask , IdTeacher,GroupNum,Group_students)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
