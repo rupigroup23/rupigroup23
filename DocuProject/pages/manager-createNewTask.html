@@ -321,19 +321,8 @@
                     }
                 }
                 tblTeam += "</ol>";
-            }
-                //arrTeam[0][1]
-                //arr[0]= 0: "3333", 1: "1111", 2: "2222"
-                //arr[0][1] = 1111
-
-            //for (var i = 0; i < GroupStudentsList.length; i++) {
-                //students = GroupStudentsList[i].Group.split(',');
-                //tblTeam += "<div class='col-xl-2 col-sm-6 mb-3'>";
-               // tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns"+i+"' onchange='stam(this)'>";
-                
-                
-           
-           btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn' ></div>";
+            }              
+         btnSave = "</br><div class='row'><input type='button' id='continue' value='שמירה' class='upload-btn' ></div>";
         document.getElementById("StudentTable").innerHTML = tblTeam +btnSave;
 
         }
@@ -345,7 +334,7 @@
             console.log(tblTeam.id)
             //var tblTeam1 = $('#' + tblTeam.id + '"').map(function () {
             $('#' + tblTeam.id + '"').append('רביד אלבז');
-            console.log($('#' + tblTeam.id + '"').append('רביד אלבז'));
+            //console.log($('#' + tblTeam.id + '"').append('רביד אלבז'));
            // var tblTeam = $("#selected_columns li").map(function () {
            // var tblTeam = $("#selected_columns"+i +" li").map(function () {
               //  return $(this).tblTeam("item");
