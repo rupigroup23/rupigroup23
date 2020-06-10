@@ -95,8 +95,8 @@
             function getVideoErrorCB(err) { console.log(err) }
 
             $('#likeBtn').click(function () { //
-                $('#like').css("color", "green");
-                $('#likeSpan').css("color", "green");
+                $('#like').css("color", "red");
+                $('#likeSpan').css("color", "red");
                 likeBtn = 'true';
 
 
@@ -180,7 +180,7 @@
                 }
                 console.log(likearr)
 
-                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
+                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
@@ -188,7 +188,7 @@
                 for (var i = 0; i < data.length; i++) {
 
                     if (data[i].NameLike == "true" ) {
-                        strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
+                        strLike += '<div class="owl-item cloned active" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
                     }
                
                     if (data[i].Contents != '') {
@@ -198,7 +198,7 @@
                         strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a></div></div></div >';
                     }
                 }
-                strLike += '</div></div>'
+                strLike += '</div></div></div>'
                 $('#divLike').html(strLike);
                 $('#comentDiv').html(strContents);
                 $('#videoDiv').html(strVideo);
@@ -485,7 +485,7 @@
                                 </div>
                                 <span class="testSudent">לייקים ותגובות:</span>
                                 <div class="single-video-info-content box md-3">
-                                    <div id="divLike" class="owl-carousel owl-carousel-category">
+                                    <div id="divLike" class="owl-carousel owl-carousel-category owl-rtl owl-loaded owl-drag">
                                         <!--<div class="item">
                                             <div class="category-item" style="padding: 0px 0px;">
                                                 <a href="#">
@@ -494,6 +494,7 @@
                                                 </a>
                                             </div>
                                         </div>-->
+
                                     </div>
                                 </div>
 
@@ -606,3 +607,4 @@
 
 </body>
 </html>
+
