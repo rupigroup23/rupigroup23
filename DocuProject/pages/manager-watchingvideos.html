@@ -46,9 +46,11 @@
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
 
+            showStudentsData();
             getVideosDB(TaskObj);
             Showorientation();//סרגל השתלשלות
-           
+           //POST -  Student table
+            
 
             //User image
             localAdmin = localStorage.getItem('user');
@@ -84,9 +86,9 @@
 
         });
 
-        function getVideosDB(TaskObj) {
-            
+        function getVideosDB(TaskObj) {       
                 //הבאת סרטונים מהדאטה בייס//
+            //Fixed Datas.
                 date = TaskObj.Task.Date;
                 dateArr = date.split('/');
                 dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
@@ -110,16 +112,15 @@
         str = "";
         videoPath = "";
         function getVideoSuccessCB(listOfVideo) {
-
-            console.log("sucess");
+            //console.log("sucess");
+            console.log(listOfVideo); //Group
             //הכנסה דינמית לDOM
             str += `<div class="row">`;
             for (let i in listOfVideo) {
-                videoPath = `../${listOfVideo[i].Video}` 
-
-//      בשרת    videoPath = `${listOfVideo[i].Video}` 
+                videoPath = `../${listOfVideo[i].Video}`
+                //בשרת videoPath = `${listOfVideo[i].Video}` 
                 students = listOfVideo[i].Group;
-
+                getTeamsNames(students);
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
                                                 <div class="video-card">
@@ -137,7 +138,7 @@
                                                                 חברי הצוות:
                                                             </a> <br />
                                                             <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
-                                                                str += students;
+                                                                str += arrStudentName[i].Names;
                                                                 str += `</a >
                                                         </div>
 
@@ -151,6 +152,10 @@
                 $('#videosDiv').append(str); // מצרף
             }
             str += `</div>`;
+
+         //   arrStudentName.push(strStudentName);
+             
+            localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));    
         }
 
         function getVideoErrorCB(err) { console.log(err) }
@@ -173,9 +178,50 @@
         //Bring the details up
         function getDatelis() {
             date = diffDays(TaskObj.Task.Date);
-            //date = "4/30/2020";
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
+        }
+        //POST -  Student table
+        var studentList = "";   
+        function showStudentsData() {
+            obj2 =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                }
+            console.log(obj2);
+
+            url = "../api/Docu/GetStudents";
+            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }            
+        function GETsuccessS(studentsData) {
+            studentList = studentsData;
+        }
+        function GETerrorS(err) {
+            console.log(err);
+        }
+
+        var strStudentName;
+        var arrStudentName = [];
+        function getTeamsNames(teams) {
+            strStudentName =  "• ";
+            students2 = teams.split(',');
+            console.log(students2);
+            for (var j = 0; j < studentList.length; j++) {                    
+                for (var i = 0; i < students2.length; i++) {
+                    if (students2[i] == studentList[j].Id_) {
+                        strStudentName += studentList[j].FName + " " + studentList[j].LName + " • ";
+                    }
+                }       
+            }
+            //arrStudentName.push(strStudentName);
+            TeamName = {
+                "Names": strStudentName, 
+                "Ids":students2, 
+            }
+            console.log(TeamName);
+            arrStudentName.push(TeamName);
+            console.log(arrStudentName);
         }
     </script>
 </head>
@@ -307,7 +353,7 @@
                 <br /><hr class="mt-0">
                 <div class="video-block section-padding">
                     <div class="row">
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="main-title">
 
                                 <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -319,7 +365,7 @@
                                     <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div id="videosDiv">
                         <!--<div class="col-xl-3 col-sm-6 mb-3">
@@ -358,18 +404,18 @@
                         </div>-->
                     </div>
                 </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center pagination-sm mb-0">
+                <!--<nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center pagination-sm mb-0">-->
                         <!--<li class="page-item disabled">
                             <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
                         </li>-->
-                        <li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
+                        <!--<li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
                         <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
                         <li class="page-item">
                             <a href="teacher-watchingvideos2.html" class="page-link">הבא</a>
-                        </li>
-                    </ul>
-                </nav>
+                        </li>-->
+                    <!--</ul>
+                </nav>-->
             </div>
         </div>
         <!-- /.container-fluid -->
