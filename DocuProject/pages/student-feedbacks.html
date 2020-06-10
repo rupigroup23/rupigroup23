@@ -42,7 +42,8 @@
         console.log(mainVideoPath)
 
         $(document).ready(function () {
-            
+            ssss = localStorage.getItem('names');
+            console.log('names: ', JSON.parse(ssss));
 
             var video = document.getElementById('mainVideo');
             var source = document.createElement('source');

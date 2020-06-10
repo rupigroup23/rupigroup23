@@ -92,13 +92,15 @@
     </style>
     <script>
         existsArr = [];
+
         $(document).ready(function () {
             //loading container
             $("#loading").bind("ajaxStart", function(){
                 $(this).show();
                 }).bind("ajaxStop", function(){
                 $(this).hide();
-            });
+                });
+
             //Menus
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -111,7 +113,8 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
-            getTachears(); //Teacher
+            //GET - Teacher Table
+            getTachears(); 
             //Validation #1
             $('#form1').submit(sub);
 

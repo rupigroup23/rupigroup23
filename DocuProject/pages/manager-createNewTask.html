@@ -73,6 +73,7 @@
             //view the options
             $('#uploadFile').click(UploadFile);
             $('#uploadtxtbox').click(UploadTxt);
+            //GET - Teacher Table
             getTeacher();
             $('#saveTask').click(saveTask); // שמירת מטלה
 
@@ -80,8 +81,7 @@
             $('#gender').click(showG);
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
-            $('#geographicalDiS').click(showG);
-            //avg alg
+            $('#geographicalDiS').click(showG);   
             $('#btnAlgo').click(makeGroup); //play alg
 
             ///upload files
@@ -454,7 +454,8 @@
 
             }
         }
-        //show items
+
+        //show items (file / text)
         function UploadFile() {
             //radio
             radioFile = document.getElementById("uploadFile");
@@ -613,7 +614,6 @@
 
                 ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
             }
-
            }
 
         
@@ -626,19 +626,19 @@
                 confirmButtonColor: '#990099',
             })
             taskId++;
-            //location.reload();
+            location.reload();
         }
         function POSTerror() {
             alert("ops");
         }
 
         //new
-        //get from teacher table
+        //GET - Teacher Table
+        var techerID = "";
         function getTeacher() {
             var apiProf = "../api/Docu/GetClassSubj/" + newTaskObj.ClassName + "/" + newTaskObj.ClassNum;
             ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
         }
-        var techerID = "";
         function GETsuccessCT1(data) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Profession == newTaskObj.Profession) {

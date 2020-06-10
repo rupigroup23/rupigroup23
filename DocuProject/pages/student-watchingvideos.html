@@ -145,11 +145,13 @@
             str += `<div class="row">`;
             for (let i in listOfVideo) {
                 videoPath = `../${listOfVideo[i].Video}`
+
                 //      בשרת    videoPath = `${listOfVideo[i].Video}`
 
                 students = listOfVideo[i].Group;
-                getTeamsNames(students);
+                getTeamsNames(students,videoPath);
                 let str = '';
+                let str1 = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
                                                     <div class="video-card">
                                                         <div class="video-card-image">
@@ -162,12 +164,15 @@
                                                         </div>
                                                         <div class="video-card-body">
                                                             <div class="video-title">
-                                                                <a class="create-text" href="student-feedbacks.html?${videoPath}">
+                                                                <a class="create-text" href="#">
                                                                     חברי הצוות:
                                                                 </a> <br />
-                                                                <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
-                str += arrStudentName[i].Names;;
-                str += `</a >
+                                                                <a id="studentsText" class="statuses-text">`
+                                                                str += arrStudentName[i].Names;
+                                                                str += `</a >
+                                                                    <a id = '${i}' onclick='moveFbPage(this)' href="#" >
+                        
+                                                                    <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
                                                             </div>
 
                                                             <div class="video-view">
@@ -179,8 +184,10 @@
                           </div>`;
                 $('#videosDiv').append(str); // מצרף
             }
+            //<a id="studentsText" onclick='moveFbPage(arrStudentName[i].Names, videoPath)' class="statuses-text" href="student-feedbacks.html?${videoPath}">`
+            //<a id="studentsText" onclick="moveFbPage(${arrStudentName[i].Names, videoPath })" class="statuses-text">`
             str += `</div>`;
-            localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));
+            
         }
         function getVideoErrorCB(err) { console.log(err) }
 
@@ -194,7 +201,7 @@
 
         var strStudentName;
         var arrStudentName = [];
-        function getTeamsNames(teams) {
+        function getTeamsNames(teams,videoPath) {
             strStudentName = "• ";
             students2 = teams.split(',');
             console.log(students2);
@@ -207,11 +214,23 @@
             }
             TeamName = {
                 "Names": strStudentName,
-                "Ids": students2,
+                "vidoes": videoPath,
             }
             console.log(TeamName);
             arrStudentName.push(TeamName);
             console.log(arrStudentName);
+        }
+        function moveFbPage(teamId) {
+            console.log(arrStudentName);
+            console.log(teamId.id);
+            console.log(arrStudentName[teamId.id].vidoes);
+            console.log(arrStudentName[teamId.id].Names);
+            videoPath = arrStudentName[teamId.id].vidoes;
+            
+            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+           window.location.href = `student-feedbacks.html?${videoPath};`
+          
+            //student-feedbacks.html?${videoPath}
         }
     </script>
 </head>
