@@ -359,7 +359,7 @@
     <script src="js/custom.js"></script>
 
     <script>
-        var studentFromLocalStorage = localStorage.getItem('student');
+        var studentFromLocalStorage = localStorage.getItem('student'); 
         var studentAfterParse = JSON.parse(studentFromLocalStorage);
 
         ajaxCall('GET', '../api/Student/checkPosition/' + studentAfterParse.Id, "", getpositionsuccess, getPositionError);
