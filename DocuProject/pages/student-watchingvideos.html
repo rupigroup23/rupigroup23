@@ -35,118 +35,32 @@
         var userEmail1 = '';
 
         $(document).ready(function () {
-            local = localStorage.getItem('thisTask');
-            console.log('local: ', JSON.parse(local));
-            TaskObj = JSON.parse(localStorage["thisTask"]);
-            console.log(TaskObj);
-
-            Showorientation();//סרגל השתלשלות
-            getVideosDB(TaskObj);
-
             //User image
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
-            //menu - Student name
+
+            //User image
             myname = studentObj.FName + " " + studentObj.LName;
             document.getElementById("myNameN1").innerHTML = myname;
             document.getElementById("myNameN2").innerHTML = myname;
+
+            //Bring data from the local storage.
+            local = localStorage.getItem('thisTask');
+            console.log('local: ', JSON.parse(local));
+            TaskObj = JSON.parse(localStorage["thisTask"]);
+            showStudentsData(); //GET -  Student table
+
+            Showorientation();//orientation
+
+            getVideosDB(TaskObj); //GET - Group_Feedback Table
+
+            
             //
 
         });
 
-        function showDetalis(studentObj) {
-            Id = studentObj.Id;
-            var url = "../api/Student/GetDetailsS/" + Id;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-        function funcsuccess(data) {
-            obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-        }
-        urlVideo = "";
-        function getAvatarImageSuccess(imagePath1) {
-            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-
-        }
-
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
-        function funcerror() { }
-        //END- User image
-        str = "";
-        videoPath = "";
-
-        
-        function getVideosDB(TaskObj) {
-            date = TaskObj.Task.Date;
-            dateArr = date.split('/');
-            dateVal = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
-
-            taskObject = { 
-                "ClassName": TaskObj.ClassName,
-                "ClassNum": TaskObj.ClassNum,
-                "Profession": TaskObj.Profession,
-                "TaskNum": TaskObj.Task.Num
-            }
-            
-            urlVideo = "../api/student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
-            console.log(urlVideo)
-            ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
-            //הבאת סרטונים מהדאטה בייס//
-        }
-
-        function getVideoSuccessCB(listOfVideo) {
-            //הכנסה דינמית לDOM
-            console.log(listOfVideo)
-            str += `<div class="row">`;
-            for (let i in listOfVideo) {
-                videoPath = `../${listOfVideo[i].Video}` 
-//      בשרת    videoPath = `${listOfVideo[i].Video}` 
-
-                students = listOfVideo[i].Group;
-
-                let str = '';
-                str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                                <div class="video-card">
-                                                    <div class="video-card-image">
-                                                        <video width="200" height="150" controls>
-                                                            <source src='${videoPath}' type="video/avi">
-                                                            <source src='${videoPath}' type="video/mp4">
-                                                            Sorry, your browser doesn't support embedded videos.
-                                                        </video>
-                                                        <!--<div class="time">3:50</div>-->
-                                                    </div>
-                                                    <div class="video-card-body">
-                                                        <div class="video-title">
-                                                            <a class="create-text" href="student-feedbacks.html?${videoPath}">
-                                                                חברי הצוות:
-                                                            </a> <br />
-                                                            <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
-                                                                str += students;
-                                                                str += `</a >
-                                                        </div>
-
-                                                        <div class="video-view">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                      </div>`;
-                $('#videosDiv').append(str); // מצרף
-            }
-            str += `</div>`;
-        }
-        function getVideoErrorCB(err) { console.log(err) }
-
-
-        //סרגל השתלשלות
+        //orientation
         let orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
@@ -159,6 +73,117 @@
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
         }
 
+        //POST -  Student table
+        var studentList = "";
+        function showStudentsData() {
+            obj2 =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                }
+            console.log(obj2);
+
+            url = "../api/Student/GetStudents";
+           
+            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }
+        function GETsuccessS(studentsData) {
+            studentList = studentsData;
+        }
+        function GETerrorS(err) {
+            console.log(err);
+        }
+
+        //User image
+        urlVideo = "";
+        function showDetalis(studentObj) {
+            Id = studentObj.Id;
+            var url = "../api/Student/GetDetailsS/" + Id;
+            ajaxCall("GET", url, "", funcsuccess, funcerror);
+        }
+        function funcsuccess(data) {
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
+        function getAvatarImageSuccess(imagePath1) {
+            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
+        }
+        function getAvatarImageError(err) {
+            console.log(err)
+        }
+        function funcerror() { }
+
+        //GET - Group_Feedback Table
+        str = "";
+        videoPath = "";
+        function getVideosDB(TaskObj) {
+            date = TaskObj.Task.Date;
+            dateArr = date.split('/');
+            dateVal = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
+
+            taskObject = {
+                "ClassName": TaskObj.ClassName,
+                "ClassNum": TaskObj.ClassNum,
+                "Profession": TaskObj.Profession,
+                "TaskNum": TaskObj.Task.Num
+            }
+
+            urlVideo = "../api/student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
+            console.log(urlVideo)
+            ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
+            //הבאת סרטונים מהדאטה בייס//
+        }
+        // הצגת סרטונים על המסך
+        function getVideoSuccessCB(listOfVideo) {
+            //הכנסה דינמית לDOM
+            console.log(listOfVideo)
+            str += `<div class="row">`;
+            for (let i in listOfVideo) {
+                videoPath = `../${listOfVideo[i].Video}`
+                //      בשרת    videoPath = `${listOfVideo[i].Video}`
+
+                students = listOfVideo[i].Group;
+                getTeamsNames(students);
+                let str = '';
+                str += `<div class="col-xl-3 col-sm-6 mb-3">
+                                                    <div class="video-card">
+                                                        <div class="video-card-image">
+                                                            <video width="200" height="150" controls>
+                                                                <source src='${videoPath}' type="video/avi">
+                                                                <source src='${videoPath}' type="video/mp4">
+                                                                Sorry, your browser doesn't support embedded videos.
+                                                            </video>
+                                                            <!--<div class="time">3:50</div>-->
+                                                        </div>
+                                                        <div class="video-card-body">
+                                                            <div class="video-title">
+                                                                <a class="create-text" href="student-feedbacks.html?${videoPath}">
+                                                                    חברי הצוות:
+                                                                </a> <br />
+                                                                <a id="studentsText" class="statuses-text" href="student-feedbacks.html?${videoPath}">`
+                str += arrStudentName[i].Names;;
+                str += `</a >
+                                                            </div>
+
+                                                            <div class="video-view">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                          </div>`;
+                $('#videosDiv').append(str); // מצרף
+            }
+            str += `</div>`;
+            localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));
+        }
+        function getVideoErrorCB(err) { console.log(err) }
+
         //Bring the details up
         function getDatelis() {
             //date = diffDays(TaskObj.Task.Date);
@@ -166,9 +191,30 @@
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }
+
+        var strStudentName;
+        var arrStudentName = [];
+        function getTeamsNames(teams) {
+            strStudentName = "• ";
+            students2 = teams.split(',');
+            console.log(students2);
+            for (var j = 0; j < studentList.length; j++) {
+                for (var i = 0; i < students2.length; i++) {
+                    if (students2[i] == studentList[j].Id_) {
+                        strStudentName += studentList[j].FName + " " + studentList[j].LName + " • ";
+                    }
+                }
+            }
+            TeamName = {
+                "Names": strStudentName,
+                "Ids": students2,
+            }
+            console.log(TeamName);
+            arrStudentName.push(TeamName);
+            console.log(arrStudentName);
+        }
     </script>
-
-
+</head>
     <body id="page-top">
         <!-- top bar -->
         <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">

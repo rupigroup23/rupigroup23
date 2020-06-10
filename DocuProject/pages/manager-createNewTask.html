@@ -173,6 +173,7 @@
         function makeGroup() {
             $('#btnAlgo').hide();
             $('#btnAlgo1').hide();
+
             shuffle = document.getElementById("shuffle"); //מעורב
             equals = document.getElementById("equals"); // בנים בנות
             random = document.getElementById("random"); // רנדומלי
@@ -213,6 +214,9 @@
             $('#gender').attr("disabled", true);
             $('#StrongWeak').attr("disabled", true);
             $('#geographicalDiS').attr("disabled", true);
+            $('#shuffle').attr("disabled", true);
+            $('#equals').attr("disabled", true);
+            $('#avg').attr("disabled", true);
             $('#btnAlgo').attr("disabled", true);
             Swal.fire({
                 icon: 'success',

@@ -42,21 +42,24 @@
             document.getElementById("myNameN1").innerHTML = myNameObj.name;
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
+            //Bring data from the local storage.
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
+            showStudentsData(); //GET -  Student table
+            
+            Showorientation();//orientation
 
-            showStudentsData();
-            getVideosDB(TaskObj);
-            Showorientation();//סרגל השתלשלות
+            getVideosDB(TaskObj); //GET - Group_Feedback Table
+            
            //POST -  Student table
             
 
             //User image
+            urlVideo = "";
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -67,9 +70,6 @@
                 //userEmail1 = obj[0].Email;
                // ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
-
-            urlVideo = "";
-
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -77,15 +77,50 @@
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
             function funcerror() { }
-            ////END- User image
-
         });
 
+        //orientation
+        let orientationSTR = "";
+        function Showorientation() {
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
+            document.getElementById("orientation").innerHTML = orientationSTR;
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+        }
+
+        //GET -  Student table
+        var studentList = "";   
+        function showStudentsData() {
+            obj2 =
+                {
+                    "ClassName": TaskObj.ClassName,
+                    "ClassNum": TaskObj.ClassNum,
+                }
+            console.log(obj2);
+
+            url = "../api/Docu/GetStudents";
+            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }            
+        function GETsuccessS(studentsData) {
+            studentList = studentsData;
+        }
+        function GETerrorS(err) {
+            console.log(err);
+        }
+
+
+        //GET - Group_Feedback Table
+        str = "";
+        videoPath = "";
         function getVideosDB(TaskObj) {       
                 //הבאת סרטונים מהדאטה בייס//
             //Fixed Datas.
@@ -105,12 +140,7 @@
             ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
                 //הבאת סרטונים מהדאטה בייס//
         }
-
-
-
         // הצגת סרטונים על המסך 
-        str = "";
-        videoPath = "";
         function getVideoSuccessCB(listOfVideo) {
             //console.log("sucess");
             console.log(listOfVideo); //Group
@@ -152,28 +182,13 @@
                 $('#videosDiv').append(str); // מצרף
             }
             str += `</div>`;
-
-         //   arrStudentName.push(strStudentName);
              
             localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));    
         }
-
         function getVideoErrorCB(err) { console.log(err) }
 
 
-        //סרגל השתלשלות
-        let orientationSTR = "";
-        function Showorientation() {
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
-            document.getElementById("orientation").innerHTML = orientationSTR;
-            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-        }
+        
 
         //Bring the details up
         function getDatelis() {
@@ -181,25 +196,7 @@
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }
-        //POST -  Student table
-        var studentList = "";   
-        function showStudentsData() {
-            obj2 =
-                {
-                    "ClassName": TaskObj.ClassName,
-                    "ClassNum": TaskObj.ClassNum,
-                }
-            console.log(obj2);
-
-            url = "../api/Docu/GetStudents";
-            ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
-        }            
-        function GETsuccessS(studentsData) {
-            studentList = studentsData;
-        }
-        function GETerrorS(err) {
-            console.log(err);
-        }
+     
 
         var strStudentName;
         var arrStudentName = [];
