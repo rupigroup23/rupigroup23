@@ -360,10 +360,12 @@
 
     <script>
         var studentFromLocalStorage = localStorage.getItem('student'); 
+        
         var studentAfterParse = JSON.parse(studentFromLocalStorage);
 
         ajaxCall('GET', '../api/Student/checkPosition/' + studentAfterParse.Id, "", getpositionsuccess, getPositionError);
 
+        localStorage.setItem('studentID', JSON.stringify(studentAfterParse.Id));
         function getpositionsuccess(data) {
             if (data.Latitude == -1.1 && data.Longitude == -1.1) {
                 if (navigator.geolocation) {

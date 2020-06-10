@@ -155,7 +155,7 @@
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
                                                 <div class="video-card">
                                                     <div class="video-card-image">
-                                                        <video width="200" height="150" controls>
+                                                        <video class="img-videoWatch" controls>
                                                             <source src='${videoPath}' type="video/avi">
                                                             <source src='${videoPath}' type="video/mp4">
                                                             Sorry, your browser doesn't support embedded videos.
@@ -164,13 +164,17 @@
                                                     </div>
                                                     <div class="video-card-body">
                                                         <div class="video-title">
-                                                            <a class="create-text" href="manager-feedbacks.html?${videoPath}">
+                                                            <a class="create-text" style="color: #000;">
                                                                 חברי הצוות:
                                                             </a> <br />
-                                                            <a id="studentsText" class="statuses-text" href="manager-feedbacks.html?${videoPath}">`
+                                                            <a id="studentsText" class="statuses-text"  style="color: #000;">`
                                                                 str += arrStudentName[i].Names;
-                                                                str += `</a >
-                                                        </div>
+                                                                str += `</a ><div class="video-page text-success">
+                                                                    <a id = '${i}' onclick='moveFbPage(this)' href="#" >
+                        
+                                                                    <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
+
+                                                        </div></div>    
 
                                                         <div class="video-view">
 
@@ -183,10 +187,10 @@
             }
             str += `</div>`;
              
-            localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));    
+           // localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));    
         }
         function getVideoErrorCB(err) { console.log(err) }
-
+        //<video  width="200" height="150" controls>
 
         
 
@@ -219,6 +223,19 @@
             console.log(TeamName);
             arrStudentName.push(TeamName);
             console.log(arrStudentName);
+        }
+
+        function moveFbPage(teamId) {
+            console.log(arrStudentName);
+            console.log(teamId.id);
+            console.log(arrStudentName[teamId.id].vidoes);
+            console.log(arrStudentName[teamId.id].Names);
+            videoPath = arrStudentName[teamId.id].vidoes;
+            
+            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+           window.location.href = `student-feedbacks.html?${videoPath};`
+          
+            //student-feedbacks.html?${videoPath}
         }
     </script>
 </head>
