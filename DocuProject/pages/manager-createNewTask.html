@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -48,7 +47,7 @@
         var userEmail1 = '';
         //files
         var taskPath = '';
-        var taskId = 0; 
+        var taskId = 0;
         var arrTeam = [];
         var olCounter = 0;
         var teams = [];
@@ -76,8 +75,6 @@
             $('#uploadtxtbox').click(UploadTxt);
             getTeacher();
             $('#saveTask').click(saveTask); // שמירת מטלה
-           
-            
 
             //algorithm
             $('#gender').click(showG);
@@ -181,7 +178,7 @@
             random = document.getElementById("random"); // רנדומלי
             StrongWeak = document.getElementById("StrongWeak"); // חזקים חלשים
             geographicalDiS = document.getElementById("geographicalDiS"); // מרחק גאוגרפי
-            
+
 
             if (shuffle.checked) // צוותים מעורבים
             { 
@@ -223,7 +220,6 @@
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#990099',
             })
-            
         }
 
         function randomGroups(newTaskObj) //צוותים רנדומלים
@@ -270,17 +266,16 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum
                 }
-            url = "../api/Docu/GetGeographicalDiSGroup/" + radioChoose+"/"+ objAdmin.Id;
+            url = "../api/Docu/GetGeographicalDiSGroup/" + radioChoose + "/" + objAdmin.Id;
             ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
         }
 
 
-        allStudents = []; // אלגוריתמים של רביד ונוי 
+        allStudents = []; // אלגוריתמים של רביד ונוי
         function GETsuccessSS(studentsData) {
             allStudents = studentsData; // מערך של כל הקבוצות של הסטודנטים בתעודות זהות
             console.log(studentsData);
-            makeTeam(allStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ 
-            
+            makeTeam(allStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ    
         }
         function GETerrorSS() { };
 
@@ -288,10 +283,9 @@
         var GroupStudents = "";
         function GETsuccessTask(data) { // אלגוריתם של שיר
             GroupStudents = data; // מקבל מערך של הקבוצות של הסטודנטים בתעודות זהות
-            makeTeam(GroupStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ 
+            makeTeam(GroupStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ
         }
 
-        
         var tblTeam = "";
         var students = "";
         var idTeam;
@@ -316,7 +310,7 @@
                     for (var m = 0; m < studentList.length; m++) {
                         if (arrTeam[i][j] == studentList[m].Id_) {
                             tblTeam += "<li id=" + studentTeamArray[m].Id_ + " draggable='true' data-draggable='item' aria-grabbed='false' tabindex='" + j + "' data-draggable='target' aria-dropeffect ='none' data-draggable= 'target'>";
-                            tblTeam += studentList[m].FName + " " + studentList[m].LName + " - " + studentTeamArray[m].Id_+".";
+                            tblTeam += studentList[m].FName + " " + studentList[m].LName + " - " + studentTeamArray[m].Id_ + ".";
                             tblTeam += "</li>";
                         }
                     }
@@ -329,11 +323,17 @@
                     teams.push($(`#selected_columns${i}`).text())
                 }
             }, 500)
-
-
-            
             document.getElementById("StudentTable").innerHTML = tblTeam;
+        }
 
+        function getdata() {
+            teams = []
+            setTimeout(function () {
+                for (let i = 0; i < olCounter; i++) {
+                    teams.push($(`#selected_columns${i}`).text())
+                }
+                console.log(teams)
+            }, 500)
         }
 
         function getdata() {
@@ -347,10 +347,10 @@
         }        
         
         var GroupStudents = "";
-    
+
         function GETsuccessTask(data) { // אלגוריתם של שיר
             GroupStudents = data; // מקבל מערך של הקבוצות של הסטודנטים בתעודות זהות
-            makeTeam(GroupStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ 
+            makeTeam(GroupStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ
         }
 
         var GroupStudentsList = []; // נכניס למערך כל קבוצה בתא נפרד
@@ -375,10 +375,6 @@
         function GETsuccessS(studentsData) {  // מביא את שמות הסטודנטים מטבלת הסטודנט
             studentList = studentsData;
             TeamManagementBTN();
-            
-
-
-
         }
         function GETerrorS(err) {
             console.log(err);
@@ -597,6 +593,7 @@
                         strId += idGroup[1] + ",";
                     }
                 }
+
                 let date = $("#dateInput").val();
 
                 groupTask = {
@@ -612,10 +609,10 @@
 
                 ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
             }
-            
-            ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
 
-        }
+           }
+
+        
 
         function POSTsuccess(data) {
             Swal.fire({
@@ -651,8 +648,6 @@
 
     </script>
     <!-- partial -->
-
-
 
 
 </head>
@@ -862,7 +857,6 @@
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" id="btnAlgo1" href="#">
-                                                        
                                                             <buttom id="btnAlgo">
                                                                 הפעל אלגוריתם צוות
                                                             </buttom>
@@ -882,10 +876,10 @@
                                     </div>
 
                                     <div class="row" id="TeamManagement1" style="display:none">
-        
+
                                         <div id="StudentTable" style="display:none">
 
-    </div>
+                                        </div>
                                     </div>
                                 </div>
 

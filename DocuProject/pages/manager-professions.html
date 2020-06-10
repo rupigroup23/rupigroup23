@@ -38,12 +38,119 @@
     <!-- js links -->
     <script src="js/showItem.js"></script>
     <script src="js/myName.js"></script>
+    <style>
+        .sk-chase {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            animation: sk-chase 2.5s infinite linear both;
+        }
+
+        .sk-chase-dot {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation: sk-chase-dot 2.0s infinite ease-in-out both;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .sk-chase-dot:before {
+                content: '';
+                display: block;
+                width: 25%;
+                height: 25%;
+                background-color: #990099;
+                border-radius: 100%;
+                animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
+            }
+
+            .sk-chase-dot:nth-child(1) {
+                animation-delay: -1.1s;
+            }
+
+            .sk-chase-dot:nth-child(2) {
+                animation-delay: -1.0s;
+            }
+
+            .sk-chase-dot:nth-child(3) {
+                animation-delay: -0.9s;
+            }
+
+            .sk-chase-dot:nth-child(4) {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5) {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6) {
+                animation-delay: -0.6s;
+            }
+
+            .sk-chase-dot:nth-child(1):before {
+                animation-delay: -1.1s;
+            }
+
+            .sk-chase-dot:nth-child(2):before {
+                animation-delay: -1.0s;
+            }
+
+            .sk-chase-dot:nth-child(3):before {
+                animation-delay: -0.9s;
+            }
+
+            .sk-chase-dot:nth-child(4):before {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5):before {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6):before {
+                animation-delay: -0.6s;
+            }
+
+        @keyframes sk-chase {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot {
+            80%, 100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot-before {
+            50% {
+                transform: scale(0.4);
+            }
+
+            100%, 0% {
+                transform: scale(1.0);
+            }
+        }
+    </style>
     <script>
 
         var imagePath1 = '';
         var userEmail1 = '';
 
         $(document).ready(function () {
+            //loading container
+            $("#loading").bind("ajaxStart", function () {
+                $(this).show();
+            }).bind("ajaxStop", function () {
+                $(this).hide();
+            });
+             //Teacher Table -GET
+            getTachears();
             //Menus - name
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -58,17 +165,16 @@
             classObj = JSON.parse(localStorage["studentObj"]);
 
             //GETS
-            //Teacher Table
-            getTachears(); 
+           
             //Profession Table
-            getSubjcts(); 
-            
+            getSubjcts();
+
             //ClassSubjects Table
             readClassSUbjFromDB();
 
             //validation
-             CheckHebDate();
-            
+            CheckHebDate();
+
             //orientation
             Showorientation();
 
@@ -90,7 +196,7 @@
                     X.style.display = "none";
                 }
             });
-            
+
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
@@ -124,7 +230,17 @@
         var strP;
         var arrP = [];
         function getSubjcts() {
-            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+             $.ajax({
+                type: "GET",
+                url: "../api/Docu/GetP",
+                data: "",
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: GETsuccessCB,
+                error: GETerrorCB,
+            });
+            return false;
+        //    ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);
@@ -133,11 +249,11 @@
             for (var i = 0; i < listP.length; i++) {
                 for (var j = 0; j < listT.length; j++) {
                     if (listP[i].Name == listT[j].Profession) {
-                        arrP.push(listT[j].Profession);                       
+                        arrP.push(listT[j].Profession);
                     }
-                }    
+                }
             }
-             strP=arrP.filter((item, index) => {
+            strP = arrP.filter((item, index) => {
                 return arrP.indexOf(item) === index
             });
             //insert options to select
@@ -147,7 +263,7 @@
                 option.text = strP[t];
                 select.add(option);
             }
-            
+
         }
         function GETerrorCB(err) {
             console.log(err);
@@ -156,12 +272,33 @@
         //GET - Teacher Table
         arrCoach = [];
         function getTachears() {
-            ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+            $.ajax({
+                type: "GET",
+                url: "../api/Docu/GetT",
+                data: "",
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: GETsuccessT,
+                error: GETerrorT,
+            });
+            return false;
+
+            //   ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
         }
+
+        function loadStart() {
+            $('#loading').show();
+            $('#container1').hide();
+        }
+        function loadStop() {
+            $('#loading').hide();
+            $('#container1').show();
+        }
+
         function GETsuccessT(data) {
             console.log(data);
             listT = data;
-            strT= removeDuplicates(listT);
+            strT = removeDuplicates(listT);
             //insert teachers options to select
             for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("coachName");
@@ -180,16 +317,25 @@
         }
         function GETerrorT(err) { console.log(err) }
         function removeDuplicates(array) {
-          let uniq = {};
-           return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
+            let uniq = {};
+            return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
         }
         //GET - ClassSubjects Table
         ProfARR = [];
         ProgSTR = "";
-        function readClassSUbjFromDB()
-        {
+        function readClassSUbjFromDB() {
             var apiProf = "../api/Docu/GetClassSubj/" + classObj.ClassName + "/" + classObj.ClassNum;
-            ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
+            $.ajax({
+                type: "GET",
+                url: apiProf,
+                data: "",
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: GETsuccessCB2,
+                error: GETerrorCB2,
+            });
+            return false;
+           // ajaxCall("GET", apiProf, "", GETsuccessCB2, GETerrorCB2);
         }
         function GETsuccessCB2(data) {
             listCS = data;
@@ -215,14 +361,14 @@
             console.log(err);
         }
         //save the proff in the local storage
-        function savelocal(thisprof) { 
-            id = thisprof.id; 
+        function savelocal(thisprof) {
+            id = thisprof.id;
             profession = ProfARR[id];
 
             thisProfObj = {
-                "ClassName": listCS[0].Name, 
+                "ClassName": listCS[0].Name,
                 "ClassNum": listCS[0].Number,
-                "Profession": profession, 
+                "Profession": profession,
             }
             console.log(thisProfObj);
             localStorage.setItem('thisProfObj', JSON.stringify(thisProfObj));
@@ -255,12 +401,11 @@
         var coach = "";
         var teacher_Id = "";
         ClassSubArr = [];
-        function addSubj() 
-        {
+        function addSubj() {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
-           //validation - empty values
-           if (profession == "1" || coach == "1" ) { // if there is no choice
+            //validation - empty values
+            if (profession == "1" || coach == "1") { // if there is no choice
                 Swal.fire({
                     icon: 'error',
                     title: 'שגיאה...',
@@ -274,7 +419,7 @@
                     var X = $("#txtbox").val();
                     checkNewProff(X);
                     profession = X;
-               }
+                }
                 checkSubCoach();
             }
         }
@@ -283,7 +428,7 @@
             name = classObj.ClassName;
             num = classObj.ClassNum;
 
-           // getClassSUbjFromDB(name, num); 
+            // getClassSUbjFromDB(name, num);
 
             //validations
             //check if the prof+teacher added before
@@ -299,7 +444,7 @@
                     return;
                 }
             }
-     
+
             for (var i = 0; i < arrCoach.length; i++) {
                 if (coach == arrCoach[i].name) { //take the specific teacher id
                     teacher_Id = arrCoach[i].id;
@@ -317,7 +462,7 @@
                     })
                     return;
                 }
-            }           
+            }
             Swal.fire({
                 icon: 'success',
                 title: ' ההוספה נשמרה בהצלחה 😀',
@@ -396,17 +541,17 @@
                 title: 'המקצועות נוספו לכיתה 😀',
             })
             setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
-        }   
+        }
         function POST1error(err) { console.log(err) };
         function reload() {
-          document.location.reload();
+            document.location.reload();
         }
 
         function getCoachs(prof) {
             var selectCoach = document.getElementById("coachName");
-               while (selectCoach.options.length > 0) {
+            while (selectCoach.options.length > 0) {
                 selectCoach.remove(0);
-                }
+            }
             for (var i = 0; i < listT.length; i++) {
                 if (prof == listT[i].Profession) {
                     var option = document.createElement("option");
@@ -436,7 +581,7 @@
                 strNew += "</div></div></div>";
 
             }
-                            document.getElementById("professions").innerHTML = strNew;
+            document.getElementById("professions").innerHTML = strNew;
         }
     </script>
 </head>
@@ -473,7 +618,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user1.png">
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -552,7 +697,7 @@
             <div class="container-fluid pb-0">
                 <div class="top-mobile-search">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <form class="mobile-search">
                                 <div class="input-group">
                                     <input type="text" placeholder="Search for..." class="form-control">
@@ -564,8 +709,16 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="video-block section-padding">
+                <div class="sk-chase" id="loading">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                </div>
+                <!--<div class="video-block section-padding">-->
+                <div class="video-block section-padding" id="container1" style='display:none'>
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 mb-3">
                             <a class="btn btn-outline-primary btn-block btn-lg" href="manager-Student-ClassroomManagement.html">

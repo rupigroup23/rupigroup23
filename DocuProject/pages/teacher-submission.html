@@ -84,9 +84,7 @@
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-          //  $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-//<img src="img/user1.png" />
         }
         function getAvatarImageError(err) {
             console.log(err)
@@ -801,7 +799,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user1.png">
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
