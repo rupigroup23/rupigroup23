@@ -33,7 +33,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
+    <style>
+        .sk-chase {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            animation: sk-chase 2.5s infinite linear both;
+        }
 
+        .sk-chase-dot {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation: sk-chase-dot 2.0s infinite ease-in-out both;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .sk-chase-dot:before {
+                content: '';
+                display: block;
+                width: 25%;
+                height: 25%;
+                background-color: #990099;
+                border-radius: 100%;
+                animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
+            }
+
+            .sk-chase-dot:nth-child(1) {
+                animation-delay: -1.1s;
+            }
+
+            .sk-chase-dot:nth-child(2) {
+                animation-delay: -1.0s;
+            }
+
+            .sk-chase-dot:nth-child(3) {
+                animation-delay: -0.9s;
+            }
+
+            .sk-chase-dot:nth-child(4) {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5) {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6) {
+                animation-delay: -0.6s;
+            }
+
+            .sk-chase-dot:nth-child(1):before {
+                animation-delay: -1.1s;
+            }
+
+            .sk-chase-dot:nth-child(2):before {
+                animation-delay: -1.0s;
+            }
+
+            .sk-chase-dot:nth-child(3):before {
+                animation-delay: -0.9s;
+            }
+
+            .sk-chase-dot:nth-child(4):before {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5):before {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6):before {
+                animation-delay: -0.6s;
+            }
+
+        @keyframes sk-chase {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot {
+            80%, 100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot-before {
+            50% {
+                transform: scale(0.4);
+            }
+
+            100%, 0% {
+                transform: scale(1.0);
+            }
+        }
+    </style>
     <script>
         //user img
         var imagePath1 = '';
@@ -47,25 +145,48 @@
         var topic = "";
 
         $(document).ready(function () {
+            //LOCAL STORGE:
+
+            //loading container
+            $("#loading").bind("ajaxStart", function () {
+                $(this).show();
+            }).bind("ajaxStop", function () {
+                $(this).hide();
+            });
+
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
             TaskObj = JSON.parse(local);
 
+            //User image
+            localUSER = localStorage.getItem('student');
+            studentObj = JSON.parse(localUSER);
+            showDetalis(studentObj);
+
+            //menu - Student name
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
+
+            // Saving values ​​in parameters
             className = TaskObj.ClassName;
             classNum = TaskObj.ClassNum;
             subj = TaskObj.Profession;
             topic = TaskObj.Task.Topic;
 
+            //orientation
             Showorientation();
-            //Bring the details from student table
+
+            //GET  - Student Table
             showStudentsData();
+
             //Bring the details up
-            getDatelis(); 
+            getDatelis();
             getDataT();
 
-
+            //Bring the tast of the specif team
             ajaxCall('get', '../api/Student/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
-
+    
             function Success(data) {
                 taskPath = data; //data of the task
                 strcheck = taskPath.search("http://proj.ruppin.ac.il");
@@ -89,22 +210,23 @@
             $('#downloadFile').click(function () {
                 window.location.replace(taskPath);
             });
-
-            //User image
-            localUSER = localStorage.getItem('student');
-            studentObj = JSON.parse(localUSER);
-            showDetalis(studentObj);
-            //menu - Student name
-            myname = studentObj.FName + " " + studentObj.LName;
-            document.getElementById("myNameN1").innerHTML = myname;
-            document.getElementById("myNameN2").innerHTML = myname;
         });
 
         //User image
         function showDetalis(objTeacher) {
             Id = studentObj.Id;
             var url = "../api/Student/GetDetailsS/" + Id;
-            ajaxCall("GET", url, "", funcsuccess, funcerror);
+            $.ajax({
+                 type: "POST",
+                 url: url,
+                 data: "",
+                 beforeSend: loadStart,
+                 complete: loadStop,
+                 success: funcsuccess,
+                 error: funcerror,
+                }); 
+                return false;
+          //  ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
         function funcsuccess(data) {
             obj = data;
@@ -120,7 +242,16 @@
         function getAvatarImageError(err) {
             console.log(err)
         }
-        //
+
+        //loading container
+         function loadStart() {
+                    $('#loading').show();
+                     $('#afterLoading').hide();
+                }
+        function loadStop() {
+            $('#loading').hide();
+            $('#afterLoading').show();
+        }
 
         function Showtxt() {
             txt = document.getElementById("showtxtbox");
@@ -129,7 +260,6 @@
             } else {
                 txt.style.display = "none";
             }
-            //valuTxt
             document.getElementById("valuTxt").innerHTML = taskPath;
         }
         function showUpl() {
@@ -141,7 +271,7 @@
             }
         }
 
-        //סרגל השתלשלות
+        //orientation
         let orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + className + "' " + classNum + "</a></li>";
@@ -154,20 +284,53 @@
 
         var teamnum = "";
         var studentID;
-        //Bring the details up
+        //Bring the details (data task (main page) and teacher name.
         function getDatelis() {
+            //bring Student Id
             studentID1 = localStorage.getItem('studentID');
-            studentID =JSON.parse(studentID1);
-
-
+            studentID = JSON.parse(studentID1);
+            //print: num of the task
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-           // getDataT(); //bring data  
-            getTask();
-            getTeacher();
-                     
+
+            getTask(); //print: topic, date, restDate
+            getTeacher();//print: teacher name
+
         }
 
+        //GET - Task Table (again..)
+        var task1 = "";
+        var diffDays1;
+        function getTask() {
+            var apiTask = "../api/Student/GetTasks/" + className + "/" + classNum + "/" + subj;
+            console.log(apiTask);
+            ajaxCall("GET", apiTask, "", GETsuccessTask, GETerrorTask);
+        }
+        //print: topic, date, restDate
+        function GETsuccessTask(T) {
+            task1 = T;
+            for (var i = 0; i < task1.length; i++) {
+                if (task1[i].TaskNum == TaskObj.Task.Num) {
+                    document.getElementById("topic").innerHTML = task1[i].Topic;
+                    date = task1[i].Deadline;
+                    var subm1 = date.split('-');
+                    var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}`
+                    document.getElementById("date").innerHTML = dateVal;
+                    diffDays1 = diffDays(date);
+                    document.getElementById("restDate").innerHTML = diffDays1;
+                    if (diffDays1 == "מועד ההגשה עבר") {
+                        document.getElementById("restDate").style.color = "red";
+                        //$('#chooseVideo').attr("disabled", true);
+                        // $('#uploadVideo').attr("disabled", true);
+                        // $('#saveVideo').attr("disabled", true);
+                    }
+                }
+            }
+        }
+        function GETerrorTask(err) {
+            console.log(err);
+        }
 
+        //Dates
         var diffDays2;
         function diffDays(subm) {
             var today = new Date();
@@ -191,45 +354,14 @@
             console.log(diffDays2);
         }
 
-        //get from Task table (again..)
-        var task1 = "";
-        var diffDays1;
-        function getTask() {
-            var apiTask = "../api/Student/GetTasks/" + className + "/" + classNum + "/" +subj ;
-            console.log(apiTask);
-            ajaxCall("GET", apiTask, "", GETsuccessTask, GETerrorTask);
-        }
-        function GETsuccessTask(T) {
-            task1 = T;
-            for (var i = 0; i < task1.length; i++) {
-                if (task1[i].TaskNum == TaskObj.Task.Num) {
-                    document.getElementById("topic").innerHTML = task1[i].Topic;
-                    date = task1[i].Deadline;
-                    var subm1 = date.split('-');
-                    var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}`
-                    document.getElementById("date").innerHTML = dateVal;
-                    diffDays1 = diffDays(date);
-                    document.getElementById("restDate").innerHTML = diffDays1;
-                    if (diffDays1 == "מועד ההגשה עבר") {
-                        document.getElementById("restDate").style.color = "red";
-                        //$('#chooseVideo').attr("disabled", true);
-                        // $('#uploadVideo').attr("disabled", true);
-                        // $('#saveVideo').attr("disabled", true);
-                    }                    
-                }
-            }
-        }
-        function GETerrorTask(err) {
-            console.log(err);
-        }
-
-        //GET - teacher table
+        //GET - ClassSubjects table
+        var techerName = "";
         function getTeacher() {
             var apiProf = "../api/Student/GetClassSubj/" + className + "/" + classNum;
             console.log(apiProf);
             ajaxCall("GET", apiProf, "", GETsuccessCT1, GETerrorCT1);
         }
-        var techerName = "";
+        //print: teacher name
         function GETsuccessCT1(data) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].Profession == subj) {
@@ -242,9 +374,11 @@
             alert("GetClassSubj");
         }
 
-        //get from GroupFeedback table
+        //GET - Group_Feedback table
         var thisTeam;
         var id;
+        var namesS;
+        var arrTeam = [];
         function getDataT() {
             classData =
                 {
@@ -253,54 +387,68 @@
                     "Proffesion": subj
                 }
             apiT = "../api/Docu/GetTeamData";
-            ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
-        }   
-        var namesS;
-        var arrTeam=[];
+             $.ajax({
+                 type: "POST",
+                 url: apiT,
+                 data: classData,
+                 beforeSend: loadStart,
+                 complete: loadStop,
+                 success: GETsuccess1,
+                 error: GETerror1,
+                }); 
+                return false;
+            //ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
+        }
+        //print: team num, team name, Grade, FeedbackComment
         function GETsuccess1(data) {
             details = data;
-            numT = TaskObj.Task.Num; 
+            numT = TaskObj.Task.Num;
 
             //מסדר אובייקט דו ממדי לפי תז
             for (var j = 0; j < details.length; j++) {
                 var strThisTeam = details[j].Group_students
-                var strTeam = strThisTeam.split(","); 
+                var strTeam = strThisTeam.split(",");
                 //מחפש א ת הצוות
                 for (var i = 0; i < strTeam.length; i++) {
                     if (strTeam[i] == studentID) {
                         arrTeam.push(details[i]);
                     }
-                }  
+                }
             }
-            teamnum = arrTeam[0].GroupNum;   
-            document.getElementById("teamNum").innerHTML = teamnum;//להוסיף שאי אפשר להעלות אחרי הזמן
-            thisTeam = arrTeam[0];
-            checkVidoe(arrTeam[0].Video, arrTeam[0].Status_, arrTeam[0].Comment);
-            //Name of the group
+
+            teamnum = arrTeam[0].GroupNum;
+            document.getElementById("teamNum").innerHTML = teamnum;
+             //Name of the group
             namesS = getNameS(arrTeam[0].Group_students);
             document.getElementById("teamNameID").innerHTML = namesS;
 
+            thisTeam = arrTeam[0];
+            id = thisTeam.id;
+            checkVidoe(arrTeam[0].Video, arrTeam[0].Status_, arrTeam[0].Comment);
+
+           
+
             console.log(arrTeam[0].Grade)
-                        console.log(arrTeam[0].Feedback)
-           //Print Grade
-                    if (arrTeam[0].Grade == 0 || arrTeam[0].Grade == "NULL") {
-                        gradeSTR = "טרם הועלה ציון";
-                        document.getElementById("gradeID").innerHTML = gradeSTR;
-                    }
-                    else {
-                        document.getElementById("gradeID").innerHTML = arrTeam[0].Grade;
-                        
-                    }
-                    //FeedbackComment 
-                    if (arrTeam[0].Feedback == null || arrTeam[0].Feedback == "" ) {
-                        document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
-                    }
-                    else {
-                        document.getElementById("commentTeacher").innerHTML = arrTeam[0].Feedback;
-                    }
-                    //TeamName
-            
-            //for (var i = 0; i < details.length; i++) {   
+            console.log(arrTeam[0].Feedback)
+            //Print Grade
+            if (arrTeam[0].Grade == 0 || arrTeam[0].Grade == "NULL") {
+                gradeSTR = "טרם הועלה ציון";
+                document.getElementById("gradeID").innerHTML = gradeSTR;
+            }
+            else {
+                document.getElementById("gradeID").innerHTML = arrTeam[0].Grade;
+
+            }
+            //FeedbackComment
+            if (arrTeam[0].Feedback == null || arrTeam[0].Feedback == "") {
+                document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
+            }
+            else {
+                document.getElementById("commentTeacher").innerHTML = arrTeam[0].Feedback;
+            }
+            //TeamName
+
+            //for (var i = 0; i < details.length; i++) {
             //    if (details[i].IdTask == numT && details[i].GroupNum == teamnum) {
             //        id = details[i].id;
             //        checkVidoe(details[i].Video, details[i].Status_,details[i].Comment );
@@ -315,7 +463,7 @@
             //        else {
             //            document.getElementById("gradeID").innerHTML = details[i].Grade;
             //        }
-            //        //FeedbackComment 
+            //        //FeedbackComment
             //        if (details[i].Feedback == null || details[i].Feedback == "" ) {
             //            document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
             //        }
@@ -330,7 +478,7 @@
             alert("GetDataTask");
         }
 
-                //var status = "";
+        //String of status
         var statusArr = ["טרם הועלה סרטון", "סרטון הועלה, מחכה לאישור", "סרטון הועלה ואושר לפרסום"];
         var strStatus = "";
         function getStatus(status) {
@@ -388,7 +536,7 @@
                 })
             }
         }
-
+        var strLink1 = "";
         function showVideoSuccess(data) {
             videoPath = data;
             thisTeam.Status_ = 1;
@@ -397,12 +545,20 @@
                 title: 'הקובץ נטען בהצלחה',
                 confirmButtonColor: '#990099',
             })
+            array1 = videoPath[0].split("/");
+            strLink1 += array1[1];
+            console.log(strLink1);
+            strLink1 += "   <i class='fas fa-times-circle' onclick='cancleVI()'></i>";
+            console.log(strLink1);
+            document.getElementById("linkURL").innerHTML = strLink1;
+            strLink1 = "";
         }
 
         var strLink = "";
         var array = "";
         var path = "";
-        function checkVidoe(path,status1,comment) {
+        //print: status
+        function checkVidoe(path, status1, comment) {
             console.log(path, status1);
             if (status1 == 1 || status1 == 2) {
                 //array = path.split("\\");
@@ -416,14 +572,14 @@
                     document.getElementById("commentStudents").innerHTML = comment;
                     status = getStatus(status1);
                     document.getElementById("statusID").innerHTML = status;
-                    $("#saveVideo").html("עדכון"); 
-                //saveVideo
-                }                    
-            }
-             else {
-                    status = getStatus(status1);
-                    document.getElementById("statusID").innerHTML = status;
+                    $("#saveVideo").html("עדכון");
+                    //saveVideo
                 }
+            }
+            else {
+                status = getStatus(status1);
+                document.getElementById("statusID").innerHTML = status;
+            }
         }
         function cancleVI() {
             thisTeam.Video = null;
@@ -437,19 +593,19 @@
 
         var dataPD;
         function saveVideo() {
-            // just etit comment 
+            // just etit comment
             if (videoPath[0] == null && thisTeam.Comment != null && thisTeam.Video != null) {
                 vid = thisTeam.Video;
                 thisTeam.Comment = $("#commentStudents").val();
             }
-            // delete 
+            // delete
             else if (videoPath[0] == null && thisTeam.Video == null) {
                 vid = thisTeam.Video; // ""
             }
             else {
                 vid = videoPath[0];
                 thisTeam.Comment = $("#commentStudents").val();
-            }     
+            }
             dataPD =
                 {
                     "ClassName": thisTeam.ClassName,
@@ -476,7 +632,7 @@
         }
 
         function reload() {
-          document.location.reload();
+            document.location.reload();
         }
 
         function updateDerror(err) {
@@ -490,16 +646,18 @@
             strStudentName1 = "";
             students = idS.split(',');
             console.log(students);
-            for (var j = 0; j < studentList.length; j++) {                    
+            console.log(idS);
+            for (var j = 0; j < studentList.length; j++) {
                 for (var m = 0; m < students.length; m++) {
                     if (students[m] == studentList[j].Id_) {
-                        strStudentName += " " + studentList[j].FName + " " + studentList[j].LName + " • ";                   
+                        strStudentName += " " + studentList[j].FName + " " + studentList[j].LName + " • ";
                     }
-                }            
-            }                     
+                }
+            }
             return strStudentName;
         }
 
+        //GET  - Student Table
         function showStudentsData() {
             obj2 =
                 {
@@ -512,7 +670,7 @@
             ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
         }
 
-        var studentList = "";       
+        var studentList = "";
         function GETsuccessS(studentsData) {
             studentList = studentsData;
         }
@@ -634,7 +792,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="sk-chase" id="loading">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                </div>
+                <div class="row" id="afterLoading" style='display:none'>
                     <div class="col-lg-12">
                         <div class="osahan-form">
                             <div class="row ">
@@ -690,7 +856,7 @@
                                 </div>
                                 <div class="col-lg-4 col-sm-3 col-xs-3 ">
                                     <span class="testSudent">צוות מספר </span>
-                                    <span id="teamNum" class="testSudent"></span>
+                                    <span id="teamNum" class="testSudent" font-size: 15px;></span>
                                     <br />
                                     <div id="teamNameID" class="channels-card create-text">
                                     </div>
@@ -765,7 +931,7 @@
                                                             <div id="SucceededURL" class="statuses-text" style="color: #1FCBB5"></div>
 
                                                             <!--<input type="file" id="chooseVideo" name="video" accept="video/*" capture style="height: 50px;width: 125px; " multiple />
-    <input type="button" id="uploadVideo" value="טען" class="btn btn-light border-none" style="background-color: #d6d8d9;     border-color: #c6c8ca;" />-->
+                                                <input type="button" id="uploadVideo" value="טען" class="btn btn-light border-none" style="background-color: #d6d8d9;     border-color: #c6c8ca;" />-->
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-sm-12 vl">
