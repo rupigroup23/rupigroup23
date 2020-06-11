@@ -1719,7 +1719,7 @@ public class DBservices
         try
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask='" + numOfTask + "' and profession='" + Profession + "'";
+            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask=" + numOfTask + " and profession='" + Profession + "'";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 

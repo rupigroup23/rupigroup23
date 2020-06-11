@@ -37,6 +37,7 @@
         var imagePath1 = '';
         var userEmail1 = '';
         var likearr = [];
+        var groupNames2 = "";
     
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
@@ -44,7 +45,9 @@
         $(document).ready(function () {
             ssss = localStorage.getItem('names');
             console.log('names: ', JSON.parse(ssss));
-        
+            groupNames = JSON.parse(localStorage["names"]);
+            document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
+
 
             var video = document.getElementById('mainVideo');
             var source = document.createElement('source');
@@ -52,13 +55,10 @@
             console.log(source)
             console.log(video)
             document.getElementById('mainVideo').appendChild(source);
-            //var group = document.getElementById('group');
-            //students = listOfVideo[i].Group;
+           
 
             $('#load').prop("disabled", true);
 
- 
-    
            
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
@@ -68,34 +68,7 @@
             
             Showorientation();//סרגל השתלשלות
 
-            ////הבאת סרטונים מהדאטה בייס//
-            //date = TaskObj.Task.Date;
-            //dateArr = date.split('/');
-            //dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
-
-            //taskObject = { // מגיע מהלוקל סטורג'
-            //    "ClassName": TaskObj.ClassName,
-            //    "ClassNum": TaskObj.ClassNum,
-            //    "Profession": TaskObj.Profession,
-            //    "Topic": TaskObj.Task.Topic,
-            //    "Deadline": dateVal
-            //}
-
-            //urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Topic + "/" + dateVal;
-
-            //ajaxCall("GET", urlVideo, TaskObj.Task.Topic, getVideoSuccessCB, getVideoErrorCB);
-            //    //הבאת סרטונים מהדאטה בייס//
-
-            //function getVideoSuccessCB(listOfVideo) {
-            //    for (let i in listOfVideo) {
-            //        if (listOfVideo[i] == mainVideoPath) {
-            //            groupsStudends = listOfVideo[i].Group;
-            //        }
-            //    }
-            //    document.getElementById('group').innerHTML = groupsStudends;
-            //}
-
-            function getVideoErrorCB(err) { console.log(err) }
+           
 
             $('#likeBtn').click(function () { //
                 $('#like').css("color", "red");
@@ -103,7 +76,6 @@
                 likeBtn = 'true';
 
 
-                //(this).css("border-style", "dotted");
             })
 
             $('#comBtn').click(function () {
@@ -158,16 +130,13 @@
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-
-
-                // מביא פידבקים לפי הקבוצה+מס מטלה+מקצוע מטבלת הפידבקים
-                let obj = {
-                    "groupStudent":"רביד נוי ושיר",
-                    "numOfTask": TaskObj.Task.Num,
-                    "Profession": TaskObj.Profession
+                var groupNames1 = groupNames.split("•");
+                console.log(groupNames1)
+                for (var i = 1; i < groupNames1.length-1; i++) {
+                   groupNames2 += groupNames1[i];
                 }
-                console.log(obj)
-                ajaxCall('GET', '../api/Student/getdata/' + obj.groupStudent + '/' + obj.numOfTask + '/' + obj.Profession, '', getDataSuccess, getDataError);
+                console.log('groupNames2=',groupNames2)
+                ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
             }
 
             function getDataSuccess(data) {
@@ -247,7 +216,7 @@
             }
             function showVideoError(err) { console.log(err) }
 
-        });
+     
 
 
         //check details and post
@@ -277,12 +246,12 @@
                             "Contents": $("#contact").val(),
                             "NameLike": likeBtn,
                             "Video": videoPath[0],
-                            "GroupStudent": "רביד נוי ושיר",
+                            "GroupStudent": groupNames2.trim(),
                             "Profession": TaskObj.Profession,
                             "UserName": studentObj.FName + ' ' + studentObj.LName
                         }
                      
-                        console.log(feedbackObj)
+                        console.log('feedbackObj=',feedbackObj)
                         localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
                         ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                     }
@@ -293,7 +262,7 @@
                     "Contents": $("#contact").val(),
                     "NameLike": likeBtn,
                     "Video": videoPath[0],
-                    "GroupStudent": "רביד נוי ושיר",
+                    "GroupStudent": groupNames2.trim(),
                     "Profession": TaskObj.Profession,
                     "UserName": studentObj.FName + ' ' + studentObj.LName
                 }
@@ -303,6 +272,7 @@
                 ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
         }
+        }); 
 
         function POSTsuccess(data) {
             Swal.fire({
@@ -316,6 +286,7 @@
         function POSTerror() {
             alert("ops");
         }
+
 
         //סרגל השתלשלות
         let orientationSTR = "";
@@ -444,7 +415,7 @@
                                 <!-- הסרטון הראשי -->
                                 <div class="single-video-title box md-3">
                                     <span class="testSudent">חברי הצוות:</span> &nbsp;
-                                    <span class="create-text" id="group"></span>
+                                    <span class="create-text" id="group"> </span>
                                     <!--<p class="mb-0"><i class="fas fa-eye"></i> 200 צפיות</p>-->
                                 </div>
                                 <div class="single-video-author box md-3">

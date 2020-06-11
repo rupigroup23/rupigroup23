@@ -35,11 +35,17 @@
         var imagePath1 = '';
         var userEmail1 = '';
         var likearr = [];
+        var groupNames2 = "";
 
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
 
         $(document).ready(function () {
+            ssss = localStorage.getItem('names');
+            console.log('names: ', JSON.parse(ssss));
+            groupNames = JSON.parse(localStorage["names"]);
+            document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
+
             //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
@@ -55,9 +61,7 @@
             document.getElementById('mainVideo').appendChild(source);
             //
 
-            localF = localStorage.getItem('feedbackObj');
-            console.log('local: ', JSON.parse(localF));
-            ObjFeed = JSON.parse(localStorage["feedbackObj"]);
+    
 
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
@@ -106,12 +110,13 @@
 
 
             // מביא פידבקים לפי הקבוצה+מס מטלה+מקצוע מטבלת הפידבקים
-            let obj = {
-                "groupStudent": 'רביד נוי ושיר',
-                "numOfTask": TaskObj.Task.Num,
-                "Profession": TaskObj.Profession
-            }
-            ajaxCall('GET', '../api/Student/getdata/' + obj.groupStudent + '/' + obj.numOfTask + '/' + obj.Profession, '', getDataSuccess, getDataError);
+                var groupNames1 = groupNames.split("•");
+                console.log(groupNames1)
+                for (var i = 1; i < groupNames1.length-1; i++) {
+                   groupNames2 += groupNames1[i];
+                }
+                console.log('groupNames2=',groupNames2)
+                ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
 
 
             function getDataSuccess(data) {
