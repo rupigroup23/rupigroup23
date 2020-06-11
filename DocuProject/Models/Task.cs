@@ -72,9 +72,6 @@ namespace DocuProject.Models
             foreach (DataRow dr in dt.Rows)
             {
                 {
-                    dr["ClassName"] = taskNew.ClassName;
-                    dr["ClassNum"] = taskNew.ClassNum;
-                    dr["Profession"] = taskNew.Profession;
                     dr["Deadline"] = taskNew.Deadline;
                     dr["Topic"] = taskNew.Topic;
                     dr["Description_"] = taskNew.Description;

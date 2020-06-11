@@ -54,7 +54,7 @@ public class DBservices
 
         cmd.CommandText = CommandSTR;      // can be Select, Insert, Update, Delete 
 
-        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+        cmd.CommandTimeout = 50;           // Time to wait for the execution' The default is 30 seconds
 
         cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
 
@@ -1969,6 +1969,35 @@ public class DBservices
         }
         return this; // מחזיר איבר מסוג DB SERVICES
     }
+
+    //public DBservices getSpecificTaskGroup(string class1, string numClass, string sub, string topic)
+    //{
+    //    string TBL = "";
+    //    SqlConnection con = null;
+    //    try
+    //    {
+    //        con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+    //        TBL = "select * from groupfeedback where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and Topic='" + /*topic + "' "*/;
+    //        da = new SqlDataAdapter(TBL, con);
+    //        SqlCommandBuilder builder = new SqlCommandBuilder(da);
+    //        DataSet ds = new DataSet();
+    //        da.Fill(ds);
+    //        dt = ds.Tables[0]; // טבלה אחת 
+    //    }
+
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            con.Close();
+    //        }
+    //    }
+    //    return this; // מחזיר איבר מסוג DB SERVICES
+    //}
     public int delete_task(string class1, string numClass, string sub, string topic)
     {
         SqlConnection con;
