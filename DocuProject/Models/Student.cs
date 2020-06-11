@@ -157,15 +157,43 @@ namespace DocuProject.Models
         {
             DBservices dbs = new DBservices();
 
+            //2 רשימות של סטודנטים - חלשים וחזקים
             List<Student> listbyStrong = dbs.GetSbyGradeDB(name, nun, prof, grade, "S");
             List<Student> listbyWeak = dbs.GetSbyGradeDB(name, nun, prof, grade, "W");
 
+            for (int i = 0; i < listbyStrong.Count -1 ; )
+            {
+                if(listbyStrong[i].Id == listbyStrong[i+1].Id)
+                {
+                    listbyStrong.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+
+            }
+            for (int i = 0; i < listbyWeak.Count -1; )
+            {
+                if (listbyWeak[i].Id == listbyWeak[i + 1].Id)
+                {
+                    listbyWeak.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+
+            }
+
+            //רשימה של הכל ביחד
             List<string> listbyMix = new List<string>();
 
+            //כמות התלמידים בכיתה
             int cntrStudent = listbyStrong.Count() + listbyWeak.Count();
             double gorupNum;
             int x;
-
+            //בדיקה כמה צוותים יהיו לנו
             if (cntrStudent % 3 == 0)
             {
                 gorupNum = cntrStudent / 3;
@@ -175,12 +203,14 @@ namespace DocuProject.Models
                 x = cntrStudent / 3;
                 gorupNum = Math.Round(x + 0.5);
             }
+
             int cntr;
             for (int i = 0; i < gorupNum; i++)
             {
                 cntr = 0;
                 string nameTeam = "";
                 //Strong - one student
+                //חזק בכל צוות
                 if (cntr <= listbyStrong.Count && listbyStrong.Count != 0)
                 {
                     nameTeam = Convert.ToString(listbyStrong[cntr].Id) + ",";
@@ -192,6 +222,7 @@ namespace DocuProject.Models
                     listbyWeak.RemoveAt(cntr);
                 }
                 //Weak - one student
+                //חלש בכל צוות
                 if (cntr <= listbyWeak.Count && listbyWeak.Count != 0)
                 {
                     nameTeam += Convert.ToString(listbyWeak[cntr].Id);
@@ -221,6 +252,7 @@ namespace DocuProject.Models
             }
             return listbyMix; //מחזיר מערך ממויין
         }
+
         //אלגוריתם חכם כל האופציות
         internal List<string> GetStudentsAlgoritem(string radioChoose)
         {
