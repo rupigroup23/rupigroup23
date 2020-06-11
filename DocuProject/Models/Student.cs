@@ -152,7 +152,7 @@ namespace DocuProject.Models
             }
             return dt;
         }
-
+        int rest1;
         public List<string> GetSbyGrade1(string name, int nun, string prof, string grade)
         {
             DBservices dbs = new DBservices();
@@ -193,6 +193,7 @@ namespace DocuProject.Models
             int cntrStudent = listbyStrong.Count() + listbyWeak.Count();
             double gorupNum;
             int x;
+           
             //בדיקה כמה צוותים יהיו לנו
             if (cntrStudent % 3 == 0)
             {
@@ -202,6 +203,7 @@ namespace DocuProject.Models
             {
                 x = cntrStudent / 3;
                 gorupNum = Math.Round(x + 0.5);
+                rest1 = cntrStudent - (x * 3); //מספר התלמידים בלי 3 קבוצות
             }
 
             int cntr;
@@ -248,8 +250,34 @@ namespace DocuProject.Models
                 {
                     listbyMix[i] += "," + listbyWeak[cntr].Id;
                     listbyWeak.RemoveAt(cntr);
-                }
+                }  
             }
+
+            if (listbyWeak.Count <= rest1 || listbyStrong.Count <= rest1)
+            {
+                string nameTeam1 = "";
+                if (listbyWeak.Count >  0)
+                {
+                    for (int i = 0; i < listbyWeak.Count;)
+                    {
+                        nameTeam1 += Convert.ToString(listbyWeak[i].Id) + ",";
+                        listbyWeak.RemoveAt(i);
+                        
+                }
+                }
+                if (listbyStrong.Count > 0)
+                {
+                    for (int j = 0; j < listbyStrong.Count;)
+                    {
+                        nameTeam1 += Convert.ToString(listbyStrong[j].Id) + ",";
+                        listbyStrong.RemoveAt(j);
+                        
+                    }
+                }
+                listbyMix.Add(nameTeam1);
+            }
+
+     
             return listbyMix; //מחזיר מערך ממויין
         }
 
