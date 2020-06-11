@@ -29,11 +29,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
     <script>
+
+        var lat=0;
+        var lon=0;
+
         $(document).ready(function () {
             $('#login').click(checkDetails);
+
         });
 
         function checkDetails() {
+       
             id = $('#id').val();
             password = $('#pass').val();
 
@@ -47,9 +53,7 @@
         }
 
         function POSTsuccess_Check(student) {
-
             localStorage.setItem('student', JSON.stringify(student));
-
             if (student.Password !== null) {
                 window.location = "student-index.html";
             }

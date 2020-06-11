@@ -136,6 +136,12 @@
                 }
                 document.getElementById("teamNum").innerHTML = count;
             }        
+             //
+            //noHaveTeamId
+            if (count == 0 || details.length == 0) {
+                document.getElementById("noHaveTeamId").innerHTML = "הצוותים טרם העלו את הפתרון";
+                document.getElementById("teamNum").innerHTML = count;
+            }
         }
         function GETerror1(err) {
             console.log(err);
@@ -373,22 +379,31 @@
 
         //The time difference
         function diffDays(subm) {
+            console.log(subm);
+
+            //today date
             var today = new Date();
             var day = today.getDate();
-            var month = today.getMonth() + 1;
+            var month = today.getMonth() + 1;    
             var year = today.getFullYear();
-            var subm1 = subm.split('/');
-            var dateVal = `${subm1[1]}/${subm1[0]}/${subm1[2]}`
-            var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
-            var diffDays = date2.getDate() - submission.getDate();
-            if (diffDays < 0) {
-                diffDays = "מועד ההגשה עבר";
-                return diffDays;
+            //Task date
+            var subm1 = subm.split('/');
+            var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}` //M-D-Y
+            var submission = new Date(dateVal);
+            console.log(subm1);
+            console.log(submission);
+
+            //rest of the date
+            var diffDays2 = submission.getDate() - date2.getDate();
+            console.log(diffDays2);
+            if (diffDays2 < 0) {
+                diffDays2 = "מועד ההגשה עבר";
+                return diffDays2;
             }
             else {
-                return diffDays;
+                return diffDays2;
             }
             console.log(diffDays);
         }
@@ -785,7 +800,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user1.png">
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -901,7 +916,7 @@
                     <div class="col-lg-4 col-sm-6 text2">
                         <div class="row">
                             <span>
-                                 ימים להגשה:&nbsp;
+                                ימים להגשה:&nbsp;
                             </span>
                             <div class="create-text" id="restDate">
                             </div>
@@ -915,6 +930,11 @@
                             <div class="create-text" id="teamNum">
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row text2" style="color:red;font-size: 45px;text-align: center;">
+                    <div class="col-md-12" id="noHaveTeamId">
+
                     </div>
                 </div>
                 <br /><hr class="mt-0">
@@ -976,7 +996,7 @@
                     </div>
                 </div>
                 <div class="row" id="showNotApproved" style="display:none">
-                   
+
                     <div class="row" id="notApproved">
 
                     </div>

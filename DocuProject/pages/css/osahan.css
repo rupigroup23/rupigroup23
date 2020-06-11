@@ -1313,7 +1313,7 @@ div {
 }
  .video-title a {
      color: #000;
-     font-weight: 600;
+     /*font-weight: 600;*/
      text-decoration: none;
 }
  .video-title {

@@ -26,7 +26,10 @@ namespace DocuProject.Models
         int classNum;
         string password;
         string gender;
-        int gpa;
+        int gpa; // למחוק וגם מהאסקיואל
+        double latitude;
+        double longitude;
+        double distanceFromSchool;
 
 
         public int Id_row { get => id_row; set => id_row = value; }
@@ -42,7 +45,11 @@ namespace DocuProject.Models
         public int ClassNum { get => classNum; set => classNum = value; }
         public string Password { get => password; set => password = value; }
         public string Gender { get => gender; set => gender = value; }
-        public int Gpa { get => gpa; set => gpa = value; }
+        public int Gpa { get => gpa; set => gpa = value; } // להעיף
+        public double Latitude { get => latitude; set => latitude = value; }
+        public double Longitude { get => longitude; set => longitude = value; }
+        public double DistanceFromSchool { get=>distanceFromSchool; set=>distanceFromSchool=value; }
+
 
         public List<Student> ReadSt()
         {
@@ -234,8 +241,135 @@ namespace DocuProject.Models
             {
                 X = MakeGroupsRandom(dbs.dt);
             }
+          
             return X;
         }
+        // אלגוריתם מרחקים- רביד
+        internal List<string> GetStudentsAlgoritem(string radioChoose,int managerId)
+        {
+            List<string> x = new List<string>();
+            DBservices dbs = new DBservices();
+            Admin a = new Admin();
+            a = dbs.getSchoolPosition(managerId);
+            dbs = dbs.Get_Students(ClassName, ClassNum);
+            x = makegroupsgeographicaldis(dbs.dt, a);
+
+            //X = list of Id of Student after sorting;
+            List<string> GroupStudent = new List<string>();
+
+            if (x.Count % 3 == 0)
+            {
+                for (int i = 0; i < x.Count; i+=3)
+                {
+                    string str = x[i] + "," + x[i = 1] + "," + x[i + 2];
+                    GroupStudent.Add(str);
+                }
+            }
+            else if (x.Count % 3 == 1)
+            {
+                for (int i = 0; i < x.Count; i+=3)
+                {
+                    string str = "";
+                    if (i>=x.Count-4)
+                    {
+                        str += x[i] +","+ x[i + 1] + "," +  x[i + 2] + ","+ x[i + 3];
+                        GroupStudent.Add(str);
+                        i += 10;
+                    }
+                    else
+                    {
+                        str += x[i] + "," + x[i + 1] + "," + x[i + 2];
+                        GroupStudent.Add(str);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < x.Count; i+=3)
+                {
+                    string str = "";
+                    if (i >= x.Count - 2)
+                    {
+                        str += x[i] + "," + x[i + 1];
+                        GroupStudent.Add(str);
+                        i += 10;
+                    }
+                    else
+                    {
+                        str += x[i] + "," + x[i + 1] + "," + x[i + 2];
+                        GroupStudent.Add(str);
+
+
+                    }
+                }
+            }
+
+            return GroupStudent;
+        }
+
+        private List<string> makegroupsgeographicaldis(DataTable studentsArr, Admin a) // אלגוריתם מרחקים- רביד
+        {
+            List<Student> studentPosition = new List<Student>();
+            foreach (DataRow dr in studentsArr.Rows)
+            {
+                Student s = new Student();
+                s.Id = Convert.ToInt16(dr["Id_"]);
+                s.Latitude = Convert.ToDouble(dr["Latitude"]);
+                s.Longitude = Convert.ToDouble(dr["longitude"]);
+                studentPosition.Add(s);
+            }
+            // Now studentPosition have the ID of the student and his position;
+
+            List<Student> studentArray = new List<Student>();
+            for (int i = 0; i < studentPosition.Count; i++)
+            {   
+                Student s = new Student();
+                s.Id = studentPosition[i].Id;
+                s.DistanceFromSchool = calcCrow(studentPosition[i].Latitude, studentPosition[i].Longitude, a.Latitude, a.Longitude);
+                studentArray.Add(s);
+            }
+
+            // Now StudentArray has the Student Id and his distance from school
+            List<double> distanceArray = new List<double>();
+
+            for (int i = 0; i < studentArray.Count; i++)
+            {
+                distanceArray.Add(studentArray[i].DistanceFromSchool);
+            }
+
+            distanceArray.Sort();
+
+            List<string> studentIdByDistance = new List<string>();
+
+            for (int i = 0; i < distanceArray.Count; i++)
+            {
+                for (int j = 0; j < studentArray.Count; j++)
+                {
+                    if (studentArray[j].DistanceFromSchool== distanceArray[i])
+                    {
+                        studentIdByDistance.Add(studentArray[j].Id.ToString());
+                    }
+                }
+            }
+            return studentIdByDistance; // לפי תז רשימה של כל הסטונטים שלומדים בט3 לפי מרחק מבית ספר ממויין
+        }
+
+        private double calcCrow(double latitude1, double lon1, double latitude2, double lon2)
+        {
+            int R = 6371; // km
+            double dLat = (latitude2 - latitude1) * Math.PI / 180;
+            double dLon = (lon2 - lon1) * Math.PI / 180;
+            double lat1 = (latitude1) * Math.PI / 180;
+            double lat2 = (latitude2) * Math.PI / 180;
+
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var d = R * c;
+            return d;
+        }
+
+        //עד כאן אלגוריתם מרחקים
+
 
         //אלגוריתם בנים בנות - נוי        
         public List<string> MakeGroupsEquals(DataTable studentsArr) // מאותו מין
@@ -539,5 +673,19 @@ namespace DocuProject.Models
             return groupsStudents;
         }
         // עד כאן אלמנט חכם 
+
+        public Student checkPosition(int studentId) // בודק אם נל
+        {
+            DBservices dbs = new DBservices();
+            return dbs.checkPosition(studentId);
+        }
+
+        public int postPosition(int studentId , Student studentPosition) // מכניס 
+        {
+            DBservices dbs = new DBservices();
+            return dbs.postPosition(studentId,studentPosition);
+        }
+
+
     }
 }

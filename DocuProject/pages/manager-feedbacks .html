@@ -40,11 +40,12 @@
         console.log(mainVideoPath)
 
         $(document).ready(function () {
-            //menu - Teacher name
-            teacherName = JSON.parse(localStorage["myName"]); //local class
-            document.getElementById("myNameN1").innerHTML = teacherName.name;
-            document.getElementById("myNameN2").innerHTML = teacherName.name;
-            //
+            //Menus
+            localN = localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //get specific video
             var video = document.getElementById('mainVideo');
@@ -64,7 +65,8 @@
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
-          
+              names = localStorage.getItem('arrStudentName');
+            console.log('arrStudentName: ', JSON.parse(names));
 
             Showorientation();//סרגל השתלשלות
 
@@ -74,16 +76,15 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
-            function showDetalis(objTeacher) {
-                Id = objTeacher.Id;
-                var url = "../api/Teacher/GetDetailsT/" + Id;
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
-
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
 
             function getAvatarImageSuccess(imagePath1) {
@@ -107,7 +108,7 @@
 
             // מביא פידבקים לפי הקבוצה+מס מטלה+מקצוע מטבלת הפידבקים
             let obj = {
-                "groupStudent": 'רביד נוי ושיר',
+                "groupStudent": names,
                 "numOfTask": TaskObj.Task.Num,
                 "Profession": TaskObj.Profession
             }
@@ -193,15 +194,16 @@
         //סרגל השתלשלות
         let orientationSTR = "";
         function Showorientation() {
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>בית</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>מקצועות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>" + TaskObj.Profession + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-watchingvideos.html'>צפייה בסרטונים</a></li>";
-            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='teacher-feedbacks.html'>פידבקים</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>בית</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-index.html'>" + TaskObj.ClassName + "' " + TaskObj.ClassNum + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-professions.html'>" + TaskObj.Profession + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='manager-watchingvideos.html'>צפייה בסרטונים</a></li>";
+            orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-feedbacks.html'>פידבקים</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
 
         }
 

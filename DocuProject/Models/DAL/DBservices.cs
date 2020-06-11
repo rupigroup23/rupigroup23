@@ -1635,6 +1635,7 @@ public class DBservices
                 S.LName = (string)dr["LName"];
                 S.ClassName = (string)dr["ClassName"];
                 S.ClassNum = (int)dr["ClassNum"];
+             
             }
         }
         catch (Exception ex)
@@ -1728,11 +1729,14 @@ public class DBservices
             while (dr.Read())
             {
                 Feedback feedback = new Feedback();
+
+                feedback.Id = Convert.ToInt16(dr["id"]);
                 feedback.Contents = (string)dr["contents"];
                 feedback.NameLike = (string)dr["nameLike"];
                 feedback.Video = (string)dr["video"];
                 feedback.UserName = (string)dr["UserName"];
                 listOfFeedback.Add(feedback);
+
             }
             return listOfFeedback;
         }
@@ -1934,9 +1938,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-
-        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6}, {7},'{8}',{9}, '{11}', '{12}', '{13}', '{14}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Feedback, StudentObj.Grade, StudentObj.Status, StudentObj.Video, StudentObj.Comment, StudentObj.Group, StudentObj.Proffesion); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Class_" + "(ClassName,ClassNum,Deadline,IdTask,IdTeacher,GroupNum,Feedback,Grade, Status_, Video, Comment,Group_students,Proffesion)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6},'{7}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Proffesion, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Group); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO GroupFeedback" + "(ClassName , ClassNum, Proffesion,Deadline , IdTask , IdTeacher,GroupNum,Group_students)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -2024,6 +2027,220 @@ public class DBservices
         catch (Exception ex)
         {
             return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+     // אלגוריתם מרחקים -רביד
+    public Student checkPosition(int studentId)
+    {
+        Student s = new Student(); // ניצור רשימה לשמירת המידע
+        SqlConnection con = null;
+
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select Latitude, Longitude from Student where Id_="+studentId; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                if (dr["Latitude"]== System.DBNull.Value && dr["Longitude"]== System.DBNull.Value)
+                {
+                    s.Latitude = -1.1;
+                    s.Longitude = -1.1;
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return s;
+    }
+
+    public int postPosition(int studentId , Student studentPosition)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = "UPDATE Student set Latitude ="+ studentPosition.Latitude+ " , Longitude="+ studentPosition.Longitude+ " where Id_="+studentId;
+                                                                                                                         //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+
+    public Admin checkAdminPosition(int managerId)
+    {
+        Admin a = new Admin(); // ניצור רשימה לשמירת המידע
+        SqlConnection con = null;
+
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select Latitude, Longitude from Admin_ where Id_=" + managerId; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                if (dr["Latitude"] == System.DBNull.Value && dr["Longitude"] == System.DBNull.Value)
+                {
+                    a.Latitude = -1.1;
+                    a.Longitude = -1.1;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return a;
+    }
+
+    public int postAdminPosition(int managerId, Admin AdminPosition)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr = "UPDATE Admin_ set Latitude =" + AdminPosition.Latitude + " , Longitude=" + AdminPosition.Longitude + " where Id_=" + managerId;
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+
+
+    public Admin getSchoolPosition(int managerId)
+    {
+        Admin a = new Admin(); // ניצור רשימה לשמירת המידע
+        SqlConnection con = null;
+
+        try
+        {
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select Latitude, Longitude from Admin_ where Id_=" + managerId; // נכתוב שאילתה להוצאת הטבלה 
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                a.Latitude = Convert.ToDouble(dr["Latitude"]);
+                a.Longitude = Convert.ToDouble(dr["Longitude"]);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return a;
+    }
+
+    public void deleteComment(int selectedRow,string type)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            string cStr;
+            if (type== "comment")
+            {
+                cStr = "update Feedback_ set contents='' where id=" + selectedRow;
+
+            }
+            else
+            {
+                cStr = "update Feedback_ set video='' where id=" + selectedRow;
+
+            }
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(cStr, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+        }
+        catch (Exception ex)
+        {
             // write to log
             throw (ex);
         }

@@ -49,7 +49,7 @@
         $(document).ready(function () {
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
-            TaskObj = JSON.parse(localStorage["thisTask"]);
+            TaskObj = JSON.parse(local);
 
             className = TaskObj.ClassName;
             classNum = TaskObj.ClassNum;
@@ -61,6 +61,8 @@
             showStudentsData();
             //Bring the details up
             getDatelis(); 
+            getDataT();
+
 
             ajaxCall('get', '../api/Student/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
@@ -151,16 +153,21 @@
         }
 
         var teamnum = "";
+        var studentID;
         //Bring the details up
         function getDatelis() {
-            teamnum = "2"; //לסדר את זה עם האלגוריתם     
-            document.getElementById("teamNum").innerHTML = teamnum;//להוסיף שאי אפשר להעלות אחרי הזמן
+            studentID1 = localStorage.getItem('studentID');
+            studentID =JSON.parse(studentID1);
+
 
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+           // getDataT(); //bring data  
             getTask();
             getTeacher();
-            getDataT(); //bring data           
+                     
         }
+
+
         var diffDays2;
         function diffDays(subm) {
             var today = new Date();
@@ -216,7 +223,7 @@
             console.log(err);
         }
 
-        //get from teacher table
+        //GET - teacher table
         function getTeacher() {
             var apiProf = "../api/Student/GetClassSubj/" + className + "/" + classNum;
             console.log(apiProf);
@@ -249,35 +256,75 @@
             ajaxCall("POST", apiT, JSON.stringify(classData), GETsuccess1, GETerror1)
         }   
         var namesS;
+        var arrTeam=[];
         function GETsuccess1(data) {
             details = data;
             numT = TaskObj.Task.Num; 
-            
-            for (var i = 0; i < details.length; i++) {
-                if (details[i].IdTask == numT && details[i].GroupNum == teamnum) {
-                    id = details[i].id;
-                    checkVidoe(details[i].Video, details[i].Status_,details[i].Comment );
-                    thisTeam = details[i];
-                    namesS = getNameS(details[i].Group_students);
-                    document.getElementById("teamNameID").innerHTML = namesS;
-                    //Grade
-                    if (details[i].Grade == 0) {
+
+            //מסדר אובייקט דו ממדי לפי תז
+            for (var j = 0; j < details.length; j++) {
+                var strThisTeam = details[j].Group_students
+                var strTeam = strThisTeam.split(","); 
+                //מחפש א ת הצוות
+                for (var i = 0; i < strTeam.length; i++) {
+                    if (strTeam[i] == studentID) {
+                        arrTeam.push(details[i]);
+                    }
+                }  
+            }
+            teamnum = arrTeam[0].GroupNum;   
+            document.getElementById("teamNum").innerHTML = teamnum;//להוסיף שאי אפשר להעלות אחרי הזמן
+            thisTeam = arrTeam[0];
+            checkVidoe(arrTeam[0].Video, arrTeam[0].Status_, arrTeam[0].Comment);
+            //Name of the group
+            namesS = getNameS(arrTeam[0].Group_students);
+            document.getElementById("teamNameID").innerHTML = namesS;
+
+            console.log(arrTeam[0].Grade)
+                        console.log(arrTeam[0].Feedback)
+           //Print Grade
+                    if (arrTeam[0].Grade == 0 || arrTeam[0].Grade == "NULL") {
                         gradeSTR = "טרם הועלה ציון";
                         document.getElementById("gradeID").innerHTML = gradeSTR;
                     }
                     else {
-                        document.getElementById("gradeID").innerHTML = details[i].Grade;
+                        document.getElementById("gradeID").innerHTML = arrTeam[0].Grade;
+                        
                     }
                     //FeedbackComment 
-                    if (details[i].Feedback == null || details[i].Feedback == "" ) {
+                    if (arrTeam[0].Feedback == null || arrTeam[0].Feedback == "" ) {
                         document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
                     }
                     else {
-                        document.getElementById("commentTeacher").innerHTML = details[i].Feedback;
+                        document.getElementById("commentTeacher").innerHTML = arrTeam[0].Feedback;
                     }
                     //TeamName
-                }
-            }
+            
+            //for (var i = 0; i < details.length; i++) {   
+            //    if (details[i].IdTask == numT && details[i].GroupNum == teamnum) {
+            //        id = details[i].id;
+            //        checkVidoe(details[i].Video, details[i].Status_,details[i].Comment );
+            //        thisTeam = details[i];
+            //        namesS = getNameS(details[i].Group_students);
+            //        document.getElementById("teamNameID").innerHTML = namesS;
+            //        //Grade
+            //        if (details[i].Grade == 0) {
+            //            gradeSTR = "טרם הועלה ציון";
+            //            document.getElementById("gradeID").innerHTML = gradeSTR;
+            //        }
+            //        else {
+            //            document.getElementById("gradeID").innerHTML = details[i].Grade;
+            //        }
+            //        //FeedbackComment 
+            //        if (details[i].Feedback == null || details[i].Feedback == "" ) {
+            //            document.getElementById("commentTeacher").innerHTML = "המורה טרם העלה משוב / הערות";
+            //        }
+            //        else {
+            //            document.getElementById("commentTeacher").innerHTML = details[i].Feedback;
+            //        }
+            //        //TeamName
+            //    }
+            //}
         }
         function GETerror1(err) {
             alert("GetDataTask");
@@ -436,11 +483,13 @@
             console.log(err);
         }
 
-        // get student name
+        // GET -  student name
+
         function getNameS(idS) {
             strStudentName = "• ";
             strStudentName1 = "";
-            students = idS.split(',');              
+            students = idS.split(',');
+            console.log(students);
             for (var j = 0; j < studentList.length; j++) {                    
                 for (var m = 0; m < students.length; m++) {
                     if (students[m] == studentList[j].Id_) {
@@ -506,7 +555,7 @@
             </li>
             <li class="nav-item dropdown no-arrow osahan-right-navbar-user">
                 <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="Avatar" id="avatarImage" src="img/user.png">
+                    <img alt="Avatar" id="avatarImage" src="img/user1.png">
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
