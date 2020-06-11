@@ -185,7 +185,7 @@
                 videoPath = `../${listOfVideo[i].Video}`
                 //בשרת videoPath = `${listOfVideo[i].Video}` 
                 students = listOfVideo[i].Group;
-                getTeamsNames(students);
+                getTeamsNames(students,videoPath);
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
                                                 <div class="video-card">
@@ -239,21 +239,20 @@
 
         var strStudentName;
         var arrStudentName = [];
-        function getTeamsNames(teams) {
-            strStudentName =  "• ";
+        function getTeamsNames(teams,videoPath) {
+            strStudentName = "• ";
             students2 = teams.split(',');
             console.log(students2);
-            for (var j = 0; j < studentList.length; j++) {                    
+            for (var j = 0; j < studentList.length; j++) {
                 for (var i = 0; i < students2.length; i++) {
                     if (students2[i] == studentList[j].Id_) {
                         strStudentName += studentList[j].FName + " " + studentList[j].LName + " • ";
                     }
-                }       
+                }
             }
-            //arrStudentName.push(strStudentName);
             TeamName = {
-                "Names": strStudentName, 
-                "Ids":students2, 
+                "Names": strStudentName,
+                "vidoes": videoPath,
             }
             console.log(TeamName);
             arrStudentName.push(TeamName);
@@ -392,7 +391,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-10">
-                        <a class="btn btn-outline-primary btn-block btn-lg" href="teacher-Video_Assignment.html">
+                        <a class="btn btn-outline-primary btn-block btn-lg" href="manager-PresentationAssignment.html">
                             <buttom>
                                 צפייה במטלה
                             </buttom>

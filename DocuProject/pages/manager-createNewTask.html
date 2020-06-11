@@ -620,21 +620,29 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                     "Profession": newTaskObj.Profession,
-                    "TaskNum": newTaskObj.Task.Num,
+                    "TaskNum": newTaskObj.Task.Num +1,
                     "IdTeacher": techerID,
                 }            
 
             for (var i = 0; i < teams.length; i++) {
 
                 var teamsIdArray = teams[i].split('.');
-
+                console.log(teamsIdArray) 
                 var strId = '';
 
-                for (var j = 0; j < teamsIdArray.length; j++) {
-                    let idGroup = teamsIdArray[j].split('-')
-                    console.log(idGroup)
-                    if (idGroup[1]) {
-                        strId += idGroup[1] + ",";
+                for (var j = 0; j < teamsIdArray.length-1; j++) {
+                    let idGroup = teamsIdArray[j].split(' - ')
+                    console.log(idGroup) 
+                    if (idGroup[1]) {//312498439
+                        if (teamsIdArray.length - 2 == j) {
+                            strId += idGroup[1];
+                            console.log(strId)
+                        }
+                        else {
+                            strId += idGroup[1] + ",";
+                        console.log(strId)
+                        }
+                        
                     }
                 }
 
@@ -645,15 +653,17 @@
                     "ClassNum": newTaskObj.ClassNum,
                     "Proffesion": newTaskObj.Profession,
                     "Deadline": date.toString() ,
-                    "IdTask": newTaskObj.Task.Num ,
+                    "IdTask": newTaskObj.Task.Num +1,
                     "IdTeacher": techerID,
                     "groupNum": i + 1,
-                    "Group": strId
+                    "Group": strId,
+                    "Status": 0
+
                 }
 
-              //  ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
+               ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
             }
-         //   ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
+          ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
            }
 
         

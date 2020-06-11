@@ -316,7 +316,7 @@
                     var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}`
                     document.getElementById("date").innerHTML = dateVal;
                     diffDays1 = diffDays(date);
-                    document.getElementById("restDate").innerHTML = diffDays1;
+                    document.getElementById("restDate").innerHTML = diffDays1 + " ימים";
                     if (diffDays1 == "מועד ההגשה עבר") {
                         document.getElementById("restDate").style.color = "red";
                         //$('#chooseVideo').attr("disabled", true);
@@ -343,7 +343,8 @@
             var submission = new Date(dateVal);
             var date2 = new Date(month + '/' + day + '/' + year);
             console.log(date2);
-            var diffDays2 = date2.getDate() - submission.getDate();
+            const diffTime = Math.abs(submission - date2);
+            const diffDays2 = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays2 < 0) {
                 diffDays2 = "מועד ההגשה עבר";
                 return diffDays2;

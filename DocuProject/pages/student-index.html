@@ -38,19 +38,26 @@
             // פרטי התלמיד
             local = localStorage.getItem('student');
             studentObj = JSON.parse(local);
-            readClassSUbjFromDB(studentObj); //מקצועות
+
+            //GET - ClassSubjects Table
+            readClassSUbjFromDB(studentObj); 
+            //orientation
             Showorientation();
             //menu - Student name
             myname = studentObj.FName + " " + studentObj.LName;
             document.getElementById("myNameN1").innerHTML = myname;
             document.getElementById("myNameN2").innerHTML = myname;
 
-            //
+            //User image
+            //GET - Admin Table
+            //GET - ImgAdmin Table
             showDetalis(studentObj);
             
             $('#sorting').click(sortProf);
         });
-
+             //User image
+            //GET - Admin Table
+            //GET - ImgAdmin Table
             function showDetalis(studentObj)
             {
                              
@@ -60,15 +67,13 @@
                 Id = studentObj.Id;
                 var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
-     
+            }   
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
                 ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
             function funcerror() { }
-
             function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -76,22 +81,19 @@
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
-
             function getAvatarImageError(err) {
                 console.log(err)
             }
 
             //////////pic/////
-
+        //GET - ClassSubjects Table
+        listCS = [];
+        ProgSTR = "";
         function readClassSUbjFromDB(studentObj)
         {
             var url = "../api/Student/GetClassSubj/" + studentObj.ClassName + "/" + studentObj.ClassNum;
             ajaxCall("GET", url, "", GETsuccessCB2, GETerrorCB2);
         }
-
-        listCS = [];
-        ProgSTR = "";
-
         function GETsuccessCB2(data) {
            listCS = data;
             for (var i = 0; i < listCS.length; i++) {
@@ -106,8 +108,7 @@
                 document.getElementById("professions").innerHTML = ProgSTR;
             }
 
-        }
-       
+        }      
         function GETerrorCB2(err) {
             console.log(err);
         }
