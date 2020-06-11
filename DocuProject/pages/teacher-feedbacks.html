@@ -41,6 +41,11 @@
         console.log(mainVideoPath)
 
         $(document).ready(function () {
+            ssss = localStorage.getItem('names');
+            console.log('names: ', JSON.parse(ssss));
+            groupNames = JSON.parse(localStorage["names"]);
+            document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
+
             //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
