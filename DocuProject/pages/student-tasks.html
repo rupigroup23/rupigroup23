@@ -111,8 +111,8 @@
         orientationSTR = "";
         function Showorientation() {
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + ProfObj.ClassName + "' " + ProfObj.ClassNum + "</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-professions.html'>מקצועות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-professions.html' >" + ProfObj.Profession + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>מקצועות</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + ProfObj.Profession + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-tasks.html'>מטלות</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }

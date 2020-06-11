@@ -242,7 +242,7 @@
     <Content Include="pages\manager-PresentationAssignment.html" />
     <Content Include="pages\student-login2.html" />
     <Content Include="pages\teacher-EditPresentationAssignment.html" />
-    <Content Include="pages\manager-feedbacks .html" />
+    <Content Include="pages\manager-feedbacks.html" />
     <Content Include="pages\teacher-SORT1-2tasks.html" />
     <Content Include="pages\teacher-submission.html" />
     <Content Include="pages\לא למחוק.html" />
