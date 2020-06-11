@@ -169,6 +169,7 @@
             console.log(avgAPI);
             ajaxCall("GET", avgAPI, "", GETsuccessTask, GETerrorTask);
         }
+
         //radiobtn algo
         function makeGroup() {
             $('#btnAlgo').hide();
@@ -228,6 +229,15 @@
 
         function randomGroups(newTaskObj) //צוותים רנדומלים
         {
+            var radiosStaffing = document.getElementsByName('staffing');
+            countStaf = "";
+            for (var i = 0; i < radiosStaffing.length; i++) {
+                if (radiosStaffing[i].checked) {
+                    assignation = radiosStaffing[i].value;
+                    console.log(radiosStaffing[i].value);
+                    countStaf++;
+                }
+            }
             radioChoose = "random";
 
             studentObj =
@@ -241,6 +251,15 @@
         }
         function shuffleGroups(newTaskObj) // צוותים מעורבים
         {
+            var radiosStaffing = document.getElementsByName('staffing');
+            countStaf = "";
+            for (var i = 0; i < radiosStaffing.length; i++) {
+                if (radiosStaffing[i].checked) {
+                    assignation = radiosStaffing[i].value;
+                    console.log(radiosStaffing[i].value);
+                    countStaf++;
+                }
+            }
             radioChoose = "shuffle";
 
             objClass =
@@ -252,6 +271,16 @@
             ajaxCall("POST", url, JSON.stringify(objClass), GETsuccessSS, GETerrorSS)
         }
         function equalsGroups(newTaskObj) { //בנים בנות
+            var radiosStaffing = document.getElementsByName('staffing');
+            countStaf = "";
+            for (var i = 0; i < radiosStaffing.length; i++) {
+                if (radiosStaffing[i].checked) {
+                    assignation = radiosStaffing[i].value;
+                    console.log(radiosStaffing[i].value);
+                    countStaf++;
+                }
+            }
+
             radioChoose = "equals";
             objClass =
                 {
@@ -264,6 +293,16 @@
         }
 
         function geographicalDiSGroup() { // מרחק גאוגרפי
+            var radiosStaffing = document.getElementsByName('staffing');
+            countStaf = "";
+            for (var i = 0; i < radiosStaffing.length; i++) {
+                if (radiosStaffing[i].checked) {
+                    assignation = radiosStaffing[i].value;
+                    console.log(radiosStaffing[i].value);
+                    countStaf++;
+                }
+            }
+
             radioChoose = "geographicalDiS";
             objClass =
                 {
@@ -524,7 +563,7 @@
             document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num + 1;
 
         }
-
+        //POST - Group_Feedback table
         //check details and post
         var description = "";
         function saveTask() {
@@ -581,7 +620,7 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                     "Profession": newTaskObj.Profession,
-                    "TaskNum": newTaskObj.Task.Num + 1,
+                    "TaskNum": newTaskObj.Task.Num,
                     "IdTeacher": techerID,
                 }            
 
@@ -606,14 +645,15 @@
                     "ClassNum": newTaskObj.ClassNum,
                     "Proffesion": newTaskObj.Profession,
                     "Deadline": date.toString() ,
-                    "IdTask": newTaskObj.Task.Num + 1,
+                    "IdTask": newTaskObj.Task.Num ,
                     "IdTeacher": techerID,
                     "groupNum": i + 1,
                     "Group": strId
                 }
 
-                ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
+              //  ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
             }
+         //   ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
            }
 
         
@@ -633,7 +673,7 @@
         }
 
         //new
-        //GET - Teacher Table
+        //GET - ClassSubjects Table
         var techerID = "";
         function getTeacher() {
             var apiProf = "../api/Docu/GetClassSubj/" + newTaskObj.ClassName + "/" + newTaskObj.ClassNum;

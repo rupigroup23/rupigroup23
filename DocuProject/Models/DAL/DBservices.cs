@@ -1844,15 +1844,15 @@ public class DBservices
             }
 
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = $@" SELECT t1.ClassName,t1.ClassNum, t1.Id_,t1.FName, t1.LName,t2.Proffesion,t1.GPA
+            String selectSTR = $@"SELECT t1.ClassName,t1.ClassNum, t1.Id_,t1.FName, t1.LName,t2.Profession,t1.GPA
                          FROM   Student t1
                                   LEFT OUTER JOIN 
-                                 (SELECT ClassName ,ClassNum, Proffesion
-			                         FROM GroupFeedback 
-			                         GROUP BY ClassName,  ClassNum ,Proffesion
+                                 (SELECT ClassName ,ClassNum, Profession
+			                         FROM classProfession 
+			                         GROUP BY ClassName,  ClassNum ,Profession
 			                        ) t2
                                   ON t1.ClassName = t2.ClassName and t1.ClassNum = t2.ClassNum
-                        where t1.ClassName= '{name}' and t1.ClassNum=  {num} and t2.Proffesion= '{prof}' and t1.GPA {type} '{grade}'
+                        where t1.ClassName= '{name}' and t1.ClassNum=  {num} and t1.GPA {type} '{grade}'
                         ORDER BY t1.Id_";
 
             //שורה קבועה
