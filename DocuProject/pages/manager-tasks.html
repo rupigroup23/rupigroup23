@@ -318,41 +318,6 @@
                     document.getElementById("tasks").innerHTML = tasksSort;
             }
         }
-        function sortDate() {
-            tasksSort = ""
-            document.getElementById("tasks").innerHTML = "";
-            for (var i = listCS.length-1; i >= 0; i--) {
-                //fix date
-                let date = listCS[i].Deadline;
-                let date1 = date.split('-');
-                let dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
-
-                    tasksSort += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
-                    tasksSort += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 taskNum' style='text-align: right'>";
-                    tasksSort += "מטלה מספר ";
-                    tasksSort += i+1;  
-                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
-                    //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
-                    tasksSort += "<i class='far fa-trash-alt'></i>";
-                    tasksSort += "</div></div>";
-                    tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
-                    tasksSort += "<h3 class='textSquareGRAY' style='width: 120%'>";
-                    tasksSort += listCS[i].Topic;
-                    tasksSort += "</h3></div></div>";
-                    tasksSort += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
-                    tasksSort += "<span class='textSquareGRAY' style='width: 120 %'>";   
-                    tasksSort += dateIL; 
-                    tasksSort += "</span></div></div> ";
-                    tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
-                    tasksSort += "<div class='channels-card-image'>";
-                    tasksSort += "<a href='manager-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSort += "<a href='manager-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה ועריכה.png' alt='הצגה'></a>&nbsp;";
-                    tasksSort += "<a href='manager-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
-                    tasksSort += "</div></div></div></div>";
-
-                    document.getElementById("tasks").innerHTML = tasksSort;
-            }
-        }
     </script>
 </head>
 <body id="page-top">
@@ -512,7 +477,6 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" id="sortNum"><i class="fas fa-sort-numeric-down-alt"></i>&nbsp; מספר מטלה</a>
-                                                <a class="dropdown-item" id="sortDate"><i class="fas fa-sort-numeric-down-alt"></i>&nbsp; תאריך מטלה</a>
                                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; סגירה</a>
                                             </div>
                                         </div>
