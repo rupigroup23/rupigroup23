@@ -31,6 +31,7 @@
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/feedbackStyle.css" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
         var likeBtn = 'false';
@@ -38,7 +39,9 @@
         var userEmail1 = '';
         var likearr = [];
         var groupNames2 = "";
-    
+        var username = '';
+        var username2 = '';
+
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
 
@@ -55,20 +58,20 @@
             console.log(source)
             console.log(video)
             document.getElementById('mainVideo').appendChild(source);
-           
+
 
             $('#load').prop("disabled", true);
 
-           
+
             local = localStorage.getItem('thisTask');
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
             console.log(TaskObj);
 
-            
+
             Showorientation();//סרגל השתלשלות
 
-           
+
 
             $('#likeBtn').click(function () { //
                 $('#like').css("color", "red");
@@ -89,9 +92,9 @@
                 $('#videospan').css("color", "green");
 
             })
-                
 
-           
+
+
             $('#chooseVideo').change(function () {
                 $("#load").prop("disabled", false);
             })
@@ -110,7 +113,8 @@
             //pic
             function showDetalis(studentObj) {
                 Id = studentObj.Id;
-                
+                username = studentObj.FName + ' ' + studentObj.LName;
+                console.log(username)
                 var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -130,18 +134,20 @@
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-                var groupNames1 = groupNames.split("•");
-                console.log(groupNames1)
-                for (var i = 1; i < groupNames1.length-1; i++) {
-                   groupNames2 += groupNames1[i];
-                }
-                console.log('groupNames2=',groupNames2)
-                ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
+
             }
+
+            var groupNames1 = groupNames.split("•");
+            console.log(groupNames1)
+            for (var i = 1; i < groupNames1.length - 1; i++) {
+                groupNames2 += groupNames1[i];
+            }
+            console.log('groupNames2=', groupNames2)
+            ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
 
             function getDataSuccess(data) {
                 console.log(data)
-                
+
                 for (var i = 0; i < data.length; i++) {
                     likearr.push(data[i].UserName)
                 }
@@ -151,23 +157,25 @@
                     }
                 }
                 console.log(likearr)
-
+                
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
-    
-                for (var i = 0; i < data.length; i++) {
 
-                    if (data[i].NameLike == "true" ) {
-                        strLike += '<div class="owl-item cloned active" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
+                for (var i = 0; i < data.length; i++) {
+                    username2 = data[i].UserName;
+                    console.log(username2);
+                    if (data[i].NameLike == "true") {
+                        strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
                     }
-               
+
                     if (data[i].Contents != '') {
-                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"><i class="fas fa-comment"></i>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
+
+                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"></i><a class="text-success" id ="deleteBtn" data-id="' + data[i].Id + '" data-deleteType="comment" style="cursor: pointer;"><i class="far fa-trash-alt" id="trush"></i></a>&nbsp;<a class="text-success"><i class="fas fa-comment"></i></a>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
                     }
                     if (data[i].Video != '') {
-                        strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a></div></div></div >';
+                        strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a>&nbsp;&nbsp;<i style="cursor:pointer;" class="far fa-trash-alt text-success " id="deleteBtn" data-id="' + data[i].Id + '" data-deleteType="video"></i>&nbsp;</div></div></div >';
                     }
                 }
                 strLike += '</div></div></div>'
@@ -175,11 +183,56 @@
                 $('#comentDiv').html(strContents);
                 $('#videoDiv').html(strVideo);
 
+              
             }
 
             function getDataError(err) {
                 console.log(err);
             }
+
+            $(document).on("click", "#deleteBtn", function () {  // מחיקה של תגובה
+              
+                let selectedRow = this.getAttribute('data-id');
+                let type = this.getAttribute('data-deleteType');
+                console.log(type);
+                if (username2 == username) {
+
+
+                    //markSelected(this);
+                    //$('#trush').css("color", "green");
+
+                    swal({
+                        title: "האם את/ה בטוח?",
+                        text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true
+                    })
+                        .then(function (willDelete) {
+                            if (willDelete)
+                                deleteComment(selectedRow, type);
+                            else swal("הפעולה בוטלה");
+                        });
+                }
+                else {
+                    console.log(err);
+                }
+            
+            });
+
+            function deleteComment(selectedRow, type) {
+
+                url = '../api/Teacher/deleteComment/' + selectedRow + '/' + type;
+                ajaxCall("PUT", url, "", updateDsuccess, updateDerror);
+            }
+
+            function updateDsuccess() {
+                swal("התגובה נמחקה בהצלחה!", "", "success");
+                location.reload();
+            }
+
+            function updateDerror(err) { console.log(err) }
+
 
 
             function getAvatarImageError(err) {
@@ -216,63 +269,63 @@
             }
             function showVideoError(err) { console.log(err) }
 
-     
 
 
-        //check details and post
-        var videoPath = "";
-        var contact = "";
 
-        function saveFeedback() {
-            //check details
-            con = $("#contact").val();
-            updateVid = videoPath[0];
-           
-            if (likeBtn == 'false' || con == "" || updateVid == null) {
-               
-                Swal.fire({
-                    title: 'רגע...',
-                    text: "אינך השתמשת בכל האופציות, האם ברצונך להמשיך?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'המשך בכל זאת',
-                    cancelButtonText: 'ביטול'
-                }).then((result) => {
-                    if (result.value) {
-                        feedbackObj = {
-                            "NumOfTask": TaskObj.Task.Num,
-                            "Contents": $("#contact").val(),
-                            "NameLike": likeBtn,
-                            "Video": videoPath[0],
-                            "GroupStudent": groupNames2.trim(),
-                            "Profession": TaskObj.Profession,
-                            "UserName": studentObj.FName + ' ' + studentObj.LName
+            //check details and post
+            var videoPath = "";
+            var contact = "";
+
+            function saveFeedback() {
+                //check details
+                con = $("#contact").val();
+                updateVid = videoPath[0];
+
+                if (likeBtn == 'false' || con == "" || updateVid == null) {
+
+                    Swal.fire({
+                        title: 'רגע...',
+                        text: "אינך השתמשת בכל האופציות, האם ברצונך להמשיך?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'המשך בכל זאת',
+                        cancelButtonText: 'ביטול'
+                    }).then((result) => {
+                        if (result.value) {
+                            feedbackObj = {
+                                "NumOfTask": TaskObj.Task.Num,
+                                "Contents": $("#contact").val(),
+                                "NameLike": likeBtn,
+                                "Video": videoPath[0],
+                                "GroupStudent": groupNames2.trim(),
+                                "Profession": TaskObj.Profession,
+                                "UserName": studentObj.FName + ' ' + studentObj.LName
+                            }
+
+                            console.log('feedbackObj=', feedbackObj)
+                            localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
+                            ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                         }
-                     
-                        console.log('feedbackObj=',feedbackObj)
-                        localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
-                        ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
+                    })
+                } else {
+                    feedbackObj = {
+                        "NumOfTask": TaskObj.Task.Num,
+                        "Contents": $("#contact").val(),
+                        "NameLike": likeBtn,
+                        "Video": videoPath[0],
+                        "GroupStudent": groupNames2.trim(),
+                        "Profession": TaskObj.Profession,
+                        "UserName": studentObj.FName + ' ' + studentObj.LName
                     }
-                })
-            } else {
-                feedbackObj = {
-                    "NumOfTask": TaskObj.Task.Num,
-                    "Contents": $("#contact").val(),
-                    "NameLike": likeBtn,
-                    "Video": videoPath[0],
-                    "GroupStudent": groupNames2.trim(),
-                    "Profession": TaskObj.Profession,
-                    "UserName": studentObj.FName + ' ' + studentObj.LName
+                    $('#likeBtn').attr('disabled', true);
+                    console.log(feedbackObj)
+                    localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
+                    ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
                 }
-                $('#likeBtn').attr('disabled', true);
-                console.log(feedbackObj)
-                localStorage.setItem('feedbackObj', JSON.stringify(feedbackObj));
-                ajaxCall("POST", "../api/Student/PostFeedback", JSON.stringify(feedbackObj), POSTsuccess, POSTerror);
             }
-        }
-        }); 
+        });
 
         function POSTsuccess(data) {
             Swal.fire({
