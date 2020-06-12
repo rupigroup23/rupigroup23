@@ -387,7 +387,15 @@ namespace DocuProject.Controllers
             Task T = new Task();
             return T.deleteTask(class1, numClass, sub, topic);
         }
+        [HttpDelete]
+        [Route("api/Docu/deleteTaskGroup/{class1}/{numClass}/{sub}/{num}")]
+        public int deleteTask(string class1, string numClass, string sub, int num) //מורה 
+        {
+            ClassSubjects C = new ClassSubjects();
+            return C.deleteTaskGroup(class1, numClass, sub, num);
+        }
 
+       
         [HttpGet] // אלגוריתם מרחקים -רביד
         [Route("api/Docu/checkPosition/{managerId}")]
         public Admin checkAdminPosition(int managerId)

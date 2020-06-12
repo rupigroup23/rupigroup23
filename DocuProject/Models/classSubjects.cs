@@ -73,6 +73,14 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             return dbs.getCSFromDB(teachrID);
         }
+
+        public int deleteTaskGroup(string class1, string numClass, string sub, int num)
+        {
+            DBservices dbs = new DBservices();
+            int numAffected = dbs.deleteTaskGroup(class1, numClass, sub, num);
+            return numAffected;
+        }
+
     }
 
 }

@@ -2001,6 +2001,7 @@ public class DBservices
     //    }
     //    return this; // מחזיר איבר מסוג DB SERVICES
     //}
+
     public int delete_task(string class1, string numClass, string sub, string topic)
     {
         SqlConnection con;
@@ -2031,7 +2032,37 @@ public class DBservices
             throw (ex);
         }
     }
-     // אלגוריתם מרחקים -רביד
+    public int deleteTaskGroup(string class1, string numClass, string sub, int num)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DBConnectionString"); // ניצור את הקשר עם הדטה בייס - השם שיופיע פה יופיע בWEBCONFINGS
+
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        try
+        {
+            int numEffected = 0;
+            String selectSTR = "delete from groupfeedback where ClassName = '" + class1 + "' and classNum = '" + numClass + "'and Profession = '" + sub + "'and IdTask=" + num + "";
+            //בניית פקודת דחיפה - הכנסה לדאטהבייס
+            cmd = CreateCommand(selectSTR, con);  ///// קבועה - לא לגעת
+            numEffected += cmd.ExecuteNonQuery(); // קבועה - לא לגעת , מבצעת את הפקודה 
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+    }
+    // אלגוריתם מרחקים -רביד
     public Student checkPosition(int studentId)
     {
         Student s = new Student(); // ניצור רשימה לשמירת המידע

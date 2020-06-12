@@ -227,8 +227,14 @@
             }
             console.log(thisTask);
 
-            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic
+            //from task table
+            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic;
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+
+            // from group table
+            url2 = '../api/Docu/deleteTaskGroup/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Num;
+            ajaxCall("DELETE", url2, "", DeleteSuccess2, DeleteError2)
+
         }
 
         function DeleteSuccess(data) {
@@ -239,9 +245,11 @@
             location.assign(x);
         }
         function DeleteError(err) { console.log(err) }
+
+        function DeleteSuccess2(data) {console.log(data)}
+        function DeleteError2(err) { console.log(err) }
         /// delete - finall
 
-       
         function GETerrorT1(err) {
             console.log(err);
         }
