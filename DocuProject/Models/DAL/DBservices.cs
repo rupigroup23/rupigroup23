@@ -1719,7 +1719,7 @@ public class DBservices
         try
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask='" + numOfTask + "' and profession='" + Profession + "'";
+            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask=" + numOfTask + " and profession='" + Profession + "'";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -1844,15 +1844,15 @@ public class DBservices
             }
 
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = $@" SELECT t1.ClassName,t1.ClassNum, t1.Id_,t1.FName, t1.LName,t2.Proffesion,t1.GPA
+            String selectSTR = $@"SELECT t1.ClassName,t1.ClassNum, t1.Id_,t1.FName, t1.LName,t2.Profession,t1.GPA
                          FROM   Student t1
                                   LEFT OUTER JOIN 
-                                 (SELECT ClassName ,ClassNum, Proffesion
-			                         FROM GroupFeedback 
-			                         GROUP BY ClassName,  ClassNum ,Proffesion
+                                 (SELECT ClassName ,ClassNum, Profession
+			                         FROM classProfession 
+			                         GROUP BY ClassName,  ClassNum ,Profession
 			                        ) t2
                                   ON t1.ClassName = t2.ClassName and t1.ClassNum = t2.ClassNum
-                        where t1.ClassName= '{name}' and t1.ClassNum=  {num} and t2.Proffesion= '{prof}' and t1.GPA {type} '{grade}'
+                        where t1.ClassName= '{name}' and t1.ClassNum=  {num} and t1.GPA {type} '{grade}'
                         ORDER BY t1.Id_";
 
             //שורה קבועה
@@ -1937,9 +1937,9 @@ public class DBservices
         String command;
 
         StringBuilder sb = new StringBuilder();
-        // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6},'{7}')", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Proffesion, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Group); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO GroupFeedback" + "(ClassName , ClassNum, Proffesion,Deadline , IdTask , IdTeacher,GroupNum,Group_students)"; // לפי העמודות בSQL
+        // use a string builder to create the dynamic string //Status_
+        sb.AppendFormat("Values('{0}',{1},'{2}','{3}',{4},{5},{6},'{7}',{8})", StudentObj.ClassName, StudentObj.ClassNum, StudentObj.Proffesion, StudentObj.Deadline, StudentObj.IdTask, StudentObj.IdTeacher, StudentObj.GroupNum, StudentObj.Group, StudentObj.Status); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO GroupFeedback" + "(ClassName , ClassNum, Proffesion,Deadline , IdTask , IdTeacher,GroupNum,Group_students,Status_)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
