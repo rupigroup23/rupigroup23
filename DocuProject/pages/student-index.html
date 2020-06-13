@@ -174,8 +174,6 @@
 
     </script>
 </head>
-
-
 <body id="page-top">
     <!-- top bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -213,10 +211,10 @@
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
                     <a class="dropdown-item" href="student-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="student-login2.html" data-toggle="modal" data-target="#logoutModal1"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
                 </div>
             </li>
         </ul>
@@ -240,13 +238,13 @@
             <li class="nav-item channel-sidebar-list">
                 <h6 id="myNameN2" class="nav-item">תלמיד</h6>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="student-index.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>מקצועות</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="student-Classroom.html">
                     <i class="fas fa-fw fa-users"></i>
                     <span>רשימת כיתה</span>
@@ -261,13 +259,12 @@
                     <span>הגדרות</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="student-login2.html">
-                    <i class="fas fa-fw fa-sign-out-alt"></i>
+            <li class="nav-item ">
+                <a class="nav-link" href="student-login2.html" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" style="font-size:24px"></i>
                     <span>יציאה מהמערכת</span>
                 </a>
             </li>
-
         </ul>
         <!-- END Left menu -->
         <div id="content-wrapper">
@@ -331,7 +328,7 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
