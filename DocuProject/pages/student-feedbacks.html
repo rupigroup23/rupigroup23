@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/feedbackStyle.css" rel="stylesheet" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="css/owl.css" rel="stylesheet" />
 
     <script>
         var likeBtn = 'false';
@@ -157,7 +158,7 @@
                     }
                 }
                 console.log(likearr)
-                
+
                 let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
@@ -183,41 +184,36 @@
                 $('#comentDiv').html(strContents);
                 $('#videoDiv').html(strVideo);
 
-              
+
             }
 
             function getDataError(err) {
                 console.log(err);
             }
 
+
             $(document).on("click", "#deleteBtn", function () {  // מחיקה של תגובה
-              
+
                 let selectedRow = this.getAttribute('data-id');
                 let type = this.getAttribute('data-deleteType');
                 console.log(type);
-                if (username2 == username) {
+                //markSelected(this);
+                //$('#trush').css("color", "green");
+
+                swal({
+                    title: "האם את/ה בטוח?",
+                    text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (willDelete) {
+                        if (willDelete)
+                            deleteComment(selectedRow, type);
+                        else swal("הפעולה בוטלה");
+                    });
 
 
-                    //markSelected(this);
-                    //$('#trush').css("color", "green");
-
-                    swal({
-                        title: "האם את/ה בטוח?",
-                        text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true
-                    })
-                        .then(function (willDelete) {
-                            if (willDelete)
-                                deleteComment(selectedRow, type);
-                            else swal("הפעולה בוטלה");
-                        });
-                }
-                else {
-                    console.log(err);
-                }
-            
             });
 
             function deleteComment(selectedRow, type) {

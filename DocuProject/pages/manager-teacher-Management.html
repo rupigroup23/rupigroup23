@@ -174,9 +174,17 @@
             
         }
         function DeleteSuccess(data) {
+
+            tbl.clear();
             redrawTBL(tbl, data);
-            swal("המורה נמחק/ה בהצלחה!", "", "success");
-            location.reload();
+                        Swal.fire({
+                icon: 'success',
+                text: 'המורה נמחק/ה בהצלחה',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+            });
+
+            setTimeout(reload, 2000);
         }
         function DeleteError(err) { console.log(err) }
 
@@ -263,19 +271,28 @@
             console.log(id);
             url = "../api/Docu/updateTeacher/" + id1;
             ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
-            location.reload();
         }
 
         function updateDsuccess(data) {
-            teacherN = data;
-            console.log(data);
-            swal("העריכה נשמרה", "", "success");
-            tbl.clear();
+            Swal.fire
+                ({
+                icon: 'success',
+                text: 'הפרטים שונו בהצלחה',
+                confirmButtonText: 'אישור',
+                showCloseButton: true
+                });
+
+           tbl.clear();
             redrawTBL(tbl, data);
             $("#editDiv").hide();
+            setTimeout(reload, 6000);
         }
         function updateDerror(err) {
             console.log(err);
+        }
+
+        function reload() {
+            location.reload();    
         }
 
 

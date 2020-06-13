@@ -189,9 +189,15 @@
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
         }
         function DeleteSuccess(data) {
-            swal("התלמיד/ה נמחק/ה בהצלחה!", "", "success");
-            console.log(data);
-            redrawTBL(tbl, data); // מרפרש לטבלה מעודכנת
+         Swal.fire({
+                icon: 'success',
+                text: 'התלמיד נמחק/ה בהצלחה',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+         });
+
+            tbl.clear();
+            redrawTBL(tbl, data);
             location.reload();
         }
         function DeleteError(err) { console.log(err) }
@@ -271,19 +277,26 @@
             console.log(id);
             url = "../api/Docu/updateStudent/" + id1;
             ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
-
-            location.reload();
         }
         function updateDsuccess(data) {
+            Swal.fire({
+                icon: 'success',
+                text: 'הפרטים שונו בהצלחה',
+                confirmButtonText: 'אוקי',
+                showCloseButton: true
+            });
 
-            console.log(data);
-            swal("העריכה נשמרה", "", "success");
             tbl.clear();
             redrawTBL(tbl, data);
             $("#editDiv").hide();
+            setTimeout(reload, 2000);
         }
         function updateDerror(err) {
             console.log(err);
+        }
+
+        function reload() {
+            location.reload();
         }
 
     </script>
@@ -483,10 +496,6 @@
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>מספר כיתה</label>
                                 <input type="number" class="form-control" id="classNumber" required />
-                            </div>
-                            <div class="form-group col-sm-3 create-text">
-                                <label for="price"><span class="red-star"> </span>סיסמא ראשונית</label>
-                                <input type="text" class="form-control" id="password" required />
                             </div>
                         </div>
                         <div class="row">

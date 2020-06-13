@@ -200,6 +200,7 @@
     <Content Include="pages\account.html" />
     <Content Include="pages\blank.html" />
     <Content Include="pages\css\feedbackStyle.css" />
+    <Content Include="pages\css\owl.css" />
     <Content Include="pages\css\stam.css" />
     <Content Include="pages\css\upl.css" />
     <Content Include="pages\EntrancePage.html" />
