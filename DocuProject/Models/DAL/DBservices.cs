@@ -1372,7 +1372,7 @@ public class DBservices
                 selectSTR = "select Image_ from Teacher__ where Id_='" + Id + "'";
 
             }
-            else
+            if (str == "student")
             {
                 selectSTR = "select Image_ from Student where Id_='" + Id + "'";
             }

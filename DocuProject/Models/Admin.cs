@@ -21,6 +21,7 @@ namespace DocuProject.Models
         string password;
         double latitude;
         double longitude;
+        string image;
 
         public Admin() { }
 
@@ -36,6 +37,7 @@ namespace DocuProject.Models
         public string Password { get => password; set => password = value; }
         public double Latitude { get => latitude; set => latitude = value; }
         public double Longitude { get => longitude; set => longitude = value; }
+        public string Image { get => image; set => image = value; }
 
         public Admin CheckUser(Admin admin)
         {
@@ -71,6 +73,7 @@ namespace DocuProject.Models
                     dr["Bday"] = admin.Bday;
                     dr["PhoneNum"] = admin.PhoneNum;
                     dr["Password_"] = admin.Password;
+                    dr["Image_"] = admin.Image;
                 }
             }
             return dt;

@@ -168,17 +168,19 @@
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             };
 
+            Password = "";
+            imgStr = "";
             function saveDetails_() {
 
-             Password = "";
+                 imgStr = `http://localhost:44328/${imagePath}`;
+
                 if ($("#pass2").val() == "")
                 {
-                    Password = obj[0].Password;
+                    Password = obj[0].Password_;
                 }
                 else {
                     Password = passNew;
                 }
-
                 let admin =
                 {
                     "Fname": $("#fname").val(),
@@ -189,14 +191,13 @@
                     "Street": $("#street").val(),
                     "Bday": $("#bday").val(),
                     "PhoneNum": $("#phone").val(),
-                    "Password": Password
-                }
-                console.log(admin);
+                    "Password": Password,
+                    "Image": imgStr
 
+                }
                 url = "../api/Docu/updatetAdmin";
                 ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
-
             function updateDsuccess(data) {
                 console.log(data)
                 funcsuccess(data);
@@ -213,7 +214,7 @@
 
             function showImages(data) {
                 imagePath = data;
-                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+                Swal.fire("התמונה נטענה בהצלחה, לחץ על 'שמור תמונה'")
             }
 
             function error(data) {
@@ -222,15 +223,14 @@
 
             function POSTsuccessImg() {
                 Swal.fire(
-                    'Good job!',
                     'התמונה הועלתה בהצלחה!',
+                    '',
                     'success'
                 )
             }
             function POSTerrorImg(data) {
                 console.log(data);
             }
-
 
         });
     </script>
