@@ -192,12 +192,12 @@ namespace DocuProject.Controllers
         public Class GetDetails2(string className, int classNum) // ����� ���� �� ���������- �� ������
         {
             Class C = new Class();
-            return C.Get_Details2(className,classNum);
+            return C.Get_Details2(className, classNum);
         }
 
         [HttpGet]
         [Route("api/Student/checkPosition/{studentId}")]
-        public Student checkPosition (int studentId)
+        public Student checkPosition(int studentId)
         {
             Student s = new Student();
             return s.checkPosition(studentId);

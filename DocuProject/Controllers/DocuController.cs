@@ -371,7 +371,7 @@ namespace DocuProject.Controllers
             return studentObj.GetStudentsAlgoritem(radioChoose);
         }
 
-        // עריכת מטלה - נוי 
+        // עריכת מטלה מטבלת מטלות- נוי 
         [HttpPut]
         [Route("api/Docu/updateTask/{class1}/{numClass}/{sub}/{topic}")]
         public DataTable PutTask(string class1, string numClass, string sub, string topic, [FromBody] Task taskNew)
@@ -380,13 +380,29 @@ namespace DocuProject.Controllers
             return T.putT(class1, numClass, sub, topic, taskNew);
         }
 
-        //מחיקת מטלה - נוי 
+        //מחיקת מטלה מטבלת מטלות- נוי 
         [HttpDelete] 
         [Route("api/Docu/deleteTask/{class1}/{numClass}/{sub}/{topic}")]
         public int deleteTask(string class1, string numClass, string sub, string topic) //מורה 
         {
             Task T = new Task();
             return T.deleteTask(class1, numClass, sub, topic);
+        }
+        // מחיקת מטלה מטבלת קבוצות -  נוי 
+        [HttpDelete] 
+        [Route("api/Docu/deleteTaskGroup/{class1}/{numClass}/{sub}/{num}")]
+        public int deleteTask(string class1, string numClass, string sub, int num) //מורה 
+        {
+            ClassSubjects C = new ClassSubjects();
+            return C.deleteTaskGroup(class1, numClass, sub, num);
+        }
+        // עריכת מטלה מטבלת קבוצות -  נוי 
+        [HttpPut]
+        [Route("api/Docu/UpdateTask_Group/{class1}/{numClass}/{sub}/{num}")]
+        public DataTable editTaskGroup(string class1, int numClass, string sub, int num, [FromBody] Group_Feedback taskGroup) //מורה 
+        {
+            Group_Feedback G = new Group_Feedback();
+            return G.editTaskGroup(class1, numClass, sub, num, taskGroup);
         }
 
         [HttpGet] // אלגוריתם מרחקים -רביד

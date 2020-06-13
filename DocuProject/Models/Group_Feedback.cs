@@ -77,11 +77,6 @@ namespace DocuProject.Models
                     dr["ClassName"] = VT.ClassName;
                     dr["ClassNum"] = VT.ClassNum;
                     dr["Proffesion"] = VT.Proffesion;
-                    //dr["Deadline"] = VT.Deadline;
-                    //dr["IdTask"] = VT.IdTask;
-                    //dr["IdTeacher"] = VT.IdTeacher;
-                    //dr["GroupNum"] = VT.GroupNum;
-                    //dr["Group_students"] = VT.Group_students;
                     dr["Grade"] = VT.Grade;
                     dr["Feedback"] = VT.Feedback;
                     dr["Status_"] = VT.Status;
@@ -103,6 +98,25 @@ namespace DocuProject.Models
             DBservices dbs = new DBservices();
             int numAffected = dbs.insertGroup(StudentObj);
             return numAffected;
+        }
+
+        public DataTable editTaskGroup(string class1, int numClass, string sub, int num, Group_Feedback taskGroup)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.getSpecificTaskGroup(class1, numClass, sub, num);
+            dbs.dt = checkTblT3(taskGroup, dbs.dt);
+            dbs.update();
+            return dbs.dt;//מעביר רק את הטבלה 
+        }
+        public DataTable checkTblT3(Group_Feedback taskGroup, DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                {
+                    dr["Deadline"] = taskGroup.Deadline;
+                }
+            }
+            return dt;
         }
 
 
