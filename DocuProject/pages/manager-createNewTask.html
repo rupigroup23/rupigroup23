@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -81,7 +82,7 @@
             $('#gender').click(showG);
             $('#StrongWeak').click(showG);
             $('#random').click(showG);
-            $('#geographicalDiS').click(showG);   
+            $('#geographicalDiS').click(showG);
             $('#btnAlgo').click(makeGroup); //play alg
 
             ///upload files
@@ -162,7 +163,7 @@
                         confirmButtonColor: '#990099',
                     })
                 }
-                
+
             }
 
             var avgAPI = "../api/Docu/GetSudentsbyGrade/" + newTaskObj.ClassName + "/" + newTaskObj.ClassNum + "/" + newTaskObj.Profession + "/" + AvgGrade;
@@ -183,7 +184,7 @@
 
 
             if (shuffle.checked) // צוותים מעורבים
-            { 
+            {
                 shuffleGroups(newTaskObj);
             }
 
@@ -318,7 +319,7 @@
         function GETsuccessSS(studentsData) {
             allStudents = studentsData; // מערך של כל הקבוצות של הסטודנטים בתעודות זהות
             console.log(studentsData);
-            makeTeam(allStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ    
+            makeTeam(allStudents); // שולח לפונקציה שמגדירה כל קבוצה כגרופ
         }
         function GETerrorSS() { };
 
@@ -380,15 +381,15 @@
         }
 
         function getdata() {
-            teams=[]
+            teams = []
             setTimeout(function () {
                 for (let i = 0; i < olCounter; i++) {
                     teams.push($(`#selected_columns${i}`).text())
                 }
                 console.log(teams)
-            }, 500)            
-        }        
-        
+            }, 500)
+        }
+
         var GroupStudents = "";
 
         function GETsuccessTask(data) { // אלגוריתם של שיר
@@ -620,19 +621,19 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                     "Profession": newTaskObj.Profession,
-                    "TaskNum": newTaskObj.Task.Num +1,
+                    "TaskNum": newTaskObj.Task.Num + 1,
                     "IdTeacher": techerID,
-                }            
+                }
 
             for (var i = 0; i < teams.length; i++) {
 
                 var teamsIdArray = teams[i].split('.');
-                console.log(teamsIdArray) 
+                console.log(teamsIdArray)
                 var strId = '';
 
-                for (var j = 0; j < teamsIdArray.length-1; j++) {
+                for (var j = 0; j < teamsIdArray.length - 1; j++) {
                     let idGroup = teamsIdArray[j].split(' - ')
-                    console.log(idGroup) 
+                    console.log(idGroup)
                     if (idGroup[1]) {//312498439
                         if (teamsIdArray.length - 2 == j) {
                             strId += idGroup[1];
@@ -640,9 +641,9 @@
                         }
                         else {
                             strId += idGroup[1] + ",";
-                        console.log(strId)
+                            console.log(strId)
                         }
-                        
+
                     }
                 }
 
@@ -652,8 +653,8 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                     "Proffesion": newTaskObj.Profession,
-                    "Deadline": date.toString() ,
-                    "IdTask": newTaskObj.Task.Num +1,
+                    "Deadline": date.toString(),
+                    "IdTask": newTaskObj.Task.Num + 1,
                     "IdTeacher": techerID,
                     "groupNum": i + 1,
                     "Group": strId,
@@ -661,12 +662,12 @@
 
                 }
 
-               ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
+                ajaxCall("POST", "../api/Docu/postGroup", JSON.stringify(groupTask), POSTsuccessGroup, POSTerrorGroup);
             }
-          ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
-           }
+            ajaxCall("POST", "../api/Docu/Tasks", JSON.stringify(TaskObj), POSTsuccess, POSTerror);
+        }
 
-        
+
 
         function POSTsuccess(data) {
             Swal.fire({
@@ -911,9 +912,9 @@
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" id="btnAlgo1" href="#">
-                                                            <buttom id="btnAlgo">
-                                                                הפעל אלגוריתם צוות
-                                                            </buttom>
+                                                        <buttom id="btnAlgo">
+                                                            הפעל אלגוריתם צוות
+                                                        </buttom>
                                                     </a>
                                                 </div>
                                             </div>

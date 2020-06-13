@@ -29,9 +29,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <!-- Include a required theme -->
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -237,6 +237,59 @@
 
             document.getElementById("lastTask").innerHTML = lastSTR;
         }
+        
+          function deleteTask(thisTask) {
+
+               swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר , המטלה תמחק מהמערכת",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete)
+                        delete_TaskDB(thisTask);
+                    else swal("הפעולה בוטלה");
+                });
+        }
+
+        function  delete_TaskDB(thisTask)
+        {
+            idT = thisTask.id; 
+            task = listCS[idT - 1].Topic; 
+            thisTask = {
+                "ClassName": ProfObj.ClassName, 
+                "ClassNum": ProfObj.ClassNum,
+                "Profession": ProfObj.Profession, 
+                "Task": {
+                    "Num": idT,
+                    "Topic": listCS[idT - 1].Topic,
+                    "Date": dateIL,
+                }
+            }
+            console.log(thisTask);
+
+            url = '../api/Teacher/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic
+            ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+        }
+
+        function DeleteSuccess(data) {
+            swal("המטלה נמחקה בהצלחה!", "", "success");
+            console.log(data);
+            x = "teacher-tasks.html";
+            location.assign(x);
+
+        }
+        function DeleteError(err) { console.log(err) }
+        /// delete - finall
+
+       
+        function GETerrorT1(err) {
+            console.log(err);
+        }
+
+
 
         var tasksSort;
         function sortNum() {

@@ -227,23 +227,35 @@
             }
             console.log(thisTask);
 
-            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic
+            //from task table
+            url = '../api/Docu/deleteTask/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Topic;
             ajaxCall("DELETE", url, "", DeleteSuccess, DeleteError)
+
+            // from group table
+            url2 = '../api/Docu/deleteTaskGroup/' + thisTask.ClassName + '/' + thisTask.ClassNum + '/' + thisTask.Profession + '/' + thisTask.Task.Num;
+            ajaxCall("DELETE", url2, "", DeleteSuccess2, DeleteError2)
         }
 
-        function DeleteSuccess(data) {
-            swal("המטלה נמחקה בהצלחה!", "", "success");
-            console.log(data);
-            x = "manager-tasks.html";
-
-            location.assign(x);
-        }
+        function DeleteSuccess() {}
         function DeleteError(err) { console.log(err) }
+
+        function DeleteSuccess2(data)
+        {
+            swal("המטלה נמחקה בהצלחה!", "", "success");
+            reloadFun();
+        }
+
+        function DeleteError2(err) { console.log(err) }
         /// delete - finall
 
-       
         function GETerrorT1(err) {
             console.log(err);
+        }
+
+        function reloadFun()
+        {
+            x = "manager-tasks.html";
+            location.assign(x);
         }
 
         lastSTR = "";

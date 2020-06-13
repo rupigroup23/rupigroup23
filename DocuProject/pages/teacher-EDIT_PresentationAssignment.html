@@ -29,9 +29,9 @@
 
     <!--shir links-->
     <!-- Include a required theme -->
-    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <script src="sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
     <!-- more -->
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
     <!-- links of Facebook, instedram and links -->
@@ -49,15 +49,12 @@
             fileName_str = "";
             fileDiv = "";
             isFile = "";
+            taskPath = "";
 
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
             TaskObj = JSON.parse(localStorage["thisTask"]);
-
-                       className = TaskObj.ClassName;
-            classNum = TaskObj.ClassNum;
-            subj = TaskObj.Profession;
-            topic = TaskObj.Task.Topic;
+            getSpecificTask(TaskObj);
 
             populateFields(TaskObj); 
             $('#saveBTN').click(saveTask); // save edit
@@ -65,11 +62,23 @@
 
                 $(document).on("change", "#addFile", function () {
             $("#upload_btn2").show();  
-            $('#valuTxtEdit').prop( "disabled", true );
-            });
+            $('#valuTxtEdit2').prop( "disabled", true );
+                });
 
-            ajaxCall('get', '../api/Teacher/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
+       
+        api = "";
+        function getSpecificTask(TaskObj) {
 
+            className = TaskObj.ClassName;
+            classNum = TaskObj.ClassNum;
+            subj = TaskObj.Profession;
+            topic = TaskObj.Task.Topic;
+
+
+            api = '../api/Teacher/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic;
+            ajaxCall('get', api, '', Success, Error);
+        }
+        taskPath = "";
             function Success(data) {
                 taskPath = data;
                 strcheck = taskPath.search("http://proj.ruppin.ac.il");
@@ -86,7 +95,8 @@
             function Error(err) {
                 console.log(err)
             }
-                function populateFields(TaskObj)
+
+        function populateFields(TaskObj)
                 {
                 isFile = taskPath.includes("proj.ruppin"); //If there is a file 
                     if (taskPath != "" && isFile == true) //get file name
@@ -121,9 +131,19 @@
                 $("#num").val(TaskObj.Task.Num);
                 $("#taskTopic").val(TaskObj.Task.Topic);
             }
-
-                  function saveTask()
+        decription_DB = "";
+     
+                function saveTask()
                 {
+                    if (isFile == true) {
+
+                        decription_DB = taskPathNew;
+                    }
+                    else
+                    {
+                        decription_DB = $("#valuTxtEdit").val();
+                    }
+
                 let TaskNew =
                     {
                     "ClassName": $("#class").val(),
@@ -131,7 +151,7 @@
                     "Profession": $("#prof").val(),
                     "Deadline": $("#deadLine").val(),
                     "Topic" : $("#taskTopic").val(),
-                    "Description": $("#valuTxtEdit").val(),
+                    "Description":decription_DB 
                     }
                     console.log(TaskNew); 
 
@@ -156,6 +176,56 @@
         function updateDerror(err) {
             console.log(err);
         }
+
+          ///////  upload files -לבדוק שעובד טוב בשרת ///////// 
+            $('#upload').on('click', function () {
+                console.log('clicked')
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+                console.log(data);
+                console.log(files);
+
+                // Add the uploaded file to the form data collection
+                if (files.length > 0) {
+                    for (f = 0; f < files.length; f++) {
+                        data.append("UploadedTasks", files[f]);
+                    }
+                    data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+                }
+
+                //Ajax upload
+                $.ajax({
+                    type: "POST",
+                    url: "../Api/DocuUpload/uploadtask",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: changeTaskPath,
+                    error: error
+                });
+
+                return false;
+            });
+
+        taskPathNew = "";
+        function changeTaskPath(data)
+        {
+                taskPathNew = data; // כעת עודכן הקובץ
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הקובץ נטען בהצלחה!',
+                    text: 'בסיום לחץ/י על שמירה',
+                    confirmButtonText: 'אישור',
+                    confirmButtonColor: '#990099',
+                })
+        }
+            function error(data) {
+                console.log(data);
+            }
+        
+
+                /////edit - finall
     
        
 
@@ -292,7 +362,7 @@
                                         </span>
                                         <input id="taskTopic" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
                                         <!--<div id="topic" class="squareTEXT">
-                                        </div>-->
+                    </div>-->
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12 col-xs-3 ">
@@ -302,7 +372,7 @@
                                         </span>
                                         <input id="deadLine" class="form-control border-form-control create-select textSquareTEXT" value="" type="text">
                                         <!--<div id="date" class="squareTEXT">
-                                        </div>-->
+                    </div>-->
 
                                     </div>
                                 </div>
@@ -313,16 +383,16 @@
                                 <div class="col-lg-12 col-sm-12 create-text">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-12">
-                                            <h3 class="text2">אפשרויות: </h3>
+                                            <!--<h3 class="text2">אפשרויות: </h3>-->
                                             <br />
                                         </div>
 
 
                                         <!--עריכת מטלה-->
-                                        <div class="row">
+                                        <!--<div class="row">
                                             <div class="col-lg-12 col-sm-12">
                                                 <div class="col-lg-12 col-sm-12" id="editTaskDiv">
-                                                    <!--<form id="form1">-->
+                                                    <form id="form1">
                                                     <div class="form-group row">
                                                         <div class="form-group col-sm-3 create-text">
                                                             <label for="class">כיתה</label>
@@ -338,60 +408,59 @@
 
                                                         </div>
 
-                                                        <!--<div class="form-group col-sm-3 create-text">
+                                                        <div class="form-group col-sm-3 create-text">
                         <label for="date"><span class="red-star"> </span>תאריך הגשה</label>
                         <input type="date" class="form-control" id="deadLine" required />
-                    </div>-->
+                    </div>
                                                         <div class="form-group col-sm-3 create-text">
                                                             <label for="num"><span class="red-star"> </span>מספר מטלה</label>
                                                             <input type="number" class="form-control" id="num" readonly />
-                                                        </div>
-
-                                                        <!-- תיאור מטלה - טקסט -->
-                                                        <div id="descriptionDiv" class="form-group col-sm-6 create-text">
-                                                            <label for="description"><span class="red-star"> </span>תיאור</label>
-                                                            <textarea id="valuTxtEdit" class="comment-box" rows="4" cols="70"></textarea>
-                                                            <input type="checkbox" id="addFile" />
-                                                            <label><span class="red-star"> </span>ברצוני להוסיף קובץ</label>
-                                                            <div id="upload_btn2" style="display:none">
-                                                                <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
-                                                                <input type="button" id="upload" value="טען" class="upload-btn" />
-                                                                <div id="linkURL" class="statuses-text"></div>
-                                                            </div>
-                                                        </div>
-                                                        <!--  -->
-                                                    </div>
-
-                                                </div>
+                                                        </div>-->
+                                        <!-- תיאור מטלה - טקסט -->
+                                        <div id="descriptionDiv" class="form-group col-sm-6 create-text">
+                                            <label for="description"><span class="red-star"> </span>תיאור</label>
+                                            <textarea id="valuTxtEdit" class="comment-box" rows="4" cols="70"></textarea>
+                                            <input type="checkbox" id="addFile" />
+                                            <label><span class="red-star"> </span>ברצוני להוסיף קובץ</label>
+                                            <div id="upload_btn2" style="display:none">
+                                                <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                                <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                <div id="linkURL" class="statuses-text"></div>
                                             </div>
                                         </div>
+                                        <!--  -->
+                                    </div>
 
-                                        <!-- תיאור מטלה - קובץ -->
-                                        <div class="row" id="fileDiv" style="display:none">
-                                            <div class="form-group col-sm-4 create-text" style="border: 1px solid #1FCBB5;border-radius: 30px;">
-                                                <label for="description" style="text-align:center"><span class="red-star"> </span> שם קובץ המטלה:</label>
-                                                <span id="file_name" class="squareTEXT"> כאן יבוא השם</span><br />
-                                                <a href="#">
-                                                    <i id="delete_btnTask" class='far fa-trash-alt'></i>
-                                                </a>
-                                                <span class="text2" style="font-size:smaller; color:black"> <span> </span> לחץ/י למחיקה </span><br />
+                                </div>
+                            </div>
+                        </div>
 
-                                                <a href="#">
-                                                    <i id="edit_btnTask" class='far fa-edit'></i>
-                                                </a><span style="font-size:smaller; color:black"> <span> </span>  לחץ/י לעריכה </span><br />
+                        <!-- תיאור מטלה - קובץ -->
+                        <div class="row" id="fileDiv" style="display:none">
+                            <div class="form-group col-sm-4 create-text" style="border: 1px solid #1FCBB5;border-radius: 30px;">
+                                <label for="description" style="text-align:center"><span class="red-star"> </span> שם קובץ המטלה:</label>
+                                <span id="file_name" class="squareTEXT"> כאן יבוא השם</span><br />
+                                <a href="#">
+                                    <i id="delete_btnTask" class='far fa-trash-alt'></i>
+                                </a>
+                                <span class="text2" style="font-size:smaller; color:black"> <span> </span> לחץ/י למחיקה </span><br />
 
-                                                <div id="upload_btn" style="display:none">
-                                                    <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
-                                                    <input type="button" id="upload" value="טען" class="upload-btn" />
-                                                    <div id="linkURL" class="statuses-text"></div>
-                                                </div>
-                                            </div>
+                                <a href="#">
+                                    <i id="edit_btnTask" class='far fa-edit'></i>
+                                </a><span style="font-size:smaller; color:black"> <span> </span>  לחץ/י לעריכה </span><br />
 
-                                        </div>
+                                <div id="upload_btn" style="display:none">
+                                    <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                    <input type="button" id="upload" value="טען" class="upload-btn" />
+                                    <div id="linkURL" class="statuses-text"></div>
+                                </div>
+                            </div>
+
+                        </div>
 
 
 
-                                        <!--<div class="col-lg-9 col-sm-12">
+                        <!--<div class="col-lg-9 col-sm-12">
         <button id="addPic" class="showTask-btn">
             הורדת המטלה
             (קובץ חיצוני)
@@ -405,6 +474,7 @@
             (טקסט)
         </button>
     </div>-->
+                    </div>
                                     </div>
                                         <div class="row" id="buttons" >
                                             <div class="col-lg-2 col-sm-6">
