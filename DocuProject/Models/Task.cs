@@ -59,15 +59,15 @@ namespace DocuProject.Models
         }
 
         public DataTable putT(string class1, string numClass, string sub, string topic, Task taskNew)
-        {       
-            DBservices dbs = new DBservices();                 
+        {
+            DBservices dbs = new DBservices();
             dbs = dbs.getSpecificTask2(class1, numClass, sub, topic);
-            dbs.dt = checkTblT2(taskNew , dbs.dt);
+            dbs.dt = checkTblT2(taskNew, dbs.dt);
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable checkTblT2(Task taskNew,DataTable dt)
+        public DataTable checkTblT2(Task taskNew, DataTable dt)
         {
             foreach (DataRow dr in dt.Rows)
             {

@@ -80,7 +80,6 @@ namespace DocuProject.Models
             int numAffected = dbs.deleteTaskGroup(class1, numClass, sub, num);
             return numAffected;
         }
-
+     
     }
-
 }

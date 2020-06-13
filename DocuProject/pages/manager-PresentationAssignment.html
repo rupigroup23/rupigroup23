@@ -268,14 +268,21 @@
             ajaxCall("PUT", url, JSON.stringify(TaskNew), updateDsuccess, updateDerror);
 
             //group table
-            dateNew = $("#date").val();
-            //url2 = '../api/Docu/updateTaskGroup/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession;
-            //ajaxCall("PUT", url, dateNew, updateDsuccess2, updateDerror2);
-
+            let taskGroup = {
+                 "Deadline": $("#date").val()
+            }
+            url2 = '../api/Docu/UpdateTask_Group/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Num;
+            ajaxCall("PUT", url2 , JSON.stringify(taskGroup), updateDsuccess2, updateDerror2);
         }
 
         function updateDsuccess(data) {
-            console.log(data);
+        }
+
+        function updateDerror(err) {
+            console.log(err);
+        }
+
+        function updateDsuccess2() {
             $("#editTaskDiv").hide();
             $("#fileDiv").hide();
             $("#buttons").hide();
@@ -286,11 +293,13 @@
                 showCloseButton: true
             })
 
-            window.location.replace("manager-tasks.html");
+            replaceFunc();
         }
 
-        function updateDerror(err) {
-            console.log(err);
+        function updateDerror2() { };
+
+        function replaceFunc() {
+        window.location.replace("manager-tasks.html");
         }
 
         ///////  upload files -לבדוק שעובד טוב בשרת /////////
