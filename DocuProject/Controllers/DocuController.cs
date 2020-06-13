@@ -282,7 +282,6 @@ namespace DocuProject.Controllers
 
         [HttpGet]
         [Route("api/Docu/getavatar/{Id}")]
-
         public string Get(string Id)
         {
             ImgAdmin i = new ImgAdmin();

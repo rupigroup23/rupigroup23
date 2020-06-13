@@ -151,6 +151,8 @@
             });
              //Teacher Table -GET
             getTachears();
+
+
             //Menus - name
             localN = localStorage.getItem('myName');
             console.log('local: ', JSON.parse(localN));
@@ -230,17 +232,17 @@
         var strP;
         var arrP = [];
         function getSubjcts() {
-             $.ajax({
-                type: "GET",
-                url: "../api/Docu/GetP",
-                data: "",
-                beforeSend: loadStart,
-                complete: loadStop,
-                success: GETsuccessCB,
-                error: GETerrorCB,
-            });
-            return false;
-        //    ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
+            // $.ajax({
+            //    type: "GET",
+            //    url: "../api/Docu/GetP",
+            //    data: "",
+            //    beforeSend: loadStart,
+            //    complete: loadStop,
+            //    success: GETsuccessCB,
+            //    error: GETerrorCB,
+            //});
+            //return false;
+            ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessCB, GETerrorCB);
         }
         function GETsuccessCB(data) {
             console.log(data);

@@ -113,8 +113,7 @@
                     }
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
-
-         
+       
             function sub() {
                 return false;
             }
@@ -127,10 +126,10 @@
             }
             function funcerror() { }
 
-            
+            var arr;
             function getAvatarImageSuccess(imagePath) {
                 src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+               arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
@@ -168,17 +167,16 @@
                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             };
 
-            function saveDetails_() {
+Password = "";
 
-             Password = "";
+            function saveDetails_() {
                 if ($("#pass2").val() == "")
                 {
-                    Password = obj[0].Password;
+                    Password = obj[0].Password_;
                 }
                 else {
                     Password = passNew;
                 }
-
                 let admin =
                 {
                     "Fname": $("#fname").val(),
@@ -191,12 +189,9 @@
                     "PhoneNum": $("#phone").val(),
                     "Password": Password
                 }
-                console.log(admin);
-
                 url = "../api/Docu/updatetAdmin";
                 ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
-
             function updateDsuccess(data) {
                 console.log(data)
                 funcsuccess(data);
@@ -213,7 +208,8 @@
 
             function showImages(data) {
                 imagePath = data;
-                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'")
+                Swal.fire("התמונה סיימה להיטען, לחץ על 'שמור תמונה'");
+
             }
 
             function error(data) {

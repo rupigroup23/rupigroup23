@@ -19,7 +19,6 @@
     <!-- Custom styles for this template-->
     <link href="css/osahan.css" rel="stylesheet">
     <link href="css/tablestyle.css" rel="stylesheet" />
-    <link href="css/stam.css" rel="stylesheet" />
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
@@ -40,7 +39,6 @@
     <script src="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
-    <link href="css/stam.css" rel="stylesheet" />
 
     <script>
         //user img
@@ -205,13 +203,13 @@
 
 
             var algorithm = document.getElementById("btnAlgo"); // הפעלת אלגוריתם
-            var management = document.getElementById("TeamManagement"); // ניהול צוותים
-            if (management.style.display === "none") {
-                management.style.display = "block";
-            }
-            else {
-                management.style.display = "none";
-            }
+         // /  var management = document.getElementById("TeamManagement"); // ניהול צוותים
+            //if (management.style.display === "none") {
+            //    management.style.display = "block";
+            //}
+            //else {
+            //    management.style.display = "none";
+            //}
             $('#random').attr("disabled", true);
             $('#gender').attr("disabled", true);
             $('#StrongWeak').attr("disabled", true);
@@ -341,6 +339,7 @@
             if (management1.style.display === "none") {
                 management1.style.display = "block";
                 TeamManagement1.style.display = "block";
+                explanation.style.display = "block";
             }
 
             tblTeam = "";
@@ -885,12 +884,12 @@
                                         <div class="col-lg-5 col-sm-12">
                                             <div id="showStrongWeak" style="display:none">
                                                 <!--<section>
-                                                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
-                                                    <br>
-                                                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
-                                                </section>-->
+                    <input type="radio" id="SSW" name="StrongWeak1" value="חזק-חזק-חלש" style="margin-right: 1.5em">
+                    <label class="checkboxTasks" for="ssw">חזק-חזק-חלש</label>
+                    <br>
+                    <input type="radio" id="WWS" name="StrongWeak1" value="חלש-חלש-חזק" style="margin-right: 1.5em">
+                    <label class="checkboxTasks" for="wws">חלש-חלש-חזק</label>
+                </section>-->
                                                 <h6>תלמיד חזק הוא מעל ממוצע:</h6>
                                                 <input id="avg" type="text" class="textSquareTEXT" placeholder="ממוצע" required />
                                             </div>
@@ -901,24 +900,23 @@
                                                     <br>
 
                                                     <input type="radio" id="equals" name="gander" value="one" style="margin-right: 1.5em">
-                                                    <label class="checkboxTasks" for="one"> צוותים מאותו מין</label>
+                                                    <label class="checkboxTasks" for="one"> צוותים מאותו מגדר</label>
                                                     <br>
                                                 </section>
                                             </div>
                                         </div>
-
                                         <!-- כפתורים -->
                                         <div class="col-lg-5 col-sm-12">
                                             <div class="row">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" id="btnAlgo1" href="#">
                                                         <buttom id="btnAlgo">
-                                                            הפעל אלגוריתם צוות
+                                                            ציוות תלמידים    
                                                         </buttom>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="row" id="TeamManagement" hidden style="display:none">
+                                            <!--<div class="row" id="TeamManagement" hidden style="display:none">
                                                 <div class="col-xl-6 col-sm-6 mb-3">
                                                     <a class="btn btn-outline-primary btn-block btn-lg" href="#">
                                                         <buttom>
@@ -926,17 +924,21 @@
                                                         </buttom>
                                                     </a>
                                                 </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="row " id="explanation" style="display:none;     text-align: center;">
+                                            <h6 class="checkboxTasks" style="color: #990099">הציוות שהתקבל לפי הקריטריונים שציינת מופיע מטה</h6>
+                                            <h6 style="color: #990099">באפשרותך לנהל את הציוות המצויין על ידי גרירת התלמיד למקום הרצוי.</h6>
+                                            <br />
+                                        </div>
+                                    </div>
+                                        <div class="row" id="TeamManagement1" style="display:none">
+                                            <div id="StudentTable" style="display:none">
+
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="row" id="TeamManagement1" style="display:none">
-
-                                        <div id="StudentTable" style="display:none">
-
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                             <br />
@@ -947,25 +949,6 @@
                                     <div class="row">
                                         <div class="col-lg-7 col-sm-12">
                                         </div>
-                                        <!--<div class="col-lg-5 col-sm-12">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" style="margin-right: 0%" src="img/deletePNG.png" />
-                                                    </buttom>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" style="margin-right: 0%" src="img/savePNG.png" />
-                                                    </buttom>
-                                                </div>
-                                                <div class="col-lg-4 col-sm-6">
-                                                    <buttom>
-                                                        <img class="editButtons" onmouseover="" style="margin-right: 0%" src="img/editPNG.png" />
-                                                    </buttom>
-                                                </div>
-                                            </div>
-                                        </div>-->
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-12">
