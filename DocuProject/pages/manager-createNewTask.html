@@ -171,8 +171,10 @@
 
         //radiobtn algo
         function makeGroup() {
-            $('#btnAlgo').hide();
-            $('#btnAlgo1').hide();
+            //$('#btnAlgo').hide();
+            $('#btnAlgo').attr("disabled", true);
+            $('#btnAlgo1').attr("disabled", true);
+           // $('#btnAlgo1').hide();
 
             shuffle = document.getElementById("shuffle"); //מעורב
             equals = document.getElementById("equals"); // בנים בנות
@@ -345,7 +347,7 @@
             tblTeam = "";
             let studentTeamArray = studentList;
 
-            for (var i = 0; i < arrTeam.length; i++) {
+            for (var i = 0; i < arrTeam.length -1 ; i++) {
 
                 tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns" + i + "' ondrop='getdata()'>";
 
@@ -833,7 +835,7 @@
                                 <div class="col-lg-3 col-sm-12 col-xs-3 text2">
                                     <div class="row text2">
                                         <span>
-                                            מטלה מספר &nbsp;
+                                          מטלה מספר  &nbsp;
                                         </span>
                                         <div id="numTasks">
                                         </div>
@@ -861,7 +863,7 @@
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="row">
                                         <!-- אלגוריתם -->
-                                        <h3 class="text2">אנא בחר/י אופציית שיבוץ: </h3>
+                                        <h3 class="text2">אנא בחר/י אופציית ציוות: </h3>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-2 col-sm-12">

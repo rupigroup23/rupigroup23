@@ -407,12 +407,13 @@
 
             //מסדר אובייקט דו ממדי לפי תז
             for (var j = 0; j < details.length; j++) {
-                var strThisTeam = details[j].Group_students
+                var strThisTeam = details[j].Group_students;
+                console.log(strThisTeam);
                 var strTeam = strThisTeam.split(",");
                 //מחפש א ת הצוות
                 for (var i = 0; i < strTeam.length; i++) {
                     if (strTeam[i] == studentID) {
-                        arrTeam.push(details[i]);
+                        arrTeam.push(details[j]);
                     }
                 }
             }

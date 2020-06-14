@@ -71,9 +71,9 @@
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
         function funcsuccess(data) {
-            obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+           // obj = data;
+           // userEmail1 = obj[0].Email;
+           // ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
         function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
@@ -209,7 +209,7 @@
             btnSorces = "";
             for (var i = 0; i < allTeam.length; i++) {
                 if (allTeam[i].Status_ == 2) {
-                    if (allTeam[i].Grade != 0 && (allTeam[i].Feedback != "" || allTeam[i].Feedback != null)){
+                    if (allTeam[i].Grade == 0  && (allTeam[i].Feedback != "" || allTeam[i].Feedback == null)){
                         imgScore = "img/NEW.png";
                         btnSorces = "ViewgiveScore(this)";
                         }
