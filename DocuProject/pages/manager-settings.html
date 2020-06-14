@@ -113,8 +113,7 @@
                     }
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
-
-         
+       
             function sub() {
                 return false;
             }
@@ -127,10 +126,10 @@
             }
             function funcerror() { }
 
-            
+            var arr;
             function getAvatarImageSuccess(imagePath) {
                 src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+               arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
@@ -171,7 +170,6 @@
             Password = "";
             imgStr = "";
             function saveDetails_() {
-
                  imgStr = `http://localhost:44328/${imagePath}`;
 
                 if ($("#pass2").val() == "")

@@ -246,7 +246,7 @@ namespace DocuProject.Models
                     listbyMix[i] += "," + listbyStrong[cntr].Id; ;
                     listbyStrong.RemoveAt(cntr);
                 }
-                else
+                if (listbyStrong.Count < listbyWeak.Count)
                 {
                     listbyMix[i] += "," + listbyWeak[cntr].Id;
                     listbyWeak.RemoveAt(cntr);

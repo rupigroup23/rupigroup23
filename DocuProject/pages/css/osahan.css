@@ -25,17 +25,18 @@ Version: 1.0
 /*
 /* draggable targets */
 [data-draggable="target"] {
-    float: left;
+    float: right;
     list-style-type: none;
-    width: 42%;
-    height: 7.5em;
+    text-align: center;
+    /*width: 42%;*/
+    height: 8.5em;
     overflow-y: auto;
     margin: 0 0.5em 0.5em 0;
     padding: 0.5em;
-    border: 2px solid #888;
+    border: 2px solid #990099;
     border-radius: 0.2em;
-    background: #ddd;
-    color: #555;
+    background: #E6D0DE;
+    color: black;
 }
 
     /* drop target state */
