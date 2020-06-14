@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -36,11 +37,11 @@
 
         $(document).ready(function () {
             //loading container
-            $("#loading").bind("ajaxStart", function(){
+            $("#loading").bind("ajaxStart", function () {
                 $(this).show();
-                }).bind("ajaxStop", function(){
+            }).bind("ajaxStop", function () {
                 $(this).hide();
-                });
+            });
 
             //Menus
             localN = localStorage.getItem('myName');
@@ -54,14 +55,14 @@
             console.log('local: ', JSON.parse(local));
             TaskObj = JSON.parse(localStorage["thisTask"]);
             showStudentsData(); //GET -  Student table
-            
+
             Showorientation();//orientation
 
             getVideosDB(TaskObj); //GET - Group_Feedback Table
-            
-           //POST -  Student table
-            
-        ///////
+
+            //POST -  Student table
+
+            ///////
             //User image
             urlVideo = "";
             localAdmin = localStorage.getItem('user');
@@ -74,8 +75,8 @@
             }
             function funcsuccess(data) {
                 obj = data;
-                //userEmail1 = obj[0].Email;
-               // ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                userEmail1 = obj[0].Email;
+                 ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -91,9 +92,9 @@
         });
         //loading container
         function loadStart() {
-                    $('#loading').show();
-                     $('#videosDiv').hide();
-                }
+            $('#loading').show();
+            $('#videosDiv').hide();
+        }
         function loadStop() {
             $('#loading').hide();
             $('#videosDiv').show();
@@ -113,7 +114,7 @@
         }
 
         //GET -  Student table
-        var studentList = "";   
+        var studentList = "";
         function showStudentsData() {
             obj2 =
                 {
@@ -123,18 +124,18 @@
             console.log(obj2);
 
             url = "../api/Docu/GetStudents";
-             $.ajax({
-                 type: "POST",
-                 url: url,
-                 data: obj2,
-                 beforeSend: loadStart,
-                 complete: loadStop,
-                 success: GETsuccessS,
-                 error: GETerrorS,
-                }); 
-                return false;
-           // ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
-        }            
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: obj2,
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: GETsuccessS,
+                error: GETerrorS,
+            });
+            return false;
+            // ajaxCall("POST", url, JSON.stringify(obj2), GETsuccessS, GETerrorS)
+        }
         function GETsuccessS(studentsData) {
             studentList = studentsData;
         }
@@ -146,88 +147,98 @@
         //GET - Group_Feedback Table
         str = "";
         videoPath = "";
-        function getVideosDB(TaskObj) {       
-                //הבאת סרטונים מהדאטה בייס//
+        function getVideosDB(TaskObj) {
+            //הבאת סרטונים מהדאטה בייס//
             //Fixed Datas.
-                date = TaskObj.Task.Date;
-                dateArr = date.split('/');
-                dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
+            date = TaskObj.Task.Date;
+            dateArr = date.split('/');
+            dateVal = `${dateArr[2]}-${dateArr[0]}-${dateArr[1]}`
 
-            taskObject = { 
+            taskObject = {
                 "ClassName": TaskObj.ClassName,
                 "ClassNum": TaskObj.ClassNum,
                 "Profession": TaskObj.Profession,
                 "TaskNum": TaskObj.Task.Num
-                }
+            }
 
             urlVideo = "../api/Docu/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
             console.log(urlVideo)
             $.ajax({
-                 type: "GET",
-                 url: urlVideo,
-                 data: "",
-                 beforeSend: loadStart,
-                 complete: loadStop,
-                 success: getVideoSuccessCB,
-                 error: getVideoErrorCB,
-                }); 
-                return false;
-            //ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
-                //הבאת סרטונים מהדאטה בייס//
+                type: "GET",
+                url: urlVideo,
+                data: "",
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: getVideoSuccessCB,
+                error: getVideoErrorCB,
+            });
+            return false;
+            //הבאת סרטונים מהדאטה בייס//
         }
-        // הצגת סרטונים על המסך 
-        function getVideoSuccessCB(listOfVideo) {
-            //console.log("sucess");
+        // הצגת סרטונים על המסך
+        listOfVideo = "";
+        function getVideoSuccessCB(data) {
+
+            listOfVideo = data;
             console.log(listOfVideo); //Group
+
             //הכנסה דינמית לDOM
             str += `<div class="row">`;
             for (let i in listOfVideo) {
                 videoPath = `../${listOfVideo[i].Video}`
-                //בשרת videoPath = `${listOfVideo[i].Video}` 
                 students = listOfVideo[i].Group;
-                getTeamsNames(students,videoPath);
+                idRows = listOfVideo[i].IdRows;
+                getTeamsNames(students, videoPath);
                 let str = '';
                 str += `<div class="col-xl-3 col-sm-6 mb-3">
-                                                <div class="video-card">
-                                                    <div class="video-card-image">
-                                                        <video class="img-videoWatch" controls>
-                                                            <source src='${videoPath}' type="video/avi">
-                                                            <source src='${videoPath}' type="video/mp4">
-                                                            Sorry, your browser doesn't support embedded videos.
-                                                        </video>
-                                                        <!--<div class="time">3:50</div>-->
-                                                    </div>
-                                                    <div class="video-card-body">
-                                                        <div class="video-title">
-                                                            <a class="create-text" style="color: #000;">
-                                                                חברי הצוות:
-                                                            </a> <br />
-                                                            <a id="studentsText" class="statuses-text"  style="color: #000;">`
-                                                                str += arrStudentName[i].Names;
-                                                                str += `</a ><div class="video-page text-success">
-                                                                    <a id = '${i}' onclick='moveFbPage(this)' href="#" >
-                        
-                                                                    <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
+                                                    <div class="video-card">
+                                                        <div class="video-card-image">
+                                                            <video class="img-videoWatch" controls>
+                                                                <source src='${videoPath}' type="video/avi">
+                                                                <source src='${videoPath}' type="video/mp4">
+                                                                Sorry, your browser doesn't support embedded videos.
+                                                            </video>
+                                                            <!--<div class="time">3:50</div>-->
+                                                        </div>
+                                                        <div class="video-card-body">
+                                                            <div class="video-title">
+                                                                <a class="create-text" style="color: #000;">
+                                                                    חברי הצוות:
+                                                                </a> <br />
+                                                                <a id="studentsText" class="statuses-text"  style="color: #000;">`
+                str += arrStudentName[i].Names;
+                str += `</a ><div class="video-page text-success">
+                                                                        <a id = '${i}' onclick='moveFbPage(this)' href="#" >
 
-                                                        </div></div>    
+                                                                        <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
 
-                                                        <div class="video-view">
+                                                            </div></div>
 
+                                                            <div class="video-view">
+
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                      </div>`;
+                          </div>`;
                 $('#videosDiv').append(str); // מצרף
+
+            thisGroup =
+                {
+                "Group": listOfVideo[i].Group,
+                "IdRows": listOfVideo[i].IdRows,
+                "Profession": listOfVideo[i].Video
             }
+            console.log(thisGroup);
+                localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+            }
+
             str += `</div>`;
-             
-           // localStorage.setItem('arrStudentName', JSON.stringify(arrStudentName));    
         }
         function getVideoErrorCB(err) { console.log(err) }
         //<video  width="200" height="150" controls>
 
-        
+
 
         //Bring the details up
         function getDatelis() {
@@ -235,11 +246,11 @@
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
             document.getElementById("date").innerHTML = date;
         }
-     
+
 
         var strStudentName;
         var arrStudentName = [];
-        function getTeamsNames(teams,videoPath) {
+        function getTeamsNames(teams, videoPath) {
             strStudentName = "• ";
             students2 = teams.split(',');
             console.log(students2);
@@ -256,19 +267,29 @@
             }
             console.log(TeamName);
             arrStudentName.push(TeamName);
-            console.log(arrStudentName);
+            console.log( arrStudentName);
         }
 
-        function moveFbPage(teamId) {
-            console.log(arrStudentName);
-            console.log(teamId.id);
-            console.log(arrStudentName[teamId.id].vidoes);
-            console.log(arrStudentName[teamId.id].Names);
+        function moveFbPage(teamId)
+        {
+
             videoPath = arrStudentName[teamId.id].vidoes;
+            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+            window.location.href = `manager-feedbacks.html?${videoPath};`
+
             
-           localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-           window.location.href = `manager-feedbacks.html?${videoPath};`
-          
+            ///////////////לוקל נוי - לרביד//////////////
+            id = teamId.id;
+            thisGroup =
+                {
+                "Group": listOfVideo[id].Group,
+                "IdRows": listOfVideo[id].IdRows,
+                "Video": listOfVideo[id].Video
+            }
+            console.log(thisGroup);
+            localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+
+            ////////////////////////////////////////////////////
         }
     </script>
 </head>
@@ -398,78 +419,78 @@
                     </div>
                 </div>
                 <br /><hr class="mt-0">
-                      <div class="video-block section-padding">
-                          <div class="row">
-                              <!--<div class="col-md-12">
-            <div class="main-title">
+                <div class="video-block section-padding">
+                    <div class="row">
+                        <!--<div class="col-md-12">
+                            <div class="main-title">
 
-                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i class="fas fa-video"></i>&nbsp;מספר צפיות</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>&nbsp;זמן העלאה</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
-                </div>
-            </div>
-        </div>-->
-                          </div>
-                          <div class="sk-chase" id="loading">
-                              <div class="sk-chase-dot"></div>
-                              <div class="sk-chase-dot"></div>
-                              <div class="sk-chase-dot"></div>
-                              <div class="sk-chase-dot"></div>
-                              <div class="sk-chase-dot"></div>
-                              <div class="sk-chase-dot"></div>
-                          </div>
-                          <div id="videosDiv">
-                              <!--<div class="col-xl-3 col-sm-6 mb-3">
-            <div class="video-card">
-                <div class="video-card-image">
-                    <a class="play-icon" href="teacher-feedbacks.html">
-                        <i class="fas fa-play-circle"></i>
-                    </a>
-                    <iframe class="img-videoWatch" src="https://www.youtube.com/watch?v=xUPMcmns3DE"></iframe>
-                    <div class="time">3:50</div>
-                </div>
-                <div class="video-card-body">
-                    <div class="video-title">
-                        <a class="create-text" href="teacher-feedbacks.html">
-                            חברי הצוות:
-                        </a> <br />
-                        <a class=" statuses-text" href="teacher-feedbacks.html">
-                        </a>
+                                <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    סינון <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i class="fas fa-video"></i>&nbsp;מספר צפיות</a>
+                                    <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>&nbsp;זמן העלאה</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i>&nbsp;סגירה</a>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
-                    <div class="video-page text-success">
-                        <a href="teacher-feedbacks.html">
-                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
-                        </a>
-                        <a href="teacher-feedbacks.html">
-                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
-                        </a>
-                        <a href="teacher-feedbacks.html">
-                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
-                        </a>
+                    <div class="sk-chase" id="loading">
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
                     </div>
-                    <div class="video-view">
+                    <div id="videosDiv">
+                        <!--<div class="col-xl-3 col-sm-6 mb-3">
+                            <div class="video-card">
+                                <div class="video-card-image">
+                                    <a class="play-icon" href="teacher-feedbacks.html">
+                                        <i class="fas fa-play-circle"></i>
+                                    </a>
+                                    <iframe class="img-videoWatch" src="https://www.youtube.com/watch?v=xUPMcmns3DE"></iframe>
+                                    <div class="time">3:50</div>
+                                </div>
+                                <div class="video-card-body">
+                                    <div class="video-title">
+                                        <a class="create-text" href="teacher-feedbacks.html">
+                                            חברי הצוות:
+                                        </a> <br />
+                                        <a class=" statuses-text" href="teacher-feedbacks.html">
+                                        </a>
+                                    </div>
+                                    <div class="video-page text-success">
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                        <a href="teacher-feedbacks.html">
+                                            <i class="fas fa-arrow-circle-up"></i>&nbsp;&nbsp;&nbsp;
+                                        </a>
+                                    </div>
+                                    <div class="video-view">
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
                 </div>
-            </div>
-        </div>-->
-                          </div>
-                      </div>
                 <!--<nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center pagination-sm mb-0">-->
-                        <!--<li class="page-item disabled">
-                            <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
-                        </li>-->
-                        <!--<li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
-                        <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
-                        <li class="page-item">
-                            <a href="teacher-watchingvideos2.html" class="page-link">הבא</a>
-                        </li>-->
-                    <!--</ul>
+                <!--<li class="page-item disabled">
+                    <a tabindex="-1" href="teacher-watchingvideos.html" class="page-link">אחורה</a>
+                </li>-->
+                <!--<li class="page-item active"><a href="teacher-watchingvideos.html" class="page-link">1</a></li>
+                <li class="page-item"><a href="teacher-watchingvideos2.html" class="page-link">2</a></li>
+                <li class="page-item">
+                    <a href="teacher-watchingvideos2.html" class="page-link">הבא</a>
+                </li>-->
+                <!--</ul>
                 </nav>-->
             </div>
         </div>

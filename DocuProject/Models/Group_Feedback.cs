@@ -44,13 +44,11 @@ namespace DocuProject.Models
 
         public Group_Feedback() { }
 
-
         //public List<Group_Feedback> ReadDT(string name, int num, DateTime date1)
         //{
         //    DBservices dbs = new DBservices();
         //    return dbs.getDTFromDB(name, num, date1);
         //}
-
 
         internal DataTable GetTeamData() // מביאים תלמידים לפי כיתה ומס כיתה
         {
