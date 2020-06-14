@@ -69,7 +69,6 @@ namespace DocuProject.Models
         {
             foreach (DataRow dr in dt.Rows)
             {
-                ////////// שינוי בתוך הטבלה עצמה
                 if (id == Convert.ToInt32(dr["id"]))
                 {
                     dr["ClassName"] = VT.ClassName;
@@ -82,7 +81,7 @@ namespace DocuProject.Models
                     dr["Comment"] = VT.Comment;
                 }
             }
-            return dt; // מחזיק עכשיו טבלה חדשה שיש בה שינוי
+            return dt; 
         }
 
         public List<Group_Feedback> getVideo(string ClassName, string ClassNum, string Professtion, int taskNum)
