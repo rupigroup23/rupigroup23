@@ -1774,6 +1774,7 @@ public class DBservices
                 Group_Feedback G = new Group_Feedback();
                 G.Video = (string)dr["video"];
                 G.Group = (string)dr["Group_students"];
+                G.IdRows =Convert.ToInt32(dr["id"]);
                 video_List.Add(G);
             }
             return video_List;
