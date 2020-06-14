@@ -171,8 +171,10 @@
 
         //radiobtn algo
         function makeGroup() {
-            $('#btnAlgo').hide();
-            $('#btnAlgo1').hide();
+            //$('#btnAlgo').hide();
+            $('#btnAlgo').attr("disabled", true);
+            $('#btnAlgo1').attr("disabled", true);
+           // $('#btnAlgo1').hide();
 
             shuffle = document.getElementById("shuffle"); //מעורב
             equals = document.getElementById("equals"); // בנים בנות
@@ -345,7 +347,7 @@
             tblTeam = "";
             let studentTeamArray = studentList;
 
-            for (var i = 0; i < arrTeam.length; i++) {
+            for (var i = 0; i < arrTeam.length -1 ; i++) {
 
                 tblTeam += "<ol data-draggable='target' draggable='true' aria-dropeffect='none' id='selected_columns" + i + "' ondrop='getdata()'>";
 
