@@ -169,8 +169,13 @@
 
             Password = "";
             imgStr = "";
-            function saveDetails_() {
-                 imgStr = `http://localhost:44328/${imagePath}`;
+
+            function saveDetails_()
+            {
+
+                if (imagePath != "") {
+                     imgStr = `http://localhost:44328/${imagePath}`;
+                }
 
                 if ($("#pass2").val() == "")
                 {
@@ -191,7 +196,6 @@
                     "PhoneNum": $("#phone").val(),
                     "Password": Password,
                     "Image": imgStr
-
                 }
                 url = "../api/Docu/updatetAdmin";
                 ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
@@ -226,7 +230,8 @@
                     'success'
                 )
             }
-            function POSTerrorImg(data) {
+            function POSTerrorImg(data)
+            {
                 console.log(data);
             }
 
