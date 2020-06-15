@@ -1705,21 +1705,21 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents, feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7})", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents, feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName, feedbackObj.IdRow); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName,IdRow)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
     }
 
-    public List<Feedback> getData(string groupStudent, string numOfTask, string Profession)
+    public List<Feedback> getData(int idRow, string numOfTask, string Profession)
     {
         List<Feedback> listOfFeedback = new List<Feedback>();
         SqlConnection con = null;
         try
         {
             con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
-            String selectSTR = "SELECT * from Feedback_ where groupStudent='" + groupStudent + "' and numOfTask=" + numOfTask + " and profession='" + Profession + "'";
+            String selectSTR = "SELECT * from Feedback_ where IdRow='" + idRow + "' and numOfTask=" + numOfTask + " and profession='" + Profession + "'";
 
             SqlCommand cmd = new SqlCommand(selectSTR, con);
 
@@ -1735,6 +1735,7 @@ public class DBservices
                 feedback.NameLike = (string)dr["nameLike"];
                 feedback.Video = (string)dr["video"];
                 feedback.UserName = (string)dr["UserName"];
+                feedback.IdRow = Convert.ToInt16(dr["IdRow"]);
                 listOfFeedback.Add(feedback);
 
             }

@@ -17,6 +17,7 @@ namespace DocuProject.Models
         string profession;
         string numOfTask;
         string userName;
+        int idRow;
 
 
         public Feedback() { }
@@ -29,7 +30,7 @@ namespace DocuProject.Models
         public string Profession { get => profession; set => profession = value; }
         public string NumOfTask { get => numOfTask; set => numOfTask = value; }
         public string UserName { get => userName; set => userName = value; }
-
+        public int IdRow { get => idRow; set => idRow = value; }
 
         public int insertFeed(Feedback feedbackObj)
         {
@@ -38,10 +39,10 @@ namespace DocuProject.Models
             return numAffected;
         }
 
-        public List<Feedback> getData (string groupStudent, string numOfTask, string profession)
+        public List<Feedback> getData (int idRow, string numOfTask, string profession)
         {
             DBservices dbs = new DBservices();
-            return dbs.getData(groupStudent, numOfTask , profession);
+            return dbs.getData(idRow, numOfTask , profession);
         }
 
         public void deleteComment(int selectedRow,string type)
@@ -62,6 +63,7 @@ namespace DocuProject.Models
                     dr["nameLike"] = NewFeedback.NameLike;
                     dr["video"] = NewFeedback.Video;
                     dr["userName"] = NewFeedback.UserName;
+                    dr["idRow"] = NewFeedback.IdRow;
                 }
             }
             return dt;

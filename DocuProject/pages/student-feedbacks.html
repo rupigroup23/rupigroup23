@@ -52,6 +52,11 @@
             groupNames = JSON.parse(localStorage["names"]);
             document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
 
+            rrr = localStorage.getItem('thisGroup');
+            console.log('thisGroup: ', JSON.parse(rrr));
+            rowId = JSON.parse(localStorage["thisGroup"]);
+            console.log(rowId);
+
 
             var video = document.getElementById('mainVideo');
             var source = document.createElement('source');
@@ -145,7 +150,7 @@
                 groupNames2 += groupNames1[i];
             }
             console.log('groupNames2=', groupNames2)
-            ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
+            ajaxCall('GET', '../api/Student/getdata/' + rowId.IdRows + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
 
             function getDataSuccess(data) {
                 console.log(data)
@@ -298,7 +303,8 @@
                                 "Video": videoPath[0],
                                 "GroupStudent": groupNames2.trim(),
                                 "Profession": TaskObj.Profession,
-                                "UserName": studentObj.FName + ' ' + studentObj.LName
+                                "UserName": studentObj.FName + ' ' + studentObj.LName,
+                                "IdRow": rowId.IdRows
                             }
 
                             console.log('feedbackObj=', feedbackObj)
@@ -314,7 +320,8 @@
                         "Video": videoPath[0],
                         "GroupStudent": groupNames2.trim(),
                         "Profession": TaskObj.Profession,
-                        "UserName": studentObj.FName + ' ' + studentObj.LName
+                        "UserName": studentObj.FName + ' ' + studentObj.LName,
+                        "IdRow": rowId.IdRows
                     }
                     $('#likeBtn').attr('disabled', true);
                     console.log(feedbackObj)
