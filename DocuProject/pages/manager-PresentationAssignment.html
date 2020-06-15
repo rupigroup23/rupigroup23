@@ -97,11 +97,10 @@
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
 
-            //image -להחזיר מהערה
             function funcsuccess(data) {
                 obj = data;
-                //userEmail1 = obj[0].Email;
-                //ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -123,7 +122,6 @@
             function getSpecificTaskError(err) { console.log(err) }
         });
         //image finall
-
         function Showtxt() {
             $("#editTaskDiv").hide()
             txt = document.getElementById("showtxtbox");
@@ -398,7 +396,6 @@
             </li>
         </ul>
     </nav>
-
     <!-- orientation bar -->
     <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top" style="top: 70px;">
         <ol class="breadcrumb" id="orientation"></ol>
@@ -447,7 +444,7 @@
                 <h6 class="nav-item">פרטיות</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="manager-login.html">
+                <a class="nav-link" href="manager-settings.html">
                     <i class="fa fa-gear"></i>
                     <span>הגדרות</span>
                 </a>
@@ -463,21 +460,6 @@
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
-                <div class="top-mobile-search">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="mobile-search">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search for..." class="form-control">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
                 <!--עריכת מטלה-->
                 <div class="row">
                     <p></p>
@@ -618,9 +600,9 @@
             </div>
                     </div>
                 </div>
-            </div>
+            <!--</div>
         </div>
-    </div>
+    </div>-->
     <!-- /#wrapper -->
     <!--<script src="js/showItem.js"></script>-->
     <!-- Scroll to Top Button-->

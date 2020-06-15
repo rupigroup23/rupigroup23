@@ -213,11 +213,11 @@
         });
 
         //User image
-        function showDetalis(objTeacher) {
+        function showDetalis(studentObj) {
             Id = studentObj.Id;
             var url = "../api/Student/GetDetailsS/" + Id;
             $.ajax({
-                 type: "POST",
+                 type: "GET",
                  url: url,
                  data: "",
                  beforeSend: loadStart,
@@ -778,20 +778,6 @@
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
-                <div class="top-mobile-search">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="mobile-search">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search for..." class="form-control">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 <div class="sk-chase" id="loading">
                     <div class="sk-chase-dot"></div>
                     <div class="sk-chase-dot"></div>
@@ -804,7 +790,7 @@
                     <div class="col-lg-12">
                         <div class="osahan-form">
                             <div class="row ">
-                                <div class="col-lg-8 col-sm-3 col-xs-3 ">
+                                <div class="col-lg-8 col-sm-8 col-xs-6 ">
                                     <div class="row text2">
                                         <span style="font-size:27px; border-bottom: 1px solid #990099">
                                             מטלה מספר &nbsp;
@@ -814,7 +800,7 @@
                                     </div>
                                     <br />
                                     <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-xs-3">
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
                                             <div class="row ">
                                                 <span class="testSudent">
                                                     נושא המטלה:&nbsp;
@@ -823,7 +809,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-3">
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
                                             <div class="row">
                                                 <span class="testSudent">
                                                     מורה מלמד:&nbsp;
@@ -834,7 +820,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-xs-3">
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
                                             <div class="row">
                                                 <span class="testSudent">
                                                     מועד הגשה:&nbsp;
@@ -843,7 +829,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-6 col-xs-3">
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
                                             <div class="row">
                                                 <span class="testSudent">
                                                     מספר ימים להגשה:&nbsp;
@@ -854,7 +840,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-sm-3 col-xs-3 ">
+                                <div class="col-lg-4 col-sm-4 col-xs-6 ">
                                     <span class="testSudent">צוות מספר </span>
                                     <span id="teamNum" class="testSudent" font-size: 15px;></span>
                                     <br />
@@ -866,8 +852,9 @@
                             <div class="row">
                                 <div class="col-lg-12 col-sm-12 create-text">
                                     <div class="row">
-                                        <div class="col-lg-6 col-sm-12">
-                                            <div class="row" style="padding-right: 30%; padding-left: 35%;">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <!--<div class="row" style="padding-right: 30%; padding-left: 35%;">-->
+                                            <div class="row" style="padding-left: 35%;">
                                                 <button id="downloadFile" class="showTask-btn">
                                                     הורדת המטלה
                                                     <!--(קובץ חיצוני)-->
@@ -879,8 +866,9 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-sm-12">
-                                            <div class="row" style="padding-right: 30%; padding-left: 35%;">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="row" style="padding-left: 35%;">
+                                            <!--<div class="row" style="padding-right: 30%; padding-left: 35%;">-->
                                                 <button id="showUpl" class="showTask-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;">
                                                     הגשה
                                                 </button>

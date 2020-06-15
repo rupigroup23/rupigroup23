@@ -329,7 +329,17 @@
                     return false;
                 }
             }
-
+            classNum1 = $("#classNum").val();
+            if(!classNum1.match(/^\d+/))
+            {
+                Swal.fire({
+                        title: 'יש להכניס רק מספרי כיתות',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                })
+                return false;
+                }
             //
             var proff = document.getElementById("showProff");
             if (proff.style.display === "none") {
@@ -481,7 +491,7 @@
             else {
                 Swal.fire({
                     text: 'מקצועות לא נשמרו, יש ללחוץ על הוספה',
-                    icon: 'success',
+                    icon: 'error',
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
@@ -923,7 +933,7 @@
                 <h6 class="nav-item">פרטיות</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="manager-login.html">
+                <a class="nav-link" href="manager-settings.html">
                     <i class="fa fa-gear"></i>
                     <span>הגדרות</span>
                 </a>
@@ -939,20 +949,7 @@
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
-                <div class="top-mobile-search">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="mobile-search">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search for..." class="form-control">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                
                 
                 <div class="row">
                     <div class="sk-chase" id="loading">
@@ -989,21 +986,20 @@
                                                     <div class="row">
                                                         <select id="Year" class="create-select" style="width: 150px;">
                                                             <option value="1">שנה עברית:</option>
-                                                            <!--<option>תשפ"א</option>-->
                                                             <option>תש"ף</option>
-                                                            <!--<option>תשע"ט</option>
-                                            <option>תשע"ח</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-sm-4 text2">
                                                 <div class="form-group">
-                                                    <select id="teacherName" class="create-select">
-                                                        <option value="1"> שם המחנך</option>
-                                                    </select>
+                                                    <div class="row">
+                                                        <select id="teacherName" class="create-select">
+                                                            <option value="1"> שם המחנך</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                </div>
                                             <div class="col-lg-1 col-sm-12 text2">
                                                 <input type="button" id="continue1" value="המשך" class="upload-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;" />
                                             </div>
@@ -1029,13 +1025,14 @@
                                                 <input type="text" id="txtbox" class="create-txt" placeholder="שם המקצוע" style="display:none;" />
                                             </div>
                                             <div class="col-lg-1 col-sm-12 text2">
+                                                <br />
                                                 <input type="button" id="continue2" value="המשך" class="upload-btn" style="background-color: #1fcbb56b;border: 1px solid #1FCBB5;" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="showAddStudent" class="row text2" style="display:none">
-                                    <br /><hr class="mt-0">
+                                   <hr class="mt-0">
                                     <div class="col-lg-9 col-sm-12 text2">
                                         שלב 3: העלאת קובץ תלמידים
                                         <i class="fas fa-info" style="color: black;font-size: 13px;" title="העלאת קובץ אקסל מסוג .csv בלבד"></i>

@@ -215,11 +215,13 @@
                 else {
                     Password = passNew;
                 }
+                var phoneVal = $("#phone").val();
+                telephoneCheck(phoneVal);//Phone number validation
 
                 let student =
                 {
                     "Id": obj[0].Id_,
-                    "PhoneNum": $("#phone").val(),
+                    "PhoneNum":phoneVal,
                     "Password": Password,
                     "ClassName": obj[0].ClassName,
                     "ClassNum": obj[0].ClassNum,
@@ -228,6 +230,20 @@
                 console.log(student);
                 url = "../api/Student/updateStudent";
                 ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
+            }
+
+            function telephoneCheck(str) {
+            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
+            if (isphone == false) {
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'פלאפון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                return false;
+            }         
             }
 
             function updateDsuccess(data) {
@@ -357,18 +373,18 @@
                                 <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text" readonly>
                             </div>
                             <div class="form-group">
-                                <label class="control-label create-text">עיר: <span class="required"></span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text" readonly>
+                                <label class="control-label create-text">שם משפחה: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text" readonly>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">תעודת זהות:<span class="required"></span></label><br />
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="text" readonly>
+                            </div>                              
+                            </div>
+                        <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
                                 <label class="control-label create-text">אימייל: <span class="required"></span></label>
                                 <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email" readonly>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label create-text">שם משפחה: <span class="required"></span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text" readonly>
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required"></span></label>
@@ -380,26 +396,38 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
-                            <label class="control-label create-text">תעודת זהות:<span class="required"></span></label><br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="text" readonly>
-                            <br />
-                            <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text" readonly>
-                            <br />
-                            <label class="control-label create-text">מין: <span class="required"></span></label> <br />
-                            <input id="gender" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 vl">
-                            <label class="control-label create-text">מחנך: <span class="required"></span></label> <br />
-                            <input id="teacherDiv" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
-
-                            <h6 class="create-text">כיתה:</h6>
-                            <div id="classCard" class="channels-card text2" style="padding: 14px 8px; background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
-                                <h6 class="text2" style="font-size: 20px"></h6>
+                            <div class="form-group">
+                                <label class="control-label create-text">מין: <span class="required"></span></label> <br />
+                                <input id="gender" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">עיר: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text" readonly>
                             </div>
                             <br />
-                            <label class="control-label create-text">ממוצע ציונים: <span class="required"></span></label> <br />
-                            <input id="GPA" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 vl">
+                            <div class="form-group">
+                                <label class="control-label create-text">מחנך: <span class="required"></span></label> <br />
+                                <input id="teacherDiv" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="create-text">כיתה:</h6>
+                                <div id="classCard" class="channels-card text2" style="padding: 14px 8px; background: #eceff0 none repeat scroll 0 0; box-shadow: 0 0 1px black;">
+                                    <h6 class="text2" style="font-size: 20px"></h6>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">ממוצע ציונים: <span class="required"></span></label> <br />
+                                <input id="GPA" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                            </div>
+
+                            
+                            <br />
                         </div>
                     </div>
                 </form>
