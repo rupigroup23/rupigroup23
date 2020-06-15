@@ -161,7 +161,6 @@
 
             getVideosDB(TaskObj); //GET - Group_Feedback Table
 
-
             //
 
         });
@@ -280,7 +279,6 @@
         listOfVideo = "";
 
         function getVideoSuccessCB(data) {
-            //הכנסה דינמית לDOM
 
             listOfVideo = data;
             console.log(listOfVideo)
@@ -311,7 +309,7 @@
                                                                     <a id="studentsText" class="statuses-text">`
                 str += arrStudentName[i].Names;
                 str += `</a >
-                                                                        <a id = '${i}' onclick='moveToPage(this)' href="#" >
+                                                                        <a id = '${i}' onclick='moveFBPage(this)' href="#" >
 
                                                                         <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
                                                                 </div>
@@ -362,36 +360,30 @@
         }
 
         //save in the local storage (for the feedback page) and move page
-        function moveToPage(teamId)
+        function moveFBPage(teamId)
         {
             
+            videoPath = arrStudentName[teamId.id].vidoes;
+            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+            window.location.href = `manager-feedbacks.html?${videoPath};`
+            /////////////////לוקל נוי - לרביד/////////////////
 
+            id = teamId.id;
+                thisGroup =
+                {
+                        "Group": listOfVideo[id].Group,
+                        "IdRows": listOfVideo[id].IdRows,
+                        "Video": listOfVideo[id].Video
+                }
+                console.log(thisGroup);
+                localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
 
+            //////////////////////////////////////////////////
            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
            window.location.href = `student-feedbacks.html?${videoPath}`
-           window.location.href = `student-feedbacks.html?${videoPath}`
           
-            //student-feedbacks.html?${videoPath}
-           /////////////////לוקל נוי - לרביד/////////////////
-           id = teamId.id;
-           thisGroup =
-
-               {
-                   "Group": listOfVideo[id].Group,
-                   "IdRows": listOfVideo[id].IdRows,
-                   "Video": listOfVideo[id].Video
-               }
-
-           console.log(thisGroup);
-           localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
-                //////////////////////////////////////////////////
-
-         
         }
 
-
-
-        
     </script>
 </head>
 <body id="page-top">
