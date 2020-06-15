@@ -172,9 +172,12 @@
 
             function saveDetails_()
             {
-
                 if (imagePath != "") {
                      imgStr = `http://localhost:44328/${imagePath}`;
+                }
+                else
+                {
+                    imgStr = obj[0].Image_;
                 }
 
                 if ($("#pass2").val() == "")
