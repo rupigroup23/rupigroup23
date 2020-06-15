@@ -139,10 +139,9 @@
 
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                console.log(src);
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-
+                console.log(arr);
             }
 
             var groupNames1 = groupNames.split("•");
@@ -154,8 +153,6 @@
             ajaxCall('GET', '../api/Student/getdata/' + rowId.IdRows + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
 
             function getDataSuccess(data) {
-                console.log(data)
-
                 for (var i = 0; i < data.length; i++) {
                     likearr.push(data[i].UserName)
                 }
