@@ -71,7 +71,8 @@
                     }
                 }
             });
-            function sub() {
+            function sub()
+            {
                 return false;
             }
 
@@ -145,6 +146,7 @@
             }
 
             passFromData = "";
+            strAvg = "";
             obj = [];
             function funcsuccess(data) {
                 obj = data;
@@ -169,7 +171,11 @@
                 class_ = obj[0].ClassName + "'" + obj[0].ClassNum;
                 str = '<div class="create-text">' + class_ + '<h6 style="font-size: 23px"></h6>';
                 document.getElementById('classCard').innerHTML = str;
-                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError);
+
+                strAvg = '<div class="create-text">' + obj[0].GPA + '<h6 class="text2" style="font-size: 23px;text-align:center"></h6>';
+                document.getElementById('AVG').innerHTML = strAvg;
+
             }
 
             function funcerror() { }
@@ -330,7 +336,7 @@
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item">תלמיד</h6>
+                <h6 id="myNameN2" class="nav-item" >תלמיד</h6>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="student-index.html">
@@ -423,7 +429,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">ממוצע ציונים: <span class="required"></span></label> <br />
-                                <input id="GPA" class="form-control border-form-control create-select textSquareTEXT" value="" type="text" readonly>
+                                <div id="AVG" class="form-control border-form-control create-select textSquareTEXT" style="text-align:center" value="" readonly>
                             </div>
 
                             

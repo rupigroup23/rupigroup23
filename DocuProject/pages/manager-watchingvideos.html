@@ -68,6 +68,7 @@
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
+
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
