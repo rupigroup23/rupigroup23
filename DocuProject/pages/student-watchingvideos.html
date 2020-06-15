@@ -374,7 +374,25 @@
            window.location.href = `student-feedbacks.html?${videoPath}`
           
             //student-feedbacks.html?${videoPath}
+
+
+           ///////////////לוקל נוי - לרביד//////////////
+           id = teamId.id;
+           thisGroup =
+               {
+                   "Group": listOfVideo[id].Group,
+                   "IdRows": listOfVideo[id].IdRows,
+                   "Video": listOfVideo[id].Video
+               }
+           console.log(thisGroup);
+           localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+
+            ////////////////////////////////////////////////////
         }
+
+
+
+        
     </script>
 </head>
 <body id="page-top">

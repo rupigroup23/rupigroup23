@@ -170,11 +170,11 @@ namespace DocuProject.Controllers
             F.insertFeed(feedbackObj);
         }
         [HttpGet] /// מביא את הפידבקים לדף
-        [Route("api/Student/getdata/{groupStudent}/{numOfTask}/{profession}")]
-        public List<Feedback> getData(string groupStudent, string numOfTask, string profession)
+        [Route("api/Student/getdata/{idRow}/{numOfTask}/{profession}")]
+        public List<Feedback> getData(int idRow, string numOfTask, string profession)
         {
             Feedback F = new Feedback();
-            return F.getData(groupStudent, numOfTask, profession);
+            return F.getData(idRow, numOfTask, profession);
         }
 
         [HttpGet]
