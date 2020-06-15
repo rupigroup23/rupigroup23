@@ -364,19 +364,7 @@
         //save in the local storage (for the feedback page) and move page
         function moveToPage(teamId)
         {
-                /////////////////לוקל נוי - לרביד/////////////////
-                id = teamId.id;
-                thisGroup =
-
-                    {
-                        "Group": listOfVideo[id].Group,
-                        "IdRows": listOfVideo[id].IdRows,
-                        "Video": listOfVideo[id].Video
-                }
-
-                console.log(thisGroup);
-                localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
-                //////////////////////////////////////////////////
+            
 
 
            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
@@ -384,20 +372,21 @@
            window.location.href = `student-feedbacks.html?${videoPath}`
           
             //student-feedbacks.html?${videoPath}
-
-
-           ///////////////לוקל נוי - לרביד//////////////
+           /////////////////לוקל נוי - לרביד/////////////////
            id = teamId.id;
            thisGroup =
+
                {
                    "Group": listOfVideo[id].Group,
                    "IdRows": listOfVideo[id].IdRows,
                    "Video": listOfVideo[id].Video
                }
+
            console.log(thisGroup);
            localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+                //////////////////////////////////////////////////
 
-            ////////////////////////////////////////////////////
+         
         }
 
 

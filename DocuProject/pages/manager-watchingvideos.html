@@ -272,18 +272,18 @@
             }
 
             function moveToPage(teamId) {
-                /////////////////לוקל נוי - לרביד/////////////////
-                id = teamId.id;
-                thisGroup =
+                ///////////////////לוקל נוי - לרביד/////////////////
+                //id = teamId.id;
+                //thisGroup =
 
-                    {
-                        "Group": listOfVideo[id].Group,
-                        "IdRows": listOfVideo[id].IdRows,
-                        "Video": listOfVideo[id].Video
-                    }
-                console.log(thisGroup);
-                localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
-                //////////////////////////////////////////////////
+                //    {
+                //        "Group": listOfVideo[id].Group,
+                //        "IdRows": listOfVideo[id].IdRows,
+                //        "Video": listOfVideo[id].Video
+                //    }
+                //console.log(thisGroup);
+                //localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+                ////////////////////////////////////////////////////
 
                 videoPath = arrStudentName[teamId.id].vidoes;
                 localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));

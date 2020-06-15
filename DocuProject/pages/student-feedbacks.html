@@ -52,10 +52,10 @@
             groupNames = JSON.parse(localStorage["names"]);
             document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
 
-            rrr = localStorage.getItem('thisGroup');
-            console.log('thisGroup: ', JSON.parse(rrr));
-            rowId = JSON.parse(localStorage["thisGroup"]);
-            console.log(rowId);
+            //rrr = localStorage.getItem('thisGroup');
+            //console.log('thisGroup: ', JSON.parse(rrr));
+            //rowId = JSON.parse(localStorage["thisGroup"]);
+            //console.log(rowId);
 
 
             var video = document.getElementById('mainVideo');
@@ -68,7 +68,8 @@
             ///לוקל נוי איידי של סרטון - לרביד ////
             thisGroup = localStorage.getItem('thisGroup');
             console.log('local with ID: ', JSON.parse(thisGroup));
-            //////////
+            rowId = JSON.parse(localStorage["thisGroup"]);
+            console.log(rowId);
 
             $('#load').prop("disabled", true);
 
