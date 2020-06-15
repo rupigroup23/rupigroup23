@@ -179,22 +179,30 @@
                 else {
                     Password = passNew;
                 }
+                var idVal = $("#Id").val();
+                var phoneVal = $("#phone").val();
+                var mail =$("#mail").val();
+
+                isValidIsraeliID(idVal); // ID validation
+                telephoneCheck(phoneVal);//Phone number validation
+                validatemail(mail); // mail validation
                 let admin =
                 {
                     "Fname": $("#fname").val(),
                     "Lname": $("#lname").val(),
-                    "Id": $("#Id").val(),
-                    "Email": $("#mail").val(),
+                    "Id": idVal,
+                    "Email": mail,
                     "City": $("#city").val(),
                     "Street": $("#street").val(),
                     "Bday": $("#bday").val(),
-                    "PhoneNum": $("#phone").val(),
+                    "PhoneNum": phoneVal,
                     "Password": Password,
                     "Image": imgStr
 
                 }
+                
                 url = "../api/Docu/updatetAdmin";
-                ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+               ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
             function updateDsuccess(data) {
                 console.log(data)
@@ -207,6 +215,52 @@
                 })
             }
             function updateDerror() { }
+
+            //validations
+            function telephoneCheck(str) {
+            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
+            if (isphone == false) {
+                 Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'פלאפון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                 })
+                return false;
+            }         
+            }
+            function isValidIsraeliID(id) {
+                var id = String(id).trim();
+                console.log(id.length);
+                if (id.length > 9 || id.length < 5 || isNaN(id)) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'תעודת זהות לא תקינה',
+                            confirmButtonText: 'אוקי',
+                            confirmButtonColor: '#990099',
+                        })
+                    return false;
+                }
+	            // Pad string with zeros up to 9 digits
+  	            id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+        }
+             function validatemail(email) {
+                    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                    //var address = document.getElementById[email].value;
+                    if (reg.test(email) == false) 
+                    {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'שגיאה...',
+                            text: 'מייל לא תקין',
+                            confirmButtonText: 'אוקי',
+                            confirmButtonColor: '#990099',
+                        })
+                        return false;
+                    }
+                }
 
             function updateDerror() { }
 
@@ -329,7 +383,7 @@
                 <h6 class="nav-item">פרטיות</h6>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="manager-login.html">
+                <a class="nav-link" href="manager-settings.html">
                     <i class="fa fa-gear"></i>
                     <span>הגדרות</span>
                 </a>
@@ -356,40 +410,43 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
                             <div class="form-group">
-                                <label class="control-label create-text">שם פרטי: <span class="required">*</span></label>
+                                <label class="control-label create-text">שם פרטי: <span class="required"></span></label>
                                 <input class="form-control border-form-control create-select textSquareTEXT" id="fname" value="" type="text">
                             </div>
                             <div class="form-group">
-                                <label class="control-label create-text">עיר: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label create-text">אימייל: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email" style="width: 250px;">
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label create-text">שם משפחה: <span class="required">*</span></label>
+                                <label class="control-label create-text">שם משפחה: <span class="required"></span></label>
                                 <input class="form-control border-form-control create-select textSquareTEXT" id="lname" type="text">
                             </div>
                             <div class="form-group">
-                                <label class="control-label create-text">תאריך לידה: <span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" value="" type="date">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label create-text">פלאפון<span class="required">*</span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="phone" value="" type="tel">
-                                <!--<input class="form-control border-form-control" value="" placeholder="123 456 7890" type="number">-->
+                                <label class="control-label create-text">תעודת זהות:<span class="required"></span></label><br />
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
-                            <label class="control-label create-text">תעודת זהות:<span class="required">*</span></label><br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
+                            <div class="form-group">
+                                <label class="control-label create-text">אימייל: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT " value="" id="mail" type="email" style="width: 250px;">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">תאריך לידה: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" value="" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">פלאפון<span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="phone" value="" type="tel">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label create-text">עיר: <span class="required"></span></label>
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="city" value="" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
+                                <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
 
+                            </div>
                             <br />
-                            <label class="control-label create-text">רחוב: <span class="required"></span></label> <br />
-                            <input class="form-control border-form-control create-select textSquareTEXT" value="" id="street" type="text">
                             <br />
                             <div class="row">
                                 <div class="row">
@@ -414,58 +471,58 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <hr class="mt-0">
-            <div class="row">
-                <div class="col-lg-8 col-sm-8">
-                    <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />
-                    &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
-                    &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
-                </div>
-                <div class="col-lg-4 col-sm-4">
-                    <input id="pw" name="pw" type="radio">
-                    <label for="pw" class="create-text">שינוי סיסמא</label>
-                    <div class="pw-disclosure">
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-6">
-                                <label class="control-label create-text">סיסמא נוכחית:</label>
+                <hr class="mt-0">
+                <div class="row">
+                    <div class="col-lg-7 col-sm-12">
+                        <input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;" />
+                        <!--<input type="file" id="fileUpload" value="בחירת קובץ" multiple="multiple" class="btn btn-outline-primary" style="height: 50px;width: 250px;margin-right:240px" />-->
+                        &nbsp;&nbsp; <input type="button" id="upload" value="טען" class="upload-btn" />
+                        &nbsp;&nbsp; <input type="button" id="uploadIMG" value="שמור תמונה" class="upload-btn" />
+                    </div>
+                    <div class="col-lg-5 col-sm-12">
+                        <input id="pw" name="pw" type="radio">
+                        <label for="pw" class="create-text">שינוי סיסמא</label>
+                        <div class="pw-disclosure">
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא נוכחית:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-sm-6">
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass1">
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא חדשה:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-6">
-                                <label class="control-label create-text">סיסמא חדשה:</label>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <label class="control-label create-text">סיסמא חדשה בשנית:</label>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-sm-6">
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass2">
+                            <div class="row">
+                                <button id="changePass" class="upload-btn" style="margin-right: 4%;">
+                                    שמור סיסמא
+                                </button>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-6">
-                                <label class="control-label create-text">סיסמא חדשה בשנית:</label>
-                            </div>
-                            <div class="col-lg-6 col-sm-6">
-                                <input class="form-control border-form-control create-select textSquareTEXT" value="" type="password" id="pass3">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button id="changePass" class="upload-btn">
-                                שמור סיסמא
-                            </button>
                         </div>
                     </div>
                 </div>
+                <hr class="mt-0">
+                <div class="row">
+                    <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg" style="width:300px;margin-right:280px;">
+                        שמירה
+                    </button>
+                </div>
             </div>
-            <hr class="mt-0">
-            <div class="row">
-                <!--<a class="btn btn-outline-primary btn-block btn-lg">-->
-                <button id="saveDetails" class="btn btn-outline-primary btn-block btn-lg" style="width:300px;margin-right:280px;">
-                    שמירה
-                </button>
-                <!--</a>-->
-            </div>
+            
         </div>
         <!--/.container-fluid-->
 

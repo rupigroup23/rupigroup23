@@ -161,6 +161,7 @@ Version: 1.0
     background-color: #e9ecef;
 }
 
+
 .breadcrumb-item {
     color: #990099;
     bottom: 25px;
@@ -170,9 +171,10 @@ Version: 1.0
     padding-top: inherit;
 }
 
-ul.a {
-    list-style-type: circle;
-}
+
+    ul.a {
+        list-style-type: circle;
+    }
 /*orientation bar END*/
 
 /*קו מפריד*/
@@ -314,8 +316,7 @@ a {
 /*create-txt - input text with bg purple*/
 /*.create-btn - כפתור טען*/
 
-
-.btnButton {
+    .btnButton {
     padding: 15px 50px;
     border-color: #990099;
     color: #990099;
@@ -378,7 +379,6 @@ a {
 /*statuses */
 .statuses_yes-disclosure {
     display: none;
-    margin: 10px 0 0 35px;
 }
 #showSubmissions {
     display: none;
@@ -393,6 +393,10 @@ a {
     width: 25px;
 }
 
+.statuses_yes-disclosure .mb-3 {
+    margin-bottom: 30px !important;
+    float: left;
+}
 
 html {
     position: relative;
