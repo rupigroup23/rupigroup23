@@ -262,12 +262,10 @@
             }
 
         function moveFBPage(teamId)
-        {
-            
+        {          
                 videoPath = arrStudentName[teamId.id].vidoes;
                 localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
                 window.location.href = `manager-feedbacks.html?${videoPath};`
-
                 /////////////////לוקל נוי - לרביד/////////////////
                 id = teamId.id;
                 thisGroup =
@@ -285,8 +283,6 @@
 
         }
 
-
-        
     </script>
 </head>
 <body id="page-top">
