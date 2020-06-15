@@ -208,7 +208,7 @@
                                                                 <a id="studentsText" class="statuses-text"  style="color: #000;">`
                 str += arrStudentName[i].Names;
                 str += `</a ><div class="video-page text-success">
-                                                                        <a id = '${i}' onclick='moveToPage(this)' href="#" >
+                                                                        <a id = '${i}' onclick='moveFBPage(this)' href="#" >
 
                                                                         <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
 
@@ -222,17 +222,6 @@
                                                 </div>
                           </div>`;
                 $('#videosDiv').append(str); // מצרף
-
-                //thisGroup =
-                //    {
-                //    "Group": listOfVideo[i].Group,
-                //    "IdRows": listOfVideo[i].IdRows,
-                //    "Profession": listOfVideo[i].Video
-                //}
-                //console.log(thisGroup);
-                //    localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
-                //}
-
                 str += `</div>`;
             }
         }
@@ -262,6 +251,7 @@
                         }
                     }
                 }
+
                 TeamName = {
                     "Names": strStudentName,
                     "vidoes": videoPath,
@@ -271,7 +261,13 @@
                 console.log(arrStudentName);
             }
 
-            function moveToPage(teamId) {
+        function moveFBPage(teamId)
+        {
+            
+                videoPath = arrStudentName[teamId.id].vidoes;
+                localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+                window.location.href = `manager-feedbacks.html?${videoPath};`
+
                 /////////////////לוקל נוי - לרביד/////////////////
                 id = teamId.id;
                 thisGroup =
@@ -284,11 +280,12 @@
                 console.log(thisGroup);
                 localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
                 //////////////////////////////////////////////////
-
-                videoPath = arrStudentName[teamId.id].vidoes;
                 localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-                window.location.href = `manager-feedbacks.html?${videoPath};`
-            }
+           window.location.href = `student-feedbacks.html?${videoPath}`
+
+        }
+
+
         
     </script>
 </head>
