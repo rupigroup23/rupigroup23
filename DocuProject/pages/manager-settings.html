@@ -170,15 +170,13 @@
             Password = "";
             imgStr = "";
 
+
             function saveDetails_()
             {
                 if (imagePath != "") {
                      imgStr = `http://localhost:44328/${imagePath}`;
                 }
-                else
-                {
-                    imgStr = obj[0].Image_;
-                }
+
 
                 if ($("#pass2").val() == "")
                 {
@@ -206,6 +204,7 @@
                     "PhoneNum": phoneVal,
                     "Password": Password,
                     "Image": imgStr
+
                 }
                 
                 url = "../api/Docu/updatetAdmin";
@@ -287,8 +286,7 @@
                     'success'
                 )
             }
-            function POSTerrorImg(data)
-            {
+            function POSTerrorImg(data) {
                 console.log(data);
             }
 
