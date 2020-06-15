@@ -274,12 +274,15 @@
                  error: getVideoErrorCB,
                 }); 
                 return false;
-           // ajaxCall("GET", urlVideo, '', getVideoSuccessCB, getVideoErrorCB);
             //הבאת סרטונים מהדאטה בייס//
         }
         // הצגת סרטונים על המסך
-        function getVideoSuccessCB(listOfVideo) {
+        listOfVideo = "";
+
+        function getVideoSuccessCB(data) {
             //הכנסה דינמית לDOM
+
+            listOfVideo = data;
             console.log(listOfVideo)
             str += `<div class="row">`;
             for (let i in listOfVideo) {
@@ -308,7 +311,7 @@
                                                                     <a id="studentsText" class="statuses-text">`
                 str += arrStudentName[i].Names;
                 str += `</a >
-                                                                        <a id = '${i}' onclick='moveFbPage(this)' href="#" >
+                                                                        <a id = '${i}' onclick='moveToPage(this)' href="#" >
 
                                                                         <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
                                                                 </div>
@@ -322,13 +325,11 @@
                               </div>`;
                 $('#videosDiv').append(str); // מצרף
             }
-            //<a id="studentsText" onclick='moveFbPage(arrStudentName[i].Names, videoPath)' class="statuses-text" href="student-feedbacks.html?${videoPath}">`
-            //<a id="studentsText" onclick="moveFbPage(${arrStudentName[i].Names, videoPath })" class="statuses-text">`
+            
             str += `</div>`;
-
         }
-        function getVideoErrorCB(err) { console.log(err) }
 
+        function getVideoErrorCB(err) { console.log(err) }
         //Bring the details up
         function getDatelis() {
             date = diffDays(TaskObj.Task.Date);
@@ -361,16 +362,25 @@
         }
 
         //save in the local storage (for the feedback page) and move page
-        function moveFbPage(teamId) {
-            console.log(arrStudentName);
-            console.log(teamId.id);
-            console.log(arrStudentName[teamId.id].vidoes);
-            console.log(arrStudentName[teamId.id].Names);
-            videoPath = arrStudentName[teamId.id].vidoes;
+        function moveToPage(teamId)
+        {
+                /////////////////לוקל נוי - לרביד/////////////////
+                id = teamId.id;
+                thisGroup =
 
-            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-            window.location.href = `student-feedbacks.html?${videoPath}`
+                    {
+                        "Group": listOfVideo[id].Group,
+                        "IdRows": listOfVideo[id].IdRows,
+                        "Video": listOfVideo[id].Video
+                }
 
+                console.log(thisGroup);
+                localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+                //////////////////////////////////////////////////
+
+
+           localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+           window.location.href = `student-feedbacks.html?${videoPath}`
            window.location.href = `student-feedbacks.html?${videoPath}`
           
             //student-feedbacks.html?${videoPath}

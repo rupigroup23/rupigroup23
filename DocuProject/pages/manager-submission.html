@@ -71,9 +71,9 @@
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
         function funcsuccess(data) {
-           // obj = data;
-           // userEmail1 = obj[0].Email;
-           // ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            obj = data;
+            userEmail1 = obj[0].Email;
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
         function funcerror() { }
         function getAvatarImageSuccess(imagePath1) {
