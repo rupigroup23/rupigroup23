@@ -46,7 +46,7 @@
             myname = studentObj.FName + " " + studentObj.LName;
             document.getElementById("myNameN1").innerHTML = myname;
             document.getElementById("myNameN2").innerHTML = myname;
-            //
+            ////
 
             showDetalis(studentObj);
 
@@ -91,7 +91,7 @@
                 //Ajax upload
                 $.ajax({
                     type: "POST",
-                    url: "../Api/Student/uploadimage",
+                    url: "../Api/Docu/uploadimage",
                     contentType: false,
                     processData: false,
                     data: data,
@@ -196,8 +196,16 @@
                 console.log(err)
             }
 
-            function saveDetails_() {
-                Password = "";
+            imgStr = "";
+            Password = "";
+            function saveDetails_()
+            {
+  
+                if (imagePath != "")
+                {
+                     imgStr = `http://localhost:44328/${imagePath}`;
+                }
+
                 if ($("#pass2").val() == "")
                 {
                     Password = obj[0].Password_;
@@ -214,7 +222,8 @@
                     "PhoneNum":phoneVal,
                     "Password": Password,
                     "ClassName": obj[0].ClassName,
-                    "ClassNum": obj[0].ClassNum
+                    "ClassNum": obj[0].ClassNum,
+                    "Image": imgStr
                 }
 
                 console.log(student);

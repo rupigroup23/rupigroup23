@@ -46,6 +46,11 @@
             groupNames = JSON.parse(localStorage["names"]);
             document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
 
+            rrr = localStorage.getItem('thisGroup');
+            console.log('thisGroup: ', JSON.parse(rrr));
+            rowId = JSON.parse(localStorage["thisGroup"]);
+            console.log(rowId);
+
             //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
@@ -116,7 +121,7 @@
                    groupNames2 += groupNames1[i];
                 }
                 console.log('groupNames2=',groupNames2)
-                ajaxCall('GET', '../api/Student/getdata/' + groupNames2.trim() + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
+                ajaxCall('GET', '../api/Student/getdata/' + rowId.IdRows + '/' + TaskObj.Task.Num + '/' + TaskObj.Profession, '', getDataSuccess, getDataError);
 
 
             function getDataSuccess(data) {

@@ -30,6 +30,7 @@ namespace DocuProject.Models
         double latitude;
         double longitude;
         double distanceFromSchool;
+        string image;
 
 
         public int Id_row { get => id_row; set => id_row = value; }
@@ -49,7 +50,7 @@ namespace DocuProject.Models
         public double Latitude { get => latitude; set => latitude = value; }
         public double Longitude { get => longitude; set => longitude = value; }
         public double DistanceFromSchool { get=>distanceFromSchool; set=>distanceFromSchool=value; }
-
+        public string Image { get => image; set => image = value; }
 
         public List<Student> ReadSt()
         {
@@ -99,7 +100,6 @@ namespace DocuProject.Models
         {
             foreach (DataRow dr in dt.Rows)
             {
-                ////////// שינוי בתוך הטבלה עצמה
                 if (id == Convert.ToInt32(dr["id"]))
                 {
                     dr["FName"] = student.FName;
@@ -148,6 +148,7 @@ namespace DocuProject.Models
                 {
                     dr["PhoneNum"] = student.PhoneNum;
                     dr["Password_"] = student.Password;
+                    dr["Image_"] = student.Image;
                 }
             }
             return dt;

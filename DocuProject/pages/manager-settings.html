@@ -169,8 +169,13 @@
 
             Password = "";
             imgStr = "";
-            function saveDetails_() {
-                 imgStr = `http://localhost:44328/${imagePath}`;
+
+            function saveDetails_()
+            {
+
+                if (imagePath != "") {
+                     imgStr = `http://localhost:44328/${imagePath}`;
+                }
 
                 if ($("#pass2").val() == "")
                 {
@@ -198,7 +203,6 @@
                     "PhoneNum": phoneVal,
                     "Password": Password,
                     "Image": imgStr
-
                 }
                 
                 url = "../api/Docu/updatetAdmin";
@@ -280,7 +284,8 @@
                     'success'
                 )
             }
-            function POSTerrorImg(data) {
+            function POSTerrorImg(data)
+            {
                 console.log(data);
             }
 
