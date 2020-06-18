@@ -139,9 +139,9 @@
                 $(this).show();
                 }).bind("ajaxStop", function(){
                 $(this).hide();
-                });
+            });
 
-            //User image
+            ///User image
             localStudent = localStorage.getItem('student');
             studentObj = JSON.parse(localStudent);
             showDetalis(studentObj);
@@ -161,14 +161,12 @@
 
             getVideosDB(TaskObj); //GET - Group_Feedback Table
 
-            //
-
         });
         //loading container
         function loadStart() {
-                    $('#loading').show();
-                     $('#videosDiv').hide();
-                }
+            $('#loading').show();
+            $('#videosDiv').hide();
+        }
         function loadStop() {
             $('#loading').hide();
             $('#videosDiv').show();
@@ -195,7 +193,6 @@
                     "ClassName": TaskObj.ClassName,
                     "ClassNum": TaskObj.ClassNum,
                 }
-            console.log(obj2);
 
             url = "../api/Student/GetStudents";
 
@@ -215,11 +212,9 @@
         }
         function GETsuccessS(studentsData) {
             studentList = studentsData;
-            console.log(studentList);
         }
         function GETerrorS(err) {
             console.log(err);
-
         }
 
         //User image
@@ -232,12 +227,11 @@
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
         }
         function getAvatarImageSuccess(imagePath1) {
             src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
             let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
             $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
 
         }
@@ -253,7 +247,6 @@
             date = TaskObj.Task.Date;
             dateArr = date.split('/');
             dateVal = `${dateArr[2]}-${dateArr[1]}-${dateArr[0]}`
-
             taskObject = {
                 "ClassName": TaskObj.ClassName,
                 "ClassNum": TaskObj.ClassNum,
@@ -262,7 +255,6 @@
             }
 
             urlVideo = "../api/student/getvideo/" + TaskObj.ClassName + "/" + TaskObj.ClassNum + "/" + TaskObj.Profession + "/" + TaskObj.Task.Num;
-            console.log(urlVideo)
             $.ajax({
                  type: "GET",
                  url: urlVideo,
@@ -281,7 +273,6 @@
         function getVideoSuccessCB(data) {
 
             listOfVideo = data;
-            console.log(listOfVideo)
             str += `<div class="row">`;
             for (let i in listOfVideo) {
                 videoPath = `../${listOfVideo[i].Video}`
@@ -342,7 +333,6 @@
         function getTeamsNames(teams, videoPath) {
             strStudentName = "• ";
             students2 = teams.split(',');
-            console.log(students2);
             for (var j = 0; j < studentList.length; j++) {
                 for (var i = 0; i < students2.length; i++) {
                     if (students2[i] == studentList[j].Id_) {
@@ -354,9 +344,7 @@
                 "Names": strStudentName,
                 "vidoes": videoPath,
             }
-            console.log(TeamName);
             arrStudentName.push(TeamName);
-            console.log(arrStudentName);
         }
 
         //save in the local storage (for the feedback page) and move page
@@ -375,7 +363,6 @@
                         "IdRows": listOfVideo[id].IdRows,
                         "Video": listOfVideo[id].Video
                 }
-                console.log(thisGroup);
                 localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
 
             //////////////////////////////////////////////////
@@ -567,8 +554,6 @@
         </div>
         <!-- /.container-fluid -->
     </div>
-
-
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -601,6 +586,5 @@
     <script src="vendor/owl-carousel/owl.carousel.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/custom.js"></script>
-
 </body>
 </html>

@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -68,6 +67,7 @@
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
+
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
                 var url = "../api/Docu/GetDetails/" + Id;
@@ -208,7 +208,7 @@
                                                                 <a id="studentsText" class="statuses-text"  style="color: #000;">`
                 str += arrStudentName[i].Names;
                 str += `</a ><div class="video-page text-success">
-                                                                        <a id = '${i}' onclick='moveFBPage(this)' href="#" >
+                                                                        <a id = '${i}' onclick='moveFbPage(this)' href="#" >
 
                                                                         <img  class='img-button' src='img/arrow.png' alt='מעבר למקצוע' /></a>
 
@@ -222,67 +222,75 @@
                                                 </div>
                           </div>`;
                 $('#videosDiv').append(str); // מצרף
-                str += `</div>`;
+
+            thisGroup =
+                {
+                "Group": listOfVideo[i].Group,
+                "IdRows": listOfVideo[i].IdRows,
+                "Profession": listOfVideo[i].Video
             }
-        }
-            function getVideoErrorCB(err) { console.log(err) }
-            //<video  width="200" height="150" controls>
-
-
-
-            //Bring the details up
-            function getDatelis() {
-                date = diffDays(TaskObj.Task.Date);
-                document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-                document.getElementById("date").innerHTML = date;
-            }
-
-
-            var strStudentName;
-            var arrStudentName = [];
-            function getTeamsNames(teams, videoPath) {
-                strStudentName = "• ";
-                students2 = teams.split(',');
-                console.log(students2);
-                for (var j = 0; j < studentList.length; j++) {
-                    for (var i = 0; i < students2.length; i++) {
-                        if (students2[i] == studentList[j].Id_) {
-                            strStudentName += studentList[j].FName + " " + studentList[j].LName + " • ";
-                        }
-                    }
-                }
-
-                TeamName = {
-                    "Names": strStudentName,
-                    "vidoes": videoPath,
-                }
-                console.log(TeamName);
-                arrStudentName.push(TeamName);
-                console.log(arrStudentName);
-            }
-
-        function moveFBPage(teamId)
-        {          
-                videoPath = arrStudentName[teamId.id].vidoes;
-                localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-                window.location.href = `manager-feedbacks.html?${videoPath};`
-                /////////////////לוקל נוי - לרביד/////////////////
-                id = teamId.id;
-                thisGroup =
-
-                    {
-                        "Group": listOfVideo[id].Group,
-                        "IdRows": listOfVideo[id].IdRows,
-                        "Video": listOfVideo[id].Video
-                    }
-                console.log(thisGroup);
+            console.log(thisGroup);
                 localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
-                //////////////////////////////////////////////////
-                localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-           window.location.href = `manager-feedbacks.html?${videoPath}`
+            }
 
+            str += `</div>`;
+        }
+        function getVideoErrorCB(err) { console.log(err) }
+        //<video  width="200" height="150" controls>
+
+
+
+        //Bring the details up
+        function getDatelis() {
+            date = diffDays(TaskObj.Task.Date);
+            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
+            document.getElementById("date").innerHTML = date;
         }
 
+
+        var strStudentName;
+        var arrStudentName = [];
+        function getTeamsNames(teams, videoPath) {
+            strStudentName = "• ";
+            students2 = teams.split(',');
+            console.log(students2);
+            for (var j = 0; j < studentList.length; j++) {
+                for (var i = 0; i < students2.length; i++) {
+                    if (students2[i] == studentList[j].Id_) {
+                        strStudentName += studentList[j].FName + " " + studentList[j].LName + " • ";
+                    }
+                }
+            }
+            TeamName = {
+                "Names": strStudentName,
+                "vidoes": videoPath,
+            }
+            console.log(TeamName);
+            arrStudentName.push(TeamName);
+            console.log( arrStudentName);
+        }
+
+        function moveFbPage(teamId)
+        {
+
+            videoPath = arrStudentName[teamId.id].vidoes;
+            localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
+            window.location.href = `manager-feedbacks.html?${videoPath};`
+
+            
+            ///////////////לוקל נוי - לרביד//////////////
+            id = teamId.id;
+            thisGroup =
+                {
+                "Group": listOfVideo[id].Group,
+                "IdRows": listOfVideo[id].IdRows,
+                "Video": listOfVideo[id].Video
+            }
+            console.log(thisGroup);
+            localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+
+            ////////////////////////////////////////////////////
+        }
     </script>
 </head>
 <body id="page-top">
@@ -378,7 +386,7 @@
                 <h6 class="nav-item">פרטיות</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="manager-settings.html">
+                <a class="nav-link" href="manager-login.html">
                     <i class="fa fa-gear"></i>
                     <span>הגדרות</span>
                 </a>
