@@ -40,8 +40,8 @@
         var userEmail1 = '';
         var likearr = [];
         var groupNames2 = "";
-        var username = '';
-        var username2 = '';
+        var Id = [];
+        var usernamesId = [];
 
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
@@ -120,9 +120,7 @@
 
             //pic
             function showDetalis(studentObj) {
-                Id = studentObj.Id;
-                username = studentObj.FName + ' ' + studentObj.LName;
-                console.log(username)
+                Id = studentObj.Id;     
                 var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -130,7 +128,8 @@
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-
+                userId = obj[0].Id_
+                console.log(userId)
                 ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
             }
@@ -163,14 +162,15 @@
                 }
                 console.log(likearr)
 
-                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
+                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(10px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
 
                 for (var i = 0; i < data.length; i++) {
-                    username2 = data[i].UserName;
-                    console.log(username2);
+                    
+                    usernamesId.push(data[i].IdUser)
+                    console.log(usernamesId);
                     if (data[i].NameLike == "true") {
                         strLike += '<div class="owl-item cloned" style="width: 104.74px;"><div class="item"><div class="category-item" style="padding: 0px 0px;"><a href="#"><i class="fas fa-heart"><h6 id="nameLike" style="font-weight: bold;">' + data[i].UserName + '</h6></i></a></div></div></div>'
                     }
@@ -195,29 +195,49 @@
                 console.log(err);
             }
 
+            function getDataError(err) { console.log(err) }
+
+
+         
+                
+
 
             $(document).on("click", "#deleteBtn", function () {  // מחיקה של תגובה
 
                 let selectedRow = this.getAttribute('data-id');
                 let type = this.getAttribute('data-deleteType');
                 console.log(type);
-                //markSelected(this);
-                //$('#trush').css("color", "green");
+                
+            
+                for (var i = 0; i < usernamesId.length; i++) {
+                    if (usernamesId[i] == userId) {
 
-                swal({
-                    title: "האם את/ה בטוח?",
-                    text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true
-                })
-                    .then(function (willDelete) {
-                        if (willDelete)
-                            deleteComment(selectedRow, type);
-                        else swal("הפעולה בוטלה");
-                    });
+                        swal({
+                            title: "האם את/ה בטוח?",
+                            text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true
+                        })
+                            .then(function (willDelete) {
+                                if (willDelete)
+                                    deleteComment(selectedRow, type);
+                                else swal("הפעולה בוטלה");
+                            });
+                    }
+                    else {
+                        if (usernamesId[i] != userId) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'אין באפשרותך למחוק תגובה זו',
 
-
+                            })
+                        }
+                        
+                        
+                    }
+                }
             });
 
             function deleteComment(selectedRow, type) {
@@ -232,6 +252,10 @@
             }
 
             function updateDerror(err) { console.log(err) }
+
+
+            ////////////////////////////////////////////////////////////////
+
 
 
 
@@ -302,7 +326,8 @@
                                 "GroupStudent": groupNames2.trim(),
                                 "Profession": TaskObj.Profession,
                                 "UserName": studentObj.FName + ' ' + studentObj.LName,
-                                "IdRow": rowId.IdRows
+                                "IdRow": rowId.IdRows,
+                                "IdUser": studentObj.Id
                             }
 
                             console.log('feedbackObj=', feedbackObj)
@@ -319,7 +344,8 @@
                         "GroupStudent": groupNames2.trim(),
                         "Profession": TaskObj.Profession,
                         "UserName": studentObj.FName + ' ' + studentObj.LName,
-                        "IdRow": rowId.IdRows
+                        "IdRow": rowId.IdRows,
+                        "IdUser": studentObj.Id
                     }
                     $('#likeBtn').attr('disabled', true);
                     console.log(feedbackObj)

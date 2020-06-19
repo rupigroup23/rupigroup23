@@ -1705,8 +1705,8 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string 
 
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7})", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents, feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName, feedbackObj.IdRow); // לפי האובייקט במחלקה
-        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName,IdRow)"; // לפי העמודות בSQL
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7},{8})", feedbackObj.GroupStudent, feedbackObj.NumOfTask, feedbackObj.Profession, feedbackObj.Contents, feedbackObj.NameLike, feedbackObj.Video, feedbackObj.UserName, feedbackObj.IdRow,feedbackObj.IdUser); // לפי האובייקט במחלקה
+        String prefix = "INSERT INTO Feedback_ (groupStudent,numOfTask,Profession,contents,nameLike,video,UserName,IdRow,IdUser)"; // לפי העמודות בSQL
         command = prefix + sb.ToString();
 
         return command;
@@ -1736,6 +1736,8 @@ public class DBservices
                 feedback.Video = (string)dr["video"];
                 feedback.UserName = (string)dr["UserName"];
                 feedback.IdRow = Convert.ToInt16(dr["IdRow"]);
+                feedback.IdUser = Convert.ToInt32(dr["IdUser"]);
+                //feedback.IdUser = (string)dr["IdUser"];
                 listOfFeedback.Add(feedback);
 
             }

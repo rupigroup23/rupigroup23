@@ -18,6 +18,7 @@ namespace DocuProject.Models
         string numOfTask;
         string userName;
         int idRow;
+        int idUser;
 
 
         public Feedback() { }
@@ -31,6 +32,7 @@ namespace DocuProject.Models
         public string NumOfTask { get => numOfTask; set => numOfTask = value; }
         public string UserName { get => userName; set => userName = value; }
         public int IdRow { get => idRow; set => idRow = value; }
+        public int IdUser { get => idUser; set => idUser = value; }
 
         public int insertFeed(Feedback feedbackObj)
         {
@@ -64,6 +66,7 @@ namespace DocuProject.Models
                     dr["video"] = NewFeedback.Video;
                     dr["userName"] = NewFeedback.UserName;
                     dr["idRow"] = NewFeedback.IdRow;
+                    dr["idUser"] = NewFeedback.IdUser;
                 }
             }
             return dt;
