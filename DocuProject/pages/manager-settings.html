@@ -32,8 +32,8 @@
     <script>
         var imagePath = '';
         var userEmail = '';
-             passNew = "";
-            passFromData = "";
+        passNew = "";
+        passFromData = "";
         $(document).ready(function () {
             //Menus
             localN = localStorage.getItem('myName');
@@ -43,24 +43,24 @@
             document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //Form
-            $('#form').submit(sub); 
-            $('#saveDetails').click(saveDetails_); 
+            $('#form').submit(sub);
+            $('#saveDetails').click(saveDetails_);
 
             //admin
             local = localStorage.getItem('user');
             objAdmin = JSON.parse(local);
             showDetalis(objAdmin);
 
-            
+
             $('input[type=radio]').on('change', function () {
                 $("#changePass").show();
             });
-       
+
             $("#changePass").click(function () {
-           if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
+                if ($('#pass1').val() == passFromData && $('#pass2').val() == $('#pass3').val()) {
                     passNew = $('#pass2').val();
                     saveDetails_();
-               $('.pw-disclosure').hide();
+                    $('.pw-disclosure').hide();
 
                 }
                 else {
@@ -113,7 +113,7 @@
                     }
                 ajaxCall('POST', '../api/Docu/uploadUrlImg2', JSON.stringify(AdminImage), POSTsuccessImg, POSTerrorImg);
             });
-       
+
             function sub() {
                 return false;
             }
@@ -129,7 +129,7 @@
             var arr;
             function getAvatarImageSuccess(imagePath) {
                 src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-               arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+                arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
                 $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
             }
@@ -140,7 +140,7 @@
             obj = "";
             passFromData = "";
             function funcsuccess(data) {
-                obj = data; 
+                obj = data;
 
                 //date
                 birthVal = obj[0].Bday;
@@ -152,7 +152,7 @@
                 $('#Id').val(obj[0].Id_);
                 $('#mail').val(obj[0].Email);
                 $('#city').val(obj[0].City);
-                $('#street').val(obj[0].Street);              
+                $('#street').val(obj[0].Street);
                 $('#phone').val(obj[0].PhoneNum);
                 $('#selectProf').val(obj[0].Profession);
                 $('#bday').val(birthVal);
@@ -171,8 +171,7 @@
             imgStr = "";
 
 
-            function saveDetails_()
-            {
+            function saveDetails_() {
                 if (imagePath != "") {
                     imgStr = `http://localhost:44328/${imagePath}`;
                 }
@@ -181,8 +180,7 @@
                 }
 
 
-                if ($("#pass2").val() == "")
-                {
+                if ($("#pass2").val() == "") {
                     Password = obj[0].Password_;
                 }
                 else {
@@ -190,7 +188,7 @@
                 }
                 var idVal = $("#Id").val();
                 var phoneVal = $("#phone").val();
-                var mail =$("#mail").val();
+                var mail = $("#mail").val();
 
                 isValidIsraeliID(idVal); // ID validation
                 telephoneCheck(phoneVal);//Phone number validation
@@ -209,9 +207,9 @@
                     "Image": imgStr
 
                 }
-                
+
                 url = "../api/Docu/updatetAdmin";
-               ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
+                ajaxCall("PUT", url, JSON.stringify(admin), updateDsuccess, updateDerror);
             }
             function updateDsuccess(data) {
                 console.log(data)
@@ -227,49 +225,48 @@
 
             //validations
             function telephoneCheck(str) {
-            var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
-            if (isphone == false) {
-                 Swal.fire({
+                var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str);
+                if (isphone == false) {
+                    Swal.fire({
                         icon: 'error',
                         title: 'שגיאה...',
                         text: 'פלאפון לא תקין',
                         confirmButtonText: 'אוקי',
                         confirmButtonColor: '#990099',
-                 })
-                return false;
-            }         
+                    })
+                    return false;
+                }
             }
             function isValidIsraeliID(id) {
                 var id = String(id).trim();
                 console.log(id.length);
                 if (id.length > 9 || id.length < 5 || isNaN(id)) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'תעודת זהות לא תקינה',
-                            confirmButtonText: 'אוקי',
-                            confirmButtonColor: '#990099',
-                        })
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'תעודת זהות לא תקינה',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
                     return false;
                 }
-	            // Pad string with zeros up to 9 digits
-  	            id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
-        }
-             function validatemail(email) {
-                    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-                    //var address = document.getElementById[email].value;
-                    if (reg.test(email) == false) 
-                    {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'מייל לא תקין',
-                            confirmButtonText: 'אוקי',
-                            confirmButtonColor: '#990099',
-                        })
-                        return false;
-                    }
+                // Pad string with zeros up to 9 digits
+                id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+            }
+            function validatemail(email) {
+                var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                //var address = document.getElementById[email].value;
+                if (reg.test(email) == false) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'מייל לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                    return false;
                 }
+            }
 
             function updateDerror() { }
 
@@ -428,7 +425,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תעודת זהות:<span class="required"></span></label><br />
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="Id" type="tel">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="Id" readonly type="number">
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
@@ -438,7 +435,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">תאריך לידה: <span class="required"></span></label>
-                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" value="" type="date">
+                                <input class="form-control border-form-control create-select textSquareTEXT" id="bday" readonly value="" type="date">
                             </div>
                             <div class="form-group">
                                 <label class="control-label create-text">פלאפון<span class="required"></span></label>
@@ -531,7 +528,7 @@
                     </button>
                 </div>
             </div>
-            
+
         </div>
         <!--/.container-fluid-->
 

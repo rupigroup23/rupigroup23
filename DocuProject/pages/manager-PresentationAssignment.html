@@ -148,40 +148,37 @@
         }
 
         //Bring the details up
-        function getDatelis()
-        {
-        document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
-        date = TaskObj.Task.Date;
-        deadLine = date.split('/');
-        date_val = deadLine[2] + "-" + deadLine[1] + "-" + deadLine[0];
+        function getDatelis() {
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+            date = TaskObj.Task.Date;
+            deadLine = date.split('/');
+            date_val = deadLine[2] + "-" + deadLine[1] + "-" + deadLine[0];
 
-        $("#task_topic").val(TaskObj.Task.Topic);
-        $("#date").val(date_val);
+            $("#task_topic").val(TaskObj.Task.Topic);
+            $("#date").val(date_val);
         }
 
         ////////////////// edit task - noy /////////////////
-        $(document).on("click", "#editTask", function ()
-        {
+        $(document).on("click", "#editTask", function () {
             Swal.fire('הנך/י רשאי/ת לערוך את פרטי המטלה');
 
             $('#task_topic').prop('disabled', false);
             $('#date').prop('disabled', false);
 
-            $("#editTaskDiv").show(); 
+            $("#editTaskDiv").show();
             $("#showtxtbox").hide();
             $("#buttons").show();
             populateFields(TaskObj); // fill the form fields
         });
 
         // edit file
-        $(document).on("click", "#edit_btnTask", function () { 
+        $(document).on("click", "#edit_btnTask", function () {
             $("#upload_btn").show();
         });
         $(document).on("change", "#addFile", function () {
             $("#upload_btn2").show();
             $('#valuTxtEdit').prop("disabled", true);
         });
-        //
 
         // delete task
         $(document).on("click", "#delete_btnTask", function () {
@@ -208,6 +205,8 @@
         fileName_str = "";
         fileDiv = "";
         isFile = "";
+        taskPathNew = "";
+
         function populateFields(TaskObj) {
             isFile = taskPath.includes("proj.ruppin"); //If there is a file
             if (taskPath != "" && isFile == true) //get file name
@@ -217,13 +216,13 @@
 
                 ///////////שם המטלה - להחזיר שיש דאטה נורמלי כי אחרת לא יעבוד/////////
 
-                // fileArr = taskPath.split('uploadedFiles/');
-                // filaNameArr = fileArr[1].split('.');
-                // fileName = filaNameArr[0];
-                //console.log(fileName);
-                //////name of file on html
-                //fileName_str = '"' + fileName + '"';
-                //document.getElementById("file_name").innerHTML = fileName_str;
+                fileArr = taskPath.split('uploadedFiles/');
+                filaNameArr = fileArr[1].split('.');
+                fileName = filaNameArr[0];
+                console.log(fileName);
+                ////name of file on html
+                fileName_str = '"' + fileName + '"';
+                document.getElementById("file_name").innerHTML = fileName_str;
 
                 //////////////////////////////////////////////////////////////////////
             }
@@ -235,23 +234,28 @@
             }
         }
 
+        taskPathNew = "";
         decription_DB = "";
-        function saveTask()
-        {
-            if (isFile == true)
+        function saveTask() {
+            if (isFile == true) // אם עורכים קובץ
             {
                 if (taskPathNew != "") { //קובץ חדש
                     decription_DB = taskPathNew;
                 }
                 else {//מחיקת קובץ
-                    decription_DB = taskPath; 
+                    decription_DB = taskPath;
                 }
-              
-            }
-            else {
-                decription_DB = $("#valuTxtEdit").val();
             }
 
+            else { // אם עורכים טקסט
+                if (taskPathNew != "") {// אם רוצים לעלות קובץ
+                    decription_DB = taskPathNew;
+                }
+                else {
+                    decription_DB = $("#valuTxtEdit").val();
+
+                }
+            }
             let TaskNew =
             {
                 "ClassName": TaskObj.ClassName,
@@ -267,10 +271,10 @@
 
             //group table
             let taskGroup = {
-                 "Deadline": $("#date").val()
+                "Deadline": $("#date").val()
             }
             url2 = '../api/Docu/UpdateTask_Group/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Num;
-            ajaxCall("PUT", url2 , JSON.stringify(taskGroup), updateDsuccess2, updateDerror2);
+            ajaxCall("PUT", url2, JSON.stringify(taskGroup), updateDsuccess2, updateDerror2);
         }
 
         function updateDsuccess(data) {
@@ -290,21 +294,18 @@
                 confirmButtonText: 'אישור',
                 showCloseButton: true
             })
-
             replaceFunc();
         }
 
         function updateDerror2() { };
 
         function replaceFunc() {
-        window.location.replace("manager-tasks.html");
+            window.location.replace("manager-tasks.html");
         }
 
-        ///////  upload files -לבדוק שעובד טוב בשרת /////////
-        $('#upload').on('click', function () {
-            console.log('clicked')
+        $(document).on("click", "#uploadBTN1", function () {
             var data = new FormData();
-            var files = $("#fileUpload").get(0).files;
+            var files = $("#fileUpload1").get(0).files;
             console.log(data);
             console.log(files);
 
@@ -326,14 +327,43 @@
                 success: changeTaskPath,
                 error: error
             });
-
             return false;
         });
 
+        $(document).on("click", "#uploadBTN2", function () {
+            var data = new FormData();
+            var files = $("#fileUpload2").get(0).files;
+            console.log(data);
+            console.log(files);
+
+            // Add the uploaded file to the form data collection
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedTasks", files[f]);
+                }
+                data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+            }
+
+            //Ajax upload
+            $.ajax({
+                type: "POST",
+                url: "../Api/DocuUpload/uploadtask",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: changeTaskPath,
+                error: error
+            });
+            return false;
+        });
+
+
+
+        taskPathNew1 = "";
         taskPathNew = "";
         function changeTaskPath(data) {
-            taskPathNew = data; // כעת עודכן הקובץ
-
+            taskPathNew1 = data; // כעת עודכן הקובץ
+            taskPathNew = `http://proj.ruppin.ac.il/igroup23/prod/${taskPathNew1}`;
             Swal.fire({
                 icon: 'success',
                 title: 'הקובץ נטען בהצלחה!',
@@ -346,8 +376,6 @@
             console.log(data);
         }
 
-
-        /////edit - finall
     </script>
 </head>
 <body id="page-top">
@@ -499,7 +527,7 @@
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
                                         </span>
-                                        <input type="date" id="date" class="squareTEXT" disabled/>
+                                        <input type="date" id="date" class="squareTEXT" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -538,7 +566,7 @@
                                             <div class="col-lg-12 col-sm-12" id="editTaskDiv" style="display:none">
                                                 <!--<form id="form1">-->
                                                 <div class="form-group row">
-                                             
+
                                                     <!-- תיאור מטלה - טקסט -->
                                                     <div id="descriptionDiv" class="form-group col-sm-6 create-text">
                                                         <label for="description"><span class="red-star"> </span>תיאור</label>
@@ -546,8 +574,9 @@
                                                         <input type="checkbox" id="addFile" />
                                                         <label><span class="red-star"> </span>ברצוני להוסיף קובץ</label>
                                                         <div id="upload_btn2" style="display:none">
-                                                            <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
-                                                            <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                            <input type="file" id="fileUpload1" class="<!--fileUpload--> btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                                            <!--<input type="button" id="uploadBTN" value="טען" class="upload-btn" />-->
+                                                            <input type="button" id="uploadBTN1" value="טען" class="<!--uploadBTN1--> upload-btn" />
                                                             <div id="linkURL" class="statuses-text"></div>
                                                         </div>
                                                     </div>
@@ -562,7 +591,7 @@
                                     <div class="row" id="fileDiv" style="display:none; margin: auto;">
                                         <div class="form-group col-sm-4 create-text" style="border: 1px solid #1FCBB5;border-radius: 30px;">
                                             <label for="description" style="text-align:center"><span class="red-star"> </span> שם קובץ המטלה:</label>
-                                            <span id="file_name" class="squareTEXT"> כאן יבוא השם</span><br />
+                                            <span id="file_name" class="squareTEXT"> </span><br />
                                             <a href="#">
                                                 <i id="delete_btnTask" class='far fa-trash-alt'></i>
                                             </a>
@@ -573,8 +602,8 @@
                                             </a><span style="font-size:smaller; color:black"> <span> </span>  לחץ/י לעריכה </span><br />
 
                                             <div id="upload_btn" style="display:none">
-                                                <input type="file" class="btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
-                                                <input type="button" id="upload" value="טען" class="upload-btn" />
+                                                <input type="file" id="fileUpload2" class="<!--fileUpload--> btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                                <input type="button" value="טען" id="uploadBTN2" class="<!--uploadBTN1--> upload-btn" />
                                                 <div id="linkURL" class="statuses-text"></div>
                                             </div>
                                         </div>
@@ -598,13 +627,9 @@
                     </div>
                 </div>
             </div>
-                    </div>
-                </div>
-            <!--</div>
         </div>
-    </div>-->
+    </div>
     <!-- /#wrapper -->
-    <!--<script src="js/showItem.js"></script>-->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

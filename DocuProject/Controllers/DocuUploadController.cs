@@ -78,6 +78,40 @@ namespace DocuProject.Controllers
             return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, 
         }
 
-      
+        [HttpPost] 
+        [Route("Api/DocuUpload/uploadtask")]
+        public HttpResponseMessage PostTask()
+        {
+            List<string> taskLinks = new List<string>();
+            var httpContext = HttpContext.Current;
+
+            // Check for any uploaded file  
+            if (httpContext.Request.Files.Count > 0)
+            {
+                //Loop through uploaded files  
+                for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                {
+                    HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+
+                    // this is an example of how you can extract addional values from the Ajax call
+                    string name = httpContext.Request.Form["name"];
+
+                    if (httpPostedFile != null)
+                    {
+                        // Construct file save path  
+                        //var fileSavePath = Path.Combine(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["fileUploadFolder"]), httpPostedFile.FileName);
+                        string fname = httpPostedFile.FileName.Split('\\').Last(); // שומר את השם של התמונה
+                        var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/uploadedFiles"), fname); // ישמור את התמונה בתוך התיקיה אפלודפיילס שיצרנו
+                        // Save the uploaded file  
+                        httpPostedFile.SaveAs(fileSavePath);
+                        taskLinks.Add("uploadedFiles/" + fname);
+                    }
+                }
+            }
+
+            // Return status code  
+            return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, לשלב 2
+        }
+
     }
 }
