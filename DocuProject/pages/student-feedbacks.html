@@ -60,7 +60,7 @@
 
             var video = document.getElementById('mainVideo');
             var source = document.createElement('source');
-            source.setAttribute('src', mainVideoPath);
+            source.setAttribute('src', localStorage.getItem('videoPathST'));
             console.log(source)
             console.log(video)
             document.getElementById('mainVideo').appendChild(source);
@@ -234,8 +234,8 @@
 
                             })
                         }
-                        
-                        
+                        return false;  
+
                     }
                 }
             });

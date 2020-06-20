@@ -46,12 +46,12 @@ namespace DocuProject.Controllers
         [HttpPost] //שלב1- העלת קובץ ושמירה בתיקייה
         [Route("Api/DocuUpload/uploadVideo")]
         public HttpResponseMessage Post()
-        {  
+        {
             List<string> taskLinks = new List<string>(); // יוצרים רשימה שמחזיקה את הניתובים
             var httpContext = HttpContext.Current; // יוצרים איבר שמחזיק את הבקשה 
 
             // Check for any uploaded file  
-                if (httpContext.Request.Files.Count > 0) // בודקת אם הגיע הקובץ בכלל לקונטרולר,יכולים להגיע כמה קבצים 
+            if (httpContext.Request.Files.Count > 0) // בודקת אם הגיע הקובץ בכלל לקונטרולר,יכולים להגיע כמה קבצים 
             {
                 //Loop through uploaded files  
                 for (int i = 0; i < httpContext.Request.Files.Count; i++) // במידה ושלחו כמה קבצים 
@@ -77,8 +77,7 @@ namespace DocuProject.Controllers
             // Return status code  
             return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, 
         }
-
-        [HttpPost] 
+        [HttpPost]
         [Route("Api/DocuUpload/uploadtask")]
         public HttpResponseMessage PostTask()
         {

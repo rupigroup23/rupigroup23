@@ -353,7 +353,7 @@
             
             videoPath = arrStudentName[teamId.id].vidoes;
             localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-            window.location.href = `manager-feedbacks.html?${videoPath};`
+
             /////////////////לוקל נוי - לרביד/////////////////
 
             id = teamId.id;
@@ -366,8 +366,10 @@
                 localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
 
             //////////////////////////////////////////////////
-           localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-           window.location.href = `student-feedbacks.html?${videoPath}`
+
+            localStorage.setItem('videoPathST', videoPath);
+            window.location.href = 'student-feedbacks.html';
+
           
         }
 

@@ -231,8 +231,8 @@
             $("#id").val(teacher.Id_);
             $("#bday").val(bday);
             $("#prof").val(teacher.Profession);
-            //$("#password").val(teacher.Password_);
         }
+
         function getTeachers_(RowID) { // check in the new data
             console.log(teachersData);
             for (i in teachersData) {
@@ -254,7 +254,7 @@
             return null;
         }
         function saveTeacherDB() {
-            let teacher = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+            let teacherOBJ = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
                 "FName": $("#fname").val(),
                 "LName": $("#lname").val(),
@@ -271,7 +271,7 @@
 
             console.log(id);
             url = "../api/Docu/updateTeacher/" + id1;
-            ajaxCall("PUT", url, JSON.stringify(teacher), updateDsuccess, updateDerror);
+            ajaxCall("PUT", url, JSON.stringify(teacherOBJ), updateDsuccess, updateDerror);
         }
 
         function updateDsuccess(data) {
@@ -283,21 +283,20 @@
                 showCloseButton: true
                 });
 
-           tbl.clear();
-            redrawTBL(tbl, data);
+           //tbl.clear();
+            //redrawTBL(tbl, data);
             $("#editDiv").hide();
-            setTimeout(reload, 6000);
+            //setTimeout(reload, 6000);
         }
         function updateDerror(err) {
             console.log(err);
         }
 
-        function reload() {
-            location.reload();    
-        }
+        //function reload() {
+        //    location.reload();    
+        //}
 
-
-   teachersArr = new Array();     
+        teachersArr = new Array();     
         strExists = "";
         existsArr = [];
 
@@ -401,7 +400,7 @@
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
              })
-            setTimeout(reload, 6000);
+           // setTimeout(reload, 6000);
             }
             
         }
