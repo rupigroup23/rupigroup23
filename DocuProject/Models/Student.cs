@@ -474,7 +474,7 @@ namespace DocuProject.Models
             else
             {
                 x = studentsCount / 3;
-                gorupNum = Math.Round(x + 0.5);
+                gorupNum = Math.Ceiling(x + 0.5);
                 Divideby3 = false;
             }
 
@@ -497,18 +497,15 @@ namespace DocuProject.Models
                                 {
                                     cntr = 0;
                                     str += BoysArr[cntr].Id + ",";
-                                    //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
                                     BoysArr.RemoveAt(cntr);
                                     cntr++;
                                 }
                                 groupsStudents.Add(str);
                                 str = "";
                                 break;
-
                             }
                             cntr = 0;
                             str += BoysArr[cntr].Id + ",";
-                            //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
                             BoysArr.RemoveAt(cntr);
                             cntr++;
                         }
@@ -518,8 +515,8 @@ namespace DocuProject.Models
                         groupsStudents.Add(str);
                         str = "";
                     }
-
                 }
+
 
                 for (int j = 0; i < GirlsArr.Count; j++)
                 {
@@ -533,7 +530,6 @@ namespace DocuProject.Models
                                 {
                                     cntr = 0;
                                     str += BoysArr[cntr].Id + ",";
-                                    //str += BoysArr[cntr].FName + " " + BoysArr[cntr].LName + ",";
                                     BoysArr.RemoveAt(cntr);
                                     cntr++;
                                 }
@@ -543,7 +539,6 @@ namespace DocuProject.Models
                             }
                             cntr = 0;
                             str += GirlsArr[cntr].Id + ",";
-                            //str += GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName + ",";
                             GirlsArr.RemoveAt(cntr);
                             cntr++;
                         }
@@ -558,7 +553,7 @@ namespace DocuProject.Models
 
 
             return groupsStudents;
-        }        //אלגוריתם בנים בנות - נוי   
+        } //אלגוריתם בנים בנות - נוי   
         public List<string> MakeGroupsShuffle(DataTable studentsArr) // צוותים מעורבים
         {
             List<Student> BoysArr = new List<Student>();
@@ -627,7 +622,6 @@ namespace DocuProject.Models
                     if (GirlsArr.Count != 0)
                     {
                         groupsStudents[i] += GirlsArr[cntr].Id;
-                        //groupsStudents[i] += GirlsArr[cntr].FName + " " + GirlsArr[cntr].LName;
                         GirlsArr.RemoveAt(cntr);
                     }
 
