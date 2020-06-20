@@ -256,11 +256,11 @@ namespace DocuProject.Controllers
         }
 
         [HttpPut]
-        [Route("api/Docu/updateStudent/{id}")]
-        public DataTable PutDIS(int id, [FromBody] Student student)
+        [Route("api/Docu/updateStudent/{id1}")]
+        public DataTable PutDIS(int id1, [FromBody] Student student)
         {
             Student S = new Student();
-            return S.PutS(id, student);
+            return S.PutS(id1, student);
         }
 
         //Setting

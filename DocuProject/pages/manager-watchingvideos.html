@@ -275,10 +275,9 @@
 
             videoPath = arrStudentName[teamId.id].vidoes;
             localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
-            window.location.href = `manager-feedbacks.html?${videoPath};`
+            window.location.href = `manager-feedbacks.html?${videoPath}`
 
             
-            ///////////////לוקל נוי - לרביד//////////////
             id = teamId.id;
             thisGroup =
                 {
@@ -289,7 +288,6 @@
             console.log(thisGroup);
             localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
 
-            ////////////////////////////////////////////////////
         }
     </script>
 </head>

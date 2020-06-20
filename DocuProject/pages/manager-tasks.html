@@ -112,12 +112,14 @@
         }
 
         function forCreateTask() { // save to local the num of task and class details
-            if (listCS.length == 0) {
-                idT = 1;
-            }
-            else {
-                idT = Tnum;
-            }
+            idT = listCS.length;
+                console.log(idT);   
+            //if (listCS.length == 0) {
+            //    idT = 1;
+            //}
+            //else {
+            //    idT = Tnum;
+            //}
             forNewTask = {
                 "ClassName": ProfObj.ClassName, //ח
                 "ClassNum": ProfObj.ClassNum,//4

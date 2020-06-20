@@ -178,11 +178,11 @@
                 buttons: true,
                 dangerMode: true
             })
-                .then(function (willDelete) {
-                    if (willDelete)
-                        deleteStudent(rowID);
-                    else swal("הפעולה בוטלה");
-                });
+            .then(function (willDelete) {
+                if (willDelete)
+                    deleteStudent(rowID);
+                else swal("הפעולה בוטלה");
+            });
         });
         function deleteStudent(rowID) {
             var url = "../api/Docu/" + rowID;
@@ -220,6 +220,7 @@
             $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
             populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
+        var student;
         function populateFields(rowID) {
             id1 = rowID
             console.log(id1);
@@ -241,8 +242,8 @@
             $("#id").val(student.Id_);
             $("#bday").val(bday);
             $("#class").val(student.ClassName);
-            $("#classNumber").val(student.ClassNum);
-            $("#password").val(student.Password_);
+            $("#classNumber").val(student.ClassNum)
+            //$("#password").val(student.Password_);
         }
         $(document).on("click", "#cancelSaveBTN", function () {
             swal("הפעולה בוטלה", "", "error");
@@ -258,7 +259,7 @@
         }
         function saveStudent()
         {
-            let student = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
+            let student1 = // נשמור לתוך אובייקט את הנתונים החדשים שהמשתמש הזין
             {
                 "FName": $("#fname").val(),
                 "LName": $("#lname").val(),
@@ -270,13 +271,13 @@
                 "Bday": $("#bday").val(),
                 "ClassName": $("#class").val(),
                 "ClassNum": $("#classNumber").val(),
-                "Password": $("#password").val()
+                "Password": student.Password_
             }
-            console.log(student); // האיבר המעודכן
+            console.log(student1); // האיבר המעודכן
 
             console.log(id);
             url = "../api/Docu/updateStudent/" + id1;
-            ajaxCall("PUT", url, JSON.stringify(student), updateDsuccess, updateDerror);
+            ajaxCall("PUT", url, JSON.stringify(student1), updateDsuccess, updateDerror);
         }
         function updateDsuccess(data) {
             Swal.fire({
@@ -483,11 +484,11 @@
                             </div>
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>תעודת זהות</label>
-                                <input type="number" class="form-control" id="id" required />
+                                <input type="number" class="form-control" id="id" readonly />
                             </div>
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>תאריך לידה</label>
-                                <input type="date" class="form-control" id="bday" required />
+                                <input type="date" class="form-control" id="bday" readonly />
                             </div>
                             <div class="form-group col-sm-3 create-text">
                                 <label for="price"><span class="red-star"> </span>כיתה</label>

@@ -87,20 +87,20 @@ namespace DocuProject.Models
             return numAffected; //מחזיר את מספר השורות
         }
 
-        public DataTable PutS(int id, Student student)// לעדכן תלמיד ספציפי בטבלה של הדטא טייבל
+        public DataTable PutS(int id1, Student student)// לעדכן תלמיד ספציפי בטבלה של הדטא טייבל
         {
             DBservices dbs = new DBservices();
             dbs = dbs.Get_Students(student.className, student.ClassNum); //להביא את כל הסטודנטים בכיתה ז2
-            dbs.dt = checkTbl(id, student, dbs.dt); // רוצים לעדכן סטודנט אחד ולכן נשתמש בפונקציה הזו 
+            dbs.dt = checkTbl(id1, student, dbs.dt); // רוצים לעדכן סטודנט אחד ולכן נשתמש בפונקציה הזו 
             dbs.update();
             return dbs.dt;//מעביר רק את הטבלה 
         }
 
-        public DataTable checkTbl(int id, Student student, DataTable dt)
+        public DataTable checkTbl(int id1, Student student, DataTable dt)
         {
             foreach (DataRow dr in dt.Rows)
             {
-                if (id == Convert.ToInt32(dr["id"]))
+                if (id1 == Convert.ToInt32(dr["id"]))
                 {
                     dr["FName"] = student.FName;
                     dr["LName"] = student.LName;

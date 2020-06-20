@@ -212,6 +212,7 @@
             $("#editDiv :input").prop("disabled", false); // edit mode: enable all controls in the form
             populateFields(this.getAttribute('data-RowId')); // fill the form fields according to the selected row
         });
+        var teacher;
         function populateFields(rowID) {
             id1 = rowID
             console.log(id1);
@@ -264,6 +265,7 @@
                 "Id": $("#id").val(),
                 "Bday": $("#bday").val(),
                 "Profession": $("#prof").val(),
+                "Password": teacher.Password_
             }
             console.log(teacher); // האיבר המעודכן
 
@@ -365,9 +367,6 @@
             });
         });
 
-
-
-
         /////////////
 
 
@@ -394,6 +393,17 @@
                     confirmButtonText: 'אישור',
                 })
             }
+            else {
+                 Swal.fire({
+                    title: 'הנתונים נשמרו בהצלחה',
+                    icon: 'success',
+                    html: str,
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+             })
+            setTimeout(reload, 6000);
+            }
+            
         }
 
 
@@ -586,11 +596,11 @@
                                 </div>
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>תעודת זהות</label>
-                                    <input type="number" class="form-control" id="id" required />
+                                    <input type="number" class="form-control" id="id" readonly />
                                 </div>
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>תאריך לידה</label>
-                                    <input type="date" class="form-control" id="bday" required />
+                                    <input type="date" class="form-control" id="bday" readonly />
                                 </div>
                                 <div class="form-group col-sm-3 create-text">
                                     <label for="price"><span class="red-star"> </span>מקצוע</label>

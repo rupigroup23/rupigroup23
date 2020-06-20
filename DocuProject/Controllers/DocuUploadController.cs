@@ -77,7 +77,6 @@ namespace DocuProject.Controllers
             // Return status code  
             return Request.CreateResponse(HttpStatusCode.Created, taskLinks); // שולח את הניתוב בחזרה לפונקציית ההצלחה בדף האינדקס, 
         }
-
         [HttpPost]
         [Route("Api/DocuUpload/uploadtask")]
         public HttpResponseMessage PostTask()

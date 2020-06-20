@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -62,11 +61,13 @@
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
+            
             showDetalis(objAdmin);
 
             //localstorage for the orientation
             local = localStorage.getItem('forNewTask');
             newTaskObj = JSON.parse(localStorage["forNewTask"]);
+            getTask();
             Showorientation();
 
             //view the options
@@ -562,8 +563,22 @@
             orientationSTR1 += "<li class='breadcrumb-item'><a style='color: black' href='manager-tasks.html'>מטלות</a></li>";
             orientationSTR1 += "<li class='breadcrumb-item active' aria-current='page'><a href='manager-createNewTask.html'>הקמת מטלה חדשה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR1;
-            document.getElementById("numTasks").innerHTML = newTaskObj.Task.Num + 1;
+            
 
+        }
+
+        function getTask() {
+            taskAPI = '../api/Docu/GetTasks/' + newTaskObj.ClassName + "/" + newTaskObj.ClassNum  + "/" + newTaskObj.Profession ;
+            ajaxCall('GET', taskAPI, '', GETsucces1, GETerror1)
+
+        }
+        var numT;
+        function GETsucces1(data) {
+            numT = data;
+            document.getElementById("numTasks").innerHTML = numT.length +1;
+        }
+        function GETerror1(err) {
+            console.log(err);
         }
         //POST - Group_Feedback table
         //check details and post
@@ -614,7 +629,6 @@
 
             TaskObj =
                 {
-                    "Video": "", //למחוק כשאנחנו מוחקות את העמודה
                     "Deadline": $("#dateInput").val(),
                     "Topic": $("#topic").val(),
                     "Assignation": assignation,
@@ -622,7 +636,7 @@
                     "ClassName": newTaskObj.ClassName,
                     "ClassNum": newTaskObj.ClassNum,
                     "Profession": newTaskObj.Profession,
-                    "TaskNum": newTaskObj.Task.Num + 1,
+                    "TaskNum": numT.length +1,
                     "IdTeacher": techerID,
                 }
 
@@ -655,7 +669,7 @@
                     "ClassNum": newTaskObj.ClassNum,
                     "Proffesion": newTaskObj.Profession,
                     "Deadline": date.toString(),
-                    "IdTask": newTaskObj.Task.Num + 1,
+                    "IdTask": numT.length +1,
                     "IdTeacher": techerID,
                     "groupNum": i + 1,
                     "Group": strId,
