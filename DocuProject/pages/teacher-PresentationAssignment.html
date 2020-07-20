@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,47 +19,38 @@
     <link href="css/osahan.css" rel="stylesheet">
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>"
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="../Scripts/allTask.js"></script>
-    <!--shir links-->
-    <!-- Include a required theme -->
-    <!--<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">-->
-    <!--<script src="sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
-    <!-- more -->
-    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css" rel="stylesheet">-->
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
         //user img
         var imagePath1 = '';
         var userEmail1 = '';
-
         var taskPath = '';
-
         var className = "";
         var classNum = "";
         var subj = "";
         var topic = "";
 
         $(document).ready(function () {
-            //menu - Teacher name
-            teacherName = JSON.parse(localStorage["myName"]); //local class
-            document.getElementById("myNameN1").innerHTML = teacherName.name;
-            document.getElementById("myNameN2").innerHTML = teacherName.name;
-            //
+            //Menus
+            localN = localStorage.getItem('myName');
+            console.log('local: ', JSON.parse(localN));
+            myNameObj = JSON.parse(localStorage["myName"]);
+            document.getElementById("myNameN1").innerHTML = myNameObj.name;
+            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
             //localstorage for the orientation
             local = localStorage.getItem('thisTask');
             TaskObj = JSON.parse(localStorage["thisTask"]);
-            //TaskObj11 = JSON.parse(localStorage["thisTask"]);
 
             className = TaskObj.ClassName;
             classNum = TaskObj.ClassNum;
@@ -68,13 +60,8 @@
             Showorientation();
 
             getDatelis(); //Bring the details up
-
-
-            //let class1 = TaskObj11.ClassName;
-            //let numClass = TaskObj11.ClassNum;
-            //let sub = TaskObj11.Profession
-            //var topic = TaskObj11.Task.Topic
-
+            $('#saveBTN').click(saveTask); // save edit
+            console.log('../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic);
             ajaxCall('get', '../api/Docu/specifictask/' + className + '/' + classNum + '/' + subj + '/' + topic, '', Success, Error)
 
             function Success(data) {
@@ -83,43 +70,39 @@
                 if (strcheck == 0) {
                     $('#downloadFile').attr("disabled", false);
                     $('#showTxt').attr("disabled", true);
+                    $('#buttons').hide();
 
                 }
                 if (strcheck == -1) {
                     $('#showTxt').attr("disabled", false);
                     $('#downloadFile').attr("disabled", true);
+
                 }
             }
             function Error(err) {
                 console.log(err)
             }
-
             $('#showTxt').click(Showtxt);
-
-
             $('#downloadFile').click(function () {
                 window.location.replace(taskPath);
             });
-
             //User image
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
-            function showDetalis(objTeacher)
-        {
-                Id = objTeacher.Id;
-                var url = "../api/Teacher/GetDetailsT/" + Id;
+            function showDetalis(objAdmin) {
+                Id = objAdmin.Id;
+                var url = "../api/Docu/GetDetails/" + Id;
+
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
+            }
 
-function funcsuccess(data)
-        {
-        obj = data;
+            function funcsuccess(data) {
+                obj = data;
                 userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
-        }
-
+                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
@@ -131,26 +114,25 @@ function funcsuccess(data)
             }
             function funcerror(err) { console.log(err) }
             //END- User image
+            //לא רלוונטי
             function getSpecificTaskSuccess(data) {
                 $('#addpic').attr("disabled", false);
                 taskPath = data;
 
             }
             function getSpecificTaskError(err) { console.log(err) }
-
         });
-
+        //image finall
         function Showtxt() {
+            $("#editTaskDiv").hide()
             txt = document.getElementById("showtxtbox");
             if (txt.style.display === "none") {
                 txt.style.display = "block";
             } else {
                 txt.style.display = "none";
             }
-
             //valuTxt
             document.getElementById("valuTxt").innerHTML = taskPath;
-
         }
 
         //סרגל השתלשלות
@@ -161,7 +143,7 @@ function funcsuccess(data)
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>מקצועות</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-professions.html'>" + subj + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלות</a></li>";
-            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html'>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
+            orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='teacher-tasks.html's>מטלה מספר " + TaskObj.Task.Num + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='teacher-PresentationAssignment.html'>הצגה ועריכה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
@@ -170,12 +152,231 @@ function funcsuccess(data)
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             date = TaskObj.Task.Date;
-            date1 = date.split('-');
-            dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
-            dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
-            document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-            document.getElementById("date").innerHTML = dateIL;
+            deadLine = date.split('/');
+            date_val = deadLine[2] + "-" + deadLine[1] + "-" + deadLine[0];
+
+            $("#task_topic").val(TaskObj.Task.Topic);
+            $("#date").val(date_val);
         }
+
+        ////////////////// edit task - noy /////////////////
+        $(document).on("click", "#editTask", function () {
+            Swal.fire('הנך/י רשאי/ת לערוך את פרטי המטלה');
+
+            $('#task_topic').prop('disabled', false);
+            $('#date').prop('disabled', false);
+
+            $("#editTaskDiv").show();
+            $("#showtxtbox").hide();
+            $("#buttons").show();
+            populateFields(TaskObj); // fill the form fields
+        });
+
+        // edit file
+        $(document).on("click", "#edit_btnTask", function () {
+            $("#upload_btn").show();
+        });
+        $(document).on("change", "#addFile", function () {
+            $("#upload_btn2").show();
+            $('#valuTxtEdit').prop("disabled", true);
+        });
+
+        // delete task
+        $(document).on("click", "#delete_btnTask", function () {
+            swal({
+                title: "האם את/ה בטוח?",
+                text: "במידה והפעולה תאושר , הקובץ יימחק מהמטלה",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            })
+                .then(function (willDelete) {
+                    if (willDelete) {
+                        taskPath = "";
+                        saveTask();
+                    }
+
+                    else swal("הפעולה בוטלה");
+                });
+        });
+
+        fileArr = "";
+        filaNameArr = "";
+        fileName = "";
+        fileName_str = "";
+        fileDiv = "";
+        isFile = "";
+        taskPathNew = "";
+
+        function populateFields(TaskObj) {
+            isFile = taskPath.includes("proj.ruppin"); //If there is a file
+            if (taskPath != "" && isFile == true) //get file name
+            {
+                $("#fileDiv").show();
+                $("#descriptionDiv").hide();
+
+                ///////////שם המטלה - להחזיר שיש דאטה נורמלי כי אחרת לא יעבוד/////////
+
+                fileArr = taskPath.split('uploadedFiles/');
+                filaNameArr = fileArr[1].split('.');
+                fileName = filaNameArr[0];
+                console.log(fileName);
+                ////name of file on html
+                fileName_str = '"' + fileName + '"';
+                document.getElementById("file_name").innerHTML = fileName_str;
+
+                //////////////////////////////////////////////////////////////////////
+            }
+            else {
+                document.getElementById("valuTxtEdit").innerHTML = taskPath;
+                if (fileDiv) {
+                    fileDiv.style.display = "none";
+                }
+            }
+        }
+
+        taskPathNew = "";
+        decription_DB = "";
+        function saveTask() {
+            if (isFile == true) // אם עורכים קובץ
+            {
+                if (taskPathNew != "") { //קובץ חדש
+                    decription_DB = taskPathNew;
+                }
+                else {//מחיקת קובץ
+                    decription_DB = taskPath;
+                }
+            }
+
+            else { // אם עורכים טקסט
+                if (taskPathNew != "") {// אם רוצים לעלות קובץ
+                    decription_DB = taskPathNew;
+                }
+                else {
+                    decription_DB = $("#valuTxtEdit").val();
+
+                }
+            }
+            let TaskNew =
+            {
+                "ClassName": TaskObj.ClassName,
+                "classNum": TaskObj.ClassNum,
+                "Profession": TaskObj.Profession,
+                "Deadline": $("#date").val(),
+                "Topic": $("#task_topic").val(),
+                "Description": decription_DB
+            }
+            //task table
+            url = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic;
+            ajaxCall("PUT", url, JSON.stringify(TaskNew), updateDsuccess, updateDerror);
+
+            //group table
+            let taskGroup = {
+                "Deadline": $("#date").val()
+            }
+            url2 = '../api/Docu/UpdateTask_Group/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Num;
+            ajaxCall("PUT", url2, JSON.stringify(taskGroup), updateDsuccess2, updateDerror2);
+        }
+
+        function updateDsuccess(data) {
+        }
+
+        function updateDerror(err) {
+            console.log(err);
+        }
+
+        function updateDsuccess2() {
+            $("#editTaskDiv").hide();
+            $("#fileDiv").hide();
+            $("#buttons").hide();
+            Swal.fire({
+                icon: 'success',
+                text: 'פרטי המטלה עודכנו בהצלחה',
+                confirmButtonText: 'אישור',
+                showCloseButton: true
+            })
+            replaceFunc();
+        }
+
+        function updateDerror2() { };
+
+        function replaceFunc() {
+            window.location.replace("teacher-tasks.html");
+        }
+
+        $(document).on("click", "#uploadBTN1", function () {
+            var data = new FormData();
+            var files = $("#fileUpload1").get(0).files;
+            console.log(data);
+            console.log(files);
+
+            // Add the uploaded file to the form data collection
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedTasks", files[f]);
+                }
+                data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+            }
+
+            //Ajax upload
+            $.ajax({
+                type: "POST",
+                url: "../Api/DocuUpload/uploadtask",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: changeTaskPath,
+                error: error
+            });
+            return false;
+        });
+
+        $(document).on("click", "#uploadBTN2", function () {
+            var data = new FormData();
+            var files = $("#fileUpload2").get(0).files;
+            console.log(data);
+            console.log(files);
+
+            // Add the uploaded file to the form data collection
+            if (files.length > 0) {
+                for (f = 0; f < files.length; f++) {
+                    data.append("UploadedTasks", files[f]);
+                }
+                data.append("name", "User"); // aopend what ever data you want to send along with the files. See how you extract it in the controller.
+            }
+
+            //Ajax upload
+            $.ajax({
+                type: "POST",
+                url: "../Api/DocuUpload/uploadtask",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: changeTaskPath,
+                error: error
+            });
+            return false;
+        });
+
+
+
+        taskPathNew1 = "";
+        taskPathNew = "";
+        function changeTaskPath(data) {
+            taskPathNew1 = data; // כעת עודכן הקובץ
+            taskPathNew = `http://proj.ruppin.ac.il/igroup23/prod/${taskPathNew1}`;
+            Swal.fire({
+                icon: 'success',
+                title: 'הקובץ נטען בהצלחה!',
+                text: 'בסיום לחץ/י על שמירה',
+                confirmButtonText: 'אישור',
+                confirmButtonColor: '#990099',
+            })
+        }
+        function error(data) {
+            console.log(data);
+        }
+
     </script>
 </head>
 <body id="page-top">
@@ -215,7 +416,8 @@ function funcsuccess(data)
                     <span id="myNameN1"> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <a class="dropdown-item" href="account.html"><i class="fas fa-fw fa-user-circle"></i> &nbsp; החשבון שלי</a>
+                    <!--<a class="dropdown-item" href="subscriptions.html"><i class="fas fa-fw fa-video"></i> &nbsp; Subscriptions</a>-->
                     <a class="dropdown-item" href="teacher-settings.html"><i class="fas fa-fw fa-cog"></i> &nbsp; הגדרות</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; יציאה מהמערכת</a>
@@ -232,14 +434,34 @@ function funcsuccess(data)
         <!-- Sidebar -->
         <!-- Left menu -->
         <ul class="sidebar navbar-nav" style="z-index: 0;">
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="teacher-index.html">
                     <i class="fas fa-fw fa-home"></i>
                     <span>בית</span>
                 </a>
             </li>
             <li class="nav-item channel-sidebar-list">
-                <h6 id="myNameN2" class="nav-item">מורה</h6>
+                <h6 id="myNameN2" class="nav-item">מנהל מערכת</h6>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>יצירה</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item " href="teacher-createNewClass.html">✎ הקמת כיתה חדשה</a>
+                    <a class="dropdown-item" href="teacher-createNewTeacher.html">✎ יצירת מורה חדש</a>
+                    <a class="dropdown-item" href="teacher-createNewStudent.html">✎ יצירת תלמיד חדש</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>ניהול</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="teacher-teacher-Management.html">📝 ניהול מורים</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="teacher-index.html">
@@ -257,7 +479,7 @@ function funcsuccess(data)
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="manager-login.html" data-toggle="modal" data-target="#logoutModal">
+                <a class="nav-link" href="teacher-login.html" data-toggle="modal" data-target="#logoutModal">
                     <i class="fa fa-sign-out" style="font-size:24px"></i>
                     <span>יציאה מהמערכת</span>
                 </a>
@@ -267,21 +489,16 @@ function funcsuccess(data)
         <!-- Page content -->
         <div id="content-wrapper">
             <div class="container-fluid pb-0">
-                <div class="top-mobile-search">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form class="mobile-search">
-                                <div class="input-group">
-                                    <input type="text" placeholder="Search for..." class="form-control">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-dark"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <!--עריכת מטלה-->
                 <div class="row">
+                    <p></p>
+                    <a href="#">
+                        <i id="editTask" style="position:absolute; left:30px " class="far fa-edit"></i>
+
+                    </a>
+
+                </div>
+                <div class="row" id="first_div">
                     <div class="col-lg-12">
                         <div class="osahan-form">
                             <div class="row text2 ">
@@ -295,16 +512,6 @@ function funcsuccess(data)
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-1 col-sm-3 col-xs-3 " style="text-align:right">
-                                    <div class="row">
-                                        <a href="teacher-EDIT_PresentationAssignment.html">
-                                            <i class="far fa-edit"></i>
-                                        </a>
-                                        &nbsp;
-                                        <a href="#">
-                                            <i class="far fa-trash-alt"></i>
-                                            </a></div>
-                                </div>
                             </div>
                             <br />
                             <div class="row">
@@ -313,8 +520,7 @@ function funcsuccess(data)
                                         <span class="text2">
                                             נושא המטלה:&nbsp;
                                         </span>
-                                        <div id="topic" class="squareTEXT">
-                                        </div>
+                                        <input type="text" id="task_topic" class="squareTEXT" disabled />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12 col-xs-3 ">
@@ -322,8 +528,7 @@ function funcsuccess(data)
                                         <span class="text2">
                                             מועד הגשה:&nbsp;
                                         </span>
-                                        <div id="date" class="squareTEXT">
-                                        </div>
+                                        <input type="date" id="date" class="squareTEXT" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +538,6 @@ function funcsuccess(data)
                                 <div class="col-lg-12 col-sm-12 create-text">
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-12">
-                                            <h3 class="text2">אפשרויות: </h3>
                                             <br />
                                         </div>
                                         <div class="col-lg-9 col-sm-12">
@@ -343,23 +547,80 @@ function funcsuccess(data)
                                                 <!--(קובץ חיצוני)-->
                                             </button>
                                             <button id="showTxt" class="showTask-btn">
-                                                הצג מטלה
-                                                <!--(טקסט)-->
-                                            </button>
-                                            <button class="showTask-btn">
-                                                ניהול צוותים
+                                                הצגת המטלה
                                                 <!--(טקסט)-->
                                             </button>
                                         </div>
                                     </div>
+                                    <!--הצגת מטלה-->
                                     <div class="row">
                                         <div class="col-lg-12 col-sm-12">
                                             <div class="col-lg-12 col-sm-12" id="showtxtbox" style="display:none">
                                                 <textarea id="valuTxt" class="comment-box" rows="4" cols="70" readonly></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--עריכת מטלה-->
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="col-lg-12 col-sm-12" id="editTaskDiv" style="display:none">
+                                                <!--<form id="form1">-->
+                                                <div class="form-group row">
+                                                    <!-- תיאור מטלה - טקסט -->
+                                                    <div id="descriptionDiv" class="form-group col-sm-6 create-text">
+                                                        <label for="description"><span class="red-star"> </span>תיאור</label>
+                                                        <textarea id="valuTxtEdit" class="comment-box" rows="4" cols="70"></textarea>
+                                                        <input type="checkbox" id="addFile" />
+                                                        <label><span class="red-star"> </span>ברצוני להוסיף קובץ</label>
+                                                        <div id="upload_btn2" style="display:none">
+                                                            <input type="file" id="fileUpload1" class="<!--fileUpload--> btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                                            <!--<input type="button" id="uploadBTN" value="טען" class="upload-btn" />-->
+                                                            <input type="button" id="uploadBTN1" value="טען" class="<!--uploadBTN1--> upload-btn" />
+                                                            <div id="linkURL" class="statuses-text"></div>
+                                                        </div>
+                                                    </div>
+                                                    <!--  -->
+                                                </div>
 
                                             </div>
                                         </div>
                                     </div>
+                                    <br />
+                                    <!-- תיאור מטלה - קובץ -->
+                                    <div class="row" id="fileDiv" style="display:none; margin: auto;">
+                                        <div class="form-group col-sm-4 create-text" style="border: 1px solid #1FCBB5;border-radius: 30px;">
+                                            <label for="description" style="text-align:center"><span class="red-star"> </span> שם קובץ המטלה:</label>
+                                            <span id="file_name" class="squareTEXT"> </span><br />
+                                            <a href="#">
+                                                <i id="delete_btnTask" class='far fa-trash-alt'></i>
+                                            </a>
+                                            <span class="text2" style="font-size:smaller; color:black"> <span> </span> לחץ/י למחיקה </span><br />
+
+                                            <a href="#">
+                                                <i id="edit_btnTask" class='far fa-edit'></i>
+                                            </a><span style="font-size:smaller; color:black"> <span> </span>  לחץ/י לעריכה </span><br />
+
+                                            <div id="upload_btn" style="display:none">
+                                                <input type="file" id="fileUpload2" class="<!--fileUpload--> btn btn-outline-primary" style="height: 50px;width: 180px" multiple />
+                                                <input type="button" value="טען" id="uploadBTN2" class="<!--uploadBTN1--> upload-btn" />
+                                                <div id="linkURL" class="statuses-text"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" id="buttons" style="display:none">
+                                        <div class="col-lg-2 col-sm-6">
+                                            <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="saveBTN">שמירה</button>
+                                        </div>
+
+                                        <div class="col-lg-2 col-sm-6">
+                                            <button type="submit" class="btn btn-outline-primary btn-block btn-lg text2" id="cancelSaveBTN">ביטול</button>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -369,7 +630,6 @@ function funcsuccess(data)
         </div>
     </div>
     <!-- /#wrapper -->
-    <!--<script src="js/showItem.js"></script>-->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -387,7 +647,7 @@ function funcsuccess(data)
                 <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
-                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
+                    <a class="btn btn-primary" href="teacher-login.html">יציאה</a>
                 </div>
             </div>
         </div>

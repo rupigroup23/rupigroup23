@@ -135,12 +135,12 @@
             }
             function funcerror() { }
 
-
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 console.log(src);
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-                console.log(arr);
+            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+
             }
 
             var groupNames1 = groupNames.split("•");
@@ -196,10 +196,6 @@
             }
 
             function getDataError(err) { console.log(err) }
-
-
-         
-                
 
 
             $(document).on("click", "#deleteBtn", function () {  // מחיקה של תגובה
