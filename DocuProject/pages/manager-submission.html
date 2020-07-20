@@ -455,7 +455,7 @@
                     }
                     apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
                     console.log(dataPD);
-        //            ajaxCall("PUT", apiID, JSON.stringify(dataPD), approveVidowsuccess, approveVidowerror);
+                   ajaxCall("PUT", apiID, JSON.stringify(dataPD), approveVidowsuccess, approveVidowerror);
                 }
             })   
         }
@@ -494,7 +494,7 @@
                     }
                     apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
                     console.log(dataCancle);
-                //    ajaxCall("PUT", apiID, JSON.stringify(dataCancle), cancleVidowsuccess, cancleVidowerror);
+                   ajaxCall("PUT", apiID, JSON.stringify(dataCancle), cancleVidowsuccess, cancleVidowerror);
                 }
             })   
         }
@@ -740,7 +740,7 @@
                             }
                 apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
                 console.log(dataPD1);
-        //        ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+              ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
                 
                 if (formValues) {
                     Swal.fire({
