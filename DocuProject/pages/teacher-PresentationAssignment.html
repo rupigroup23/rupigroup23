@@ -267,7 +267,7 @@
                 "Description": decription_DB
             }
             //task table
-            url = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic;
+            TaskObj = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic;
             ajaxCall("PUT", url, JSON.stringify(TaskNew), updateDsuccess, updateDerror);
 
             //group table
