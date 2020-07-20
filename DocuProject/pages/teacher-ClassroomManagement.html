@@ -149,23 +149,7 @@
                     data: students,
                     pageLength: 5,
                     columns: [
-                         {
-                            render: function (data, type, row, meta) {
-                                let rowID = "data-RowId='" + row.id + "'";
-                                editBtn = "<img src='img/editPNG.png' class= 'editButtons editBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-                                deleteBtn = "<img src='img/deletePNG.png' class= 'editButtons deleteBtn btn btn-outline-light' style='margin-right: 0%'  " + rowID + ">";
-                                return editBtn + " " + deleteBtn;
-                            }
-                        },
-                        //{
-                        //    render: function (data, type, row, meta) {
-                        //        let rowID = "data-RowId='" + row.id + "'";
-                        //        editBtn = "<button type='button' class = 'editBtn btn btn-success' " + rowID + "> עריכה </button>";
-                        //        deleteBtn = "<button type='button' class = 'deleteBtn btn btn-danger' data-RowId='" + row.id + "' > מחיקה </button>";
-                        //        return editBtn + " " + deleteBtn;
-                        //    }
-                        //},
-                        //{ data: "id" },
+
                         { data: "FName" },
                         { data: "LName" },
                         { data: "Id_" },
@@ -309,7 +293,6 @@
                         <thead>
                             <tr>
                                 <!--<th></th>-->
-                                <th></th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
                                 <th>תעודת זהות</th>

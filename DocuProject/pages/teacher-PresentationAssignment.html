@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -93,7 +92,7 @@
 
             function showDetalis(objAdmin) {
                 Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
+                var url = "../api/Teacher/GetDetailsT/" + Id;
 
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
             }
@@ -101,7 +100,7 @@
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
             }
             function getAvatarImageSuccess(imagePath1) {
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -118,7 +117,6 @@
             function getSpecificTaskSuccess(data) {
                 $('#addpic').attr("disabled", false);
                 taskPath = data;
-
             }
             function getSpecificTaskError(err) { console.log(err) }
         });
@@ -267,7 +265,7 @@
                 "Description": decription_DB
             }
             //task table
-            TaskObj = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic;
+            url = '../api/Docu/updateTask/' + TaskObj.ClassName + '/' + TaskObj.ClassNum + '/' + TaskObj.Profession + '/' + TaskObj.Task.Topic;
             ajaxCall("PUT", url, JSON.stringify(TaskNew), updateDsuccess, updateDerror);
 
             //group table

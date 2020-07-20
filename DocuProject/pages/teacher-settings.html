@@ -167,33 +167,34 @@
                         passFromData = obj[0].Password_;
 
                 userEmail = obj[0].Email;
-                //ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
 
             };
             function funcerror() { }
 
 
-            //function getAvatarImageSuccess(imagePath1) {
+            function getAvatarImageSuccess(imagePath1) {
 
-            //    src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            //    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            //    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            //}
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
 
-            //function getAvatarImageError(err) {
-            //    console.log(err)
-            //}
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
 
-            passNew = "";
-            
+            Password = "";
             function saveDetails_() {
-             Password = "";
-                if ($("#pass2").val() == "")
+                Password = "";
+
+                if ( passNew == "")
                 {
-                    Password = obj[0].Password;
+                    Password = obj[0].Password_;
                 }
-                else {
+                else
+                {
                     Password = passNew;
                 }
 
@@ -251,17 +252,17 @@
                 console.log(data);
             }
 
-            //function getAvatarImageSuccess(imagePath) {
+            function getAvatarImageSuccess(imagePath) {
 
-            //    src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            //    let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
+                src = imagePath; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            //    $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-            //}
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
 
-            //function getAvatarImageError(err) {
-            //    console.log(err)
-            //}
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
 
 
             api = "";
