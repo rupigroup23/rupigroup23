@@ -445,11 +445,11 @@
                         "Grade": allTeam[idApp.id].Grade,
                         "Feedback": allTeam[idApp.id].Feedback,
                         "Video":allTeam[idApp.id].Video,
-                        "Comment": allTeam[idApp.id].Comment
+                        "Comment": allTeam[idApp.id].Comment,
                     }
                     apiID = "../api/Teacher/updateFBG/" + idTeamfromDB;
                     console.log(dataPD);
-                    ajaxCall("PUT", apiID, JSON.stringify(dataPD), approveVidowsuccess, approveVidowerror);
+        //            ajaxCall("PUT", apiID, JSON.stringify(dataPD), approveVidowsuccess, approveVidowerror);
                 }
             })   
         }
@@ -488,13 +488,15 @@
                     }
                     apiID = "../api/Teacher/updateFBG/" + idTeamfromDB;
                     console.log(dataCancle);
-                    ajaxCall("PUT", apiID, JSON.stringify(dataCancle), cancleVidowsuccess, cancleVidowerror);
+                //    ajaxCall("PUT", apiID, JSON.stringify(dataCancle), cancleVidowsuccess, cancleVidowerror);
                 }
             })   
         }
-         //PUT -  Group_Feedback table
+
+        //PUT -  Group_Feedback table
         var grade = "";
         var feedback = "";
+        var dataPD1;
         function giveScore(idSc) {
             idTeamfromDB = "";
             feedback = "";
@@ -519,8 +521,8 @@
                 })
                 feedback = document.getElementById('swal-input1').value;
                 grade = document.getElementById('swal-input2').value;
-                idTeamfromDB = allTeam[idSc.id].id
-                dataPD1 =
+                idTeamfromDB = allTeam[idSc.id].id;
+                    dataPD1 =
                     {
                         "ClassName": TaskObj.ClassName,
                         "ClassNum": TaskObj.ClassNum,
@@ -531,18 +533,22 @@
                         "Video":allTeam[idSc.id].Video,
                         "Comment":allTeam[idSc.id].Comment
                     }
+                //if (feedback != "" || grade !="") {
+                    
 
-                students1 = allTeam[idSc.id].Group_students;
-                students = students1.split(',');
-
-                for (var j = 0; j < students.length; j++) {              
-                    getObj(allTeam[idSc.id].id, students[j]);
-                }   
-                apiID = "../api/Teacher/updateFBG/" + idTeamfromDB;
-                console.log(dataPD1);
-                ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
-                
+                //}
                 if (formValues) {
+                    students1 = allTeam[idSc.id].Group_students;
+                    students = students1.split(',');
+
+                     for (var j = 0; j < students.length; j++) {              
+                         getObj(allTeam[idSc.id].id, students[j]);
+                         console.log(allTeam[idSc.id].id, students[j]);
+                    }   
+                    apiID = "../api/Teacher/updateFBG/" + idTeamfromDB;
+                    console.log(dataPD1);
+                    ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+
                     Swal.fire({
                         title: 'לעדכונך',
                         text: JSON.stringify(formValues),
@@ -551,8 +557,10 @@
                         //cancelButtonColor: '#d33',
                         confirmButtonText: 'המשך',             
                     })
+
                 }
             })()
+
             
         }
 
@@ -588,18 +596,36 @@
             return ((oldgrade + Newgrade) / num);
             
         }        
-        function postGradeStudent(teamArr) {           
-            for (var i = 0; i < teamArr.length; i++) {
-                oldAvg = teamArr[i].student.avg;
+        function postGradeStudent(teamArr) {
+            console.log(teamArr);
+        //    for (var i = 0; i < teamArr.length; i++) {
+                //oldAvg = teamArr[i].student.avg;
+                oldAvg = teamArr.student.avg;
                 newAvg = getAvg(grade, TaskObj.Task.Num, oldAvg);
+                console.log(newAvg);
                 for (var j = 0; j < studentList.length; j++) {
-                    if (studentList[j].id == teamArr[i].student.rowDB) {
-                        studentList[j].GPA = newAvg;
-                        urlGPA = "../api/Teacher/updateStudent/" + teamArr[i].student.rowDB;
-                        ajaxCall("PUT", urlGPA, JSON.stringify(studentList[j]), updateDsuccess, updateDerror);
+                    if (studentList[j].id == teamArr.student.rowDB) {
+                        objStudent = {
+                            "FName": studentList[j].FName,
+                            "LName": studentList[j].LName,
+                            "PhoneNum": studentList[j].PhoneNum,
+                            "Email": studentList[j].Email,
+                            "City": studentList[j].City,
+                            "Address": studentList[j].Street,
+                            "Id": studentList[j].Id_,
+                            "Bday": studentList[j].Bday,
+                            "ClassName": studentList[j].ClassName,
+                            "ClassNum": studentList[j].ClassNum,
+                            "Password": studentList[j].Password_,
+                            "GPA": newAvg,
+                            "Id_row": teamArr.student.rowDB,
+                        } //id_row
+                        console.log(objStudent);
+                        urlGPA = "../api/Teacher/updateStudent/" + teamArr.student.rowDB;
+                       ajaxCall("PUT", urlGPA, JSON.stringify(objStudent), updateDsuccess, updateDerror);
                     }
                 }
-            }                                                                                      
+            //}                                                                                      
         }
         function updateDsuccess(data) {
             console.log(data);
@@ -619,27 +645,38 @@
                         strStudentName += " " + studentList[j].FName + " " + studentList[j].LName + " • ";                   
                     }
                 }            
-            }                     
+            }
+            console.log(strStudentName);
             return strStudentName;
         }
 
         var arrStudent = [];
+        var obj3;
         function getObj(gn, idS) {
+            console.log(idS);
                 for (var i = 0; i < studentList.length; i++) {
                     if (studentList[i].Id_ == idS) {
                         obj3 =
                         {
                         "grupnum": gn,
                             "student": {
-                                "id" : idS,
+                                "id1" : idS,
                                 "rowDB": studentList[i].id,
                                 "avg": studentList[i].GPA,
                                  }
                         }
                     }
-                }                
+            } 
+            if (obj3 == undefined) {
+                alert("אין תלמיד כזה")
+            }
+            else {
+                console.log(idS);
             arrStudent.push(obj3);  
-            postGradeStudent(arrStudent);
+            //postGradeStudent(arrStudent);
+            postGradeStudent(obj3);
+            }
+            
         }
 
         //PUT - Group_Feedback Table
@@ -697,7 +734,7 @@
                             }
                 apiID = "../api/Teacher/updateFBG/" + idTeamfromDB;
                 console.log(dataPD1);
-                ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+        //        ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
                 
                 if (formValues) {
                     Swal.fire({
@@ -764,6 +801,7 @@
         function reload() {
           document.location.reload();
         }
+
     </script>
 </head>
 <body id="page-top">
