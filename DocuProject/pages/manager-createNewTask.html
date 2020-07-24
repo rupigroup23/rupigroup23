@@ -128,6 +128,8 @@
             }
         });
 
+
+        ///////////// אלגוריתם שיר- ממוצע
         var radiosAVG = "";
         var assignation = "";
         var assignation1 = "";
@@ -177,6 +179,8 @@
             $('#btnAlgo1').attr("disabled", true);
            // $('#btnAlgo1').hide();
 
+            ////עד כאן אלגוריתם שיר- ממוצע////////////
+
             shuffle = document.getElementById("shuffle"); //מעורב
             equals = document.getElementById("equals"); // בנים בנות
             random = document.getElementById("random"); // רנדומלי
@@ -200,7 +204,7 @@
                 strongWeakGroup();
             }
 
-            if (geographicalDiS.checked) { // צוותים לפי ממוצע ציונים - חזק חלש
+            if (geographicalDiS.checked) { // צוותים לפי מרחק גאוגרפי
                 geographicalDiSGroup();
             }
 
@@ -697,7 +701,7 @@
         function POSTerror() {
             alert("ops");
         }
-
+        
         //new
         //GET - ClassSubjects Table
         var techerID = "";
@@ -715,7 +719,7 @@
         function GETerrorCT1(err) {
             alert("GetClassSubj");
         }
-
+        
     </script>
     <!-- partial -->
 
@@ -1016,7 +1020,7 @@
                 </div>
             </div>
         </div>
-    </div>
+  
     <script src="js/stam.js"></script>
     <!-- /#wrapper -->
     <!--<script>

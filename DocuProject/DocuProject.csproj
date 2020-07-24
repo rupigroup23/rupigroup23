@@ -238,6 +238,7 @@
     <Content Include="pages\student-tasks.html" />
     <Content Include="pages\student-watchingvideos.html" />
     <Content Include="pages\student-settings.html" />
+    <Content Include="pages\teacher-createNewTask-Ravid.html" />
     <Content Include="pages\teacher-EDIT_PresentationAssignment.html" />
     <Content Include="pages\manager-PresentationAssignment.html" />
     <Content Include="pages\student-login2.html" />

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -42,6 +42,7 @@
         var groupNames2 = "";
         var Id = [];
         var usernamesId = [];
+        var userId = [];
 
         var mainVideoPath = window.location.search.substring(1);
         console.log(mainVideoPath)
@@ -191,9 +192,6 @@
 
             }
 
-            function getDataError(err) {
-                console.log(err);
-            }
 
             function getDataError(err) { console.log(err) }
 
@@ -203,8 +201,7 @@
                 let selectedRow = this.getAttribute('data-id');
                 let type = this.getAttribute('data-deleteType');
                 console.log(type);
-                
-            
+               
                 for (var i = 0; i < usernamesId.length; i++) {
                     if (usernamesId[i] == userId) {
 
@@ -221,6 +218,7 @@
                                 else swal("הפעולה בוטלה");
                             });
                     }
+                 
                     else {
                         if (usernamesId[i] != userId) {
                             Swal.fire({
@@ -233,6 +231,7 @@
                         return false;  
 
                     }
+                   
                 }
             });
 

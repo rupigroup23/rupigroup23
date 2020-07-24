@@ -46,10 +46,10 @@
             groupNames = JSON.parse(localStorage["names"]);
             document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
 
-            rrr = localStorage.getItem('thisGroup');
-            console.log('thisGroup: ', JSON.parse(rrr));
-            rowId = JSON.parse(localStorage["thisGroup"]);
-            console.log(rowId);
+            //rrr = localStorage.getItem('thisGroup');
+            //console.log('thisGroup: ', JSON.parse(rrr));
+            //rowId = JSON.parse(localStorage["thisGroup"]);
+            //console.log(rowId);
 
 
             //Menus
@@ -75,6 +75,8 @@
             ///לוקל נוי איידי של סרטון - לרביד ////
             thisGroup = localStorage.getItem('thisGroup');
             console.log('local with ID: ', JSON.parse(thisGroup));
+            rowId = JSON.parse(localStorage["thisGroup"]);
+            console.log(rowId);
             ////////
 
             localVideo = localStorage.getItem('videoPath');
@@ -132,7 +134,7 @@
                     likearr.push(data[i].UserName)
                 }
 
-                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
+                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(10px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
