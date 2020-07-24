@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -41,7 +42,7 @@
     <script src="js/myName.js"></script>
     <script>
         var imagePath1 = '';
-        var userEmail1 = '';        
+        var userEmail1 = '';
 
         ////////// שמתי פה את כל הקוד של התמונה מוכן//////
 
@@ -59,7 +60,7 @@
             console.log(ProfObj);
             //orientation
             Showorientation();
-            //GET - Task Table  
+            //GET - Task Table
             readTaskFromDB();
             //Saving in the local storage
             $('#newTask').click(forCreateTask);
@@ -72,18 +73,16 @@
             localAdmin = localStorage.getItem('user');
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
-            function showDetalis(objTeacher)
-        {
+            function showDetalis(objTeacher) {
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-        }
-            function funcsuccess(data)
-        {
-        obj = data;
+            }
+            function funcsuccess(data) {
+                obj = data;
                 userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError) 
-        }
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
             function getAvatarImageSuccess(imagePath1) {
 
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
@@ -149,7 +148,7 @@
             document.getElementById("orientation").innerHTML = orientationSTR;
         }
 
-        //GET - Task Table 
+        //GET - Task Table
         tasksARR = [];
         tasksSTR = "";
         function readTaskFromDB() {
@@ -184,7 +183,7 @@
                     tasksSTR += listCS[i].Topic; //0
                     tasksSTR += "</h3></div></div>";
                     tasksSTR += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
-                    tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";   
+                    tasksSTR += "<span class='textSquareGRAY' style='width: 120 %'>";
                     tasksSTR += dateIL; //0
                     tasksSTR += "</span></div></div> ";
                     tasksSTR += "<div class='row' style='padding-right: inherit; display: block;'>";
@@ -234,10 +233,10 @@
 
             document.getElementById("lastTask").innerHTML = lastSTR;
         }
-        
-          function deleteTask(thisTask) {
 
-               swal({
+        function deleteTask(thisTask) {
+
+            swal({
                 title: "האם את/ה בטוח?",
                 text: "במידה והפעולה תאושר , המטלה תמחק מהמערכת",
                 icon: "warning",
@@ -251,14 +250,13 @@
                 });
         }
 
-        function  delete_TaskDB(thisTask)
-        {
-            idT = thisTask.id; 
-            task = listCS[idT - 1].Topic; 
+        function delete_TaskDB(thisTask) {
+            idT = thisTask.id;
+            task = listCS[idT - 1].Topic;
             thisTask = {
-                "ClassName": ProfObj.ClassName, 
+                "ClassName": ProfObj.ClassName,
                 "ClassNum": ProfObj.ClassNum,
-                "Profession": ProfObj.Profession, 
+                "Profession": ProfObj.Profession,
                 "Task": {
                     "Num": idT,
                     "Topic": listCS[idT - 1].Topic,
@@ -281,7 +279,7 @@
         function DeleteError(err) { console.log(err) }
         /// delete - finall
 
-       
+
         function GETerrorT1(err) {
             console.log(err);
         }
@@ -292,43 +290,43 @@
         function sortNum() {
             tasksSort = ""
             document.getElementById("tasks").innerHTML = "";
-            for (var i = listCS.length-1; i >= 0; i--) {
+            for (var i = listCS.length - 1; i >= 0; i--) {
                 //fix date
                 date = listCS[i].Deadline;
                 date1 = date.split('-');
                 dateVal = `${date1[1]}/${date1[2]}/${date1[0]}`
                 dateIL = `${date1[2]}/${date1[1]}/${date1[0]}`
 
-                    tasksSort += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
-                    tasksSort += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
-                    tasksSort += "מטלה מספר ";
-                    tasksSort += i+1;  
-                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
-                    //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
-                    tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
-                    tasksSort += "</div></div>";
-                    tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
-                    tasksSort += "<h3 class='textSquareGRAY' style='width: 120%'>";
-                    tasksSort += listCS[i].Topic;
-                    tasksSort += "</h3></div></div>";
-                    tasksSort += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
-                    tasksSort += "<span class='textSquareGRAY' style='width: 120 %'>";   
-                    tasksSort += dateIL; 
-                    tasksSort += "</span></div></div> ";
-                    tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
-                    tasksSort += "<div class='channels-card-image'>";
-                    tasksSort += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
-                    tasksSort += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
-                    tasksSort += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
-                    tasksSort += "</div></div></div></div>";
+                tasksSort += "<div class='col-xl-4 col-sm-6 mb-3'><div class='channels-card' style='padding: 24px 25px;'>";
+                tasksSort += "<div class='row'><div class='col-lg-8 col-sm-12 col-xs-3 choose' style='text-align: right'>";
+                tasksSort += "מטלה מספר ";
+                tasksSort += i + 1;
+                tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 taskNum' style='text-align:left'>";
+                //tasksSort += "<i class='far fa-edit'></i>&nbsp;";
+                tasksSort += "</div><div class='col-lg-4 col-sm-12 col-xs-3 choose' style='text-align:left'>";
+                tasksSort += "</div></div>";
+                tasksSort += "<div class='row'><div class='text2'>נושא: </div></br> <div class='text2' style='color: black'>";
+                tasksSort += "<h3 class='textSquareGRAY' style='width: 120%'>";
+                tasksSort += listCS[i].Topic;
+                tasksSort += "</h3></div></div>";
+                tasksSort += "<div class='row'><div class='text2'>תאריך: </div></br> <div class='text2' style='color: black'>";
+                tasksSort += "<span class='textSquareGRAY' style='width: 120 %'>";
+                tasksSort += dateIL;
+                tasksSort += "</span></div></div> ";
+                tasksSort += "<div class='row' style='padding-right: inherit; display: block;'>";
+                tasksSort += "<div class='channels-card-image'>";
+                tasksSort += "<a href='teacher-submission.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הגשות.png' alt='הגשות>'</a>&nbsp;";
+                tasksSort += "<a href='teacher-PresentationAssignment.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/הצגה.png' alt='הצגה'></a>&nbsp;";
+                tasksSort += "<a href='teacher-watchingvideos.html'><img onclick='savelocal(this)' id='" + Tnum + "' class='img-fluid' src='img/צפיה בסרטונים.png' alt='סרטונים'></a>";
+                tasksSort += "</div></div></div></div>";
 
-                    document.getElementById("tasks").innerHTML = tasksSort;
+                document.getElementById("tasks").innerHTML = tasksSort;
             }
         }
 
-        
 
-        
+
+
     </script>
 </head>
 <body id="page-top">
