@@ -313,7 +313,7 @@
     <Content Include="pages\teacher-createNewTask.html" />
     <Content Include="pages\teacher-feedbacks.html" />
     <Content Include="pages\teacher-index.html" />
-    <Content Include="pages\teacher-login.html" />
+    <Content Include="pages\delete - teacher-login.html" />
     <Content Include="pages\manager-PresentationAssignment.html" />
     <Content Include="pages\teacher-PresentationAssignment.html" />
     <Content Include="pages\teacher-professions.html" />
