@@ -178,7 +178,7 @@
 
                     if (data[i].Contents != '') {
 
-                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"></i><a class="text-success" id ="deleteBtn" data-id="' + data[i].Id + '" data-deleteType="comment" style="cursor: pointer;"><i class="far fa-trash-alt" id="trush"></i></a>&nbsp;<a class="text-success"><i class="fas fa-comment"></i></a>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
+                        strContents += '<div class="video-card video-card-list"><div class="video-title">&nbsp;&nbsp;&nbsp;<div class="row testSudent" style="margin-right: 0px;"></i><a class="text-success" id ="deleteBtn" data-id="' + data[i].Id + '" data-deleteType="comment" data-userId="' + data[i].IdUser +'" style="cursor: pointer;"><i class="far fa-trash-alt" id="trush"></i></a>&nbsp;<a class="text-success"><i class="fas fa-comment"></i></a>&nbsp;<h6 style=" font-weight: bold; color:#990099">' + data[i].UserName + ':&nbsp;</h6><h6 style=" font-weight: normal;">' + data[i].Contents + '</h6></div></div></div>';
                     }
                     if (data[i].Video != '') {
                         strVideo += '<div class="video-card video-card-list"><div class="video-card-image"><a href="../' + data[i].Video + '" target="_blank"><video width="122" height="77">< source src= "../' + data[i].Video + '" type= "video/mp4" ><source src="../' + data[i].Video + '" type="video/ogg">Your browser does not support the video tag.</video></a><a href="#" taget="_blank"></a></div><div class="video-card-body"><div class="video-title"><a href="#">' + data[i].UserName + '</a>&nbsp;&nbsp;<i style="cursor:pointer;" class="far fa-trash-alt text-success " id="deleteBtn" data-id="' + data[i].Id + '" data-deleteType="video"></i>&nbsp;</div></div></div >';
@@ -197,43 +197,33 @@
 
 
             $(document).on("click", "#deleteBtn", function () {  // מחיקה של תגובה
-
+                let deleteComentUserId = this.getAttribute('data-userId');
                 let selectedRow = this.getAttribute('data-id');
                 let type = this.getAttribute('data-deleteType');
-                console.log(type);
-               
-                for (var i = 0; i < usernamesId.length; i++) {
-                    if (usernamesId[i] == userId) {
+                if (deleteComentUserId == userId) {
+                    swal({
+                        title: "האם את/ה בטוח?",
+                        text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true
+                    })
+                        .then(function (willDelete) {
+                            if (willDelete)
+                                deleteComment(selectedRow, type);
+                            else swal("הפעולה בוטלה");
+                        });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'אין באפשרותך למחוק תגובה זו',
 
-                        swal({
-                            title: "האם את/ה בטוח?",
-                            text: "במידה והפעולה תאושר,התגובה תמחק מהמערכת",
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true
-                        })
-                            .then(function (willDelete) {
-                                if (willDelete)
-                                    deleteComment(selectedRow, type);
-                                else swal("הפעולה בוטלה");
-                            });
-                    }
-                 
-                    else {
-                        if (usernamesId[i] != userId) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'אין באפשרותך למחוק תגובה זו',
-
-                            })
-                        }
-                        return false;  
-
-                    }
-                   
+                    })
                 }
             });
+        
 
             function deleteComment(selectedRow, type) {
 
