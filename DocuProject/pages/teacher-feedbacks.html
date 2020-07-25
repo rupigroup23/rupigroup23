@@ -46,10 +46,10 @@
             groupNames = JSON.parse(localStorage["names"]);
             document.getElementById('group').innerHTML = groupNames; // מביא את שמות חברי הצוות
 
-            rrr = localStorage.getItem('thisGroup');
-            console.log('thisGroup: ', JSON.parse(rrr));
-            rowId = JSON.parse(localStorage["thisGroup"]);
-            console.log(rowId);
+            //rrr = localStorage.getItem('thisGroup');
+            //console.log('thisGroup: ', JSON.parse(rrr));
+            //rowId = JSON.parse(localStorage["thisGroup"]);
+            //console.log(rowId);
 
             //menu - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
@@ -60,12 +60,17 @@
             //get specific video
             var video = document.getElementById('mainVideo');
             var source = document.createElement('source');
-            source.setAttribute('src', mainVideoPath);
+            source.setAttribute('src', localStorage.getItem('videoPath'));
             console.log(source)
             console.log(video)
             document.getElementById('mainVideo').appendChild(source);
             //
 
+            ///לוקל נוי איידי של סרטון - לרביד ////
+            thisGroup = localStorage.getItem('thisGroup');
+            console.log('local with ID: ', JSON.parse(thisGroup));
+            rowId = JSON.parse(localStorage["thisGroup"]);
+            console.log(rowId);
     
 
             local = localStorage.getItem('thisTask');
@@ -131,7 +136,7 @@
                     likearr.push(data[i].UserName)
                 }
 
-                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 734px;">';
+                let strLike = '<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(10px, 0px, 0px); transition: all 1s ease 0s; width: 1550px;"><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button>';
                 let strContents = '';
                 let strVideo = '';
                 let videoPath = 'http://proj.ruppin.ac.il/igroup23/prod/'
@@ -340,7 +345,7 @@
                                 </div>
                                 <!--<div class="single-video-author box md-3">
                                     <span class="testSudent">הוספת תגובה:</span>&nbsp;
-                                   
+
                                     <div class="video-page text-success">
                                         <a class="text-success" id="likeBtn" style="cursor: pointer;">
                                             <i class="fas fa-heart" id="like"></i><span id="likeSpan">&nbsp;לייק&nbsp;&nbsp;</span>
@@ -361,7 +366,7 @@
                                                     </div>
                                                     <div class="form-members-footer text-right mt-2">
 
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -370,7 +375,7 @@
                                     <div class="col-lg-12 col-sm-6" id="showFile" style="display:none">
                                         <input type="file" id="chooseVideo" value="בחירת קובץ" class="btn btn-outline-primary" style="height: 40px;width: 240px" />
                                         <input type="button" id="load" value="טען" class="upload-btn" style="margin-left: 25%;" />
-                                       
+
                                     </div>
                                     <div class="single-video-author box md-3">
                                         <input type="button" id="upload" value="שמירה" class="upload-btn" />
@@ -392,7 +397,7 @@
                                 </div>
 
                                 <div id="comentDiv" class="video-slider-right-list">
-                          
+
                                 </div>
                             </div>
                         </div>
@@ -477,15 +482,15 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">יצאת מהחשבון </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body" style="font-size: 17px;">לחצו על "יציאה" כדי להתנתק מהמערכת</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">ביטול</button>
+                    <a class="btn btn-primary" href="manager-login.html">יציאה</a>
                 </div>
             </div>
         </div>

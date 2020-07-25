@@ -272,6 +272,19 @@
             videoPath = arrStudentName[teamId.id].vidoes;
             localStorage.setItem('names', JSON.stringify(arrStudentName[teamId.id].Names));
 
+            //id = teamId.id;
+            //thisGroup =
+            //    {
+            //        "Group": listOfVideo[id].Group,
+            //        "IdRows": listOfVideo[id].IdRows,
+            //        "Video": listOfVideo[id].Video
+            //    }
+
+            //console.log(thisGroup);
+            //localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+
+            /////////////////לוקל נוי - לרביד/////////////////
+
             id = teamId.id;
             thisGroup =
                 {
@@ -279,9 +292,9 @@
                     "IdRows": listOfVideo[id].IdRows,
                     "Video": listOfVideo[id].Video
                 }
-
-            console.log(thisGroup);
             localStorage.setItem('thisGroup', JSON.stringify(thisGroup));
+
+            //////////////////////////////////////////////////
 
             localStorage.setItem('videoPath', videoPath);
             window.location.href = 'teacher-feedbacks.html';
