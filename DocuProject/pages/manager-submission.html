@@ -55,7 +55,7 @@
             getDataT();  //POST - Group_Feedback Table
             showStudentsData(); //POST - Student table
 
-            //סנן
+            //Sorting
             $('#apply').click(filingSubm);  
             
             //User image
@@ -71,7 +71,6 @@
             var url = "../api/Docu/GetDetails/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-
         function funcsuccess(data) {
             obj = data;
             userEmail1 = obj[0].Email;
@@ -106,7 +105,7 @@
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             diffDays1 = diffDays(TaskObj.Task.Date);
             document.getElementById("topic").innerHTML = TaskObj.Task.Topic;
-            document.getElementById("restDate").innerHTML = diffDays1 +" ימים";
+            document.getElementById("restDate").innerHTML = diffDays1;
             if (diffDays1 == "מועד ההגשה עבר") {
                  document.getElementById("restDate").style.color = "red"
             }             
@@ -381,39 +380,39 @@
 
         //The time difference
         function diffDays(subm) {
-            console.log(subm);
-
             //today date
             var today = new Date();
             var day = today.getDate();
-            var month = today.getMonth() + 1;    
             var year = today.getFullYear();
-            var date2 = new Date(month + '/' + day + '/' + year);
-            console.log(date2);
+            var month = today.getMonth() + 1;
+            const digitCount2 = month => String(Math.floor(Math.abs(month))).length;
+            console.log(digitCount2(month))
+            if (digitCount2(month) == 1) {
+                month = "0" + month.toString();
+            }
+            //Today
+            var date2 = year + '-' + month + '-' +day ;
+            var date2_Type = new Date(date2);  
             //Task date
-            var subm1 = subm.split('/');
-            var dateVal = `${subm1[2]}/${subm1[1]}/${subm1[0]}` //M-D-Y
-            var submission = new Date(dateVal);
-            console.log(subm1);
-            console.log(submission);
+            dateVal = new Date(subm);  
 
-            //rest of the date
-            const diffTime = Math.abs(submission - date2);
-            const diffDays2 = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
+            const diffTime = Math.abs(dateVal - date2_Type);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
             console.log(diffTime + " milliseconds");
-            console.log(diffDays2 + " days");
+            console.log(diffDays + " days");
 
-            if (diffDays2 < 0) {
-                diffDays2 = "מועד ההגשה עבר";
-                return diffDays2;
+            taskMonth = subm.split('-');
+
+            if (diffDays < 0 || month >taskMonth[1]) {
+                diffDays = "מועד ההגשה עבר";
+                return diffDays;
             }
             else {
-                return diffDays2;
+                 diffDays += " ימים";
+                return diffDays;
             }
             console.log(diffDays);
         }
-        //
        
         //הכפתורים בכל צוות
         //PUT -  Group_Feedback table
@@ -428,7 +427,6 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#990099',
-                //cancelButtonColor: '#d33',
                 confirmButtonText: 'אני בטוח/ה',
                 cancelButtonText: 'ביטול'
             }).then((result) => {              
@@ -463,12 +461,11 @@
             idTeamfromDB = "";
             Swal.fire({
                 title: 'האם את/ה בטוח/ה?',
-                text: "הסרטון לא יפורסם!",
+                text: "לחיצה על אישור תביא לביטול הפרסום של הסרטון!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#990099',
-                //cancelButtonColor: '#d33',
-                confirmButtonText: 'אני בטוח/ה',
+                confirmButtonText: 'אישור',
                 cancelButtonText: 'ביטול'
             }).then((result) => {              
                 if (result.value) {
@@ -527,7 +524,28 @@
                 })
                 feedback = document.getElementById('swal-input1').value;
                 grade = document.getElementById('swal-input2').value;
+                if (feedback == "" && grade == "" || grade == "" ) {
+                    Swal.fire({
+                        title: 'לא הכנסת ציון',
+                        icon: 'warning',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                }
+                var text = /^[0-9]+$/;
+                if ((!text.test(grade))) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'הציון לא תקין',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                }
+                else {
+                //Team number in the DB
                 idTeamfromDB = allTeam[idSc.id].id;
+                //changes - grade and feedback
                     dataPD1 =
                     {
                         "ClassName": TaskObj.ClassName,
@@ -539,10 +557,7 @@
                         "Video":allTeam[idSc.id].Video,
                         "Comment":allTeam[idSc.id].Comment
                     }
-                //if (feedback != "" || grade !="") {
-                    
-
-                //}
+                
                 if (formValues) {
                     students1 = allTeam[idSc.id].Group_students;
                     students = students1.split(',');
@@ -564,7 +579,8 @@
                         confirmButtonText: 'המשך',             
                     })
 
-                }
+                    }
+                    }
             })()
 
             
@@ -595,19 +611,19 @@
         var students = "";
         var thisTeam = "";
         function getAvg(Newgrade, num, oldgrade) {
+             num = localStorage.getItem('NumberOfTasks');
+            num++;
+            console.log(Newgrade, num,oldgrade );
             if (oldgrade == null) {
                 oldgrade = 0;
-
             }
             return ((oldgrade + Newgrade) / num);
-            
-        }        
+        }   
+        
         function postGradeStudent(teamArr) {
             console.log(teamArr);
-        //    for (var i = 0; i < teamArr.length; i++) {
-                //oldAvg = teamArr[i].student.avg;
                 oldAvg = teamArr.student.avg;
-                newAvg = getAvg(grade, TaskObj.Task.Num, oldAvg);
+                newAvg = getAvg(grade, oldAvg);
                 console.log(newAvg);
                 for (var j = 0; j < studentList.length; j++) {
                     if (studentList[j].id == teamArr.student.rowDB) {
@@ -689,71 +705,99 @@
         //ViewgiveScore
         var answers = "";
         var avgS = "";
+        var oldGrade;
         function ViewgiveScore(idSc1) {
+            oldGrade = allTeam[idSc1.id].Grade;
             idTeamfromDB = "";
             feedback = "";
             grade = "";
             const ipGrade =  allTeam[idSc1.id].Grade;
             const ipFeedb =  allTeam[idSc1.id].Feedback;
             const gF = "<span style='color: #990099'>משוב: </span>" + ipFeedb  + " <br />" + "<span style='color: #990099'>ציון: </span>" + ipGrade;
-            Swal.fire({
+             Swal.fire({
                 title: "ציון ומשוב",
-                html: gF,
-                focusConfirm: false,
-                    confirmButtonText: 'לשינוי',
-                    confirmButtonColor: '#990099',
-                    cancelButtonText: 'חזרה',
-                    showCancelButton: true,
-            }).then((result) => {
-                if (result.value) {
-                    (async () => {
-                const { value: formValues } = await Swal.fire({
-                    title: 'ציון ומשוב',
-                    html: 'משוב- אנא כתבו משוב עבור הפתרון שהועלה' +
-                        '<input id="swal-input1" class="swal2-input">' + 'ציון- העניקו ציון עבור הסרטון' +
-                        '<input id="swal-input2" class="swal2-input">',
-                    focusConfirm: false,
-                    confirmButtonText: 'הבא',
-                    confirmButtonColor: '#990099',
-                    cancelButtonText: 'ביטול',
-                    showCancelButton: true,
-                    preConfirm: () => {
-                        return [
-                            document.getElementById('swal-input1').value,
-                            document.getElementById('swal-input2').value        
-                        ]
-                    }
-                })
-                feedback = document.getElementById('swal-input1').value;
-                grade = document.getElementById('swal-input2').value;
-                idTeamfromDB = allTeam[idSc1.id].id
-                dataPD1 =
-                    {
-                        "ClassName": TaskObj.ClassName,
-                        "ClassNum": TaskObj.ClassNum,
-                        "Proffesion": TaskObj.Profession,
-                        "Grade": grade,
-                        "Feedback": feedback,
-                        "Status": allTeam[idSc1.id].Status_,
-                        "Video":allTeam[idSc1.id].Video,
-                        "Comment":allTeam[idSc1.id].Comment
-                            }
-                apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
-                console.log(dataPD1);
-              ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
-                
-                if (formValues) {
-                    Swal.fire({
-                        title: 'לעדכונך',
-                        text: JSON.stringify(formValues),
-                        icon: 'success',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'המשך',             
-                    })
-                }
-            })()
-                }
+                 html: gF,
+              //text: 'Something went wrong!',
+             
             })
+            //Swal.fire({
+            //    title: "ציון ומשוב",
+            //    html: gF,
+            //    focusConfirm: false,
+            //        confirmButtonText: 'לשינוי',
+            //        confirmButtonColor: '#990099',
+            //        cancelButtonText: 'חזרה',
+            //        showCancelButton: true,
+            //}).then((result) => {
+            //    if (result.value) {
+            //        (async () => {
+            //    const { value: formValues } = await Swal.fire({
+            //        title: 'ציון ומשוב',
+            //        html: 'משוב- אנא כתבו משוב עבור הפתרון שהועלה' +
+            //            '<input id="swal-input1" class="swal2-input">' + 'ציון- העניקו ציון עבור הסרטון' +
+            //            '<input id="swal-input2" class="swal2-input">',
+            //        focusConfirm: false,
+            //        confirmButtonText: 'הבא',
+            //        confirmButtonColor: '#990099',
+            //        cancelButtonText: 'ביטול',
+            //        showCancelButton: true,
+            //        preConfirm: () => {
+            //            return [
+            //                document.getElementById('swal-input1').value,
+            //                document.getElementById('swal-input2').value        
+            //            ]
+            //        }
+            //    })
+            //    feedback = document.getElementById('swal-input1').value;
+            //            grade = document.getElementById('swal-input2').value;
+            //       if ((!text.test(grade))) {
+            //                Swal.fire({
+            //                    icon: 'error',
+            //                    title: 'שגיאה...',
+            //                    text: 'הציון לא תקין',
+            //                    confirmButtonText: 'אוקי',
+            //                    confirmButtonColor: '#990099',
+            //                })
+            //            }     
+            //             else {
+            //    idTeamfromDB = allTeam[idSc1.id].id
+            //    dataPD1 =
+            //        {
+            //            "ClassName": TaskObj.ClassName,
+            //            "ClassNum": TaskObj.ClassNum,
+            //            "Proffesion": TaskObj.Profession,
+            //            "Grade": grade,
+            //            "Feedback": feedback,
+            //            "Status": allTeam[idSc1.id].Status_,
+            //            "Video":allTeam[idSc1.id].Video,
+            //            "Comment":allTeam[idSc1.id].Comment
+            //               }
+
+                
+            //    if (formValues) {
+            //        students1 = allTeam[idSc1.id].Group_students;
+            //        students = students1.split(',');
+
+            //        for (var j = 0; j < students.length; j++) {              
+            //            getObj(allTeam[idSc1.id].id, students[j]);
+            //            console.log(allTeam[idSc1.id].id, students[j]);
+            //        }
+
+            //                        apiID = "../api/Docu/updateFBG/" + idTeamfromDB;
+            //    console.log(dataPD1);
+            //  ajaxCall("PUT", apiID, JSON.stringify(dataPD1), giveScoresuccess, giveScoreerror);
+
+            //        Swal.fire({
+            //        title: 'לעדכונך',
+            //        text: JSON.stringify(formValues),
+            //        icon: 'success',
+            //        confirmButtonColor: '#990099',
+            //        confirmButtonText: 'המשך',             
+            //        })
+            //    } 
+            //})()
+            //    }
+            //})
         }
          
         var clip = "";
@@ -783,6 +827,7 @@
             setTimeout(reload, 2000); //מרפרש אחרי 2 שניות
 
         }
+
         function approveVidowerror(err) {
             alert(err);
         }
