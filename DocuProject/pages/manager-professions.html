@@ -162,7 +162,7 @@
             savelocal1(myNameObj.name);
 
             //Saving the selected class in the local storage.
-            local = localStorage.getItem('studentObj');
+            local = localStorage.getItem('studentObj'); //כיתה + מספר
             console.log('local: ', JSON.parse(local));
             classObj = JSON.parse(localStorage["studentObj"]);
 
@@ -224,7 +224,7 @@
                 console.log(err)
             }
             function funcerror() { }
-
+            //Sorting
             $('#sorting').click(sortProf);
         });
 

@@ -155,8 +155,31 @@
             var apiTasks = "../api/Docu/GetTasks/" + ProfObj.ClassName + "/" + ProfObj.ClassNum + "/" + ProfObj.Profession;
             ajaxCall("GET", apiTasks, "", GETsuccessT1, GETerrorT1);
         }
+        var countTask = 0;
         function GETsuccessT1(data) {
             listCS = data;
+            //Today
+            var today = new Date();
+            var month = today.getMonth() + 1;
+            const digitCount2 = month => String(Math.floor(Math.abs(month))).length;
+            console.log(digitCount2(month))
+            if (digitCount2(month) == 1) {
+                month = "0" + month.toString();
+            }
+            var date2 = today.getFullYear() + '-' + month + '-' + today.getDate();
+            var date2_Type = new Date(date2);  
+            for (var i = 0; i < listCS.length; i++) {
+                //Task date
+                dateVal = new Date(listCS[i].Deadline); 
+                subm = listCS[i].Deadline;
+                taskMonth = subm.split('-');
+                const diffTime = Math.abs(dateVal - date2_Type);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                if (diffDays < 0 || month > taskMonth[1]) {
+                    countTask++;
+            }
+            }
+            localStorage.setItem('NumberOfTasks', JSON.stringify(countTask));
             console.log(listCS);
             if (listCS.length == 0) {
                 document.getElementById("oldTask").disabled = true;
