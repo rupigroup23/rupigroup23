@@ -30,76 +30,119 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!-- links of Facebook, instedram and links -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .sk-chase {
-  width: 40px;
-  height: 40px;
-  position: relative;
-  animation: sk-chase 2.5s infinite linear both;
-}
+            width: 40px;
+            height: 40px;
+            position: relative;
+            animation: sk-chase 2.5s infinite linear both;
+        }
 
-.sk-chase-dot {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0; 
-  animation: sk-chase-dot 2.0s infinite ease-in-out both; 
-      margin-left: auto;
-    margin-right: auto;
-}
+        .sk-chase-dot {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation: sk-chase-dot 2.0s infinite ease-in-out both;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-.sk-chase-dot:before {
-  content: '';
-  display: block;
-  width: 25%;
-  height: 25%;
-  background-color: #990099;
-  border-radius: 100%;
-  animation: sk-chase-dot-before 2.0s infinite ease-in-out both; 
-}
+            .sk-chase-dot:before {
+                content: '';
+                display: block;
+                width: 25%;
+                height: 25%;
+                background-color: #990099;
+                border-radius: 100%;
+                animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
+            }
 
-.sk-chase-dot:nth-child(1) { animation-delay: -1.1s; }
-.sk-chase-dot:nth-child(2) { animation-delay: -1.0s; }
-.sk-chase-dot:nth-child(3) { animation-delay: -0.9s; }
-.sk-chase-dot:nth-child(4) { animation-delay: -0.8s; }
-.sk-chase-dot:nth-child(5) { animation-delay: -0.7s; }
-.sk-chase-dot:nth-child(6) { animation-delay: -0.6s; }
-.sk-chase-dot:nth-child(1):before { animation-delay: -1.1s; }
-.sk-chase-dot:nth-child(2):before { animation-delay: -1.0s; }
-.sk-chase-dot:nth-child(3):before { animation-delay: -0.9s; }
-.sk-chase-dot:nth-child(4):before { animation-delay: -0.8s; }
-.sk-chase-dot:nth-child(5):before { animation-delay: -0.7s; }
-.sk-chase-dot:nth-child(6):before { animation-delay: -0.6s; }
+            .sk-chase-dot:nth-child(1) {
+                animation-delay: -1.1s;
+            }
 
-@keyframes sk-chase {
-  100% { transform: rotate(360deg); } 
-}
+            .sk-chase-dot:nth-child(2) {
+                animation-delay: -1.0s;
+            }
 
-@keyframes sk-chase-dot {
-  80%, 100% { transform: rotate(360deg); } 
-}
+            .sk-chase-dot:nth-child(3) {
+                animation-delay: -0.9s;
+            }
 
-@keyframes sk-chase-dot-before {
-  50% {
-    transform: scale(0.4); 
-  } 100%, 0% {
-    transform: scale(1.0); 
-  } 
-}
+            .sk-chase-dot:nth-child(4) {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5) {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6) {
+                animation-delay: -0.6s;
+            }
+
+            .sk-chase-dot:nth-child(1):before {
+                animation-delay: -1.1s;
+            }
+
+            .sk-chase-dot:nth-child(2):before {
+                animation-delay: -1.0s;
+            }
+
+            .sk-chase-dot:nth-child(3):before {
+                animation-delay: -0.9s;
+            }
+
+            .sk-chase-dot:nth-child(4):before {
+                animation-delay: -0.8s;
+            }
+
+            .sk-chase-dot:nth-child(5):before {
+                animation-delay: -0.7s;
+            }
+
+            .sk-chase-dot:nth-child(6):before {
+                animation-delay: -0.6s;
+            }
+
+        @keyframes sk-chase {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot {
+            80%, 100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sk-chase-dot-before {
+            50% {
+                transform: scale(0.4);
+            }
+
+            100%, 0% {
+                transform: scale(1.0);
+            }
+        }
     </style>
     <script>
         existsArr = [];
 
         $(document).ready(function () {
             //loading container
-            $("#loading").bind("ajaxStart", function(){
+            $("#loading").bind("ajaxStart", function () {
                 $(this).show();
-                }).bind("ajaxStop", function(){
+            }).bind("ajaxStop", function () {
                 $(this).hide();
-                });
+            });
 
             //Menus
             localN = localStorage.getItem('myName');
@@ -114,7 +157,7 @@
             showDetalis(objAdmin);
 
             //GET - Teacher Table
-            getTachears(); 
+            getTachears();
             //Validation #1
             $('#form1').submit(sub);
 
@@ -122,23 +165,23 @@
             getSubjects(); //Profession
             getStudent(); //Student
             getClasses(); //Class
-            
-            $('#continue1').click(checkDetails);              
+
+            $('#continue1').click(checkDetails);
             $('#addSubjTeach').click(addSubj); //הוספה
             //subject name is "אחר"
             $('#selectProf').change(function () {
-                    var value = $(this).val();
-                    getCoachs(value);
-                    var X = document.getElementById("txtbox");
-                    if (value == "אחר") {
-                        X.style.display = "block";
-                    }
-                    else {
-                        X.style.display = "none";
-                    }
+                var value = $(this).val();
+                getCoachs(value);
+                var X = document.getElementById("txtbox");
+                if (value == "אחר") {
+                    X.style.display = "block";
+                }
+                else {
+                    X.style.display = "none";
+                }
             });
 
-            $('#continue2').click(moveToAddStudent);             
+            $('#continue2').click(moveToAddStudent);
             $('#upload').click(save_uploadStudents);
 
             $('#saveClass').click(saveClassDB);
@@ -176,35 +219,35 @@
         var listT;
         function getTachears() {
             $.ajax({
-                 type: "GET",
-                 url: "../api/Docu/GetT",
-                 data: "",
-                 beforeSend: loadStart,
-                 complete: loadStop,
-                 success: GETsuccessT,
-                 error: GETerrorT,
-                }); 
-                return false;
+                type: "GET",
+                url: "../api/Docu/GetT",
+                data: "",
+                beforeSend: loadStart,
+                complete: loadStop,
+                success: GETsuccessT,
+                error: GETerrorT,
+            });
+            return false;
         }
-                
-            //ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
+
+        //ajaxCall("GET", "../api/Docu/GetT", "", GETsuccessT, GETerrorT);
 
         function loadStart() {
-                    $('#loading').show();
-                     $('#container').hide();
-                }
-                function loadStop() {
-                    $('#loading').hide();
-                    $('#container').show();
-                }
+            $('#loading').show();
+            $('#container').hide();
+        }
+        function loadStop() {
+            $('#loading').hide();
+            $('#container').show();
+        }
         function GETsuccessT(data) {
             listT = data;
             console.log('listT', listT);
-            strT= removeDuplicates(listT);
+            strT = removeDuplicates(listT);
             //insert options to select teacher
             console.log('strT', strT)
             for (var i in strT) {
-            ////for (var i = 0; i < listT.length; i++) {
+                ////for (var i = 0; i < listT.length; i++) {
                 var selecTacher = document.getElementById("teacherName");
                 var option = document.createElement("option");
                 option.text = strT[i].FName + " " + strT[i].LName;
@@ -221,14 +264,14 @@
         }
         function GETerrorT(err) { console.log(err) }
         function removeDuplicates(array) {
-          let uniq = {};
-           return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
+            let uniq = {};
+            return array.filter(obj => !uniq[obj.Id] && (uniq[obj.Id] = true))
         }
         //מורה מלמד - Coachs
         function getCoachs(prof) {
             var selectCoach = document.getElementById("coachName");
-               while (selectCoach.options.length > 0) {
-                    selectCoach.remove(0);
+            while (selectCoach.options.length > 0) {
+                selectCoach.remove(0);
             }
             //insert options to select Coach
             for (var i = 0; i < listT.length; i++) {
@@ -243,7 +286,7 @@
         //GET - Profession Table
         var listP;
         var strP;
-        var arrP=[];
+        var arrP = [];
         function getSubjects() {
             ajaxCall("GET", "../api/Docu/GetP", "", GETsuccessP, GETerrorP);
         }
@@ -255,11 +298,11 @@
             for (var i = 0; i < listP.length; i++) {
                 for (var j = 0; j < listT.length; j++) {
                     if (listP[i].Name == listT[j].Profession) {
-                        arrP.push(listT[j].Profession);                       
+                        arrP.push(listT[j].Profession);
                     }
-                }    
+                }
             }
-             strP=arrP.filter((item, index) => {
+            strP = arrP.filter((item, index) => {
                 return arrP.indexOf(item) === index
             });
             //insert options to select
@@ -269,8 +312,8 @@
                 option.text = strP[t];
                 select.add(option);
             }
-               
-                        
+
+
         }
         function GETerrorP(err) {
             console.log(err);
@@ -280,10 +323,10 @@
         listSt = [];
         function getStudent() {
             ajaxCall("GET", "../api/Docu/GetST", "", GETsuccessS, GETerrorS);
-        }     
+        }
         function GETsuccessS(data) {
             listSt = data;
-            console.log('listSt',listSt)
+            console.log('listSt', listSt)
         }
         function GETerrorS(err) {
             alert("NOT");
@@ -303,7 +346,7 @@
             console.log(err);
         }
 
-         //Validation Data (until continue1)
+        //Validation Data (until continue1)
         //var numOfStudents = "";
         function checkDetails() {
             //validation - empyt valus
@@ -330,20 +373,19 @@
                 }
             }
             classNum1 = $("#classNum").val();
-            if(!classNum1.match(/^\d+/))
-            {
+            if (!classNum1.match(/^\d+/)) {
                 Swal.fire({
-                        title: 'יש להכניס רק מספרי כיתות',
-                        icon: 'warning',
-                        confirmButtonColor: '#990099',
-                        confirmButtonText: 'אישור',
+                    title: 'יש להכניס רק מספרי כיתות',
+                    icon: 'warning',
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
                 })
                 return false;
-                }
+            }
             //
             var proff = document.getElementById("showProff");
             if (proff.style.display === "none") {
-                    proff.style.display = "block";
+                proff.style.display = "block";
             }
 
             $('#classSelect').attr("disabled", true);
@@ -358,8 +400,7 @@
         var teacherId = "";
         ClassSubArr = [];
         var profession = "";
-        function addSubj() 
-        {
+        function addSubj() {
             profession = $("#selectProf").val();
             coach = $("#coachName").val();
             //validation - empyt valus + new proff
@@ -408,7 +449,7 @@
             name = $("#classSelect").val();
             num = $("#classNum").val();
             // GET from ClassSubjects
-            getClassSUbjFromDB(name, num); 
+            getClassSUbjFromDB(name, num);
             //Validation - duplicate values
             for (var i = 0; i < csDBAaa.length; i++) {
                 if (csDBAaa[i] == profession) {
@@ -470,9 +511,9 @@
                     "Year_": $("#Year").val(),
                     "Profession": profession,
                     "Teacher_name": coach,
-                    "Id_teacher": teacherId,                  
+                    "Id_teacher": teacherId,
                 }
-            ClassSubArr.push(ClassTeachObj);          
+            ClassSubArr.push(ClassTeachObj);
         }
 
         //continue to the add students
@@ -495,7 +536,7 @@
                     confirmButtonColor: '#990099',
                     confirmButtonText: 'אישור',
                 })
-            }  
+            }
         }
 
         //GET - ClassSubjects Table (for the validations)
@@ -524,115 +565,114 @@
         //טען
         var counterSt = 0;
         var counterAll = 0;
-        var existsArr1 =[];
+        var existsArr1 = [];
         $(function () {
             $("#load").bind("click", function () {
-            //validation - no files were added
-            if ($("#fileUpload").val() == "") {
-                     Swal.fire({
-                            icon: 'error',
-                            title: 'שגיאה...',
-                            text: 'קובץ לא הועלה',
-                            confirmButtonText: 'אוקי',
-                            confirmButtonColor: '#990099',
-                     })
-                return false;
+                //validation - no files were added
+                if ($("#fileUpload").val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'שגיאה...',
+                        text: 'קובץ לא הועלה',
+                        confirmButtonText: 'אוקי',
+                        confirmButtonColor: '#990099',
+                    })
+                    return false;
                 }
-            exists = false;
-            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-            if (regex.test($("#fileUpload").val().toLowerCase())) {
-                if (typeof (FileReader) != "undefined") {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var rows = e.target.result.split("\r\n");
-                        counterSt = 0;
-                        console.log(rows);
-                       var existsArr = [];
-                        for (var i = 0; i < rows.length; i++) {
-                            var cells = rows[i].split(",");
-                            if (cells.length > 1 && cells[0] != "") {
-                                for (var k = 0; k < listSt.length; k++) {
-                                    if (cells[6] == listSt[k].Id && cells[6] != 0) {
-                                        exists = true;
-                                        strExists = listSt[k].FName + " " + listSt[k].LName;
-                                        existsArr.push(strExists);
-                                        counterSt++;
-                                        //console.log('existsArr',existsArr);
-                                        telephoneCheck(cells[2]);
-                                    isValidIsraeliID(cells[6]);
-                                    bDayCheck(cells[7]);
-                                    }
-                                    
-                                }            
-                                if (exists == false)
-                                {
-                                    var student = {};
-                                    student.FName = cells[0];
-                                    student.LName = cells[1];
-                                    student.PhoneNum = cells[2];
-                                    student.Email = cells[3];
-                                    student.City = cells[4];
-                                    student.Address = cells[5];
-                                    student.Id = cells[6];
-                                    student.Bday = cells[7];
-                                    student.Gender = cells[8];
-                                    student.ClassName = $("#classSelect").val();
-                                    student.ClassNum = $("#classNum").val();
-                                    student.Password = Math.random().toString(36).substring(7); // first password
-                                    student.Gpa = 0; // average  
+                exists = false;
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                if (regex.test($("#fileUpload").val().toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var rows = e.target.result.split("\r\n");
+                            counterSt = 0;
+                            console.log(rows);
+                            var existsArr = [];
+                            for (var i = 0; i < rows.length; i++) {
+                                var cells = rows[i].split(",");
+                                if (cells.length > 1 && cells[0] != "") {
+                                    for (var k = 0; k < listSt.length; k++) {
+                                        if (cells[6] == listSt[k].Id && cells[6] != 0) {
+                                            exists = true;
+                                            strExists = listSt[k].FName + " " + listSt[k].LName;
+                                            existsArr.push(strExists);
+                                            counterSt++;
+                                            //console.log('existsArr',existsArr);
+                                            telephoneCheck(cells[2]);
+                                            isValidIsraeliID(cells[6]);
+                                            bDayCheck(cells[7]);
+                                        }
 
-                                    studentsArr.push(student);
-                                    console.log('studentsArr', studentsArr);
-                                    counterAll++;
+                                    }
+                                    if (exists == false) {
+                                        var student = {};
+                                        student.FName = cells[0];
+                                        student.LName = cells[1];
+                                        student.PhoneNum = cells[2];
+                                        student.Email = cells[3];
+                                        student.City = cells[4];
+                                        student.Address = cells[5];
+                                        student.Id = cells[6];
+                                        student.Bday = cells[7];
+                                        student.Gender = cells[8];
+                                        student.ClassName = $("#classSelect").val();
+                                        student.ClassNum = $("#classNum").val();
+                                        student.Password = Math.random().toString(36).substring(7); // first password
+                                        student.Gpa = 0; // average
+
+                                        studentsArr.push(student);
+                                        console.log('studentsArr', studentsArr);
+                                        counterAll++;
+                                    }
+                                    exists = false;
                                 }
+
+                            }
+                            var sumOfNewStudent = rows.length - (rows.length - (counterAll + counterSt))
+                            //validation
+                            if (existsArr.length == sumOfNewStudent || studentsArr.length < 1) {
+                                Swal.fire({
+                                    text: 'כל התלמידים שבקובץ קיימים במערכת, יש להעלות קובץ אחר.',
+                                    icon: 'warning',
+                                    confirmButtonColor: '#990099',
+                                    confirmButtonText: 'אישור',
+                                })
+                                $('#upload').attr("disabled", true);
+                                $('#load').attr("disabled", false);
                                 exists = false;
+                                return false;
                             }
-                            
-                        }
-                        var sumOfNewStudent=  rows.length - (rows.length - (counterAll + counterSt))
-                        //validation 
-                        if (existsArr.length == sumOfNewStudent || studentsArr.length < 1) {
-                            Swal.fire({
-                                text: 'כל התלמידים שבקובץ קיימים במערכת, יש להעלות קובץ אחר.',
-                                icon: 'warning',
-                                confirmButtonColor: '#990099',
-                                confirmButtonText: 'אישור',
-                            })
-                            $('#upload').attr("disabled", true);
-                            $('#load').attr("disabled", false);
-                            exists = false;
-                            return false;
-                        }
-                        if (studentsArr.length < 1) {
-                                    Swal.fire({
-                                title: 'קובץ אקסל לא מכיל תלמידים',
-                                icon: 'warning',
-                                confirmButtonColor: '#990099',
-                                confirmButtonText: 'אישור',
-                            })
-                        }
-                        else {
-                            for (var i = 0; i < existsArr.length; i++) {
-                                existsArr1[i] = existsArr[i];
+                            if (studentsArr.length < 1) {
+                                Swal.fire({
+                                    title: 'קובץ אקסל לא מכיל תלמידים',
+                                    icon: 'warning',
+                                    confirmButtonColor: '#990099',
+                                    confirmButtonText: 'אישור',
+                                })
                             }
-                            btnsaveExcel = document.getElementById("upload");
-                    $('#load').attr("disabled", true);
-                    $('#upload').attr("disabled", false);
-                    if (btnsaveExcel.style.display === "none") {
-                        btnsaveExcel.style.display = "block";
+                            else {
+                                for (var i = 0; i < existsArr.length; i++) {
+                                    existsArr1[i] = existsArr[i];
+                                }
+                                btnsaveExcel = document.getElementById("upload");
+                                $('#load').attr("disabled", true);
+                                $('#upload').attr("disabled", false);
+                                if (btnsaveExcel.style.display === "none") {
+                                    btnsaveExcel.style.display = "block";
+                                }
+                            }
+                        }
+                        reader.readAsText($("#fileUpload")[0].files[0]);
+
                     }
-                        }
-                    }                  
-                    reader.readAsText($("#fileUpload")[0].files[0]);
-                    
+                    else {
+                        swal("This browser does not support HTML5.", "", "warning")
+                    }
                 }
                 else {
-                    swal("This browser does not support HTML5.", "", "warning")
+                    swal("Please upload a valid CSV file", "", "warning")
                 }
-            }
-            else {
-                swal("Please upload a valid CSV file", "", "warning")
-            }            
             });
         });
         //validations
@@ -643,115 +683,114 @@
             }
             var isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(str1);
             if (isphone == false) {
-                 Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'פלאפון לא תקין',
-                        confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
-                 })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'פלאפון לא תקין',
+                    confirmButtonText: 'אוקי',
+                    confirmButtonColor: '#990099',
+                })
                 return false;
-            }         
+            }
         }
         function isValidIsraeliID(id) {
             var id = String(id).trim();
             console.log(id.length);
             if (id.length > 9 || id.length < 5 || isNaN(id)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'תעודת זהות לא תקינה',
-                        confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
-                    })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'תעודת זהות לא תקינה',
+                    confirmButtonText: 'אוקי',
+                    confirmButtonColor: '#990099',
+                })
                 return false;
             }
-	        // Pad string with zeros up to 9 digits
-  	        id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
+            // Pad string with zeros up to 9 digits
+            id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
         }
         function bDayCheck(date) { //01/12/1994
             date1 = date.split("/");
             day = date1[0];
             month = date1[1];
             year = date1[2];
-                var text = /^[0-9]+$/;
-                if ((!text.test(day)) || (!text.test(year))) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'שגיאה...',
-                        text: 'תאריך לידה שגוי',
-                        confirmButtonText: 'אוקי',
-                        confirmButtonColor: '#990099',
-                 })
+            var text = /^[0-9]+$/;
+            if ((!text.test(day)) || (!text.test(year))) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה...',
+                    text: 'תאריך לידה שגוי',
+                    confirmButtonText: 'אוקי',
+                    confirmButtonColor: '#990099',
+                })
                 return false;
-                }
-                var msg = "";
-                if (month < 1 || month > 12) { // check month range
-                 //   alert("Month must be between 1 and 12.")
-                    msg = "חודש חייב להיות בין 1 ל- 12";
-                    alert(msg);
-                    return false;
-                }
-                    if (day < 1 || day > 31) {
-                    Swal.fire(
-                            {
-                                text: "יום חייב להיות בין 1 ל- 31..",
-                                icon: 'error',
-                                confirmButtonColor: '#990099',
-                                confirmButtonText: 'אישור',
-                            })
-                     return false;
-                }
-                if ((month==4 || month==6 || month==9 || month==11) && day==31) {
-                    msg = "בחודש ה- " + month + " אין 31 ימים! ";
-                    Swal.fire(
-                            {
-                                text: msg,
-                                icon: 'error',
-                                confirmButtonColor: '#990099',
-                                confirmButtonText: 'אישור',
-                        })
-                     return false;
-                }
-                if (month == 2) { // check for february 29th
-                    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-                    if (day>29 || (day==29 && !isleap)) {
-                        msg = "בפברואר " + year + " אין  " + day + " ימים!";
-                        Swal.fire(
-                            {
-                                text: msg,
-                                icon: 'error',
-                                confirmButtonColor: '#990099',
-                                confirmButtonText: 'אישור',
-                        })
-                         return false;
-                    }
-                }
-                if (day.charAt(0) == '0') day= day.charAt(1);
-        }
-        //המשך    
-        function save_uploadStudents()
-        {
-            str = "";
-            if (existsArr1.length > 0) {               
-                for (var i = 0; i < existsArr1.length; i++) {
-                    str += (i + 1) + ". " + existsArr1[i] + "<br>";
-                }               
-                    str += " <br>  <br> ** שאר התלמידים שויכו לכיתה בהצלחה :) **"
-                    Swal.fire({
-                        title: 'להלן התלמידים שכבר קיימים במערכת ולכן לא שובצו בכיתה:',
-                        //title: 'חלק מהתלמידים קיימים כבר במערכת ולא שובצו:',
-                        text: "שאר התלמידים שובצו בהצלחה :)",
-                        icon: 'warning',
-                        html: str,
+            }
+            var msg = "";
+            if (month < 1 || month > 12) { // check month range
+                //   alert("Month must be between 1 and 12.")
+                msg = "חודש חייב להיות בין 1 ל- 12";
+                alert(msg);
+                return false;
+            }
+            if (day < 1 || day > 31) {
+                Swal.fire(
+                    {
+                        text: "יום חייב להיות בין 1 ל- 31..",
+                        icon: 'error',
                         confirmButtonColor: '#990099',
                         confirmButtonText: 'אישור',
                     })
-                    btnsaveAll = document.getElementById("showSave");
-                    $('#upload').attr("disabled", true);
-                    if (btnsaveAll.style.display === "none") {
-                        btnsaveAll.style.display = "block";
-                    }              
+                return false;
+            }
+            if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) {
+                msg = "בחודש ה- " + month + " אין 31 ימים! ";
+                Swal.fire(
+                    {
+                        text: msg,
+                        icon: 'error',
+                        confirmButtonColor: '#990099',
+                        confirmButtonText: 'אישור',
+                    })
+                return false;
+            }
+            if (month == 2) { // check for february 29th
+                var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+                if (day > 29 || (day == 29 && !isleap)) {
+                    msg = "בפברואר " + year + " אין  " + day + " ימים!";
+                    Swal.fire(
+                        {
+                            text: msg,
+                            icon: 'error',
+                            confirmButtonColor: '#990099',
+                            confirmButtonText: 'אישור',
+                        })
+                    return false;
+                }
+            }
+            if (day.charAt(0) == '0') day = day.charAt(1);
+        }
+        //המשך
+        function save_uploadStudents() {
+            str = "";
+            if (existsArr1.length > 0) {
+                for (var i = 0; i < existsArr1.length; i++) {
+                    str += (i + 1) + ". " + existsArr1[i] + "<br>";
+                }
+                str += " <br>  <br> ** שאר התלמידים שויכו לכיתה בהצלחה :) **"
+                Swal.fire({
+                    title: 'להלן התלמידים שכבר קיימים במערכת ולכן לא שובצו בכיתה:',
+                    //title: 'חלק מהתלמידים קיימים כבר במערכת ולא שובצו:',
+                    text: "שאר התלמידים שובצו בהצלחה :)",
+                    icon: 'warning',
+                    html: str,
+                    confirmButtonColor: '#990099',
+                    confirmButtonText: 'אישור',
+                })
+                btnsaveAll = document.getElementById("showSave");
+                $('#upload').attr("disabled", true);
+                if (btnsaveAll.style.display === "none") {
+                    btnsaveAll.style.display = "block";
+                }
             }
             else {
                 Swal.fire({
@@ -766,7 +805,7 @@
                     btnsaveAll.style.display = "block";
                 }
             }
-             
+
         }
         //שמירה
         var classObj;
@@ -788,11 +827,11 @@
             //Student table
             //str = "";
             if (studentsArr.length > 0) {
-               ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
+                ajaxCall("POST", "../api/Docu/addStudents", JSON.stringify(studentsArr), POSTsuccessS, POSTerrorS);
             }
- 
+
             //Class table --> classObj
-           ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCC, POSTerrorCC);
+            ajaxCall("POST", "../api/Docu/postClass", JSON.stringify(classObj), POSTsuccessCC, POSTerrorCC);
         }
 
         //POSTs
@@ -805,11 +844,11 @@
         //Student table
         function POSTsuccessS(data) {
             Swal.fire({
-                    text: 'הכיתה נוצרה',
-                    icon: 'success',
-                    confirmButtonColor: '#990099',
-                    confirmButtonText: 'אישור',
-                })
+                text: 'הכיתה נוצרה',
+                icon: 'success',
+                confirmButtonColor: '#990099',
+                confirmButtonText: 'אישור',
+            })
             console.log("Student" + data);
         }
         function POSTerrorS(err) { console.log(err) }
@@ -833,8 +872,8 @@
         }
 
         function reload() {
-            document.location.reload();    
-        }     
+            document.location.reload();
+        }
     </script>
 </head>
 <body id="page-top">
