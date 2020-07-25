@@ -34,8 +34,9 @@
     <script>
         var imagePath1 = '';
         var userEmail1 = '';
+
         $(document).ready(function () {
-            //menu - Teacher name
+            //Menus - Teacher name
             teacherName = JSON.parse(localStorage["myName"]); //local class
             document.getElementById("myNameN1").innerHTML = teacherName.name;
             document.getElementById("myNameN2").innerHTML = teacherName.name;
@@ -44,20 +45,19 @@
             objTeacher = JSON.parse(local);
 
             //Saving the selected class in the local storage.
-            classObj = JSON.parse(localStorage["studentObj"]); //local class
+            classObj = JSON.parse(localStorage["studentObj"]); //כיתה + מספר
 
             //GETS
             //ClassSubjects Table
             readClassSUbjFromDB();
 
-            //orientation
+            //Orientation
             Showorientation();
-
-            showDetalis(objTeacher)
-             $('#sorting').click(sortProf);
-
-
+            //Sorting
+            $('#sorting').click(sortProf);           
+           
             //User image
+            showDetalis(objTeacher)
             function showDetalis(objTeacher) {
                 Id = objTeacher.Id;
                 var url = "../api/Teacher/GetDetailsT/" + Id;
