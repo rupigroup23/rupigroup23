@@ -149,12 +149,20 @@
         //Bring the details up
         function getDatelis() {
             document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
+
+            //בשרת
+            //date = TaskObj.Task.Date;
+            //deadLine = date.split('/');
+            //date_val = deadLine[2] + "-" + deadLine[1] + "-" + deadLine[0];
+
+            document.getElementById("taskNum").innerHTML = TaskObj.Task.Num;
             date = TaskObj.Task.Date;
-            deadLine = date.split('/');
-            date_val = deadLine[2] + "-" + deadLine[1] + "-" + deadLine[0];
+            deadLine = date.split('-');
+            date2 = deadLine[0] + "-" + deadLine[1] + "-" + deadLine[2];
 
             $("#task_topic").val(TaskObj.Task.Topic);
-            $("#date").val(date_val);
+            $("#date").val(date2);
+
         }
 
         ////////////////// edit task - noy /////////////////
@@ -225,7 +233,8 @@
 
                 //////////////////////////////////////////////////////////////////////
             }
-            else {
+            else
+            {
                 document.getElementById("valuTxtEdit").innerHTML = taskPath;
                 if (fileDiv) {
                     fileDiv.style.display = "none";

@@ -41,21 +41,20 @@
         var userEmail1 = '';
         $(document).ready(function () {
             //Menus
-            localN = localStorage.getItem('myName');
-            console.log('local: ', JSON.parse(localN));
-            myNameObj = JSON.parse(localStorage["myName"]);
-            document.getElementById("myNameN1").innerHTML = myNameObj.name;
-            document.getElementById("myNameN2").innerHTML = myNameObj.name;
 
-            local = localStorage.getItem('studentObj');
-            console.log('local: ', JSON.parse(local));
-            classObj = JSON.parse(localStorage["studentObj"]);
+            //menu - Student name
+             localStudent = localStorage.getItem('student');
+            studentObj = JSON.parse(localStudent);
 
-            console.log(classObj);
+            myname = studentObj.FName + " " + studentObj.LName;
+            document.getElementById("myNameN1").innerHTML = myname;
+            document.getElementById("myNameN2").innerHTML = myname;
+
+
+            //console.log(classObj);
             Showorientation();
 
             showStudentsData();
-            $('#saveBTN').click(saveStudent);
             $('#form1').submit(sub); //FORM
 
             //User image
@@ -63,19 +62,21 @@
             objAdmin = JSON.parse(localAdmin);
             showDetalis(objAdmin);
 
+            url2 = "";
             function showDetalis(objAdmin) {
-                Id = objAdmin.Id;
-                var url = "../api/Docu/GetDetails/" + Id;
-
+               Id = studentObj.Id;
+                var url = "../api/Student/GetDetailsS/" + Id;
                 ajaxCall("GET", url, "", funcsuccess, funcerror);
-            }
+            }   
             function funcsuccess(data) {
                 obj = data;
                 userEmail1 = obj[0].Email;
-                ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+                ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        }
 
-            }
+            function funcerror() { }
             function getAvatarImageSuccess(imagePath1) {
+
                 src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
                 let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
@@ -94,7 +95,7 @@
         }
         orientationSTR = "";
         function Showorientation() {
-            thisclass = classObj.ClassName + "' " + classObj.ClassNum;
+            thisclass = studentObj.ClassName + "' " + studentObj.ClassNum;
             orientationSTR += "<li class='breadcrumb-item'><a style='color: black' href='student-index.html'>" + thisclass + "</a></li>";
             orientationSTR += "<li class='breadcrumb-item active' aria-current='page'><a href='student-Classroom.html'>רשימת כיתה</a></li>";
             document.getElementById("orientation").innerHTML = orientationSTR;
@@ -103,13 +104,13 @@
         }
 
         function showStudentsData(obj) {
-            local = localStorage.getItem('studentObj');
-            obj = JSON.parse(local);
-            console.log(obj);
+            //local = localStorage.getItem('studentObj');
+            //obj = JSON.parse(local);
+            //console.log(obj);
             obj2 =
                 {
-                    "ClassName": obj.ClassName,
-                    "ClassNum": obj.ClassNum
+                    "ClassName": studentObj.ClassName,
+                    "ClassNum": studentObj.ClassNum
                 }
             console.log(obj2);
 
@@ -143,7 +144,7 @@
                         { data: "Email" },
                         { data: "City" },
                         { data: "Street" },
-                        { data: "Id_" },
+                        //{ data: "Id_" },
                         { data: "Bday" },
                     ],
                 });
@@ -300,7 +301,7 @@
                                 <th>איימל</th>
                                 <th>עיר</th>
                                 <th>רחוב</th>
-                                <th>תעודת זהות</th>
+                                <!--<th>תעודת זהות</th>-->
                                 <th>תאריך לידה</th>
                             </tr>
                         </thead>

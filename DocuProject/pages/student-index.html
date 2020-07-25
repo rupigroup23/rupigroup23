@@ -72,7 +72,8 @@
                 obj = data;
                 userEmail1 = obj[0].Email;
                 ajaxCall('GET', '../api/Student/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
-            }
+        }
+
             function funcerror() { }
             function getAvatarImageSuccess(imagePath1) {
 

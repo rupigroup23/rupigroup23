@@ -442,28 +442,26 @@
         //User image
         function showDetalis(objAdmin) {
             Id = objAdmin.Id;
-            var url = "../api/Docu/GetDetails/" + Id;
-
+            var url = "../api/Teacher/GetDetailsT/" + Id;
             ajaxCall("GET", url, "", funcsuccess, funcerror);
         }
-        function funcsuccess(data) {
-            obj = data;
-            userEmail1 = obj[0].Email;
-            ajaxCall('GET', '../api/Docu/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+        function funcsuccess(data)
+        {
+                obj = data;
+                userEmail1 = obj[0].Email;
+                ajaxCall('GET', '../api/Teacher/getavatar/' + obj[0].Id_, '', getAvatarImageSuccess, getAvatarImageError)
+            }
+            function getAvatarImageSuccess(imagePath1) {
 
-        }
-        function getAvatarImageSuccess(imagePath1) {
+                src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
+                let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
 
-            src = imagePath1; // קיבלנו את הניתוב הארוך למיקום התמונה בשרת
-            let arr = src.split('http://localhost:44328/') //למחוק כשמעלים לשרת זה מפצל את החלק של השרת סתם כדי שנראה שעובד
-
-            $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
-        }
-        function getAvatarImageError(err) {
-            console.log(err)
-        }
-        ///
-        function funcerror() { }
+                $("#avatarImage").attr("src", '../' + arr[1] /*imagePath1*/); //בשרת אנחנו מכניסים במקום הניתוב את ה src
+            }
+            function getAvatarImageError(err) {
+                console.log(err)
+            }
+            function funcerror() { }
 
         function showG() {
             radioGender = document.getElementById("gender");
